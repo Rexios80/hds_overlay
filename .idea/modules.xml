@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/apple-watch-health-data-client.iml" filepath="$PROJECT_DIR$/.idea/apple-watch-health-data-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/apple-watch-health-data-server.iml" filepath="$PROJECT_DIR$/.idea/apple-watch-health-data-server.iml" />
     </modules>
   </component>
 </project>

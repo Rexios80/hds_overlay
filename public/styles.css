@@ -1,0 +1,7 @@
+p {
+    color: white;
+    font-size: 550%;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    -webkit-text-stroke: 1px black;
+}

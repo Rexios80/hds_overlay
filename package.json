@@ -1,8 +1,8 @@
 {
-  "name": "socket-chat-example",
-  "version": "0.0.1",
-  "description": "my first socket.io app",
+  "name": "apple-watch-health-data-server",
+  "version": "1.0.0",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "latest",
+    "ws": "^7.1.2"
   }
 }
