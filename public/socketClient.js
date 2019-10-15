@@ -17,10 +17,10 @@ socket.onmessage = function (event) {
     let data = event.data.split(':');
 
     if (data[0] === 'heartRate') {
-        heartRateText.textContent = data[1];
+        heartRateText.textContent = 'Heart rate: ' + data[1];
     }
 
     if (data[0] === 'calories') {
-        caloriesText.textContent = data[1];
+        caloriesText.textContent = 'Calories: ' + data[1];
     }
 };
