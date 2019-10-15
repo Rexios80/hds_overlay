@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "dependencies": {
     "express": "latest",
-    "nodemon": "^1.19.3",
-    "ws": "^7.1.2"
+    "body-parser": "latest"
   }
 }
