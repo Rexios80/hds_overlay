@@ -1,9 +1,26 @@
-let socket = new WebSocket("ws://localhost:3476");
+let socket = new WebSocket('ws://localhost:3476');
+
+let heartRateText = null;
+let caloriesText = null;
+window.onload = function () {
+    heartRateText = document.querySelector('#heartRate');
+    caloriesText = document.querySelector('#calories');
+};
 
 socket.onopen = function (event) {
-    socket.send("Here's some text that the server is urgently awaiting!");
+    console.log('Connected to server');
 };
 
 socket.onmessage = function (event) {
     console.log(event.data);
+
+    let data = event.data.split(':');
+
+    if (data[0] === 'heartRate') {
+        heartRateText.textContent = data[1];
+    }
+
+    if (data[0] === 'calories') {
+        caloriesText.textContent = data[1];
+    }
 };
