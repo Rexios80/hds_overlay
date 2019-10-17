@@ -28,11 +28,13 @@ app.post('/', function (req, res) {
         let calories = req.body.calories;
 
         if (typeof heartRate !== 'undefined'){
-            socket.send("heartRate:" + heartRate);
+            socket.send('heartRate:' + heartRate);
+            console.log('heartRate: ' + heartRate);
         }
 
         if (typeof calories !== 'undefined'){
-            socket.send("calories:" + calories);
+            socket.send('calories:' + calories);
+            console.log('calories:' + calories);
         }
     }
 });
