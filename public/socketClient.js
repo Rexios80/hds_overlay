@@ -19,6 +19,13 @@ function connect() {
         }, 1000);
     };
 
+    socket.onerror = function (event) {
+        console.log('WebSocket error');
+        setTimeout(function() {
+            connect();
+        }, 1000);
+    };
+
     socket.onmessage = function (event) {
         console.log(event.data);
 
