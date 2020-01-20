@@ -29,13 +29,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1680" />
-    <option name="height" value="1050" />
-  </component>
   <component name="ProjectId" id="1WdtOelL4XaRRvsBtH6HOH83oCp" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -73,6 +74,7 @@
       <workItem from="1571161751160" duration="3832000" />
       <workItem from="1571336794784" duration="1666000" />
       <workItem from="1579491271591" duration="4000" />
+      <workItem from="1579497447859" duration="707000" />
     </task>
     <servers />
   </component>

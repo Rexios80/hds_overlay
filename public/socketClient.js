@@ -21,9 +21,10 @@ function connect() {
 
     socket.onerror = function (event) {
         console.log('WebSocket error');
-        setTimeout(function() {
-            connect();
-        }, 1000);
+        // TODO: Does this mean the socket is disconnected?
+        // setTimeout(function() {
+        //     connect();
+        // }, 1000);
     };
 
     socket.onmessage = function (event) {
