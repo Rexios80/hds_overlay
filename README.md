@@ -9,15 +9,19 @@
 
 You should see the labels for health data in your browser, but no actual numbers yet.
 
+### How to start normally
+After you set up the overlay application, all you have to do to start the application in the future is open a terminal, move into the repository's folder, and run `node .\public\app.js`.
+
 ### Connecting to the Apple Watch application
-1. Install the Health Data Server application on your Apple Watch
-2. Open the application
-3. Type the IP address of the machine running the overlay application and the port the server is running at into the text field
+1. Make sure the Apple Watch and device running the overlay application are on the same network. If the watch is connected to an iPhone, you just need to make sure the iPhone is connected to the same network.
+2. Install the Health Data Server application on your Apple Watch
+3. Open the application
+4. Type the IP address of the machine running the overlay application and the port the server is running at into the text field
    - The IP address of the machine running the overlay application can be found by opening a terminal and running ipconfig (or ifconfig on macOS and Linux)
    - The default port the overlay application runs on is 8080, but this can be changed in the code if there is a conflict
    - An example of what should go in this text field is this: `192.168.1.105:8080`
    - There is an input method in watchOS 6 that allows you to type in text fields from your iPhone. This is by far the easiest way to input the information into the watch application.
-4. Click the start button
+5. Click the start button
 
 You should soon see numbers in the webpage you opened earlier. This is the health data the watch is sending over your local network.
 
