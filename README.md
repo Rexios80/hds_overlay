@@ -14,7 +14,7 @@ After you set up the overlay application, all you have to do to start the applic
 
 ### Connecting to the Apple Watch application
 1. Make sure the Apple Watch and device running the overlay application are on the same network. If the watch is connected to an iPhone, you just need to make sure the iPhone is connected to the same network.
-2. Install the Health Data Server application on your Apple Watch
+2. [Install the Health Data Server application on your Apple Watch](https://apps.apple.com/us/app/health-data-server/id1496042074)
 3. Open the application
 4. Type the IP address of the machine running the overlay application and the port the server is running at into the text field
    - The IP address of the machine running the overlay application can be found by opening a terminal and running ipconfig (or ifconfig on macOS and Linux)
