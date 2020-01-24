@@ -1,4 +1,6 @@
 # Health-Data-Server-Overlay
+This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the Health Data Server app.
+
 ### How to set up
 1. [Download node.js and install](https://nodejs.org)
 2. [Download the latest release zip of this repository and extract where you want it](https://github.com/Rexios80/Health-Data-Server-Overlay/releases)
