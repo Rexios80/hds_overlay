@@ -98,3 +98,6 @@ typings/
 
 .firebaserc
 package-lock.json
+
+# WebStorm configuration files
+.idea
