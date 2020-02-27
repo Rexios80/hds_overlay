@@ -33,11 +33,11 @@ function connect() {
         let data = event.data.split(':');
 
         if (data[0] === 'heartRate') {
-            heartRateText.textContent = 'Heart rate: ' + data[1];
+            heartRateText.textContent = data[1];
         }
 
         if (data[0] === 'calories') {
-            caloriesText.textContent = 'Calories: ' + data[1];
+            caloriesText.textContent = data[1];
         }
     };
 }

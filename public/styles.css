@@ -1,28 +1,34 @@
 .hrText {
-    color: white;
+    color: white; /* Heart rate text color */
+    font-family: Arial, sans-serif; /* Heart rate text font */
+    -webkit-text-stroke: 1px black; /* Heart rate text outline. Remove for no outline. */
+
+    /* Don't touch these unless you know what you are doing */
     font-size: 550%;
-    font-family: Arial, sans-serif;
-    -webkit-text-stroke: 1px black;
     position: relative;
     top: -17px;
     left: 15px;
 }
 
 .hrImage {
+    /* Don't touch these unless you know what you are doing */
     width: 100px;
 }
 
 .calText {
-    color: white;
+    color: white; /* Calories text color */
+    font-family: Arial, sans-serif; /* Calories text font */
+    -webkit-text-stroke: 1px black; /* Calories text outline. Remove for no outline. */
+
+    /* Don't touch these unless you know what you are doing */
     font-size: 550%;
-    font-family: Arial, sans-serif;
-    -webkit-text-stroke: 1px black;
     position: relative;
     top: -17px;
     left: 15px;
 }
 
 .calImage {
+    /* Don't touch these unless you know what you are doing */
     width: 100px;
     padding-left: 70px;
 }
