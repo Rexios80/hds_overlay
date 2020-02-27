@@ -1,7 +1,28 @@
-p {
+.hrText {
     color: white;
     font-size: 550%;
     font-family: Arial, sans-serif;
-    text-align: left;
     -webkit-text-stroke: 1px black;
+    position: relative;
+    top: -17px;
+    left: 15px;
+}
+
+.hrImage {
+    width: 100px;
+}
+
+.calText {
+    color: white;
+    font-size: 550%;
+    font-family: Arial, sans-serif;
+    -webkit-text-stroke: 1px black;
+    position: relative;
+    top: -17px;
+    left: 15px;
+}
+
+.calImage {
+    width: 100px;
+    padding-left: 70px;
 }
