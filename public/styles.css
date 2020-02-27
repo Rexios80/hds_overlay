@@ -1,3 +1,7 @@
+.center {
+    text-align: center;
+}
+
 .hrText {
     color: white; /* Heart rate text color */
     font-family: Arial, sans-serif; /* Heart rate text font */
