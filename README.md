@@ -21,7 +21,7 @@ After you set up the overlay application, all you have to do to start the applic
 2. [Install the Health Data Server application on your Apple Watch](https://apps.apple.com/us/app/health-data-server/id1496042074)
 3. Open the application
 4. Type the IP address of the machine running the overlay application and the port the server is running at into the text field
-   - If you need help finding the IP address of your machine, read [this](https://www.tp-link.com/us/support/faq/838/)
+   - If you need help finding the IP address of your machine, read [this](https://www.tp-link.com/us/support/faq/838/). It probably looks something like this: 192.168.xxx.xxx
    - The default port the overlay application runs on is 8080, but this can be changed in the code if there is a conflict
    - An example of what should go in this text field is this: `192.168.1.105:8080`
    - There is an input method in watchOS 6 that allows you to type in text fields from your iPhone. This is by far the easiest way to input the information into the watch application.
@@ -33,3 +33,5 @@ You should soon see numbers in the webpage you opened earlier. This is the healt
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a web source in your favorite streaming application.
 
 Feel free to change the code however you want. You might want to style the web page for one thing. Some simple configuration changes can be made in [styles.css](public/styles.css). You can swap out the images directly if they have the same file names as the originals. Otherwise you will need to change the names in [index.html](public/index.html).
+
+If you need to change the server port, you can change it in [app.js](public/app.js).
