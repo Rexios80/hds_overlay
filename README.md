@@ -33,5 +33,7 @@ You should soon see numbers in the webpage you opened earlier. This is the healt
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a web source in your favorite streaming application.
 
 Feel free to change the code however you want. You might want to style the web page for one thing. Some simple configuration changes can be made in [styles.css](public/styles.css). You can swap out the images directly if they have the same file names as the originals. Otherwise you will need to change the names in [index.html](public/index.html).
+   - [Here are the colors you can use in styles.css](https://www.rapidtables.com/web/css/css-color.html)
+   - [Here are the fonts you can use in styles.css](https://css-tricks.com/snippets/css/css-font-families/)
 
 If you need to change the server port, you can change it in [app.js](public/app.js).
