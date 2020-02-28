@@ -1,5 +1,5 @@
 # Health Data Server Overlay
-This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the Health Data Server app.
+This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the [Health Data Server app](https://apps.apple.com/us/app/health-data-server/id1496042074).
 
 ![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/blob/4534a59d792d7f172a7e9958010fe4bc692c5ca7/PreviewImage.png)
 
