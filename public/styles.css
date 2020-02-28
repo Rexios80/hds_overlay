@@ -3,6 +3,11 @@
     text-align: center;
 }
 
+.hr {
+    /* Uncomment to disable heart rate display */
+    /*display: none;*/
+}
+
 .hrText {
     color: white; /* Heart rate text color */
     font-family: Arial, sans-serif; /* Heart rate text font */
@@ -18,6 +23,11 @@
 .hrImage {
     /* Don't touch these unless you know what you are doing */
     width: 100px;
+}
+
+.cal {
+    /* Uncomment to disable calories display */
+    /*display: none;*/
 }
 
 .calText {
