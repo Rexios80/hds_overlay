@@ -23,18 +23,18 @@ wss.on('connection', function connection(ws) {
 });
 
 app.post('/', function (req, res) {
+    console.log(req.body);
+
     if (socket != null) {
         let heartRate = req.body.heartRate;
         let calories = req.body.calories;
 
         if (typeof heartRate !== 'undefined'){
             socket.send('heartRate:' + heartRate);
-            console.log('heartRate: ' + heartRate);
         }
 
         if (typeof calories !== 'undefined'){
             socket.send('calories:' + calories);
-            console.log('calories:' + calories);
         }
     }
     res.end();
