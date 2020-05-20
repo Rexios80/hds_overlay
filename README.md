@@ -3,7 +3,7 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 
 ![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/blob/4534a59d792d7f172a7e9958010fe4bc692c5ca7/PreviewImage.png)
 
-[Twitch highlight of me using this application in practice](https://www.twitch.tv/videos/547255694)
+[Twitch highlight of me using this application in practice](https://www.twitch.tv/videos/626646069)
 ### How to set up
 1. [Download node.js and install](https://nodejs.org)
 2. [Download the latest release zip of this repository and extract where you want it](https://github.com/Rexios80/Health-Data-Server-Overlay/releases)
