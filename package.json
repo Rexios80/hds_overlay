@@ -2,8 +2,9 @@
   "name": "apple-watch-health-data-server",
   "version": "1.0.0",
   "dependencies": {
-    "express": "latest",
     "body-parser": "latest",
+    "discord-rich-presence": "0.0.8",
+    "express": "latest",
     "ws": "latest"
   }
 }

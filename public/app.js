@@ -15,27 +15,43 @@ let server = app.listen(8080, function () {
     console.log('Listening at port %s', port);
 });
 
-let wss = new WebSocket.Server({ port: 3476 });
+let wss = new WebSocket.Server({port: 3476});
 let socket = null;
 wss.on('connection', function connection(ws) {
     socket = ws;
     console.log('Client connected');
 });
 
+const rpClient = require('discord-rich-presence')('719260544481099857');
+let startTimestamp = Date.now();
+let currentHeartRate = '-'
+let currentCalories = '-'
 app.post('/', function (req, res) {
     console.log(req.body);
 
-    if (socket != null) {
-        let heartRate = req.body.heartRate;
-        let calories = req.body.calories;
+    let heartRate = req.body.heartRate;
+    let calories = req.body.calories;
 
-        if (typeof heartRate !== 'undefined'){
+    if (typeof heartRate !== 'undefined') {
+        if (socket != null) {
             socket.send('heartRate:' + heartRate);
         }
+        currentHeartRate = heartRate
+    }
 
-        if (typeof calories !== 'undefined'){
+    if (typeof calories !== 'undefined') {
+        if (socket != null) {
             socket.send('calories:' + calories);
         }
+        currentCalories = calories
     }
+
+    rpClient.updatePresence({
+        details: 'HR: ' + currentHeartRate + ', CAL: ' + currentCalories,
+        state: 'git.io/JfMAZ',
+        startTimestamp: startTimestamp,
+        largeImageKey: 'hds_icon',
+    });
+
     res.end();
 });
