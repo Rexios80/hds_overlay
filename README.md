@@ -4,12 +4,15 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 ![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/blob/4534a59d792d7f172a7e9958010fe4bc692c5ca7/PreviewImage.png)
 
 [Twitch highlight of me using this application in practice](https://www.twitch.tv/videos/626646069)
+### Prerequisites
+   - [Node.js](https://nodejs.org/)
+   - [Git](https://git-scm.com/)
+
 ### How to set up
-1. [Download node.js and install](https://nodejs.org)
-2. [Download the latest release zip of this repository and extract where you want it](https://github.com/Rexios80/Health-Data-Server-Overlay/releases)
-3. Windows: run setup.bat, macOS: run setup.command, Linux: run setup.sh
-4. Windows: run start.bat, macOS: run start.command, Linux: run start.sh
-5. Open a browser and go to `localhost:8080`
+1. [Download the latest release zip of this repository and extract where you want it](https://github.com/Rexios80/Health-Data-Server-Overlay/releases)
+2. Windows: run setup.bat, macOS: run setup.command, Linux: run setup.sh
+3. Windows: run start.bat, macOS: run start.command, Linux: run start.sh
+4. Open a browser and go to `localhost:8080`
 
 You should see the images for health data in your browser, but no actual numbers yet.
 
