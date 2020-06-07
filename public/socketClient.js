@@ -3,13 +3,11 @@ function connect() {
 
     let heartRateText = null;
     let caloriesText = null;
-    window.onload = function () {
-        heartRateText = document.querySelector('#heartRate');
-        caloriesText = document.querySelector('#calories');
-    };
 
     socket.onopen = function (event) {
         console.log('Connected to server');
+        heartRateText = document.querySelector('#heartRate');
+        caloriesText = document.querySelector('#calories');
     };
 
     socket.onclose = function (event) {
