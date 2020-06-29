@@ -1,1 +1,2 @@
-npm install
+call npm install
+pause
