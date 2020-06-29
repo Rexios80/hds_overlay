@@ -26,6 +26,9 @@ const rpClient = require('discord-rich-presence')('719260544481099857');
 let startTimestamp = Date.now();
 let currentHeartRate = '-'
 let currentCalories = '-'
+
+rpClient.on('error', function(){})
+
 app.post('/', function (req, res) {
     console.log(req.body);
 
