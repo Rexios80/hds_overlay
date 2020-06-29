@@ -27,6 +27,7 @@ let startTimestamp = Date.now();
 let currentHeartRate = '-'
 let currentCalories = '-'
 
+// Hide error when Discord is not open. It looks scary and might make users think there is a problem.
 rpClient.on('error', function(){})
 
 app.post('/', function (req, res) {
