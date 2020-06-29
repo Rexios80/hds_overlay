@@ -42,4 +42,4 @@ Feel free to change the code however you want. You might want to style the web p
 If you need to change the server port, you can change it in [app.js](public/app.js).
 
 ### If you have problems
-[Try these troubleshooting steps before creting an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting)
+[Try these troubleshooting steps before creating an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting)
