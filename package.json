@@ -1,10 +1,14 @@
 {
-  "name": "apple-watch-health-data-server",
+  "name": "HDS-Overlay",
   "version": "1.0.0",
+  "bin": "public/app.js",
   "dependencies": {
     "body-parser": "latest",
     "discord-rich-presence": "0.0.8",
     "express": "latest",
     "ws": "latest"
+  },
+  "pkg": {
+    "assets": "public/**/*"
   }
 }

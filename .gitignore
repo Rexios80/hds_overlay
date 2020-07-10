@@ -101,3 +101,6 @@ package-lock.json
 
 # WebStorm configuration files
 .idea
+
+# pkg binaries
+output

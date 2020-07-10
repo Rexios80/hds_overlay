@@ -12,7 +12,7 @@ function connect() {
 
     socket.onclose = function (event) {
         console.log('Disconnected from server');
-        setTimeout(function() {
+        setTimeout(function () {
             connect();
         }, 1000);
     };

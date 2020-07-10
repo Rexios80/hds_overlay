@@ -1,2 +1,0 @@
-call npm install
-pause
