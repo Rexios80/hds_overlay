@@ -52,7 +52,8 @@ wss.on('connection', function connection(ws) {
 let DiscordRPC = require('discord-rpc');
 let discordRpc = new DiscordRPC.Client({transport: 'ipc'});
 // Eat errors because the user probably doesn't care
-discordRpc.login({clientId: '719260544481099857'}).catch(error => {});
+discordRpc.login({clientId: '719260544481099857'}).catch(error => {
+});
 let startTimestamp = Date.now();
 let currentHeartRate = '-'
 let currentCalories = '-'
@@ -83,7 +84,8 @@ app.post('/', function (req, res) {
         state: 'git.io/JfMAZ',
         startTimestamp: startTimestamp,
         largeImageKey: 'hds_icon',
-    }).catch(error => {});
+    }).catch(error => {
+    });
 
     res.end();
 });
