@@ -7,7 +7,7 @@ function connect() {
     let caloriesText = null;
 
     socket.onopen = function (event) {
-        console.log('Connected to server');
+        console.log('Connected to server on port: ' + config.websocketPort);
         heartRateText = document.getElementById('heartRate');
         caloriesText = document.getElementById('calories');
 
@@ -49,6 +49,5 @@ function connect() {
 let xmlHttp = new XMLHttpRequest();
 xmlHttp.open('GET', '/config', false); // false for synchronous request
 xmlHttp.send(null);
-console.log('Config received: ' + xmlHttp.responseText);
 config = JSON.parse(xmlHttp.responseText);
 connect();
