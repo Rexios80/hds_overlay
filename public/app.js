@@ -49,14 +49,13 @@ wss.on('connection', function connection(ws) {
     console.log('Client connected');
 });
 
-const rpClient = require('discord-rich-presence')('719260544481099857');
+let DiscordRPC = require('discord-rpc')
+let discordRpc = new DiscordRPC.Client({transport: 'ipc'});
+// Eat errors because the user probably doesn't care
+discordRpc.login({clientId: '719260544481099857'}).catch(error => {});
 let startTimestamp = Date.now();
 let currentHeartRate = '-'
 let currentCalories = '-'
-
-// Hide error when Discord is not open. It looks scary and might make users think there is a problem.
-rpClient.on('error', function () {
-});
 
 app.post('/', function (req, res) {
     console.log(req.body);
@@ -78,12 +77,13 @@ app.post('/', function (req, res) {
         currentCalories = calories
     }
 
-    rpClient.updatePresence({
+    // Eat errors because the user probably doesn't care
+    discordRpc.setActivity({
         details: 'HR: ' + currentHeartRate + ', CAL: ' + currentCalories,
         state: 'git.io/JfMAZ',
         startTimestamp: startTimestamp,
         largeImageKey: 'hds_icon',
-    });
+    }).catch(error => {});
 
     res.end();
 });
