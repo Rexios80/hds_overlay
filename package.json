@@ -5,6 +5,7 @@
   "dependencies": {
     "body-parser": "latest",
     "discord-rich-presence": "0.0.8",
+    "dotenv-defaults": "^2.0.0",
     "express": "latest",
     "ws": "latest"
   },

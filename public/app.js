@@ -1,21 +1,26 @@
 let WebSocket = require('ws');
 let express = require('express');
 let app = express();
-app.use(express.json());
+let path = require('path');
+require(`dotenv-defaults`).config({
+    path: path.dirname(process.execPath) + '/config.env',
+    defaults: __dirname + '/config.env.defaults'
+})
 
+app.use(express.json());
 app.use(express.static(__dirname));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-let server = app.listen(8080, function () {
+let server = app.listen(process.env.HTTP_PORT, function () {
     let port = server.address().port;
 
     console.log('Listening at port %s', port);
 });
 
-let wss = new WebSocket.Server({port: 3476});
+let wss = new WebSocket.Server({port: process.env.WEBSOCKET_PORT});
 let socket = null;
 wss.on('connection', function connection(ws) {
     socket = ws;
