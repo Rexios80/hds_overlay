@@ -49,7 +49,7 @@ wss.on('connection', function connection(ws) {
     console.log('Client connected');
 });
 
-let DiscordRPC = require('discord-rpc')
+let DiscordRPC = require('discord-rpc');
 let discordRpc = new DiscordRPC.Client({transport: 'ipc'});
 // Eat errors because the user probably doesn't care
 discordRpc.login({clientId: '719260544481099857'}).catch(error => {});
