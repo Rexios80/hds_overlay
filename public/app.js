@@ -2,10 +2,17 @@ let WebSocket = require('ws');
 let express = require('express');
 let app = express();
 let path = require('path');
-require(`dotenv-defaults`).config({
-    path: path.dirname(process.execPath) + '/config.env',
-    defaults: __dirname + '/config.env.defaults'
-})
+let fs = require('fs');
+
+// Create config
+let configFilePath = path.dirname(process.execPath) + '/config.json';
+let config;
+if (fs.existsSync(configFilePath)) {
+    config = JSON.parse(fs.readFileSync(configFilePath, 'utf8'));
+} else {
+    // Default values
+    config = JSON.parse('{ "httpPort": 8080, "websocketPort": 3476 }');
+}
 
 app.use(express.json());
 app.use(express.static(__dirname));
@@ -14,21 +21,15 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/config', (req, res) => res.json(JSON.parse(
-    '{ ' +
-    '"websocketPort": ' + process.env.WEBSOCKET_PORT + ', ' +
-    '"hrImage": "' + process.env.HR_IMAGE + '", ' +
-    '"calImage": "' + process.env.CAL_IMAGE + '" ' +
-    '}'
-)));
+app.get('/config', (req, res) => res.json(config));
 
-let server = app.listen(process.env.HTTP_PORT, function () {
+let server = app.listen(config.httpPort, function () {
     let port = server.address().port;
 
     console.log('Listening at port %s', port);
 });
 
-let wss = new WebSocket.Server({port: process.env.WEBSOCKET_PORT});
+let wss = new WebSocket.Server({port: config.websocketPort});
 let socket = null;
 wss.on('connection', function connection(ws) {
     socket = ws;
@@ -42,7 +43,7 @@ let currentCalories = '-'
 
 // Hide error when Discord is not open. It looks scary and might make users think there is a problem.
 rpClient.on('error', function () {
-})
+});
 
 app.post('/', function (req, res) {
     console.log(req.body);

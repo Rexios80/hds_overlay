@@ -1,4 +1,4 @@
-let config
+let config;
 
 function connect() {
     let socket = new WebSocket('ws://localhost:' + config.websocketPort);
@@ -8,8 +8,11 @@ function connect() {
 
     socket.onopen = function (event) {
         console.log('Connected to server');
-        heartRateText = document.querySelector('#heartRate');
-        caloriesText = document.querySelector('#calories');
+        heartRateText = document.getElementById('heartRate');
+        caloriesText = document.getElementById('calories');
+
+        document.getElementById('hrImage').src = typeof config.hrImage === 'undefined' ? 'hrImage.png' : config.hrImage;
+        document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'calImage.png' : config.calImage;
     };
 
     socket.onclose = function (event) {
@@ -46,6 +49,6 @@ function connect() {
 let xmlHttp = new XMLHttpRequest();
 xmlHttp.open('GET', '/config', false); // false for synchronous request
 xmlHttp.send(null);
-console.log('Config received: ' + xmlHttp.responseText)
+console.log('Config received: ' + xmlHttp.responseText);
 config = JSON.parse(xmlHttp.responseText);
 connect();
