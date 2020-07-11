@@ -4,20 +4,13 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 ![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/blob/4534a59d792d7f172a7e9958010fe4bc692c5ca7/PreviewImage.png)
 
 [Twitch highlight of me using this application in practice](https://www.twitch.tv/videos/626646069)
-### Prerequisites
-   - [Node.js](https://nodejs.org/)
-   - [Git](https://git-scm.com/)
 
 ### How to set up
-1. [Download the latest release zip of this repository and extract where you want it](https://github.com/Rexios80/Health-Data-Server-Overlay/releases)
-2. Windows: run setup.bat, macOS: run setup.command, Linux: run setup.sh
-3. Windows: run start.bat, macOS: run start.command, Linux: run start.sh
-4. Open a browser and go to `localhost:8080`
+1. [Download the latest release executable](https://github.com/Rexios80/Health-Data-Server-Overlay/releases)
+2. Double click the downloaded file to run it
+3. Open a browser and go to `localhost:8080`
 
 You should see the images for health data in your browser, but no actual numbers yet.
-
-### How to start normally
-After you set up the overlay application, all you have to do to start the application in the future is run the start script.
 
 ### Connecting to the Apple Watch application
 1. Make sure the Apple Watch and device running the overlay application are on the same network. If the watch is connected to an iPhone, you just need to make sure the iPhone is connected to the same network.
@@ -25,21 +18,52 @@ After you set up the overlay application, all you have to do to start the applic
 3. Open the application
 4. Type the IP address of the machine running the overlay application and the port the server is running at into the text field
    - If you need help finding the IP address of your machine, read [this](https://www.tp-link.com/us/support/faq/838/). It probably looks something like this: `192.168.xxx.xxx`
-   - The default port the overlay application runs on is 8080, but this can be changed in the code if there is a conflict
-   - After your IP address make sure to put your port (:8080). An example of what should go in this text field is this: `192.168.1.105:8080`
+   - The default port the overlay application runs on is 8080, but this can be changed if there is a conflict
+   - After your IP address make sure to put your port. An example of what should go in this text field is this: `192.168.1.105:8080`
    - There is an input method in watchOS 6 that allows you to type in text fields from your iPhone. This is by far the easiest way to input the information into the watch application.
 5. Click the start button
 
 You should soon see numbers in the webpage you opened earlier. This is the health data the watch is sending over your local network.
 
+### Configuration
+If you need to change either of the server ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application. A basic config file looks like this:
+```
+{
+  "httpPort": 8080,
+  "websocketPort": 3476,
+}
+```
+All the fields in the text above are required or the application will crash. To change the images the application uses, you can create a config file that looks like this:
+```
+{
+  "httpPort": 8080,
+  "websocketPort": 3476,
+  "hrImageFile": "hrImage.png",
+  "calImageFile": "calImage.png"
+}
+```
+You do not need to specify both image files. This example assumes the images are in the same folder as the application.
+
+### Styling
+If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed. Here is an example that disables the calories display:
+```
+.cal { display: none; }
+```
+
 ### Notes
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a web source in your favorite streaming application.
 
-Feel free to change the code however you want. You might want to style the web page for one thing. Some simple configuration changes can be made in [styles.css](public/styles.css). You can swap out the images directly if they have the same file names as the originals. Otherwise you will need to change the names in [index.html](public/index.html).
-   - [Here are the colors you can use in styles.css](https://www.rapidtables.com/web/css/css-color.html)
-   - [Here are the fonts you can use in styles.css](https://css-tricks.com/snippets/css/css-font-families/)
-
-If you need to change the server port, you can change it in [app.js](public/app.js).
-
 ### If you have problems
 [Try these troubleshooting steps before creating an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting)
+
+### Building it yourself
+Most users won't need to do this, but here is how to build the application manually.
+
+#### Prerequisites
+   - [Node.js](https://nodejs.org/)
+   - [Git](https://git-scm.com/)
+
+#### Commands
+   - `npm install`
+   - `./buildscript.sh`
+   - The generated files will be in the `output` folder
