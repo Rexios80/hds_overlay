@@ -14,6 +14,19 @@ if (fs.existsSync(configFilePath)) {
     config = JSON.parse('{ "httpPort": 8080, "websocketPort": 3476 }');
 }
 
+// Convert image files to base64
+function base64_encode(file) {
+    let bitmap = fs.readFileSync(file);
+    return new Buffer.from(bitmap).toString('base64');
+}
+
+if (typeof config.hrImageFile !== 'undefined') {
+    config.hrImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.hrImageFile)
+}
+if (typeof config.calImageFile !== 'undefined') {
+    config.calImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.calImageFile)
+}
+
 app.use(express.json());
 app.use(express.static(__dirname));
 
