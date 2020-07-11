@@ -14,6 +14,14 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/config', (req, res) => res.json(JSON.parse(
+    '{ ' +
+    '"websocketPort": ' + process.env.WEBSOCKET_PORT + ', ' +
+    '"hrImage": "' + process.env.HR_IMAGE + '", ' +
+    '"calImage": "' + process.env.CAL_IMAGE + '" ' +
+    '}'
+)));
+
 let server = app.listen(process.env.HTTP_PORT, function () {
     let port = server.address().port;
 

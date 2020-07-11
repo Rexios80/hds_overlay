@@ -1,5 +1,7 @@
+let config
+
 function connect() {
-    let socket = new WebSocket('ws://localhost:3476');
+    let socket = new WebSocket('ws://localhost:' + config.websocketPort);
 
     let heartRateText = null;
     let caloriesText = null;
@@ -40,4 +42,10 @@ function connect() {
     };
 }
 
+// Request the config from the server
+let xmlHttp = new XMLHttpRequest();
+xmlHttp.open('GET', '/config', false); // false for synchronous request
+xmlHttp.send(null);
+console.log('Config received: ' + xmlHttp.responseText)
+config = JSON.parse(xmlHttp.responseText);
 connect();
