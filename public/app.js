@@ -39,6 +39,8 @@ request('https://git.io/JJ8uD', {json: true}, (err, res, body) => {
 
     if (semver.gt(body.version, version)) {
         console.log('There is a new version available! Download it here: https://git.io/JJ8uR');
+    } else if (semver.gt(version, body.version)) {
+        console.log('You are running an unreleased version. Feeling adventurous, are we?');
     } else {
         console.log('You are running the latest version. Enjoy!');
     }
