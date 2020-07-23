@@ -43,8 +43,10 @@ let server = app.listen(config.httpPort, function () {
 });
 
 let wss = new WebSocket.Server({port: config.websocketPort});
-console.log('WebSocket server started on port %s', config.websocketPort);
 let socket = null;
+wss.on('listening', function() {
+    console.log('WebSocket server started on port %s', config.websocketPort);
+});
 wss.on('connection', function connection(ws) {
     socket = ws;
     console.log('WebSocket client connected');
