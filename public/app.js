@@ -39,14 +39,15 @@ app.get('/config', (req, res) => res.json(config));
 let server = app.listen(config.httpPort, function () {
     let port = server.address().port;
 
-    console.log('Listening at port %s', port);
+    console.log('HTTP server started on port %s', port);
 });
 
 let wss = new WebSocket.Server({port: config.websocketPort});
+console.log('WebSocket server started on port %s', config.websocketPort);
 let socket = null;
 wss.on('connection', function connection(ws) {
     socket = ws;
-    console.log('Client connected');
+    console.log('WebSocket client connected');
 });
 
 let DiscordRPC = require('discord-rpc');
