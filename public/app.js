@@ -1,8 +1,12 @@
-let WebSocket = require('ws');
-let express = require('express');
-let app = express();
-let path = require('path');
-let fs = require('fs');
+const version = '2.0.0';
+
+const WebSocket = require('ws');
+const express = require('express');
+const app = express();
+const request = require('request');
+const semver = require('semver');
+const path = require('path');
+const fs = require('fs');
 
 // Create config
 let configFilePath = path.dirname(process.execPath) + '/config.json';
@@ -27,6 +31,19 @@ if (typeof config.calImageFile !== 'undefined') {
     config.calImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.calImageFile)
 }
 
+// Check for updates
+request('https://git.io/JJ8uD', {json: true}, (err, res, body) => {
+    if (err) {
+        return console.log('Unable to complete version check');
+    }
+
+    if (semver.gt(body.version, version)) {
+        console.log('There is a new version available! Download it here: https://git.io/JJ8uR');
+    } else {
+        console.log('You are running the latest version. Enjoy!');
+    }
+});
+
 app.use(express.json());
 app.use(express.static(__dirname));
 
@@ -44,7 +61,7 @@ let server = app.listen(config.httpPort, function () {
 
 let wss = new WebSocket.Server({port: config.websocketPort});
 let socket = null;
-wss.on('listening', function() {
+wss.on('listening', function () {
     console.log('WebSocket server started on port %s', config.websocketPort);
 });
 wss.on('connection', function connection(ws) {
