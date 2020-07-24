@@ -1,7 +1,7 @@
 # Health Data Server Overlay
 This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the [Health Data Server app](https://apps.apple.com/us/app/health-data-server/id1496042074).
 
-![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/blob/4534a59d792d7f172a7e9958010fe4bc692c5ca7/PreviewImage.png)
+![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/develop/PreviewImage.png)
 
 [Video of the overlay in action](https://www.youtube.com/watch?v=CFGlA7JWUFo)
 
@@ -12,7 +12,8 @@ This is a stream overlay that shows heart rate and calorie burn information sent
     - On linux, you will first need to run `sudo chmod 777 HDS-Overlay-linux` in a terminal
 3. Open a browser and go to `localhost:8080`
 
-You should see the images for health data in your browser, but no actual numbers yet.
+You should see this image since the watch has not sent any data yet:
+![Disconnected Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/develop/public/disconnected.png)
 
 ### Connecting to the Apple Watch application
 1. Make sure the Apple Watch and device running the overlay application are on the same network. If the watch is connected to an iPhone, you just need to make sure the iPhone is connected to the same network.
