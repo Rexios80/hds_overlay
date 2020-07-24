@@ -3,11 +3,18 @@ let config;
 function connect() {
     let socket = new WebSocket('ws://localhost:' + config.websocketPort);
 
+    let statusDisplay = null;
+    let dataDisplay = null;
+
     let heartRateText = null;
     let caloriesText = null;
 
     socket.onopen = function (event) {
         console.log('Connected to server on port: ' + config.websocketPort);
+
+        statusDisplay = document.getElementById('statusDisplay');
+        dataDisplay = document.getElementById('dataDisplay');
+
         heartRateText = document.getElementById('heartRate');
         caloriesText = document.getElementById('calories');
 
@@ -30,8 +37,17 @@ function connect() {
         // }, 1000);
     };
 
+    let heartbeatTimeout
     socket.onmessage = function (event) {
         console.log(event.data);
+
+        statusDisplay.style.display = 'none'
+        dataDisplay.style.display = 'block'
+        clearTimeout(heartbeatTimeout)
+        heartbeatTimeout = setTimeout(function () {
+            statusDisplay.style.display = 'block'
+            dataDisplay.style.display = 'none'
+        }, 60000) // 60 seconds
 
         let data = event.data.split(':');
 

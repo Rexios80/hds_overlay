@@ -1,6 +1,14 @@
-.center {
-    /* Don't touch these unless you know what you are doing */
+.statusDisplay {
     text-align: center;
+}
+
+.statusImage {
+    height: 100px;
+}
+
+.dataDisplay {
+    text-align: center;
+    display: none; /* When disconnected (that is the initial state) */
 }
 
 .hr {
@@ -13,7 +21,6 @@
     font-family: Arial, sans-serif; /* Heart rate text font */
     -webkit-text-stroke: 1px black; /* Heart rate text outline. Remove for no outline. */
 
-    /* Don't touch these unless you know what you are doing */
     font-size: 550%;
     position: relative;
     top: -17px;
@@ -21,7 +28,6 @@
 }
 
 .hrImage {
-    /* Don't touch these unless you know what you are doing */
     width: 100px;
 }
 
@@ -35,7 +41,6 @@
     font-family: Arial, sans-serif; /* Calories text font */
     -webkit-text-stroke: 1px black; /* Calories text outline. Remove for no outline. */
 
-    /* Don't touch these unless you know what you are doing */
     font-size: 550%;
     position: relative;
     top: -17px;
@@ -43,7 +48,6 @@
 }
 
 .calImage {
-    /* Don't touch these unless you know what you are doing */
     width: 100px;
     padding-left: 70px;
 }
