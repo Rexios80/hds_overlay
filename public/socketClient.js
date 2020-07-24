@@ -37,7 +37,7 @@ function connect() {
         // }, 1000);
     };
 
-    let heartbeatTimeout
+    let heartbeatTimeout;
     socket.onmessage = function (event) {
         console.log(event.data);
 
