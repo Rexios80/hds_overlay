@@ -59,6 +59,9 @@ If you want to use this as a stream overlay, simply add the url used to see the 
 ### If you have problems
 [Try these troubleshooting steps before creating an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting)
 
+### Please consider writing a review
+Many people only leave reviews when they have a problem with an app. Even if many users don't have an issue, these negative reviews can turn off potential new users. If you enjoy this application, please consider leaving a review on the [App Store page](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8). Even a simple review helps a lot!
+
 ### Building it yourself
 Most users won't need to do this, but here is how to build the application manually.
 
