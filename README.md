@@ -33,7 +33,7 @@ If you need to change either of the server ports or want to change the images th
 ```
 {
   "httpPort": 8080,
-  "websocketPort": 3476,
+  "websocketPort": 3476
 }
 ```
 All the fields in the text above are required or the application will crash. To change the images the application uses, you can create a config file that looks like this:
