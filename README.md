@@ -1,5 +1,5 @@
 # Health Data Server Overlay
-This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the [Health Data Server app](https://apps.apple.com/us/app/health-data-server/id1496042074).
+This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the [Health Data Server app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8).
 
 ![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/develop/PreviewImage.png)
 
@@ -33,7 +33,7 @@ If you need to change either of the server ports or want to change the images th
 ```
 {
   "httpPort": 8080,
-  "websocketPort": 3476,
+  "websocketPort": 3476
 }
 ```
 All the fields in the text above are required or the application will crash. To change the images the application uses, you can create a config file that looks like this:
@@ -58,6 +58,9 @@ If you want to use this as a stream overlay, simply add the url used to see the 
 
 ### If you have problems
 [Try these troubleshooting steps before creating an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting)
+
+### Please consider writing a review
+Many people only leave reviews when they have a problem with an app. Even if many users don't have an issue, these negative reviews can turn off potential new users. If you enjoy this application, please consider leaving a review on the [App Store page](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8). Even a simple review helps a lot!
 
 ### Building it yourself
 Most users won't need to do this, but here is how to build the application manually.
