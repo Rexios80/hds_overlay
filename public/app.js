@@ -111,3 +111,11 @@ app.post('/', function (req, res) {
 
     res.end();
 });
+
+// Show the error to the user instead of instantly exiting
+process.on('uncaughtException', function (err) {
+    console.log(err);
+    while (true) {
+        // Force the application to stay alive
+    }
+});
