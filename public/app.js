@@ -65,6 +65,7 @@ let wss = new WebSocket.Server({port: config.websocketPort});
 let clients = [];
 wss.on('listening', function () {
     console.log('WebSocket server started on port %s', config.websocketPort);
+    console.log('WebSocket clients will connect to %s', config.websocketIp)
 });
 wss.on('connection', function connection(ws) {
     clients.push(ws);
