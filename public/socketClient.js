@@ -1,7 +1,7 @@
 let config;
 
 function connect() {
-    let socket = new WebSocket('ws://localhost:' + config.websocketPort);
+    let socket = new WebSocket('ws://' + config.websocketIp + ':' + config.websocketPort);
 
     let statusDisplay = null;
     let dataDisplay = null;

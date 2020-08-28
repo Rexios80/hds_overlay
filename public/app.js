@@ -15,7 +15,7 @@ if (fs.existsSync(configFilePath)) {
     config = JSON.parse(fs.readFileSync(configFilePath, 'utf8'));
 } else {
     // Default values
-    config = JSON.parse('{ "httpPort": 8080, "websocketPort": 3476 }');
+    config = JSON.parse('{ "httpPort": 8080, "websocketPort": 3476, "websocketIp": "localhost" }');
 }
 
 // Convert image files to base64
