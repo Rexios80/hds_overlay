@@ -62,13 +62,13 @@ let server = app.listen(config.httpPort, function () {
 });
 
 let wss = new WebSocket.Server({port: config.websocketPort});
-let socket = null;
+let clients = [];
 wss.on('listening', function () {
     console.log('WebSocket server started on port %s', config.websocketPort);
 });
 wss.on('connection', function connection(ws) {
-    socket = ws;
-    console.log('WebSocket client connected');
+    clients.push(ws);
+    console.log('WebSocket client connected (' + ws._socket.remoteAddress + ')');
 });
 
 let DiscordRPC = require('discord-rpc');
@@ -83,20 +83,26 @@ let currentCalories = '-'
 app.post('/', function (req, res) {
     console.log(req.body);
 
+    // Remove disconnected clients
+    clients.filter(client => client.readyState === WebSocket.CLOSED).forEach(disconnectedClient => {
+        console.log('WebSocket client disconnected (' + disconnectedClient._socket.remoteAddress + ')');
+        clients = clients.filter(client => client !== disconnectedClient);
+    });
+
     let heartRate = req.body.heartRate;
     let calories = req.body.calories;
 
     if (typeof heartRate !== 'undefined') {
-        if (socket != null) {
-            socket.send('heartRate:' + heartRate);
-        }
+        clients.forEach(client => {
+            client.send('heartRate:' + heartRate);
+        });
         currentHeartRate = heartRate
     }
 
     if (typeof calories !== 'undefined') {
-        if (socket != null) {
-            socket.send('calories:' + calories);
-        }
+        clients.forEach(client => {
+            client.send('calories:' + calories);
+        });
         currentCalories = calories
     }
 
