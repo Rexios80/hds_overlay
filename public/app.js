@@ -1,4 +1,4 @@
-const version = '6.2.2'; // Make sure this matches the version in package.json
+const version = '6.2.3'; // Make sure this matches the version in package.json
 
 const WebSocket = require('ws');
 const express = require('express');
