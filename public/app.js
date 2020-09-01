@@ -11,6 +11,7 @@ const fs = require('fs');
 // Show the error to the user instead of instantly exiting
 process.on('uncaughtException', function (err) {
     console.log(err);
+    console.log("The application has crashed. If you need help, please create an issue on the GitHub page.");
     while (true) {
         // Force the application to stay alive
     }
@@ -29,7 +30,7 @@ if (fs.existsSync(configFilePath)) {
 // Throw an exception if websocketIp is not specified to make this easily noticeable to the user
 // Otherwise the webpage will not connect and the user may not know why
 if (!config.websocketIp) {
-    throw "\"websocketIp\" must be specified in the config file"
+    throw "\"websocketIp\" must be specified in the config file";
 }
 
 // Convert image files to base64
