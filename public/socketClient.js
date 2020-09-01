@@ -1,4 +1,5 @@
 let config;
+let heartbeatTimeout;
 
 function connect() {
     let socket = new WebSocket('ws://' + config.websocketIp + ':' + config.websocketPort);
@@ -37,7 +38,6 @@ function connect() {
         // }, 1000);
     };
 
-    let heartbeatTimeout;
     socket.onmessage = function (event) {
         console.log(event.data);
 
@@ -45,6 +45,7 @@ function connect() {
         dataDisplay.style.display = 'block';
         clearTimeout(heartbeatTimeout);
         heartbeatTimeout = setTimeout(function () {
+            console.log('Disconnected from watch')
             statusDisplay.style.display = 'block';
             dataDisplay.style.display = 'none';
         }, 60000); // 60 seconds
