@@ -8,6 +8,14 @@ const semver = require('semver');
 const path = require('path');
 const fs = require('fs');
 
+// Show the error to the user instead of instantly exiting
+process.on('uncaughtException', function (err) {
+    console.log(err);
+    while (true) {
+        // Force the application to stay alive
+    }
+});
+
 // Create config
 let configFilePath = path.dirname(process.execPath) + '/config.json';
 let config;
@@ -16,6 +24,12 @@ if (fs.existsSync(configFilePath)) {
 } else {
     // Default values
     config = JSON.parse('{ "httpPort": 8080, "websocketPort": 3476, "websocketIp": "localhost" }');
+}
+
+// Throw an exception if websocketIp is not specified to make this easily noticeable to the user
+// Otherwise the webpage will not connect and the user may not know why
+if (!config.websocketIp) {
+    throw "\"websocketIp\" must be specified in config file"
 }
 
 // Convert image files to base64
@@ -117,12 +131,4 @@ app.post('/', function (req, res) {
     });
 
     res.end();
-});
-
-// Show the error to the user instead of instantly exiting
-process.on('uncaughtException', function (err) {
-    console.log(err);
-    while (true) {
-        // Force the application to stay alive
-    }
 });
