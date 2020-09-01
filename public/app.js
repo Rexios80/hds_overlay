@@ -1,4 +1,4 @@
-const version = '6.2.1'; // Make sure this matches the version in package.json
+const version = '6.2.2'; // Make sure this matches the version in package.json
 
 const WebSocket = require('ws');
 const express = require('express');
@@ -29,7 +29,7 @@ if (fs.existsSync(configFilePath)) {
 // Throw an exception if websocketIp is not specified to make this easily noticeable to the user
 // Otherwise the webpage will not connect and the user may not know why
 if (!config.websocketIp) {
-    throw "\"websocketIp\" must be specified in config file"
+    throw "\"websocketIp\" must be specified in the config file"
 }
 
 // Convert image files to base64
