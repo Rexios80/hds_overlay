@@ -77,14 +77,20 @@ let server = app.listen(config.httpPort, function () {
 });
 
 let wss = new WebSocket.Server({port: config.websocketPort});
-let clients = [];
+let webClients = [];
 wss.on('listening', function () {
     console.log('WebSocket server started on port %s', config.websocketPort);
     console.log('WebSocket clients will connect to %s', config.websocketIp)
 });
 wss.on('connection', function connection(ws) {
-    clients.push(ws);
-    console.log('WebSocket client connected (' + ws._socket.remoteAddress + ')');
+    ws.on('message', function incoming(message) {
+        if (message === 'webClient') {
+            webClients.push(ws);
+            console.log('WebSocket web client connected (' + ws._socket.remoteAddress + ')');
+        } else {
+            sendDataToWebClients(message);
+        }
+    });
 });
 
 let DiscordRPC = require('discord-rpc');
@@ -96,30 +102,25 @@ let startTimestamp = Date.now();
 let currentHeartRate = '-'
 let currentCalories = '-'
 
-app.post('/', function (req, res) {
-    console.log(req.body);
+function sendDataToWebClients(data) {
+    console.log(data)
 
     // Remove disconnected clients
-    clients.filter(client => client.readyState === WebSocket.CLOSED).forEach(disconnectedClient => {
+    webClients.filter(client => client.readyState === WebSocket.CLOSED).forEach(disconnectedClient => {
         console.log('WebSocket client disconnected (' + disconnectedClient._socket.remoteAddress + ')');
-        clients = clients.filter(client => client !== disconnectedClient);
+        webClients = webClients.filter(client => client !== disconnectedClient);
     });
 
-    let heartRate = req.body.heartRate;
-    let calories = req.body.calories;
+    webClients.forEach(client => {
+        client.send(data);
+    });
 
-    if (typeof heartRate !== 'undefined') {
-        clients.forEach(client => {
-            client.send('heartRate:' + heartRate);
-        });
-        currentHeartRate = heartRate
-    }
-
-    if (typeof calories !== 'undefined') {
-        clients.forEach(client => {
-            client.send('calories:' + calories);
-        });
-        currentCalories = calories
+    let dataType = data.split(':')[0]
+    let dataValue = data.split(':')[1]
+    if (dataType === 'heartRate') {
+        currentHeartRate = dataValue
+    } else if (dataType === 'calories') {
+        currentCalories = dataValue
     }
 
     // Eat errors because the user probably doesn't care
@@ -130,6 +131,4 @@ app.post('/', function (req, res) {
         largeImageKey: 'hds_icon',
     }).catch(error => {
     });
-
-    res.end();
-});
+}

@@ -13,6 +13,9 @@ function connect() {
     socket.onopen = function (event) {
         console.log('Connected to server on port: ' + config.websocketPort);
 
+        // Identify as a web client to the server
+        socket.send('webClient')
+
         statusDisplay = document.getElementById('statusDisplay');
         dataDisplay = document.getElementById('dataDisplay');
 
