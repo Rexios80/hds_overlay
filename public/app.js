@@ -80,7 +80,7 @@ let wss = new WebSocket.Server({port: config.websocketPort});
 let webClients = [];
 wss.on('listening', function () {
     console.log('WebSocket server started on port %s', config.websocketPort);
-    console.log('WebSocket clients will connect to %s', config.websocketIp)
+    console.log('WebSocket clients will connect to %s', config.websocketIp);
 });
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
@@ -88,6 +88,7 @@ wss.on('connection', function connection(ws) {
             webClients.push(ws);
             console.log('WebSocket web client connected (' + ws._socket.remoteAddress + ')');
         } else {
+            ws.send('pong');
             sendDataToWebClients(message);
         }
     });
@@ -115,12 +116,12 @@ function sendDataToWebClients(data) {
         client.send(data);
     });
 
-    let dataType = data.split(':')[0]
-    let dataValue = data.split(':')[1]
+    let dataType = data.split(':')[0];
+    let dataValue = data.split(':')[1];
     if (dataType === 'heartRate') {
-        currentHeartRate = dataValue
+        currentHeartRate = dataValue;
     } else if (dataType === 'calories') {
-        currentCalories = dataValue
+        currentCalories = dataValue;
     }
 
     // Eat errors because the user probably doesn't care
