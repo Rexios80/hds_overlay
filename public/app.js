@@ -123,9 +123,14 @@ function sendDataToWebClients(data) {
         currentCalories = dataValue;
     }
 
+    let detailsString = 'HR: ' + currentHeartRate
+    if (currentCalories !== '0') {
+        detailsString += ', CAL: ' + currentCalories
+    }
+
     // Eat errors because the user probably doesn't care
     discordRpc.setActivity({
-        details: 'HR: ' + currentHeartRate + ', CAL: ' + currentCalories,
+        details: detailsString,
         state: 'git.io/JfMAZ',
         startTimestamp: startTimestamp,
         largeImageKey: 'hds_icon',

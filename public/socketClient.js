@@ -6,6 +6,7 @@ function connect() {
 
     let statusDisplay = null;
     let dataDisplay = null;
+    let caloriesDisplay = null;
 
     let heartRateText = null;
     let caloriesText = null;
@@ -14,10 +15,11 @@ function connect() {
         console.log('Connected to server on port: ' + config.websocketPort);
 
         // Identify as a web client to the server
-        socket.send('webClient')
+        socket.send('webClient');
 
         statusDisplay = document.getElementById('statusDisplay');
         dataDisplay = document.getElementById('dataDisplay');
+        caloriesDisplay = document.getElementById('caloriesDisplay');
 
         heartRateText = document.getElementById('heartRate');
         caloriesText = document.getElementById('calories');
@@ -60,7 +62,13 @@ function connect() {
         }
 
         if (data[0] === 'calories') {
-            caloriesText.textContent = data[1];
+            let calories = data[1];
+            caloriesText.textContent = calories;
+            if (calories === '0') {
+                caloriesDisplay.style.display = 'none';
+            } else {
+                caloriesDisplay.style.display = 'inline';
+            }
         }
     };
 }

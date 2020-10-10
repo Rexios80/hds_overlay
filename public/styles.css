@@ -12,8 +12,7 @@
 }
 
 .hr {
-    /* Uncomment to disable heart rate display */
-    /*display: none;*/
+    display: inline;
 }
 
 .hrText {
@@ -32,8 +31,7 @@
 }
 
 .cal {
-    /* Uncomment to disable calories display */
-    /*display: none;*/
+    display: none;
 }
 
 .calText {
