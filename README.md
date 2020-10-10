@@ -35,7 +35,7 @@ If you need to change either of the server ports or want to change the images th
   "websocketIp": "localhost"
 }
 ```
-All the fields in the text above are required or the application will crash. If you change the websocketPort, you will have to append it to the IP address in the watch app: `192.168.xxx.xxx:3476`. To change the images the application uses, you can create a config file that looks like this:
+All the fields in the text above are required or the application will crash. If you change the websocketPort, you will have to append it to the IP address in the watch app ex: `192.168.xxx.xxx:3476`. To change the images the application uses, you can create a config file that looks like this:
 ```
 {
   "httpPort": 8080,
