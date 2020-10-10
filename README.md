@@ -48,10 +48,7 @@ All the fields in the text above are required or the application will crash. If 
 You do not need to specify both image files. This example assumes the images are in the same folder as the application.
 
 ### Styling
-If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed. Here is an example that disables the calories display:
-```
-.cal { display: none; }
-```
+If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed.
 
 ### Notes
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a web source in your favorite streaming application.
