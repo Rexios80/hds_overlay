@@ -88,7 +88,6 @@ wss.on('connection', function connection(ws) {
             webClients.push(ws);
             console.log('WebSocket web client connected (' + ws._socket.remoteAddress + ')');
         } else {
-            ws.send('pong');
             sendDataToWebClients(message);
         }
     });
