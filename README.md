@@ -24,7 +24,7 @@ You should see this image since the watch has not sent any data yet:
 4. Type the IP address of the machine running the overlay application
    - If you need help finding the IP address of your machine, read [this](https://www.tp-link.com/us/support/faq/838/). It probably looks something like this: `192.168.xxx.xxx`
    - There is an input method in watchOS 6 that allows you to type in text fields from your iPhone. This is by far the easiest way to input the information into the watch application.
-   - If you want to send data to an external server, you will need to input the full websocket URL ex: ws://hostname:port/other/stuff
+   - If you want to send data to an external server, you will need to input the full websocket URL ex: `ws://hostname:port/other/stuff`
 5. Click the start button
 
 You should soon see numbers in the webpage you opened earlier. This is the health data the watch is sending over your local network.
