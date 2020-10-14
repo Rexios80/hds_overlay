@@ -50,22 +50,22 @@ if (typeof config.calImageFile !== 'undefined') {
 const { networkInterfaces } = require('os');
 
 const nets = networkInterfaces();
-const networkInterfaces = Object.create(null); // or just '{}', an empty object
+const results = Object.create(null); // or just '{}', an empty object
 
 for (const name of Object.keys(nets)) {
     for (const net of nets[name]) {
         // skip over non-ipv4 and internal (i.e. 127.0.0.1) addresses
         if (net.family === 'IPv4' && !net.internal) {
-            if (!networkInterfaces[name]) {
-                networkInterfaces[name] = [];
+            if (!results[name]) {
+                results[name] = [];
             }
 
-            networkInterfaces[name].push(net.address);
+            results[name].push(net.address);
         }
     }
 }
 console.log('Possible IP addresses of this machine:')
-for (const [adapterName, addresses] of Object.entries(networkInterfaces)) {
+for (const [adapterName, addresses] of Object.entries(results)) {
     for (const address of addresses) {
         console.log('\t' + adapterName + ': ' + address);
     }
