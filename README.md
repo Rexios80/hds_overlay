@@ -22,6 +22,7 @@ You should see this image since the watch has not sent any data yet:
 2. [Install the Health Data Server application on your Apple Watch](https://apps.apple.com/us/app/health-data-server/id1496042074)
 3. Open the application
 4. Type the IP address of the machine running the overlay application
+   - The server application will list possible IP addresses of your machine on startup. If none of those work, you may have to find the IP address manually.
    - If you need help finding the IP address of your machine, read [this](https://www.tp-link.com/us/support/faq/838/). It probably looks something like this: `192.168.xxx.xxx`
    - There is an input method in watchOS 6 that allows you to type in text fields from your iPhone. This is by far the easiest way to input the information into the watch application.
    - If you want to send data to an external server, you will need to input the full websocket URL ex: `ws://hostname:port/other/stuff`
