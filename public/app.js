@@ -46,6 +46,31 @@ if (typeof config.calImageFile !== 'undefined') {
     config.calImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.calImageFile)
 }
 
+// Collect and show the possible IP addresses of this machine
+const { networkInterfaces } = require('os');
+
+const nets = networkInterfaces();
+const results = Object.create(null); // or just '{}', an empty object
+
+for (const name of Object.keys(nets)) {
+    for (const net of nets[name]) {
+        // skip over non-ipv4 and internal (i.e. 127.0.0.1) addresses
+        if (net.family === 'IPv4' && !net.internal) {
+            if (!results[name]) {
+                results[name] = [];
+            }
+
+            results[name].push(net.address);
+        }
+    }
+}
+console.log('Possible IP addresses of this machine:')
+for (const [adapterName, addresses] of Object.entries(results)) {
+    for (const address of addresses) {
+        console.log('\t' + adapterName + ': ' + address);
+    }
+}
+
 // Check for updates
 request('https://git.io/JJ8uD', {json: true}, (err, res, body) => {
     if (err) {
