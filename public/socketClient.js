@@ -6,6 +6,12 @@ const hrImageScaleMin = 0.75;
 const hrImageScaleMax = 1;
 const hrImageAnimationSize = hrImageScaleMax - hrImageScaleMin;
 
+let heartRateImage = null;
+
+let currentHrImageScale = hrImageScaleMax;
+let hrImageAnimationState = 'shrink';
+let hrImageAnimationStepSize = 0;
+
 function connect() {
     let socket = new WebSocket('ws://' + config.websocketIp + ':' + config.websocketPort);
 
@@ -15,12 +21,6 @@ function connect() {
 
     let heartRateText = null;
     let caloriesText = null;
-
-    let heartRateImage = null;
-
-    let currentHrImageScale = hrImageScaleMax;
-    let hrImageAnimationState = 'shrink';
-    let hrImageAnimationStepSize = 0;
 
     socket.onopen = function (event) {
         console.log('Connected to server on port: ' + config.websocketPort);
@@ -85,24 +85,29 @@ function connect() {
             }
         }
     };
-
-    // Heart rate image animation
-    window.setInterval(() => {
-        if (hrImageAnimationState === 'grow') {
-            currentHrImageScale += hrImageAnimationStepSize;
-            if (currentHrImageScale >= hrImageScaleMax) {
-                hrImageAnimationState = 'shrink';
-            }
-        } else {
-            currentHrImageScale -= hrImageAnimationStepSize;
-            if (currentHrImageScale <= hrImageScaleMin) {
-                hrImageAnimationState = 'grow';
-            }
-        }
-
-        heartRateImage.style.transform = 'scale(' + currentHrImageScale + ')';
-    }, refreshRate);
 }
+
+// Heart rate image animation
+window.setInterval(() => {
+    if (hrImageAnimationStepSize === 0) {
+        // Don't try and animate if the animation has not started
+        return;
+    }
+
+    if (hrImageAnimationState === 'grow') {
+        currentHrImageScale += hrImageAnimationStepSize;
+        if (currentHrImageScale >= hrImageScaleMax) {
+            hrImageAnimationState = 'shrink';
+        }
+    } else {
+        currentHrImageScale -= hrImageAnimationStepSize;
+        if (currentHrImageScale <= hrImageScaleMin) {
+            hrImageAnimationState = 'grow';
+        }
+    }
+
+    heartRateImage.style.transform = 'scale(' + currentHrImageScale + ')';
+}, refreshRate);
 
 // Request the config from the server
 let xmlHttp = new XMLHttpRequest();
