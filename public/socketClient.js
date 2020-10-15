@@ -1,6 +1,11 @@
 let config;
 let heartbeatTimeout;
 
+const refreshRate = 1000 / 60; // 60 fps
+const hrImageScaleMin = 0.75;
+const hrImageScaleMax = 1;
+const hrImageAnimationSize = hrImageScaleMax - hrImageScaleMin;
+
 function connect() {
     let socket = new WebSocket('ws://' + config.websocketIp + ':' + config.websocketPort);
 
@@ -10,6 +15,12 @@ function connect() {
 
     let heartRateText = null;
     let caloriesText = null;
+
+    let heartRateImage = null;
+
+    let currentHrImageScale = hrImageScaleMin;
+    let hrImageAnimationState = 'grow';
+    let hrImageAnimationStepSize = 0;
 
     socket.onopen = function (event) {
         console.log('Connected to server on port: ' + config.websocketPort);
@@ -23,6 +34,8 @@ function connect() {
 
         heartRateText = document.getElementById('heartRate');
         caloriesText = document.getElementById('calories');
+
+        heartRateImage = document.getElementById('hrImage');
 
         document.getElementById('hrImage').src = typeof config.hrImage === 'undefined' ? 'hrImage.png' : config.hrImage;
         document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'calImage.png' : config.calImage;
@@ -59,6 +72,7 @@ function connect() {
 
         if (data[0] === 'heartRate') {
             heartRateText.textContent = data[1];
+            hrImageAnimationStepSize = Number(data[1]) / 60 / 60 * hrImageAnimationSize * 2; // HR / beats per second / beats per frame * hrImageAnimationSize * grow and shrink in 1 bpm
         }
 
         if (data[0] === 'calories') {
@@ -71,6 +85,23 @@ function connect() {
             }
         }
     };
+
+    // Heart rate image animation
+    window.setInterval(() => {
+        if (hrImageAnimationState === 'grow') {
+            currentHrImageScale += hrImageAnimationStepSize;
+            if (currentHrImageScale >= hrImageScaleMax) {
+                hrImageAnimationState = 'shrink';
+            }
+        } else {
+            currentHrImageScale -= hrImageAnimationStepSize;
+            if (currentHrImageScale <= hrImageScaleMin) {
+                hrImageAnimationState = 'grow';
+            }
+        }
+
+        heartRateImage.style.transform = 'scale(' + currentHrImageScale + ')';
+    }, refreshRate);
 }
 
 // Request the config from the server
