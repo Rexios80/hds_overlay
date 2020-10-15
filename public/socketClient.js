@@ -18,8 +18,8 @@ function connect() {
 
     let heartRateImage = null;
 
-    let currentHrImageScale = hrImageScaleMin;
-    let hrImageAnimationState = 'grow';
+    let currentHrImageScale = hrImageScaleMax;
+    let hrImageAnimationState = 'shrink';
     let hrImageAnimationStepSize = 0;
 
     socket.onopen = function (event) {
@@ -38,7 +38,7 @@ function connect() {
         heartRateImage = document.getElementById('hrImage');
 
         document.getElementById('hrImage').src = typeof config.hrImage === 'undefined' ? 'hrImage.png' : config.hrImage;
-        document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'calImage.png' : config.calImage;
+        document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'fire.gif' : config.calImage;
     };
 
     socket.onclose = function (event) {
