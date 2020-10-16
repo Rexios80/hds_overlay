@@ -1,18 +1,18 @@
-const resourceHacker = require('node-resourcehacker');
-
+const resourceHacker = require('@lorki97/node-resourcehacker');
+ 
 resourceHacker({
-    operation: 'addoverwrite',
+    operation: 'modify',
     input: 'output/HDS-Overlay-win.exe',
     output: 'output/HDS-Overlay-win.exe',
     resource: 'win-icon.ico',
     resourceType: 'ICONGROUP',
-    resourceName: 'IDR_MAINFRAME',
+    resourceName: '1'
 }, (err) => {
-
+ 
     if(err) {
         return console.error(err);
     }
-
+ 
     console.log('Done.');
-
+ 
 });

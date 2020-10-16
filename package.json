@@ -3,10 +3,10 @@
   "version": "8.0.0",
   "bin": "public/app.js",
   "dependencies": {
+    "@lorki97/node-resourcehacker": "^1.3.1",
     "body-parser": "latest",
     "discord-rpc": "^3.1.4",
     "express": "latest",
-    "node-resourcehacker": "^1.2.1",
     "request": "^2.88.2",
     "semver": "^7.3.2",
     "ws": "latest"
