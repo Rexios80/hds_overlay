@@ -23,14 +23,21 @@ let config;
 if (fs.existsSync(configFilePath)) {
     config = JSON.parse(fs.readFileSync(configFilePath, 'utf8'));
 } else {
-    // Default values
-    config = JSON.parse('{ "httpPort": 8080, "websocketPort": 3476, "websocketIp": "localhost" }');
+    config = JSON.parse('{}');
 }
 
-// Throw an exception if websocketIp is not specified to make this easily noticeable to the user
-// Otherwise the webpage will not connect and the user may not know why
+// Add missing config values
+if (!config.httpPort) {
+    config.httpPort = '8080';
+}
+if (!config.websocketPort) {
+    config.websocketPort = '3476';
+}
 if (!config.websocketIp) {
-    throw '\"websocketIp\" must be specified in the config file';
+    config.websocketIp = 'localhost';
+}
+if (!config.animateHeartRate) {
+    config.animateHeartRate = 'true';
 }
 
 // Convert image files to base64
@@ -105,7 +112,7 @@ let wss = new WebSocket.Server({port: config.websocketPort});
 let webClients = [];
 wss.on('listening', function () {
     console.log('WebSocket server started on port %s', config.websocketPort);
-    console.log('WebSocket clients will connect to %s', config.websocketIp);
+    console.log('WebSocket web clients will connect to %s', config.websocketIp);
 });
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {

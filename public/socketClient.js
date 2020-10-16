@@ -87,27 +87,28 @@ function connect() {
     };
 }
 
-// Heart rate image animation
-window.setInterval(() => {
-    if (hrImageAnimationStepSize === 0) {
-        // Don't try and animate if the animation has not started
-        return;
-    }
-
-    if (hrImageAnimationState === 'grow') {
-        currentHrImageScale += hrImageAnimationStepSize;
-        if (currentHrImageScale >= hrImageScaleMax) {
-            hrImageAnimationState = 'shrink';
+function animateHeartRate() {
+    window.setInterval(() => {
+        if (hrImageAnimationStepSize === 0) {
+            // Don't try and animate if the animation has not started
+            return;
         }
-    } else {
-        currentHrImageScale -= hrImageAnimationStepSize;
-        if (currentHrImageScale <= hrImageScaleMin) {
-            hrImageAnimationState = 'grow';
-        }
-    }
 
-    heartRateImage.style.transform = 'scale(' + currentHrImageScale + ')';
-}, refreshRate);
+        if (hrImageAnimationState === 'grow') {
+            currentHrImageScale += hrImageAnimationStepSize;
+            if (currentHrImageScale >= hrImageScaleMax) {
+                hrImageAnimationState = 'shrink';
+            }
+        } else {
+            currentHrImageScale -= hrImageAnimationStepSize;
+            if (currentHrImageScale <= hrImageScaleMin) {
+                hrImageAnimationState = 'grow';
+            }
+        }
+
+        heartRateImage.style.transform = 'scale(' + currentHrImageScale + ')';
+    }, refreshRate);
+}
 
 // Request the config from the server
 let xmlHttp = new XMLHttpRequest();
@@ -115,3 +116,7 @@ xmlHttp.open('GET', '/config', false); // false for synchronous request
 xmlHttp.send(null);
 config = JSON.parse(xmlHttp.responseText);
 connect();
+
+if (config.animateHeartRate) {
+    animateHeartRate();
+}
