@@ -12,7 +12,7 @@
 
 .hr {
     position: absolute;
-    left: 100px;
+    left: 80px;
 }
 
 .hrText {
@@ -20,9 +20,9 @@
     font-family: Arial, sans-serif; /* Heart rate text font */
     -webkit-text-stroke: 1px black; /* Heart rate text outline. Remove for no outline. */
 
-    font-size: 550%;
+    font-size: 600%;
     position: relative;
-    top: -17px;
+    top: -10px;
     left: 15px;
 }
 
@@ -44,9 +44,9 @@
     font-family: Arial, sans-serif; /* Calories text font */
     -webkit-text-stroke: 1px black; /* Calories text outline. Remove for no outline. */
 
-    font-size: 550%;
+    font-size: 600%;
     position: relative;
-    top: -17px;
+    top: -10px;
     left: 15px;
 }
 
