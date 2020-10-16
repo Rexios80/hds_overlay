@@ -87,7 +87,7 @@ function connect() {
     };
 }
 
-function animateHeartRate() {
+function animateHeartRateImage() {
     window.setInterval(() => {
         if (hrImageAnimationStepSize === 0) {
             // Don't try and animate if the animation has not started
@@ -117,6 +117,6 @@ xmlHttp.send(null);
 config = JSON.parse(xmlHttp.responseText);
 connect();
 
-if (config.animateHeartRate) {
-    animateHeartRate();
+if (config.animateHeartRateImage) {
+    animateHeartRateImage();
 }

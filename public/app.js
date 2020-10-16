@@ -36,8 +36,8 @@ if (!config.websocketPort) {
 if (!config.websocketIp) {
     config.websocketIp = 'localhost';
 }
-if (!config.animateHeartRate) {
-    config.animateHeartRate = 'true';
+if (!config.animateHeartRateImage) {
+    config.animateHeartRateImage = 'true';
 }
 
 // Convert image files to base64
