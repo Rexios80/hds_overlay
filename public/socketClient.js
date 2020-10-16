@@ -117,6 +117,6 @@ xmlHttp.send(null);
 config = JSON.parse(xmlHttp.responseText);
 connect();
 
-if (config.animateHeartRateImage) {
+if (config.animateHeartRateImage === 'true') {
     animateHeartRateImage();
 }
