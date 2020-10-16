@@ -104,3 +104,6 @@ package-lock.json
 
 # pkg binaries
 output
+
+# secret sauce
+macossignscript.sh

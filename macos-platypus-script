@@ -1,0 +1,2 @@
+cp ../../../config.json config.json
+./HDS-Overlay-macos
