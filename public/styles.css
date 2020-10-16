@@ -12,7 +12,7 @@
 
 .hr {
     position: absolute;
-    left: 15%;
+    left: 100px;
 }
 
 .hrText {
@@ -36,7 +36,7 @@
 .cal {
     display: none;
     position: absolute;
-    left: 50%;
+    left: 400px;
 }
 
 .calText {
