@@ -1,7 +1,7 @@
 # Health Data Server Overlay
 This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the [Health Data Server app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8).
 
-![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/PreviewImage.png)
+![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/develop/PreviewImage.gif)
 
 [Video of the overlay in action](https://www.youtube.com/watch?v=CFGlA7JWUFo)
 
@@ -35,25 +35,19 @@ You should soon see numbers in the webpage you opened earlier. This is the healt
 Calories will only show if "Save to Health" is turned on in the watch app. It is not possible to collect calorie data and also not save data to Apple Health.
 
 ### Configuration
-If you need to change either of the server ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application. A basic config file looks like this:
-```
-{
-  "httpPort": 8080,
-  "websocketPort": 3476,
-  "websocketIp": "localhost"
-}
-```
-All the fields in the text above are required or the application will crash. If you change the websocketPort, you will have to append it to the IP address in the watch app ex: `192.168.xxx.xxx:3476`. To change the images the application uses, you can create a config file that looks like this:
+If you need to change either of the server ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
 {
   "httpPort": 8080,
   "websocketPort": 3476,
   "websocketIp": "localhost",
   "hrImageFile": "hrImage.png",
-  "calImageFile": "calImage.png"
+  "calImageFile": "calImage.png",
+  "animateHeartRateImage": "false",
+  "discordRichPresenceEnabled": "false"
 }
 ```
-You do not need to specify both image files. This example assumes the images are in the same folder as the application.
+You only need to speficy the config options that you want to change. Make sure to not leave a trailing comma or the application will crash. If you change the websocketPort, you will have to append it to the IP address in the watch app ex: `192.168.xxx.xxx:3476`. Images need to be in the same folder as the application.
 
 ### Styling
 If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed.
