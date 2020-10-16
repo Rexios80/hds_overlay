@@ -28,10 +28,10 @@ if (fs.existsSync(configFilePath)) {
 
 // Add missing config values
 if (!config.httpPort) {
-    config.httpPort = '8080';
+    config.httpPort = 8080;
 }
 if (!config.websocketPort) {
-    config.websocketPort = '3476';
+    config.websocketPort = 3476;
 }
 if (!config.websocketIp) {
     config.websocketIp = 'localhost';
