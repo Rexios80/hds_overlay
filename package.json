@@ -4,8 +4,9 @@
   "bin": "public/app.js",
   "dependencies": {
     "body-parser": "latest",
-    "discord-rpc": "^3.1.1",
+    "discord-rpc": "^3.1.4",
     "express": "latest",
+    "node-resourcehacker": "^1.2.1",
     "request": "^2.88.2",
     "semver": "^7.3.2",
     "ws": "latest"
