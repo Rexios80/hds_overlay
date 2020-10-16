@@ -7,12 +7,12 @@
 }
 
 .dataDisplay {
-    text-align: center;
     display: none; /* When disconnected (that is the initial state) */
 }
 
 .hr {
-    display: inline;
+    position: absolute;
+    left: 15%;
 }
 
 .hrText {
@@ -27,11 +27,16 @@
 }
 
 .hrImage {
-    width: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
 }
 
 .cal {
     display: none;
+    position: absolute;
+    left: 50%;
 }
 
 .calText {
@@ -46,6 +51,8 @@
 }
 
 .calImage {
-    width: 100px;
-    padding-left: 70px;
+    max-width: 100px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
 }
