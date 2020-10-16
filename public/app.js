@@ -39,6 +39,9 @@ if (!config.websocketIp) {
 if (!config.animateHeartRateImage) {
     config.animateHeartRateImage = 'true';
 }
+if (!config.discordRichPresenceEnabled) {
+    config.discordRichPresenceEnabled = 'true';
+}
 
 // Convert image files to base64
 function base64_encode(file) {
@@ -54,7 +57,7 @@ if (typeof config.calImageFile !== 'undefined') {
 }
 
 // Collect and show the possible IP addresses of this machine
-const { networkInterfaces } = require('os');
+const {networkInterfaces} = require('os');
 
 const nets = networkInterfaces();
 const results = Object.create(null); // or just '{}', an empty object
@@ -155,17 +158,19 @@ function sendDataToWebClients(data) {
         currentCalories = dataValue;
     }
 
-    let detailsString = 'HR: ' + currentHeartRate
-    if (currentCalories !== '0') {
-        detailsString += ', CAL: ' + currentCalories
-    }
+    if (config.discordRichPresenceEnabled === 'true') {
+        let detailsString = 'HR: ' + currentHeartRate
+        if (currentCalories !== '0') {
+            detailsString += ', CAL: ' + currentCalories
+        }
 
-    // Eat errors because the user probably doesn't care
-    discordRpc.setActivity({
-        details: detailsString,
-        state: 'git.io/JfMAZ',
-        startTimestamp: startTimestamp,
-        largeImageKey: 'hds_icon',
-    }).catch(error => {
-    });
+        // Eat errors because the user probably doesn't care
+        discordRpc.setActivity({
+            details: detailsString,
+            state: 'git.io/JfMAZ',
+            startTimestamp: startTimestamp,
+            largeImageKey: 'hds_icon',
+        }).catch(error => {
+        });
+    }
 }
