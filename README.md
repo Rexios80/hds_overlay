@@ -74,6 +74,9 @@ If you need complex styling of the overlay, you can use the Custom CSS field on 
 }
 .cal { left: 400px; } /* Move the calories over to make room */
 ```
+That makes the overlay look like this:
+
+![CSS Example](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/develop/cssExample.png)
 
 ### Notes
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a browser source in your favorite streaming application.
