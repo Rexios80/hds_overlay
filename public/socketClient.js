@@ -81,7 +81,7 @@ function connect() {
             if (calories === '0') {
                 caloriesDisplay.style.display = 'none';
             } else {
-                caloriesDisplay.style.display = 'inline';
+                caloriesDisplay.style.display = 'flex';
             }
         }
     };

@@ -8,20 +8,23 @@
 
 .dataDisplay {
     display: none; /* When disconnected (that is the initial state) */
+    height: 100px;
 }
 
 .hr {
+    display: flex;
+    align-items: center;
     position: absolute;
 }
 
 .hrText {
-    display: inline-block;
     color: #FC3718; /* Heart rate text color */
     font-family: Arial, sans-serif; /* Heart rate text font */
     text-shadow: 0 0 2px black;
 
     font-size: 600%;
     margin-left: 15px;
+    margin-top: 5px;
 }
 
 .hrImage {
@@ -33,18 +36,19 @@
 
 .cal {
     display: none;
+    align-items: center;
     position: absolute;
     left: 320px;
 }
 
 .calText {
-    display: inline-block;
     color: #FF1252; /* Calories text color */
     font-family: Arial, sans-serif; /* Calories text font */
     text-shadow: 0 0 2px black;
 
     font-size: 600%;
     margin-left: 15px;
+    margin-top: 5px;
 }
 
 .calImage {
@@ -52,11 +56,4 @@
     max-height: 100px;
     width: auto;
     height: auto;
-}
-
-.vertical-text-alignment {
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-47%);
-    transform: translateY(-47%);
 }
