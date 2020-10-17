@@ -15,14 +15,13 @@
 }
 
 .hrText {
+    display: inline-block;
     color: #FC3718; /* Heart rate text color */
     font-family: Arial, sans-serif; /* Heart rate text font */
     text-shadow: 0 0 2px black;
 
     font-size: 600%;
-    position: relative;
-    top: -12px;
-    left: 15px;
+    margin-left: 15px;
 }
 
 .hrImage {
@@ -39,14 +38,13 @@
 }
 
 .calText {
+    display: inline-block;
     color: #FF1252; /* Calories text color */
     font-family: Arial, sans-serif; /* Calories text font */
     text-shadow: 0 0 2px black;
 
     font-size: 600%;
-    position: relative;
-    top: -12px;
-    left: 15px;
+    margin-left: 15px;
 }
 
 .calImage {
@@ -54,4 +52,11 @@
     max-height: 100px;
     width: auto;
     height: auto;
+}
+
+.vertical-text-alignment {
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-47%);
+    transform: translateY(-47%);
 }
