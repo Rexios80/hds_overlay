@@ -17,7 +17,7 @@
 .hrText {
     color: #FC3718; /* Heart rate text color */
     font-family: Arial, sans-serif; /* Heart rate text font */
-    -webkit-text-stroke: 1px black; /* Heart rate text outline. Remove for no outline. */
+    text-shadow: 0 0 2px black;
 
     font-size: 600%;
     position: relative;
@@ -41,7 +41,7 @@
 .calText {
     color: #FF1252; /* Calories text color */
     font-family: Arial, sans-serif; /* Calories text font */
-    -webkit-text-stroke: 1px black; /* Calories text outline. Remove for no outline. */
+    text-shadow: 0 0 2px black;
 
     font-size: 600%;
     position: relative;
