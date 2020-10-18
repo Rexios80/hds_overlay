@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Monaco';
+    src: url('Monaco.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .statusDisplay {
     text-align: center;
 }
