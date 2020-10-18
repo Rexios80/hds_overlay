@@ -21,7 +21,6 @@
 
 .dataDisplay {
     display: none; /* When disconnected (that is the initial state) */
-    height: 100px;
 }
 
 .hr {
