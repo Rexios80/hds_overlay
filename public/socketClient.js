@@ -60,7 +60,7 @@ function connect() {
         console.log(event.data);
 
         statusDisplay.style.display = 'none';
-        dataDisplay.style.display = 'contents';
+        dataDisplay.style.display = 'flex';
         clearTimeout(heartbeatTimeout);
         heartbeatTimeout = setTimeout(function () {
             console.log('Disconnected from watch');
