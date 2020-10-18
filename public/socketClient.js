@@ -64,7 +64,7 @@ function connect() {
         clearTimeout(heartbeatTimeout);
         heartbeatTimeout = setTimeout(function () {
             console.log('Disconnected from watch');
-            statusDisplay.style.display = 'block';
+            statusDisplay.style.display = 'flex';
             dataDisplay.style.display = 'none';
         }, 60000); // 60 seconds
 
