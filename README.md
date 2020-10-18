@@ -81,6 +81,8 @@ That makes the overlay look like this:
 ### Notes
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a browser source in your favorite streaming application.
 
+If you are using an IP address instead of "localhost" in OBS, then you will have to include "http://" before it or it won't work: `http://192.168.xxx.xxx:8080`
+
 ### If you have problems
 Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) before asking for help
 - Ask for help in the [support Discord server](https://discord.gg/fvmNWn)
