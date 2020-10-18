@@ -25,6 +25,7 @@
 
 .hr {
     display: flex;
+    height: 100px;
     align-items: center;
     position: absolute;
 }
@@ -48,6 +49,7 @@
 
 .cal {
     display: none;
+    height: 100px;
     align-items: center;
     position: absolute;
     left: 320px;
