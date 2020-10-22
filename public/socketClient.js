@@ -73,9 +73,7 @@ function connect() {
         if (data[0] === 'heartRate') {
             heartRateText.textContent = data[1];
             hrImageAnimationStepSize = Number(data[1]) / 60 / 60 * hrImageAnimationSize * 2; // HR / beats per second / beats per frame * hrImageAnimationSize * grow and shrink in 1 bpm
-        }
-
-        if (data[0] === 'calories') {
+        } else if (data[0] === 'calories') {
             let calories = data[1];
             caloriesText.textContent = calories;
             if (calories === '0') {
@@ -83,6 +81,8 @@ function connect() {
             } else {
                 caloriesDisplay.style.display = 'flex';
             }
+        } else if (data[0] === 'hrColor') {
+            heartRateText.style.color = data[1];
         }
     };
 }

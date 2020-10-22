@@ -1,4 +1,4 @@
-const version = '7.4.2'; // Make sure this matches the version in package.json
+const version = '7.5.0'; // Make sure this matches the version in package.json
 
 const WebSocket = require('ws');
 const express = require('express');
@@ -11,7 +11,7 @@ const fs = require('fs');
 // Show the error to the user instead of instantly exiting
 process.on('uncaughtException', function (err) {
     console.log(err);
-    console.log('The application has crashed. If you need help, please create an issue on the GitHub page.');
+    console.log('The application has crashed. If you need help, please visit https://git.io/JTzfb.');
     while (true) {
         // Force the application to stay alive
     }
@@ -122,6 +122,11 @@ wss.on('connection', function connection(ws) {
         if (message === 'webClient') {
             webClients.push(ws);
             console.log('WebSocket web client connected (' + ws._socket.remoteAddress + ')');
+
+            // Send current data to the web client
+            ws.send('heartRate:' + currentHeartRate);
+            ws.send('calories:' + currentCalories);
+            ws.send('hrColor:' + currentHrColor);
         } else {
             sendDataToWebClients(message);
         }
@@ -136,6 +141,7 @@ discordRpc.login({clientId: '719260544481099857'}).catch(error => {
 let startTimestamp = Date.now();
 let currentHeartRate = '-'
 let currentCalories = '-'
+let currentHrColor = '#FC3718'
 
 function sendDataToWebClients(data) {
     console.log(data)
@@ -156,6 +162,8 @@ function sendDataToWebClients(data) {
         currentHeartRate = dataValue;
     } else if (dataType === 'calories') {
         currentCalories = dataValue;
+    } else if (dataType === 'hrColor') {
+        currentHrColor = dataValue;
     }
 
     if (config.discordRichPresenceEnabled === 'true') {
