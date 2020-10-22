@@ -14,8 +14,7 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/firewall-dialog.png)
 4. Open a browser and go to `localhost:8080`
 
-You should see this image since the watch has not sent any data yet:
-![Disconnected Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/public/disconnected.png)
+You should see the overlay, but no numbers yet since the watch hasn't sent any.
 
 ### Connecting to the Apple Watch application
 1. Make sure the Apple Watch and device running the overlay application are on the same network. If the watch is connected to an iPhone, you just need to make sure the iPhone is connected to the same network.
