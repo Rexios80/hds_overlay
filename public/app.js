@@ -11,7 +11,7 @@ const fs = require('fs');
 // Show the error to the user instead of instantly exiting
 process.on('uncaughtException', function (err) {
     console.log(err);
-    console.log('The application has crashed. If you need help, please create an issue on the GitHub page.');
+    console.log('The application has crashed. If you need help, please visit https://git.io/JTzfb.');
     while (true) {
         // Force the application to stay alive
     }
