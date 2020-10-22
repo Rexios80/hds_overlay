@@ -139,12 +139,12 @@ let discordRpc = new DiscordRPC.Client({transport: 'ipc'});
 discordRpc.login({clientId: '719260544481099857'}).catch(error => {
 });
 let startTimestamp = Date.now();
-let currentHeartRate = '-'
-let currentCalories = '-'
-let currentHrColor = '#FC3718'
+let currentHeartRate = '0';
+let currentCalories = '0';
+let currentHrColor = '#FC3718';
 
 function sendDataToWebClients(data) {
-    console.log(data)
+    console.log(data);
 
     // Remove disconnected clients
     webClients.filter(client => client.readyState === WebSocket.CLOSED).forEach(disconnectedClient => {
@@ -167,9 +167,14 @@ function sendDataToWebClients(data) {
     }
 
     if (config.discordRichPresenceEnabled === 'true') {
-        let detailsString = 'HR: ' + currentHeartRate
+        let detailsString = 'HR: ';
+        if (currentHeartRate !== '0') {
+            detailsString += currentHeartRate;
+        } else {
+            detailsString += '-';
+        }
         if (currentCalories !== '0') {
-            detailsString += ', CAL: ' + currentCalories
+            detailsString += ', CAL: ' + currentCalories;
         }
 
         // Eat errors because the user probably doesn't care
