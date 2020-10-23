@@ -52,13 +52,13 @@ You only need to speficy the config options that you want to change. Make sure t
 If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed. Here is an example:
 ```
 .hrText {
-  color: black; /* Change text color to black */
+  color: black !important; /* Change text color to black. "!important" is required or it will not work. */
   font-family: Arial, sans-serif; /* Change font to Arial */
   text-shadow: 0 0; /* Remove text shadow */
   font-size: 700%; /* Change font size */
 }
 .calText {
-  color: black;
+  color: black; /* "!important" is not necessary for this one. */
   font-family: Arial, sans-serif;
   text-shadow: 0 0;
   font-size: 700%;
