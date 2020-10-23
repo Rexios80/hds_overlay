@@ -58,7 +58,7 @@ If you need complex styling of the overlay, you can use the Custom CSS field on 
   font-size: 700%; /* Change font size */
 }
 .calText {
-  color: black; /* "!important" is not necessary for this one. */
+  color: black; /* "!important" is not necessary for this one */
   font-family: Arial, sans-serif;
   text-shadow: 0 0;
   font-size: 700%;
