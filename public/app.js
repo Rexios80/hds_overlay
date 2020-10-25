@@ -7,6 +7,7 @@ const request = require('request');
 const semver = require('semver');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
 // Show the error to the user instead of instantly exiting
 process.on('uncaughtException', function (err) {
@@ -16,6 +17,12 @@ process.on('uncaughtException', function (err) {
         // Force the application to stay alive
     }
 });
+
+// Fix the path for Platypus packaging on macOS
+let pathFix = '';
+if (os.type() === 'Darwin') {
+    pathFix = '/../../..';
+}
 
 // Create config
 let configFilePath = path.dirname(process.execPath) + '/config.json';
@@ -50,10 +57,10 @@ function base64_encode(file) {
 }
 
 if (typeof config.hrImageFile !== 'undefined') {
-    config.hrImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.hrImageFile)
+    config.hrImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + pathFix + '/' + config.hrImageFile)
 }
 if (typeof config.calImageFile !== 'undefined') {
-    config.calImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.calImageFile)
+    config.calImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + pathFix + '/' + config.calImageFile)
 }
 
 // Collect and show the possible IP addresses of this machine
