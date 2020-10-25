@@ -1,9 +1,22 @@
+@font-face {
+    font-family: 'Monaco';
+    src: url('Monaco.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .statusDisplay {
+    display: flex;
+    height: 100px;
+    align-items: center;
     text-align: center;
 }
 
 .statusImage {
-    height: 100px;
+    max-height: 100px;
+    max-width: 100%;
+    height: auto;
+    width: auto;
 }
 
 .dataDisplay {
@@ -11,19 +24,20 @@
 }
 
 .hr {
+    display: flex;
+    height: 100px;
+    align-items: center;
     position: absolute;
-    left: 80px;
 }
 
 .hrText {
     color: #FC3718; /* Heart rate text color */
-    font-family: Arial, sans-serif; /* Heart rate text font */
-    -webkit-text-stroke: 1px black; /* Heart rate text outline. Remove for no outline. */
+    font-family: Monaco, sans-serif; /* Heart rate text font */
+    text-shadow: 0 0 2px black;
 
     font-size: 600%;
-    position: relative;
-    top: -10px;
-    left: 15px;
+    margin-left: 15px;
+    margin-top: 5px;
 }
 
 .hrImage {
@@ -35,19 +49,20 @@
 
 .cal {
     display: none;
+    height: 100px;
+    align-items: center;
     position: absolute;
-    left: 400px;
+    left: 320px;
 }
 
 .calText {
     color: #FF1252; /* Calories text color */
-    font-family: Arial, sans-serif; /* Calories text font */
-    -webkit-text-stroke: 1px black; /* Calories text outline. Remove for no outline. */
+    font-family: Monaco, sans-serif; /* Calories text font */
+    text-shadow: 0 0 2px black;
 
     font-size: 600%;
-    position: relative;
-    top: -10px;
-    left: 15px;
+    margin-left: 15px;
+    margin-top: 5px;
 }
 
 .calImage {

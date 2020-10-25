@@ -60,29 +60,33 @@ function connect() {
         console.log(event.data);
 
         statusDisplay.style.display = 'none';
-        dataDisplay.style.display = 'contents';
+        dataDisplay.style.display = 'flex';
         clearTimeout(heartbeatTimeout);
         heartbeatTimeout = setTimeout(function () {
             console.log('Disconnected from watch');
-            statusDisplay.style.display = 'block';
+            statusDisplay.style.display = 'flex';
             dataDisplay.style.display = 'none';
         }, 60000); // 60 seconds
 
         let data = event.data.split(':');
 
         if (data[0] === 'heartRate') {
-            heartRateText.textContent = data[1];
+            if (data[1] === '0') {
+                heartRateText.textContent = '-';
+            } else {
+                heartRateText.textContent = data[1];
+            }
             hrImageAnimationStepSize = Number(data[1]) / 60 / 60 * hrImageAnimationSize * 2; // HR / beats per second / beats per frame * hrImageAnimationSize * grow and shrink in 1 bpm
-        }
-
-        if (data[0] === 'calories') {
+        } else if (data[0] === 'calories') {
             let calories = data[1];
             caloriesText.textContent = calories;
             if (calories === '0') {
                 caloriesDisplay.style.display = 'none';
             } else {
-                caloriesDisplay.style.display = 'inline';
+                caloriesDisplay.style.display = 'flex';
             }
+        } else if (data[0] === 'hrColor') {
+            heartRateText.style.color = data[1];
         }
     };
 }

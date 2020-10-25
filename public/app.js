@@ -11,7 +11,7 @@ const fs = require('fs');
 // Show the error to the user instead of instantly exiting
 process.on('uncaughtException', function (err) {
     console.log(err);
-    console.log('The application has crashed. If you need help, please create an issue on the GitHub page.');
+    console.log('The application has crashed. If you need help, please visit https://git.io/JTzfb.');
     while (true) {
         // Force the application to stay alive
     }
@@ -122,6 +122,11 @@ wss.on('connection', function connection(ws) {
         if (message === 'webClient') {
             webClients.push(ws);
             console.log('WebSocket web client connected (' + ws._socket.remoteAddress + ')');
+
+            // Send current data to the web client
+            ws.send('heartRate:' + currentHeartRate);
+            ws.send('calories:' + currentCalories);
+            ws.send('hrColor:' + currentHrColor);
         } else {
             sendDataToWebClients(message);
         }
@@ -134,11 +139,12 @@ let discordRpc = new DiscordRPC.Client({transport: 'ipc'});
 discordRpc.login({clientId: '719260544481099857'}).catch(error => {
 });
 let startTimestamp = Date.now();
-let currentHeartRate = '-'
-let currentCalories = '-'
+let currentHeartRate = '0';
+let currentCalories = '0';
+let currentHrColor = '#FC3718';
 
 function sendDataToWebClients(data) {
-    console.log(data)
+    console.log(data);
 
     // Remove disconnected clients
     webClients.filter(client => client.readyState === WebSocket.CLOSED).forEach(disconnectedClient => {
@@ -156,12 +162,19 @@ function sendDataToWebClients(data) {
         currentHeartRate = dataValue;
     } else if (dataType === 'calories') {
         currentCalories = dataValue;
+    } else if (dataType === 'hrColor') {
+        currentHrColor = dataValue;
     }
 
     if (config.discordRichPresenceEnabled === 'true') {
-        let detailsString = 'HR: ' + currentHeartRate
+        let detailsString = 'HR: ';
+        if (currentHeartRate !== '0') {
+            detailsString += currentHeartRate;
+        } else {
+            detailsString += '-';
+        }
         if (currentCalories !== '0') {
-            detailsString += ', CAL: ' + currentCalories
+            detailsString += ', CAL: ' + currentCalories;
         }
 
         // Eat errors because the user probably doesn't care
