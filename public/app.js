@@ -18,7 +18,7 @@ process.on('uncaughtException', function (err) {
 });
 
 // Create config
-let configFilePath = path.dirname(process.execPath) + '/config.json';
+let configFilePath = path.dirname(process.cwd()) + '/config.json';
 let config;
 if (fs.existsSync(configFilePath)) {
     config = JSON.parse(fs.readFileSync(configFilePath, 'utf8'));
@@ -50,10 +50,10 @@ function base64_encode(file) {
 }
 
 if (typeof config.hrImageFile !== 'undefined') {
-    config.hrImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.hrImageFile)
+    config.hrImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.cwd()) + '/' + config.hrImageFile)
 }
 if (typeof config.calImageFile !== 'undefined') {
-    config.calImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.calImageFile)
+    config.calImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.cwd()) + '/' + config.calImageFile)
 }
 
 // Collect and show the possible IP addresses of this machine
