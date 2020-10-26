@@ -36,7 +36,7 @@ You should soon see numbers in the webpage you opened earlier. This is the healt
 Calories will only show if "Save to Health" is turned on in the watch app. It is not possible to collect calorie data and also not save data to Apple Health.
 
 ### Configuration
-If you need to change either of the server ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
+If you need to change either of the ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
 {
   "httpPort": 8080,
