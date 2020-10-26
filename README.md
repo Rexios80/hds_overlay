@@ -12,6 +12,8 @@ This is a stream overlay that shows heart rate and calorie burn information sent
     - On linux, you will first need to run `chmod 777 HDS-Overlay-linux` in a terminal
 3. On Windows make sure to check both of these boxes to avoid issues:
 ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/firewall-dialog.png)
+    - If this dialog does not show up, try moving the executable to your desktop and opening it from there
+    - You will have to do this for new overlay versions as well
 4. Open a browser and go to `localhost:8080`
 
 You should see the overlay, but no numbers yet since the watch hasn't sent any.
