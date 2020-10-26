@@ -86,7 +86,7 @@ If you are using an IP address instead of "localhost" in OBS, then you will have
 
 ### If you have problems
 Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) before asking for help
-- Ask for help in the [support Discord server](https://discord.gg/fvmNWn)
+- Ask for help in the [support Discord server](https://discord.gg/FayYYcm)
 - [Create an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/issues/new?assignees=&labels=&template=bug-report.md&title=)
 
 ### Please consider writing a review
