@@ -33,8 +33,6 @@ You should see the overlay, but no numbers yet since the watch hasn't sent any.
 
 You should soon see numbers in the webpage you opened earlier. This is the health data the watch is sending over your local network.
 
-Calories will only show if "Save to Health" is turned on in the watch app. It is not possible to collect calorie data and also not save data to Apple Health.
-
 ### Configuration
 If you need to change either of the ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
