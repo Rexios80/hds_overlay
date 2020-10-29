@@ -12,6 +12,8 @@ This is a stream overlay that shows heart rate and calorie burn information sent
     - On linux, you will first need to run `chmod 777 HDS-Overlay-linux` in a terminal
 3. On Windows make sure to check both of these boxes to avoid issues:
 ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/firewall-dialog.png)
+    - If this dialog does not show up, try moving the executable to your desktop and opening it from there
+    - You will have to do this for new overlay versions as well
 4. Open a browser and go to `localhost:8080`
 
 You should see the overlay, but no numbers yet since the watch hasn't sent any.
@@ -31,10 +33,8 @@ You should see the overlay, but no numbers yet since the watch hasn't sent any.
 
 You should soon see numbers in the webpage you opened earlier. This is the health data the watch is sending over your local network.
 
-Calories will only show if "Save to Health" is turned on in the watch app. It is not possible to collect calorie data and also not save data to Apple Health.
-
 ### Configuration
-If you need to change either of the server ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
+If you need to change either of the ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
 {
   "httpPort": 8080,
@@ -52,13 +52,13 @@ You only need to speficy the config options that you want to change. Make sure t
 If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed. Here is an example:
 ```
 .hrText {
-  color: black; /* Change text color to black */
+  color: black !important; /* Change text color to black. "!important" is required or it will not work. */
   font-family: Arial, sans-serif; /* Change font to Arial */
   text-shadow: 0 0; /* Remove text shadow */
   font-size: 700%; /* Change font size */
 }
 .calText {
-  color: black;
+  color: black; /* "!important" is not necessary for this one */
   font-family: Arial, sans-serif;
   text-shadow: 0 0;
   font-size: 700%;
@@ -84,7 +84,7 @@ If you are using an IP address instead of "localhost" in OBS, then you will have
 
 ### If you have problems
 Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) before asking for help
-- Ask for help in the [support Discord server](https://discord.gg/fvmNWn)
+- Ask for help in the [support Discord server](https://discord.gg/FayYYcm)
 - [Create an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/issues/new?assignees=&labels=&template=bug-report.md&title=)
 
 ### Please consider writing a review
