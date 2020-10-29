@@ -16,7 +16,7 @@ This is a stream overlay that shows heart rate and calorie burn information sent
         - ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/firewall-dialog.png)
         - If this dialog does not show up, try moving the executable to your desktop and opening it from there
         - You will have to do this for new overlay versions as well
-4. MacOS will not let you open the overlay the first time. After you try to open the overlay, go to System Preferences > Security & Privacy and click on "Open Anyway"
+4. MacOS will not let you open the overlay the first time. After you try to open the overlay, go to `System Preferences > Security & Privacy > General` and click on "Open Anyway"
     - ![macOS Security Page](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/macos-security-page.png)
 5. Open a browser and go to `localhost:8080`
 
