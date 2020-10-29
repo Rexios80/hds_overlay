@@ -13,12 +13,11 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 3. Windows will give you some prompts that you have to deal with
     - For the Winows Smartscreen prompt, click on "More info" and then "Run anyway"
     - For the Windows Firewall prompt, make sure to check both the boxes and then click "Allow access"
-    ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/firewall-dialog.png)
+        - ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/firewall-dialog.png)
         - If this dialog does not show up, try moving the executable to your desktop and opening it from there
         - You will have to do this for new overlay versions as well
 4. MacOS will not let you open the overlay the first time. After you try to open the overlay, go to System Preferences > Security & Privacy and click on "Open Anyway"
-
-    ![macOS Security Page](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/macos-security-page.png)
+    - ![macOS Security Page](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/macos-security-page.png)
 5. Open a browser and go to `localhost:8080`
 
 You should see the overlay, but no numbers yet since the watch hasn't sent any.
