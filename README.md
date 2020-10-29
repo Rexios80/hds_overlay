@@ -1,7 +1,7 @@
 # Health Data Server Overlay
 This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the [Health Data Server app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8).
 
-![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/develop/PreviewImage.gif)
+![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/PreviewImage.gif)
 
 [Video of the overlay in action](https://www.youtube.com/watch?v=CFGlA7JWUFo)
 
@@ -10,11 +10,16 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 2. Double click the downloaded file to run it
     - On macOS, you will first need to run `chmod 777 HDS-Overlay-macos` in a terminal
     - On linux, you will first need to run `chmod 777 HDS-Overlay-linux` in a terminal
-3. On Windows make sure to check both of these boxes to avoid issues:
-![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/firewall-dialog.png)
-    - If this dialog does not show up, try moving the executable to your desktop and opening it from there
-    - You will have to do this for new overlay versions as well
-4. Open a browser and go to `localhost:8080`
+3. Windows will give you some prompts that you have to deal with
+    - For the Winows Smartscreen prompt, click on "More info" and then "Run anyway"
+    - For the Windows Firewall prompt, make sure to check both the boxes and then click "Allow access"
+    ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/firewall-dialog.png)
+        - If this dialog does not show up, try moving the executable to your desktop and opening it from there
+        - You will have to do this for new overlay versions as well
+4. MacOS will not let you open the overlay the first time. After you try to open the overlay, go to System Preferences > Security & Privacy and click on "Open Anyway"
+
+    ![macOS Security Page](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/macos-security-page.png)
+5. Open a browser and go to `localhost:8080`
 
 You should see the overlay, but no numbers yet since the watch hasn't sent any.
 
@@ -75,7 +80,7 @@ If you need complex styling of the overlay, you can use the Custom CSS field on 
 ```
 That makes the overlay look like this:
 
-![CSS Example](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/develop/cssExample.png)
+![CSS Example](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/cssExample.png)
 
 ### Notes
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a browser source in your favorite streaming application.
