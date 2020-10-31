@@ -55,7 +55,7 @@ You only need to speficy the config options that you want to change. Make sure t
 ### Styling
 If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed.
 
-[Some Custom CSS examples can be found in the wiki](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Custom-CSS-Examples).
+[Some Custom CSS examples can be found in the wiki](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Custom-CSS-Examples)
 
 ### Notes
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a browser source in your favorite streaming application.
