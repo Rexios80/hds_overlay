@@ -53,33 +53,9 @@ If you need to change either of the ports or want to change the images the appli
 You only need to speficy the config options that you want to change. Make sure to not leave a trailing comma or the application will crash. If you change the websocketPort, you will have to append it to the IP address in the watch app ex: `192.168.xxx.xxx:3476`. Images need to be in the same folder as the application.
 
 ### Styling
-If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed. Here is an example:
-```
-.hrText {
-  color: black !important; /* Change text color to black. "!important" is required or it will not work. */
-  font-family: Arial, sans-serif; /* Change font to Arial */
-  text-shadow: 0 0; /* Remove text shadow */
-  font-size: 700%; /* Change font size */
-}
-.calText {
-  color: black; /* "!important" is not necessary for this one */
-  font-family: Arial, sans-serif;
-  text-shadow: 0 0;
-  font-size: 700%;
-}
-.hrText::after {
-  content: "bpm"; /* Add "bpm" after the hrText */
-  font-size: 25%; /* Make the font size smaller */
-}
-.calText::after {
-  content: "cal"; /* Add "cal" after the calText */
-  font-size: 25%;
-}
-.cal { left: 400px; } /* Move the calories over to make room */
-```
-That makes the overlay look like this:
+If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed.
 
-![CSS Example](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/cssExample.png)
+[Some Custom CSS examples can be found in the wiki](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Custom-CSS-Examples).
 
 ### Notes
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a browser source in your favorite streaming application.
