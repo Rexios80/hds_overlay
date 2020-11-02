@@ -41,13 +41,13 @@ You should soon see numbers in the webpage you opened earlier. This is the healt
 If you need to change either of the ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
 {
-  "httpPort": 8080,
-  "websocketPort": 3476,
-  "websocketIp": "localhost",
-  "hrImageFile": "hrImage.png",
-  "calImageFile": "calImage.png",
-  "animateHeartRateImage": "false",
-  "discordRichPresenceEnabled": "false"
+    "httpPort": 8080,
+    "websocketPort": 3476,
+    "websocketIp": "localhost",
+    "hrImageFile": "hrImage.png",
+    "calImageFile": "calImage.png",
+    "animateHeartRateImage": "false",
+    "discordRichPresenceEnabled": "false"
 }
 ```
 You only need to speficy the config options that you want to change. Make sure to not leave a trailing comma or the application will crash. If you change the websocketPort, you will have to append it to the IP address in the watch app ex: `192.168.xxx.xxx:3476`. Images need to be in the same folder as the application.
