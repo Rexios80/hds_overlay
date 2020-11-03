@@ -1,7 +1,7 @@
 # Health Data Server Overlay
 This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the [Health Data Server app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8).
 
-![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/develop/PreviewImage.gif)
+![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/PreviewImage.gif)
 
 [Video of the overlay in action](https://www.youtube.com/watch?v=CFGlA7JWUFo)
 
@@ -10,9 +10,15 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 2. Double click the downloaded file to run it
     - On macOS, you will first need to run `chmod 777 HDS-Overlay-macos` in a terminal
     - On linux, you will first need to run `chmod 777 HDS-Overlay-linux` in a terminal
-3. On Windows make sure to check both of these boxes to avoid issues:
-![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/firewall-dialog.png)
-4. Open a browser and go to `localhost:8080`
+3. Windows will give you some prompts that you have to deal with
+    - For the Winows Smartscreen prompt, click on "More info" and then "Run anyway"
+    - For the Windows Firewall prompt, make sure to check both the boxes and then click "Allow access"
+        - ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/firewall-dialog.png)
+        - If this dialog does not show up, try moving the executable to your desktop and opening it from there
+        - You will have to do this for new overlay versions as well
+4. MacOS will not let you open the overlay the first time. After you try to open the overlay, go to `System Preferences > Security & Privacy > General` and click on "Open Anyway"
+    - ![macOS Security Page](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/macos-security-page.png)
+5. Open a browser and go to `localhost:8080`
 
 You should see the overlay, but no numbers yet since the watch hasn't sent any.
 
@@ -31,51 +37,25 @@ You should see the overlay, but no numbers yet since the watch hasn't sent any.
 
 You should soon see numbers in the webpage you opened earlier. This is the health data the watch is sending over your local network.
 
-Calories will only show if "Save to Health" is turned on in the watch app. It is not possible to collect calorie data and also not save data to Apple Health.
-
 ### Configuration
-If you need to change either of the server ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
+If you need to change either of the ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
 {
-  "httpPort": 8080,
-  "websocketPort": 3476,
-  "websocketIp": "localhost",
-  "hrImageFile": "hrImage.png",
-  "calImageFile": "calImage.png",
-  "animateHeartRateImage": "false",
-  "discordRichPresenceEnabled": "false"
+    "httpPort": 8080,
+    "websocketPort": 3476,
+    "websocketIp": "localhost",
+    "hrImageFile": "hrImage.png",
+    "calImageFile": "calImage.png",
+    "animateHeartRateImage": "false",
+    "discordRichPresenceEnabled": "false"
 }
 ```
 You only need to speficy the config options that you want to change. Make sure to not leave a trailing comma or the application will crash. If you change the websocketPort, you will have to append it to the IP address in the watch app ex: `192.168.xxx.xxx:3476`. Images need to be in the same folder as the application.
 
 ### Styling
-If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed. Here is an example:
-```
-.hrText {
-  color: black; /* Change text color to black */
-  font-family: Arial, sans-serif; /* Change font to Arial */
-  text-shadow: 0 0; /* Remove text shadow */
-  font-size: 700%; /* Change font size */
-}
-.calText {
-  color: black;
-  font-family: Arial, sans-serif;
-  text-shadow: 0 0;
-  font-size: 700%;
-}
-.hrText::after {
-  content: "bpm"; /* Add "bpm" after the hrText */
-  font-size: 25%; /* Make the font size smaller */
-}
-.calText::after {
-  content: "cal"; /* Add "cal" after the calText */
-  font-size: 25%;
-}
-.cal { left: 400px; } /* Move the calories over to make room */
-```
-That makes the overlay look like this:
+If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed.
 
-![CSS Example](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/develop/cssExample.png)
+[Some Custom CSS examples can be found in the wiki](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Custom-CSS-Examples)
 
 ### Notes
 If you want to use this as a stream overlay, simply add the url used to see the data in a web browser as a browser source in your favorite streaming application.
@@ -84,7 +64,7 @@ If you are using an IP address instead of "localhost" in OBS, then you will have
 
 ### If you have problems
 Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) before asking for help
-- Ask for help in the [support Discord server](https://discord.gg/fvmNWn)
+- Ask for help in the [support Discord server](https://discord.gg/FayYYcm)
 - [Create an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/issues/new?assignees=&labels=&template=bug-report.md&title=)
 
 ### Please consider writing a review
