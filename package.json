@@ -1,6 +1,6 @@
 {
   "name": "HDS-Overlay",
-  "version": "7.6.1",
+  "version": "7.6.2",
   "bin": "public/app.js",
   "dependencies": {
     "body-parser": "latest",
