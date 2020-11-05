@@ -23,49 +23,39 @@
     display: none; /* When disconnected (that is the initial state) */
 }
 
-.hr {
-    display: flex;
+.hr, .cal {
     height: 100px;
     align-items: center;
     position: absolute;
 }
 
-.hrText {
-    color: #FC3718; /* Heart rate text color */
-    font-family: Monaco, sans-serif; /* Heart rate text font */
-    text-shadow: 0 0 2px black;
-
-    font-size: 600%;
-    margin-left: 15px;
-    margin-top: 5px;
-}
-
-.hrImage {
-    max-width: 100px;
-    max-height: 100px;
-    width: auto;
-    height: auto;
+.hr {
+    display: flex;
 }
 
 .cal {
     display: none;
-    height: 100px;
-    align-items: center;
-    position: absolute;
     left: 340px;
 }
 
-.calText {
-    color: #FF1252; /* Calories text color */
-    font-family: Monaco, sans-serif; /* Calories text font */
+.hrText, .calText {
+    font-family: Monaco, sans-serif;
     text-shadow: 0 0 2px black;
 
     font-size: 600%;
     margin-left: 15px;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
-.calImage {
+.hrText {
+    color: #FC3718;
+}
+
+.calText {
+    color: #FF1252;
+}
+
+.hrImage, .calImage {
     max-width: 100px;
     max-height: 100px;
     width: auto;
