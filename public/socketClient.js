@@ -2,7 +2,7 @@ let config;
 let heartbeatTimeout;
 
 const refreshRate = 1000 / 60; // 60 fps
-const hrImageScaleMin = 0.75;
+const hrImageScaleMin = 0.85;
 const hrImageScaleMax = 1;
 const hrImageAnimationSize = hrImageScaleMax - hrImageScaleMin;
 
