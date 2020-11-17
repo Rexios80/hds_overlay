@@ -26,7 +26,6 @@ You should see the overlay, but no numbers yet since the watch hasn't sent any.
 1. Make sure the Apple Watch and device running the overlay application are on the same network. If the watch is connected to an iPhone, you just need to make sure the iPhone is connected to the same network.
 2. [Install the Health Data Server application on your Apple Watch](https://apps.apple.com/us/app/health-data-server/id1496042074)
    - THE APP REQUIRES WATCHOS 6+. The App Store will let you purchase it even if your watch can't run watchOS 6+, so make sure before buying.
-   - You will need to use the [App Store ON the Apple Watch](https://support.apple.com/guide/watch/get-more-apps-apd99e3c6a68/watchos) to install the app. You can thank Apple for that.
 3. Open the application
 4. Type the IP address of the machine running the overlay application
    - The overlay application will list possible IP addresses of your machine on startup. If none of those work, you may have to find the IP address manually.
