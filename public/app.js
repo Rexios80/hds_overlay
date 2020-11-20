@@ -170,8 +170,8 @@ function sendDataToWebClients(data) {
 
 let DiscordRPC = require('discord-rpc');
 let discordRpc = new DiscordRPC.Client({transport: 'ipc'});
-// Eat errors because the user probably doesn't care
 discordRpc.login({clientId: '719260544481099857'}).catch(error => {
+    // Eat errors because the user probably doesn't care
 });
 let startTimestamp = Date.now();
 function setDiscordRichPresence() {
@@ -188,12 +188,12 @@ function setDiscordRichPresence() {
         detailsString += ', CAL: ' + currentCalories;
     }
 
-    // Eat errors because the user probably doesn't care
     discordRpc.setActivity({
         details: detailsString,
         state: 'git.io/JfMAZ',
         startTimestamp: startTimestamp,
         largeImageKey: 'hds_icon',
     }).catch(error => {
+        // Eat errors because the user probably doesn't care
     });
 }
