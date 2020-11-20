@@ -173,11 +173,23 @@ let discordRpc = new DiscordRPC.Client({transport: 'ipc'});
 discordRpc.login({clientId: '719260544481099857'}).catch(error => {
     // Eat errors because the user probably doesn't care
 });
-let startTimestamp = Date.now();
+let startTimestamp = null;
+let clearActivityTimeout;
 function setDiscordRichPresence() {
     if (config.discordRichPresenceEnabled !== 'true') {
         return;
     }
+
+    // Clear the activity if we have not received a message for a long time
+    clearTimeout(clearActivityTimeout);
+    clearActivityTimeout = setTimeout(function () {
+        console.log('Data not received for a long time. Discord Rich Presence cleared.');
+        discordRpc.clearActivity();
+
+        // Reset the start timestamp so it makes sense
+        startTimestamp = null;
+    }, 5 * 60000); // 5 minutes
+
     let detailsString = 'HR: ';
     if (currentHeartRate !== '0') {
         detailsString += currentHeartRate;
@@ -186,6 +198,10 @@ function setDiscordRichPresence() {
     }
     if (currentCalories !== '0') {
         detailsString += ', CAL: ' + currentCalories;
+    }
+
+    if (startTimestamp == null) {
+        startTimestamp = Date.now();
     }
 
     discordRpc.setActivity({
