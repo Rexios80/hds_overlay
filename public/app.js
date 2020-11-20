@@ -120,6 +120,7 @@ wss.on('listening', function () {
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
         if (message === 'webClient') {
+            // The client identified itself as a webClient
             webClients.push(ws);
             console.log('WebSocket web client connected (' + ws._socket.remoteAddress + ')');
 
@@ -131,18 +132,15 @@ wss.on('connection', function connection(ws) {
             sendDataToWebClients(message);
         }
     });
+    ws.on('ping', function heartbeat() {
+        // Let the web clients know the watch is connected
+        sendDataToWebClients('ping');
+    });
 });
 
-let DiscordRPC = require('discord-rpc');
-let discordRpc = new DiscordRPC.Client({transport: 'ipc'});
-// Eat errors because the user probably doesn't care
-discordRpc.login({clientId: '719260544481099857'}).catch(error => {
-});
-let startTimestamp = Date.now();
 let currentHeartRate = '0';
 let currentCalories = '0';
 let currentHrColor = '#FC3718';
-
 function sendDataToWebClients(data) {
     console.log(data);
 
@@ -156,6 +154,7 @@ function sendDataToWebClients(data) {
         client.send(data);
     });
 
+    // Save the data for later
     let dataType = data.split(':')[0];
     let dataValue = data.split(':')[1];
     if (dataType === 'heartRate') {
@@ -166,24 +165,35 @@ function sendDataToWebClients(data) {
         currentHrColor = dataValue;
     }
 
-    if (config.discordRichPresenceEnabled === 'true') {
-        let detailsString = 'HR: ';
-        if (currentHeartRate !== '0') {
-            detailsString += currentHeartRate;
-        } else {
-            detailsString += '-';
-        }
-        if (currentCalories !== '0') {
-            detailsString += ', CAL: ' + currentCalories;
-        }
+    setDiscordRichPresence();
+}
 
-        // Eat errors because the user probably doesn't care
-        discordRpc.setActivity({
-            details: detailsString,
-            state: 'git.io/JfMAZ',
-            startTimestamp: startTimestamp,
-            largeImageKey: 'hds_icon',
-        }).catch(error => {
-        });
+let DiscordRPC = require('discord-rpc');
+let discordRpc = new DiscordRPC.Client({transport: 'ipc'});
+// Eat errors because the user probably doesn't care
+discordRpc.login({clientId: '719260544481099857'}).catch(error => {
+});
+let startTimestamp = Date.now();
+function setDiscordRichPresence() {
+    if (config.discordRichPresenceEnabled !== 'true') {
+        return;
     }
+    let detailsString = 'HR: ';
+    if (currentHeartRate !== '0') {
+        detailsString += currentHeartRate;
+    } else {
+        detailsString += '-';
+    }
+    if (currentCalories !== '0') {
+        detailsString += ', CAL: ' + currentCalories;
+    }
+
+    // Eat errors because the user probably doesn't care
+    discordRpc.setActivity({
+        details: detailsString,
+        state: 'git.io/JfMAZ',
+        startTimestamp: startTimestamp,
+        largeImageKey: 'hds_icon',
+    }).catch(error => {
+    });
 }
