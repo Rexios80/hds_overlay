@@ -26,7 +26,6 @@ You should see the overlay, but no numbers yet since the watch hasn't sent any.
 1. Make sure the Apple Watch and device running the overlay application are on the same network. If the watch is connected to an iPhone, you just need to make sure the iPhone is connected to the same network.
 2. [Install the Health Data Server application on your Apple Watch](https://apps.apple.com/us/app/health-data-server/id1496042074)
    - THE APP REQUIRES WATCHOS 6+. The App Store will let you purchase it even if your watch can't run watchOS 6+, so make sure before buying.
-   - You will need to use the [App Store ON the Apple Watch](https://support.apple.com/guide/watch/get-more-apps-apd99e3c6a68/watchos) to install the app. You can thank Apple for that.
 3. Open the application
 4. Type the IP address of the machine running the overlay application
    - The overlay application will list possible IP addresses of your machine on startup. If none of those work, you may have to find the IP address manually.
@@ -38,6 +37,8 @@ You should see the overlay, but no numbers yet since the watch hasn't sent any.
 You should soon see numbers in the webpage you opened earlier. This is the health data the watch is sending over your local network.
 
 ### Configuration
+The iPhone app includes a config file editor to make this easier.
+
 If you need to change either of the ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
 {
@@ -53,6 +54,8 @@ If you need to change either of the ports or want to change the images the appli
 You only need to speficy the config options that you want to change. Make sure to not leave a trailing comma or the application will crash. If you change the websocketPort, you will have to append it to the IP address in the watch app ex: `192.168.xxx.xxx:3476`. Images need to be in the same folder as the application.
 
 ### Styling
+The iPhone app includes a Custom CSS editor to make this easier.
+
 If you need complex styling of the overlay, you can use the Custom CSS field on an OBS browser source. Use [styles.css](public/styles.css) as a reference of what can be changed.
 
 [Some Custom CSS examples can be found in the wiki](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Custom-CSS-Examples)
