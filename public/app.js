@@ -184,7 +184,10 @@ function setDiscordRichPresence() {
     clearTimeout(clearActivityTimeout);
     clearActivityTimeout = setTimeout(function () {
         console.log('Data not received for a long time. Discord Rich Presence cleared.');
-        discordRpc.clearActivity();
+        discordRpc.clearActivity()
+            .catch(error => {
+                // Eat errors because the user probably doesn't care
+            });
 
         // Reset the start timestamp so it makes sense
         startTimestamp = null;
