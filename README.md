@@ -8,8 +8,10 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 ### How to set up
 1. [Download the latest release executable](https://github.com/Rexios80/Health-Data-Server-Overlay/releases)
 2. Double click the downloaded file to run it
-    - On macOS, you will first need to run `chmod 777 HDS-Overlay-macos` in a terminal
-    - On linux, you will first need to run `chmod 777 HDS-Overlay-linux` in a terminal
+    - On macOS/linux you will need to open the terminal and change into the directory of the executable
+        - For example, if the executable is in the Downloads folder run `cd Downloads`
+    - On macOS, run `chmod 777 HDS-Overlay-macos` in the terminal
+    - On linux, run `chmod 777 HDS-Overlay-linux` in the terminal
 3. Windows will give you some prompts that you have to deal with
     - For the Winows Smartscreen prompt, click on "More info" and then "Run anyway"
     - For the Windows Firewall prompt, make sure to check both the boxes and then click "Allow access"
