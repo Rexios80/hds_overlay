@@ -1,4 +1,4 @@
-const version = '8.0.0'; // Make sure this matches the version in package.json
+const version = '8.1.0'; // Make sure this matches the version in package.json
 
 const WebSocket = require('ws');
 const express = require('express');
@@ -136,6 +136,8 @@ wss.on('connection', function connection(ws) {
         // Let the web clients know the watch is connected
         sendDataToWebClients('ping');
     });
+    // Catch web socket errors instead of crashing
+    ws.on('error', console.error);
 });
 
 let currentHeartRate = '0';
