@@ -7,6 +7,7 @@ const request = require('request');
 const semver = require('semver');
 const path = require('path');
 const fs = require('fs');
+const glob = require('glob');
 
 // Show the error to the user instead of instantly exiting
 process.on('uncaughtException', function (err) {
@@ -46,11 +47,25 @@ function base64_encode(file) {
     return new Buffer.from(bitmap).toString('base64');
 }
 
-if (typeof config.hrImageFile !== 'undefined') {
-    config.hrImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.hrImageFile)
+function searchForImageFileAndEncode(fileName) {
+    let files = glob.sync(`${path.dirname(process.execPath)}/${fileName}.*`, null);
+    if (files.length === 0) {
+        console.log(`No ${fileName} file found`);
+        return null;
+    } else if (files.length > 1) {
+        console.log(`Multiple ${fileName} files found. Picking the worst one just for you.`);
+    }
+
+    return 'data:image/png;base64, ' + base64_encode(files[0]);
 }
-if (typeof config.calImageFile !== 'undefined') {
-    config.calImage = 'data:image/png;base64, ' + base64_encode(path.dirname(process.execPath) + '/' + config.calImageFile)
+
+let hrImage = searchForImageFileAndEncode('hrImage');
+if (hrImage != null) {
+    config.hrImage = hrImage;
+}
+let calImage = searchForImageFileAndEncode('calImage');
+if (calImage != null) {
+    config.calImage = calImage;
 }
 
 // Collect and show the possible IP addresses of this machine

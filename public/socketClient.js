@@ -42,7 +42,7 @@ function connect() {
         heartRateImage = document.getElementById('hrImage');
 
         document.getElementById('hrImage').src = typeof config.hrImage === 'undefined' ? 'hrImage.png' : config.hrImage;
-        document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'fire.gif' : config.calImage;
+        document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'calImage.gif' : config.calImage;
     };
 
     socket.onclose = function (event) {

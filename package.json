@@ -6,6 +6,7 @@
     "body-parser": "latest",
     "discord-rpc": "^3.1.1",
     "express": "latest",
+    "glob": "^7.1.6",
     "request": "^2.88.2",
     "semver": "^7.3.2",
     "ws": "latest"
