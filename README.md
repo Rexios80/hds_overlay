@@ -46,7 +46,6 @@ If you need to change either of the ports or want to change the images the appli
 {
     "httpPort": 8080,
     "websocketPort": 3476,
-    "websocketIp": "localhost",
     "hrImageFile": "hrImage.png",
     "calImageFile": "calImage.png",
     "animateHeartRateImage": "false",

@@ -33,9 +33,6 @@ if (!config.httpPort) {
 if (!config.websocketPort) {
     config.websocketPort = 3476;
 }
-if (!config.websocketIp) {
-    config.websocketIp = 'localhost';
-}
 if (!config.animateHeartRateImage) {
     config.animateHeartRateImage = 'true';
 }
@@ -115,7 +112,6 @@ let wss = new WebSocket.Server({port: config.websocketPort});
 let webClients = [];
 wss.on('listening', function () {
     console.log('WebSocket server started on port %s', config.websocketPort);
-    console.log('WebSocket web clients will connect to %s', config.websocketIp);
 });
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
@@ -143,6 +139,7 @@ wss.on('connection', function connection(ws) {
 let currentHeartRate = '0';
 let currentCalories = '0';
 let currentHrColor = '#FC3718';
+
 function sendDataToWebClients(data) {
     console.log(data);
 
@@ -177,6 +174,7 @@ discordRpc.login({clientId: '719260544481099857'}).catch(error => {
 });
 let startTimestamp = null;
 let clearActivityTimeout;
+
 function setDiscordRichPresence() {
     if (config.discordRichPresenceEnabled !== 'true') {
         return;

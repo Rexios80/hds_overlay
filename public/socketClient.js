@@ -13,7 +13,11 @@ let hrImageAnimationState = 'shrink';
 let hrImageAnimationStepSize = 0;
 
 function connect() {
-    let socket = new WebSocket('ws://' + config.websocketIp + ':' + config.websocketPort);
+    // Assume the websocket server is running in the same place as the web server
+    // MAYBE a bad assumption to make, but if a user is competent enough to split the two pieces I think they can handle it
+    // This makes life easier for normal users
+    let socket = new WebSocket('ws://' + window.location.hostname + ':' + config.websocketPort + window.location.pathname);
+    console.log(socket);
 
     let statusDisplay = null;
     let dataDisplay = null;
