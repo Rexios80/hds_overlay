@@ -41,7 +41,9 @@ You should soon see numbers in the webpage you opened earlier. This is the healt
 ### Configuration
 The iPhone app includes a config file editor to make this easier.
 
-Images simply need to be placed in the same folder as the overlay executable. The file extension does not matter as long as it in an image/gif file. The base names of the images files must be `hrImage` for the heart rate image and `calImage` for the calories image.
+Images simply need to be placed in the same folder as the overlay executable. The file extension does not matter as long as it is an image/gif file. The base names of the images files must be `hrImage` for the heart rate image and `calImage` for the calories image.
+
+If you want a heart beat sound, put a sound file with a base name of `beatSound` in the same folder as the overlay executable.
 
 If you need to change either of the ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
