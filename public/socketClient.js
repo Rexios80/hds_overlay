@@ -6,6 +6,8 @@ const hrImageScaleMax = 1;
 
 let currentHeartRate = 0;
 
+let beatSound = null;
+
 function connect() {
     // Assume the websocket server is running in the same place as the web server
     // MAYBE a bad assumption to make, but if a user is competent enough to split the two pieces I think they can handle it
@@ -72,9 +74,10 @@ function connect() {
                 heartRateText.textContent = '-';
             } else {
                 heartRateText.textContent = currentHeartRate;
-            }
-            if (config.animateHeartRateImage === 'true') {
-                updateHrImageAnimation();
+
+                if (config.animateHeartRateImage === 'true') {
+                    updateHrImageAnimation();
+                }
             }
         } else if (data[0] === 'calories') {
             let calories = data[1];
@@ -95,11 +98,12 @@ let hrAnimationLoopBeginnings = 0;
 let hrAnimationLoopCompletions = 0;
 
 function updateHrImageAnimation() {
-    if ((hrAnimationLoopCompletions !== 0 && hrAnimationLoopCompletions % 2 !== 0) || hrAnimationLoopCompletions !== hrAnimationLoopBeginnings) {
+    if ((hrAnimationLoopCompletions !== 0 && hrAnimationLoopCompletions % 2 !== 0) || hrAnimationLoopCompletions !== hrAnimationLoopBeginnings || currentHeartRate === 0) {
         // Mod of 0 is 1 (thanks math)
         // Wait for the current animation to finish before updating the duration
         // A loop is one direction of the animation so we need 2 of them to run for the full animation to be complete
         // Also the number of loop starts needs to equal the number of loop completions or else we might kill the animation in the middle
+        // Also don't animate if the heart rate is currently 0 since that breaks things
         setTimeout(updateHrImageAnimation, 50);
         return;
     }
@@ -143,6 +147,11 @@ function startHrAnimation() {
         }),
         loopComplete: (() => {
             hrAnimationLoopCompletions++;
+            if (beatSound != null && hrAnimationLoopCompletions % 2 === 1) {
+                // Only play with one loop
+                beatSound.currentTime = 0;
+                beatSound.play();
+            }
         })
     });
 }
@@ -152,4 +161,7 @@ let xmlHttp = new XMLHttpRequest();
 xmlHttp.open('GET', '/config', false); // false for synchronous request
 xmlHttp.send(null);
 config = JSON.parse(xmlHttp.responseText);
+if (typeof config.beatSound !== 'undefined') {
+    beatSound = new Audio(config.beatSound);
+}
 connect();

@@ -47,7 +47,7 @@ function base64_encode(file) {
     return new Buffer.from(bitmap).toString('base64');
 }
 
-function searchForImageFileAndEncode(fileName) {
+function searchForFileAndEncode(fileName, encoding) {
     let files = glob.sync(`${path.dirname(process.execPath)}/${fileName}.*`, null);
     if (files.length === 0) {
         console.log(`No ${fileName} file found`);
@@ -56,16 +56,20 @@ function searchForImageFileAndEncode(fileName) {
         console.log(`Multiple ${fileName} files found. Picking the worst one just for you.`);
     }
 
-    return 'data:image/png;base64, ' + base64_encode(files[0]);
+    return encoding + base64_encode(files[0]);
 }
 
-let hrImage = searchForImageFileAndEncode('hrImage');
+let hrImage = searchForFileAndEncode('hrImage', 'data:image/png;base64,');
 if (hrImage != null) {
     config.hrImage = hrImage;
 }
-let calImage = searchForImageFileAndEncode('calImage');
+let calImage = searchForFileAndEncode('calImage', 'data:image/png;base64,');
 if (calImage != null) {
     config.calImage = calImage;
+}
+let beatSound = searchForFileAndEncode('beatSound', 'data:audio/wav;base64,');
+if (beatSound != null) {
+    config.beatSound = beatSound;
 }
 
 // Collect and show the possible IP addresses of this machine
