@@ -95,7 +95,7 @@ let hrAnimationLoopBeginnings = 0;
 let hrAnimationLoopCompletions = 0;
 
 function updateHrImageAnimation() {
-    if (hrAnimationLoopCompletions !== 0 && hrAnimationLoopCompletions % 2 !== 0 || hrAnimationLoopCompletions !== hrAnimationLoopBeginnings) {
+    if ((hrAnimationLoopCompletions !== 0 && hrAnimationLoopCompletions % 2 !== 0) || hrAnimationLoopCompletions !== hrAnimationLoopBeginnings) {
         // Mod of 0 is 1 (thanks math)
         // Wait for the current animation to finish before updating the duration
         // A loop is one direction of the animation so we need 2 of them to run for the full animation to be complete
