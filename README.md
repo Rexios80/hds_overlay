@@ -43,7 +43,7 @@ The iPhone app includes a config file editor to make this easier.
 
 Images simply need to be placed in the same folder as the overlay executable. The file extension does not matter as long as it is an image/gif file. The base names of the images files must be `hrImage` for the heart rate image and `calImage` for the calories image.
 
-If you want a heart beat sound, put a sound file with a base name of `beatSound` in the same folder as the overlay executable.
+If you want a heart beat sound, put a sound file with a base name of `beatSound` in the same folder as the overlay executable. Sounds will only work in OBS since browsers block auto playing sounds.
 
 If you need to change either of the ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
