@@ -1,16 +1,10 @@
 let config;
 let heartbeatTimeout;
 
-const refreshRate = 1000 / 60; // 60 fps
 const hrImageScaleMin = 0.85;
 const hrImageScaleMax = 1;
-const hrImageAnimationSize = hrImageScaleMax - hrImageScaleMin;
 
-let heartRateImage = null;
-
-let currentHrImageScale = hrImageScaleMax;
-let hrImageAnimationState = 'shrink';
-let hrImageAnimationStepSize = 0;
+let currentHeartRate = 0;
 
 function connect() {
     // Assume the websocket server is running in the same place as the web server
@@ -38,8 +32,6 @@ function connect() {
 
         heartRateText = document.getElementById('heartRate');
         caloriesText = document.getElementById('calories');
-
-        heartRateImage = document.getElementById('hrImage');
 
         document.getElementById('hrImage').src = typeof config.hrImage === 'undefined' ? 'hrImage.png' : config.hrImage;
         document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'calImage.gif' : config.calImage;
@@ -75,12 +67,15 @@ function connect() {
         let data = event.data.split(':');
 
         if (data[0] === 'heartRate') {
-            if (data[1] === '0') {
+            currentHeartRate = data[1];
+            if (currentHeartRate === '0') {
                 heartRateText.textContent = '-';
             } else {
-                heartRateText.textContent = data[1];
+                heartRateText.textContent = currentHeartRate;
             }
-            hrImageAnimationStepSize = Number(data[1]) / 60 / 60 * hrImageAnimationSize * 2; // HR / beats per second / beats per frame * hrImageAnimationSize * grow and shrink in 1 bpm
+            if (config.animateHeartRateImage === 'true') {
+                updateHrImageAnimation();
+            }
         } else if (data[0] === 'calories') {
             let calories = data[1];
             caloriesText.textContent = calories;
@@ -95,27 +90,61 @@ function connect() {
     };
 }
 
-function animateHeartRateImage() {
-    window.setInterval(() => {
-        if (hrImageAnimationStepSize === 0) {
-            // Don't try and animate if the animation has not started
-            return;
-        }
+let hrAnimation = null;
+let hrAnimationLoopBeginnings = 0;
+let hrAnimationLoopCompletions = 0;
 
-        if (hrImageAnimationState === 'grow') {
-            currentHrImageScale += hrImageAnimationStepSize;
-            if (currentHrImageScale >= hrImageScaleMax) {
-                hrImageAnimationState = 'shrink';
-            }
-        } else {
-            currentHrImageScale -= hrImageAnimationStepSize;
-            if (currentHrImageScale <= hrImageScaleMin) {
-                hrImageAnimationState = 'grow';
-            }
-        }
+function updateHrImageAnimation() {
+    if (hrAnimationLoopCompletions !== 0 && hrAnimationLoopCompletions % 2 !== 0 || hrAnimationLoopCompletions !== hrAnimationLoopBeginnings) {
+        // Mod of 0 is 1 (thanks math)
+        // Wait for the current animation to finish before updating the duration
+        // A loop is one direction of the animation so we need 2 of them to run for the full animation to be complete
+        // Also the number of loop starts needs to equal the number of loop completions or else we might kill the animation in the middle
+        setTimeout(updateHrImageAnimation, 50);
+        return;
+    }
 
-        heartRateImage.style.transform = 'scale(' + currentHrImageScale + ')';
-    }, refreshRate);
+    // Prevent an overflow or something dumb from happening
+    hrAnimationLoopBeginnings = 0;
+    hrAnimationLoopCompletions = 0;
+
+    if (hrAnimation == null) {
+        // The animation is starting for the first time
+        // Animate the image to the min before starting the animation
+        anime({
+            targets: '.hrImage',
+            easing: 'easeInOutSine',
+            scale: hrImageScaleMin,
+        }).finished.then(() => {
+            startHrAnimation();
+        });
+    } else {
+        // The animation is being restarted with a new duration
+        anime.remove('.hrImage');
+        startHrAnimation();
+    }
+}
+
+function startHrAnimation() {
+    let millisecondsPerBeat = 60 / currentHeartRate * 1000;
+    let animationDuration = millisecondsPerBeat / 3;
+    let animationDelay = millisecondsPerBeat - (animationDuration * 2);
+
+    hrAnimation = anime({
+        targets: '.hrImage',
+        loop: true,
+        direction: 'alternate',
+        easing: 'easeInOutSine',
+        scale: hrImageScaleMax,
+        duration: animationDuration,
+        delay: animationDelay,
+        loopBegin: (() => {
+            hrAnimationLoopBeginnings++;
+        }),
+        loopComplete: (() => {
+            hrAnimationLoopCompletions++;
+        })
+    });
 }
 
 // Request the config from the server
@@ -124,7 +153,3 @@ xmlHttp.open('GET', '/config', false); // false for synchronous request
 xmlHttp.send(null);
 config = JSON.parse(xmlHttp.responseText);
 connect();
-
-if (config.animateHeartRateImage === 'true') {
-    animateHeartRateImage();
-}
