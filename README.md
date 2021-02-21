@@ -45,7 +45,7 @@ Images simply need to be placed in the same folder as the overlay executable. Th
 
 If you want a heart beat sound, put a sound file with a base name of `beatSound` in the same folder as the overlay executable. Sounds will only work in OBS since browsers block auto playing sounds.
 
-If you need to change either of the ports or want to change the images the application uses, you will need to create a config file. Create a file named `config.json` in the same folder as the application:
+If you need to change either of the ports you will need to create a config file. Create a file named `config.json` in the same folder as the application:
 ```
 {
     "httpPort": 8080,
