@@ -67,13 +67,14 @@
 }
 
 .hrMinMax {
+    display: flex;
+    justify-content: space-evenly;
     width: 100%;
     text-align: center;
 }
 
 .hrMin, .hrMax {
     display: inline;
-    width: 50%;
     font-size: 200%;
     color: #FC3718;
 }
