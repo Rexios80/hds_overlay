@@ -1,5 +1,6 @@
 let config;
 let heartbeatTimeout;
+let animateHrImage;
 
 const hrImageScaleMin = 0.85;
 const hrImageScaleMax = 1;
@@ -35,7 +36,11 @@ function connect() {
         heartRateText = document.getElementById('heartRate');
         caloriesText = document.getElementById('calories');
 
-        document.getElementById('hrImage').src = typeof config.hrImage === 'undefined' ? 'hrImage.png' : config.hrImage;
+        let hrImage = document.getElementById('hrImage');
+
+        animateHrImage = getComputedStyle(hrImage).getPropertyValue('--animate').trim() === 'true';
+
+        hrImage.src = typeof config.hrImage === 'undefined' ? 'hrImage.png' : config.hrImage;
         document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'calImage.gif' : config.calImage;
     };
 
@@ -75,7 +80,7 @@ function connect() {
             } else {
                 heartRateText.textContent = currentHeartRate;
 
-                if (config.animateHeartRateImage === 'true') {
+                if (animateHrImage) {
                     updateHrImageAnimation();
                 }
             }
