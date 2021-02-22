@@ -205,6 +205,7 @@ async function calcHrAverage() {
     let totalTime = now - firstKey;
     let hrAverage = sum / totalTime;
     hrAverageText.textContent = Math.round(hrAverage);
+    console.log('hrAverage: ' + hrAverage);
 }
 
 // Request the config from the server
