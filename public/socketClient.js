@@ -131,17 +131,11 @@ function updateHrImageAnimation() {
 
 function startHrAnimation() {
     let millisecondsPerBeat = 60 / currentHeartRate * 1000;
-    let animationDuration = millisecondsPerBeat / 3;
-    let animationDelay = millisecondsPerBeat - (animationDuration * 2);
 
-    hrAnimation = anime({
+    hrAnimation = anime.timeline({
         targets: '.hrImage',
         loop: true,
-        direction: 'alternate',
         easing: 'easeInOutSine',
-        scale: hrImageScaleMax,
-        duration: animationDuration,
-        delay: animationDelay,
         loopBegin: (() => {
             hrAnimationLoopBeginnings++;
         }),
@@ -154,6 +148,14 @@ function startHrAnimation() {
             }
         })
     });
+    hrAnimation.add({
+        scale: hrImageScaleMax,
+        duration: millisecondsPerBeat * (1 / 4) // Grow for 1/4 of the animation
+    });
+    hrAnimation.add({
+        scale: hrImageScaleMin,
+        duration: millisecondsPerBeat * (3 / 4) // Shrink for 3/4 of the animation
+    })
 }
 
 // Request the config from the server
