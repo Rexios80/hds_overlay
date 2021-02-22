@@ -12,6 +12,8 @@ let currentHrMax = 0;
 
 let beatSound = null;
 
+let animatingHeartRateImage = false;
+
 function connect() {
     // Assume the websocket server is running in the same place as the web server
     // MAYBE a bad assumption to make, but if a user is competent enough to split the two pieces I think they can handle it
@@ -86,6 +88,7 @@ function connect() {
             currentHeartRate = data[1];
             if (currentHeartRate === '0') {
                 heartRateText.textContent = '-';
+                animatingHeartRateImage = false;
             } else {
                 heartRateText.textContent = currentHeartRate;
                 updateHeartRateUI();
@@ -106,7 +109,7 @@ function connect() {
 
     async function updateHeartRateUI() {
         if (animateHrImage) {
-            updateHrImageAnimation();
+            startHrImageAnimation();
         }
 
         await sleep(100); // Wait for hrColor to arrive (might need tweaking)
@@ -128,60 +131,25 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let hrAnimation = null;
-let hrAnimationLoopBeginnings = 0;
-let hrAnimationLoopCompletions = 0;
-
-function updateHrImageAnimation() {
-    if ((hrAnimationLoopCompletions !== 0 && hrAnimationLoopCompletions % 2 !== 0) || hrAnimationLoopCompletions !== hrAnimationLoopBeginnings || currentHeartRate === 0) {
-        // Mod of 0 is 1 (thanks math)
-        // Wait for the current animation to finish before updating the duration
-        // A loop is one direction of the animation so we need 2 of them to run for the full animation to be complete
-        // Also the number of loop starts needs to equal the number of loop completions or else we might kill the animation in the middle
-        // Also don't animate if the heart rate is currently 0 since that breaks things
-        setTimeout(updateHrImageAnimation, 50);
-        return;
-    }
-
-    // Prevent an overflow or something dumb from happening
-    hrAnimationLoopBeginnings = 0;
-    hrAnimationLoopCompletions = 0;
-
-    if (hrAnimation == null) {
-        // The animation is starting for the first time
-        // Animate the image to the min before starting the animation
+function startHrImageAnimation() {
+    if (!animatingHeartRateImage) {
         anime({
             targets: '.hrImage',
             easing: 'easeInOutSine',
             scale: hrImageScaleMin,
         }).finished.then(() => {
-            startHrAnimation();
+            animateHeartRateImage();
         });
-    } else {
-        // The animation is being restarted with a new duration
-        anime.remove('.hrImage');
-        startHrAnimation();
+        animatingHeartRateImage = true;
     }
 }
 
-function startHrAnimation() {
+function animateHeartRateImage() {
     let millisecondsPerBeat = 60 / currentHeartRate * 1000;
 
-    hrAnimation = anime.timeline({
+    let hrAnimation = anime.timeline({
         targets: '.hrImage',
-        loop: true,
-        easing: 'easeInOutSine',
-        loopBegin: (() => {
-            hrAnimationLoopBeginnings++;
-        }),
-        loopComplete: (() => {
-            hrAnimationLoopCompletions++;
-            if (beatSound != null && hrAnimationLoopCompletions % 2 === 1) {
-                // Only play with one loop
-                beatSound.currentTime = 0;
-                beatSound.play();
-            }
-        })
+        easing: 'easeInOutSine'
     });
     hrAnimation.add({
         scale: hrImageScaleMax,
@@ -190,7 +158,14 @@ function startHrAnimation() {
     hrAnimation.add({
         scale: hrImageScaleMin,
         duration: millisecondsPerBeat * (3 / 4) // Shrink for 3/4 of the animation
-    })
+    });
+
+    hrAnimation.finished.then(() => {
+        // Keep the animation going as long as there is a heart rate
+        if (animatingHeartRateImage) {
+            animateHeartRateImage();
+        }
+    });
 }
 
 // Request the config from the server
