@@ -6,6 +6,9 @@ const hrImageScaleMin = 0.85;
 const hrImageScaleMax = 1;
 
 let currentHeartRate = 0;
+let currentHrColor = null;
+let currentHrMin = 500;
+let currentHrMax = 0;
 
 let beatSound = null;
 
@@ -23,6 +26,9 @@ function connect() {
     let heartRateText = null;
     let caloriesText = null;
 
+    let hrMinText = null;
+    let hrMaxText = null;
+
     socket.onopen = function (event) {
         console.log('Connected to server on port: ' + config.websocketPort);
 
@@ -35,6 +41,9 @@ function connect() {
 
         heartRateText = document.getElementById('heartRate');
         caloriesText = document.getElementById('calories');
+
+        hrMinText = document.getElementById('hrMinText');
+        hrMaxText = document.getElementById('hrMaxText');
 
         let hrImage = document.getElementById('hrImage');
 
@@ -79,10 +88,7 @@ function connect() {
                 heartRateText.textContent = '-';
             } else {
                 heartRateText.textContent = currentHeartRate;
-
-                if (animateHrImage) {
-                    updateHrImageAnimation();
-                }
+                updateHeartRateUI();
             }
         } else if (data[0] === 'calories') {
             let calories = data[1];
@@ -93,9 +99,33 @@ function connect() {
                 caloriesDisplay.style.display = 'flex';
             }
         } else if (data[0] === 'hrColor') {
-            heartRateText.style.color = data[1];
+            currentHrColor = data[1];
+            heartRateText.style.color = currentHrColor;
         }
     };
+
+    async function updateHeartRateUI() {
+        if (animateHrImage) {
+            updateHrImageAnimation();
+        }
+
+        await sleep(100); // Wait for hrColor to arrive (might need tweaking)
+
+        if (currentHeartRate < currentHrMin) {
+            currentHrMin = currentHeartRate;
+            hrMinText.textContent = currentHrMin;
+            hrMinText.style.color = currentHrColor;
+        }
+        if (currentHeartRate > currentHrMax) {
+            currentHrMax = currentHeartRate;
+            hrMaxText.textContent = currentHrMax;
+            hrMaxText.style.color = currentHrColor;
+        }
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 let hrAnimation = null;

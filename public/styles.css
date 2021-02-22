@@ -21,6 +21,8 @@
 
 .dataDisplay {
     display: none; /* When disconnected (that is the initial state) */
+    font-family: Monaco, sans-serif;
+    text-shadow: 0 0 2px black;
 }
 
 .hr, .cal {
@@ -31,6 +33,7 @@
 
 .hr {
     display: flex;
+    flex-direction: column;
 }
 
 .cal {
@@ -39,9 +42,6 @@
 }
 
 .hrText, .calText {
-    font-family: Monaco, sans-serif;
-    text-shadow: 0 0 2px black;
-
     font-size: 600%;
     margin-left: 15px;
     margin-top: 10px;
@@ -64,4 +64,23 @@
 
 .hrImage {
     --animate: true;
+}
+
+.hrMinMax {
+    width: 100%;
+    text-align: center;
+}
+
+.hrMin, .hrMax {
+    display: inline;
+    width: 50%;
+    font-size: 200%;
+    color: #FC3718;
+}
+
+.hrMinText, .hrMaxText {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: -15px;
+    margin-top: 5px;
 }
