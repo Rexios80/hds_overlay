@@ -73,13 +73,13 @@
     text-align: center;
 }
 
-.hrMin, .hrMax {
+.hrMin, .hrMax, .hrAverage {
     display: inline;
     font-size: 200%;
     color: #FC3718;
 }
 
-.hrMinText, .hrMaxText {
+.hrMinText, .hrMaxText, .hrAverageText {
     display: inline-block;
     vertical-align: top;
     margin-left: -15px;

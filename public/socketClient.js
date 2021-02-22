@@ -10,9 +10,13 @@ let currentHrColor = null;
 let currentHrMin = 500;
 let currentHrMax = 0;
 
+let hrMap = new Map();
+
 let beatSound = null;
 
 let animatingHeartRateImage = false;
+
+let hrAverageText = null;
 
 function connect() {
     // Assume the websocket server is running in the same place as the web server
@@ -46,6 +50,7 @@ function connect() {
 
         hrMinText = document.getElementById('hrMinText');
         hrMaxText = document.getElementById('hrMaxText');
+        hrAverageText = document.getElementById('hrAverageText');
 
         let hrImage = document.getElementById('hrImage');
 
@@ -92,6 +97,7 @@ function connect() {
             } else {
                 heartRateText.textContent = currentHeartRate;
                 updateHeartRateUI();
+                hrMap.set((new Date()).getTime(), currentHeartRate);
             }
         } else if (data[0] === 'calories') {
             let calories = data[1];
@@ -168,6 +174,39 @@ function animateHeartRateImage() {
     });
 }
 
+// Calc the average hr over time
+// Keys are timestamps
+// Values are heart rates
+async function calcHrAverage() {
+    if (hrMap.size === 0) {
+        // There are no values yet
+        return;
+    }
+
+    let hrArray = Array.from(hrMap.entries());
+    let now = (new Date()).getTime();
+    let sum = 0;
+    for (i = 0; i < hrArray.length; i++) {
+        let [key, value] = hrArray[i];
+        if (i === hrArray.length - 1) {
+            // This is the last entry. Use the current time for the calculation.
+            let diff = now - key;
+            sum += diff * value;
+            break;
+        }
+
+        let [nextKey, nextValue] = hrArray[i + 1];
+        let diff = nextKey - key;
+        sum += diff * value;
+    }
+
+    let [firstKey, firstValue] = hrArray[0];
+
+    let totalTime = now - firstKey;
+    let hrAverage = sum / totalTime;
+    hrAverageText.textContent = Math.round(hrAverage);
+}
+
 // Request the config from the server
 let xmlHttp = new XMLHttpRequest();
 xmlHttp.open('GET', '/config', false); // false for synchronous request
@@ -177,3 +216,6 @@ if (typeof config.beatSound !== 'undefined') {
     beatSound = new Audio(config.beatSound);
 }
 connect();
+
+// Calculate hr average every second
+setInterval(calcHrAverage, 1000);
