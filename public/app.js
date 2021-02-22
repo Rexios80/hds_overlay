@@ -34,9 +34,6 @@ if (!config.httpPort) {
 if (!config.websocketPort) {
     config.websocketPort = 3476;
 }
-if (!config.animateHeartRateImage) {
-    config.animateHeartRateImage = 'true';
-}
 if (!config.discordRichPresenceEnabled) {
     config.discordRichPresenceEnabled = 'true';
 }
