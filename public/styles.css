@@ -67,14 +67,14 @@
 }
 
 .hrMinMax {
-    display: flex;
+    display: none; /* Change to flex to show */
     justify-content: space-evenly;
     width: 100%;
     text-align: center;
 }
 
 .hrMin, .hrMax, .hrAverage {
-    display: inline;
+    display: none; /* Change to inline to show */
     font-size: 200%;
     color: #FC3718;
 }
