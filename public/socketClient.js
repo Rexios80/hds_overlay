@@ -11,11 +11,8 @@ let currentHrMin = 500;
 let currentHrMax = 0;
 
 let hrMap = new Map();
-
 let beatSound = null;
-
 let animatingHeartRateImage = false;
-
 let hrAverageText = null;
 
 function connect() {
