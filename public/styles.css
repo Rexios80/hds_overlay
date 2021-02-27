@@ -74,9 +74,16 @@
 }
 
 .hrMin, .hrMax, .hrAverage {
-    display: none; /* Change to inline to show */
     font-size: 200%;
     color: #FC3718;
+}
+
+.hrMin, .hrMax {
+    display: inline;
+}
+
+.hrAverage {
+    display: none; /* Change to inline to show */
 }
 
 .hrMinText, .hrMaxText, .hrAverageText {
