@@ -50,7 +50,6 @@ If you need to change either of the ports you will need to create a config file.
 {
     "httpPort": 8080,
     "websocketPort": 3476,
-    "animateHeartRateImage": "false",
     "discordRichPresenceEnabled": "false"
 }
 ```
