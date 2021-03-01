@@ -50,9 +50,6 @@ function connect() {
         hrAverageText = document.getElementById('hrAverageText');
 
         let hrImage = document.getElementById('hrImage');
-
-        animateHrImage = getComputedStyle(hrImage).getPropertyValue('--animate').trim() === 'true';
-
         hrImage.src = typeof config.hrImage === 'undefined' ? 'hrImage.png' : config.hrImage;
         document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'calImage.gif' : config.calImage;
     };
@@ -218,3 +215,9 @@ connect();
 
 // Calculate hr average every second
 setInterval(calcHrAverage, 1000);
+
+setTimeout(function() {
+    // Wait for the Custom CSS to load. I feel like this is dumb but it works and I'm sick of dealing with it.
+    let hrImage = document.getElementById('hrImage');
+    animateHrImage = getComputedStyle(hrImage).getPropertyValue('--animate').trim() === 'true';
+}, 1000);
