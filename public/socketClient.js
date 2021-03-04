@@ -158,7 +158,7 @@ function animateHeartRateImage() {
         scale: hrImageScaleMax,
         duration: millisecondsPerBeat * (1 / 4), // Grow for 1/4 of the animation
         complete: function (anim) {
-            if (currentHeartRate >= beatSoundThreshold) {
+            if (beatSound != null && currentHeartRate >= beatSoundThreshold) {
                 beatSound.play();
             }
         }
