@@ -1,6 +1,8 @@
 let config;
 let heartbeatTimeout;
+
 let animateHrImage;
+let beatSoundThreshold;
 
 const hrImageScaleMin = 0.85;
 const hrImageScaleMax = 1;
@@ -154,7 +156,12 @@ function animateHeartRateImage() {
     });
     hrAnimation.add({
         scale: hrImageScaleMax,
-        duration: millisecondsPerBeat * (1 / 4) // Grow for 1/4 of the animation
+        duration: millisecondsPerBeat * (1 / 4), // Grow for 1/4 of the animation
+        complete: function (anim) {
+            if (currentHeartRate >= beatSoundThreshold) {
+                beatSound.play();
+            }
+        }
     });
     hrAnimation.add({
         scale: hrImageScaleMin,
@@ -216,8 +223,9 @@ connect();
 // Calculate hr average every second
 setInterval(calcHrAverage, 1000);
 
-setTimeout(function() {
+setTimeout(function () {
     // Wait for the Custom CSS to load. I feel like this is dumb but it works and I'm sick of dealing with it.
     let hrImage = document.getElementById('hrImage');
     animateHrImage = getComputedStyle(hrImage).getPropertyValue('--animate').trim() === 'true';
+    beatSoundThreshold = Number(getComputedStyle(hrImage).getPropertyValue('--beatSoundThreshold').trim());
 }, 1000);

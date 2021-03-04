@@ -66,6 +66,7 @@
 
 .hrImage {
     --animate: true;
+    --beatSoundThreshold: 0;
 }
 
 .hrMinMax {
