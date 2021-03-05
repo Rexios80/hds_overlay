@@ -25,13 +25,19 @@
     text-shadow: 0 0 2px black;
 }
 
-.hr, .cal {
+.hrContainer, .cal {
     height: 100px;
     align-items: center;
     position: absolute;
 }
 
 .hr {
+    display: flex;
+    height: 100px;
+    align-items: center;
+}
+
+.hrContainer {
     display: flex;
     flex-direction: column;
     left: 0;
