@@ -25,6 +25,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Build
-        run: ./buildscript.sh
+      - name: npm install, build
+        run: |
+          npm install
+          npm install pkg
+          function npm-do { (PATH=$(npm bin):$PATH; eval $@;) }
+          npm-do pkg package.json --out-path output
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: output
