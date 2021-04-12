@@ -78,6 +78,8 @@ Many people only leave reviews when they have a problem with an app. Even if man
 ### Building it yourself
 Most users won't need to do this, but here is how to build the application manually.
 
+If there is a commit you would like to use that is not released yet, look [here](https://github.com/Rexios80/Health-Data-Server-Overlay/actions/workflows/main.yml).
+
 #### Prerequisites
    - [Node.js](https://nodejs.org/)
    - [Git](https://git-scm.com/)
