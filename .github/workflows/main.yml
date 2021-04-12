@@ -32,8 +32,20 @@ jobs:
           function npm-do { (PATH=$(npm bin):$PATH; eval $@;) }
           npm-do pkg package.json --out-path output
 
-      - name: Archive production artifacts
+      - name: Archive Windows artifact
         uses: actions/upload-artifact@v2
         with:
-          name: dist
-          path: output
+          name: Windows
+          path: output/HDS-Overlay-win.exe
+          
+      - name: Archive macOS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: macOS
+          path: output/HDS-Overlay-macos
+          
+      - name: Archive linux artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux
+          path: output/HDS-Overlay-linux
