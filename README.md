@@ -81,7 +81,9 @@ Most users won't need to do this, but here is how to build the application manua
 #### Prerequisites
    - [Node.js](https://nodejs.org/)
    - [Git](https://git-scm.com/)
+   - [pkg](https://github.com/vercel/pkg)
 
 #### Commands
+   - `npm install`
    - `./buildscript.sh`
    - The generated files will be in the `output` folder
