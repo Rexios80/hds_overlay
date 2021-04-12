@@ -117,12 +117,12 @@ function connect() {
         await sleep(100); // Wait for hrColor to arrive (might need tweaking)
 
         // Maybe a race condition?
-        if (currentHeartRate < currentHrMin) {
+        if (parseInt(currentHeartRate, 10) < parseInt(currentHrMin,10)) {
             currentHrMin = currentHeartRate;
             hrMinText.textContent = currentHrMin;
             hrMinText.style.color = currentHrColor;
         }
-        if (currentHeartRate > currentHrMax) {
+        if (parseInt(currentHeartRate, 10) > parseInt(currentHrMax,10)) {
             currentHrMax = currentHeartRate;
             hrMaxText.textContent = currentHrMax;
             hrMaxText.style.color = currentHrColor;
