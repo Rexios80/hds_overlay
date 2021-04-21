@@ -53,6 +53,16 @@ jobs:
         with:
           name: Windows
           
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: macOS
+          
+      - name: Download linux artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: linux
+          
       - name: Create release draft
         uses: ncipollo/release-action@v1
         with:
