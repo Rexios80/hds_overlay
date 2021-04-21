@@ -54,6 +54,6 @@ jobs:
       - name: Create release draft
         uses: ncipollo/release-action@v1
         with:
-            artifacts: "windows/*,macOS/*,linux/*"
+            artifacts: "Windows/*,macOS/*,linux/*"
             draft: true
             token: ${{ secrets.GITHUB_TOKEN }}
