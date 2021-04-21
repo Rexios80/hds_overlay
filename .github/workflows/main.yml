@@ -48,24 +48,14 @@ jobs:
     if: success() && contains(github.ref, 'refs/tags/')
     
     steps:
-      - name: Download Windows artifact
+      - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          name: Windows
-          
-      - name: Download macOS artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: macOS
-          
-      - name: Download linux artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: linux
+          path: "./artifacts"
           
       - name: Create release draft
         uses: ncipollo/release-action@v1
         with:
-            artifacts: "HDS-Overlay-.*"
+            artifacts: "artifacts/*"
             draft: true
             token: ${{ secrets.GITHUB_TOKEN }}
