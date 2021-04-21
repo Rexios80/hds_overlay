@@ -50,12 +50,10 @@ jobs:
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v2
-        with:
-          path: "./artifacts"
           
       - name: Create release draft
         uses: ncipollo/release-action@v1
         with:
-            artifacts: "artifacts/*"
+            artifacts: "windows/*,macOS/*,linux/*"
             draft: true
             token: ${{ secrets.GITHUB_TOKEN }}
