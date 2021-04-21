@@ -41,3 +41,15 @@ jobs:
         with:
           name: linux
           path: output/HDS-Overlay-linux
+          
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: success() && github.ref == 'refs/heads/master'
+    steps:
+      - name: Create release draft
+        uses: ncipollo/release-action@v1
+        with:
+            artifacts: "output/*"
+            draft: true
+            token: ${{ secrets.GITHUB_TOKEN }}
