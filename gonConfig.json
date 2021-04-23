@@ -2,7 +2,7 @@
     "source" : ["./build/macos/Build/Products/Release/hds_overlay.app"],
     "bundle_id" : "com.rexios.hdsOverlay",
     "apple_id": {
-        "username" : "@env:NOTARIZATION_USERNAME",
+        "username" : "rexios80@me.com",
         "password":  "@env:NOTARIZATION_PASSWORD"
     },
     "sign" :{
