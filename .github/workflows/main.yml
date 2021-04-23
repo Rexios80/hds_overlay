@@ -52,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: build/macos/Build/Products/Release/hds_overlay
+          path: build/macos/Build/Products/Release/hds_overlay.app
           
   build_windows:
     runs-on: windows-latest
