@@ -56,10 +56,10 @@ jobs:
           MACOS_IDENTITY_ID: ${{ secrets.MACOS_IDENTITY_ID }}
         run: |
           echo $MACOS_CERTIFICATE | base64 -d > certificate.p12
-          security create-keychain -p $MACOS_KEYCHAIN_PASSWORD build.keychain security default-keychain -s build.keychain
-          security unlock-keychain -p $MACOS_KEYCHAIN_PASSWORD build.keychain
-          security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k <your-password> build.keychain
+          security create-keychain -p $MACOS_KEYCHAIN_PASSWORD signing.keychain security default-keychain -s signing.keychain
+          security unlock-keychain -p $MACOS_KEYCHAIN_PASSWORD signing.keychain
+          security import certificate.p12 -k signing.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $MACOS_KEYCHAIN_PASSWORD signing.keychain
           /usr/bin/codesign --force -s $MACOS_IDENTITY_ID build/macos/Build/Products/Release/hds_overlay.app -v
       - name: Patch for macos artifact
         run: |
