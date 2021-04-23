@@ -68,7 +68,6 @@ jobs:
       - name: "Import Certificate: Distribution"
         uses: devbotsxyz/import-signing-certificate@main
         with:
-          working-directory: macos
           certificate-data: ${{ secrets.DISTRIBUTION_CERTIFICATE_DATA }}
           certificate-passphrase: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
           keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
@@ -80,6 +79,8 @@ jobs:
 
       - name: "Archive"
         uses: devbotsxyz/xcode-archive@v1
+        with:
+          working-directory: macos
 
       #
       # Next ask Xcode to export the product from the archived build
@@ -89,6 +90,8 @@ jobs:
 
       - name: "Export & Sign Release Build"
         uses: devbotsxyz/xcode-export-archive@master
+        with:
+          working-directory: macos
 
       #
       # Now send the product to Apple's notarization service and then
@@ -98,14 +101,16 @@ jobs:
       - name: "Notarize Release Build"
         uses: devbotsxyz/xcode-notarize@v1
         with:
-          product-path: "Export/Rings.app"
+          working-directory: macos
+          product-path: "Export/hds_overlay.app"
           appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
           appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
 
       - name: "Staple Release Build"
         uses: devbotsxyz/xcode-staple@v1
         with:
-          product-path: "Export/Rings.app"
+          working-directory: macos
+          product-path: "Export/hds_overlay.app"
           
       #
       # Zip up the app and add it to the GitHub Release as a
@@ -113,11 +118,13 @@ jobs:
       #
 
       - name: Package for Distribution
+        working-directory: macos
         run: ditto -V -c -k --keepParent "Export/hds_overlay.app" "hds_overlay.zip"
         
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
+          working-directory: macos
           name: macos
           path: hds_overlay.zip
           
