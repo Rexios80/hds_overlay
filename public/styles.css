@@ -55,6 +55,19 @@
     margin-top: 10px;
 }
 
+.distanceText, .speedText {
+    font-size: 600%;
+    position: absolute;
+}
+
+.distanceText {
+    top: 200px;
+}
+
+.speedText {
+    top: 400px;
+}
+
 .hrText {
     color: #FC3718;
 }

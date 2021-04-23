@@ -34,6 +34,9 @@ function connect() {
     let hrMinText = null;
     let hrMaxText = null;
 
+    let distanceText = null;
+    let speedText = null;
+
     socket.onopen = function (event) {
         console.log('Connected to server on port: ' + config.websocketPort);
 
@@ -54,6 +57,9 @@ function connect() {
         let hrImage = document.getElementById('hrImage');
         hrImage.src = typeof config.hrImage === 'undefined' ? 'hrImage.png' : config.hrImage;
         document.getElementById('calImage').src = typeof config.calImage === 'undefined' ? 'calImage.gif' : config.calImage;
+
+        distanceText = document.getElementById('distance');
+        speedText = document.getElementById('speed');
     };
 
     socket.onclose = function (event) {
@@ -106,6 +112,10 @@ function connect() {
         } else if (data[0] === 'hrColor') {
             currentHrColor = data[1];
             heartRateText.style.color = currentHrColor;
+        } else if (data[0] === 'distanceTraveled') {
+            distanceText.textContent = Math.round(data[1] * 10) / 10;
+        } else if (data[0] === 'speed') {
+            speedText.textContent = Math.round(data[1] * 10) / 10;
         }
     };
 
