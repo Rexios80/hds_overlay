@@ -96,14 +96,14 @@ jobs:
       - name: "Notarize Release Build"
         uses: devbotsxyz/xcode-notarize@v1
         with:
-          product-path: "Export/hds_overlay.app"
+          product-path: "build/macos/Build/Products/Release/hds_overlay.app"
           appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
           appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
 
       - name: "Staple Release Build"
         uses: devbotsxyz/xcode-staple@v1
         with:
-          product-path: "Export/hds_overlay.app"
+          product-path: "build/macos/Build/Products/Release/hds_overlay.app"
           
       #
       # Zip up the app and add it to the GitHub Release as a
@@ -111,7 +111,7 @@ jobs:
       #
 
       - name: Package for Distribution
-        run: ditto -V -c -k --keepParent "Export/hds_overlay.app" "hds_overlay.zip"
+        run: ditto -V -c -k --keepParent "build/macos/Build/Products/Release/hds_overlay.app" "hds_overlay.zip"
         
       - name: Archive artifact
         uses: actions/upload-artifact@v2
