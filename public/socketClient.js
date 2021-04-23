@@ -113,9 +113,11 @@ function connect() {
             currentHrColor = data[1];
             heartRateText.style.color = currentHrColor;
         } else if (data[0] === 'distanceTraveled') {
-            distanceText.textContent = Math.round(data[1] * 10) / 10;
+            let km = data[1] / 1000;
+            distanceText.textContent = Math.round(km * 10) / 10;
         } else if (data[0] === 'speed') {
-            speedText.textContent = Math.round(data[1] * 10) / 10;
+            let kmh = data[1] * 0.277778;
+            speedText.textContent = Math.round(kmh * 10) / 10;
         }
     };
 
