@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hds_overlay/repos/socket_server_repo.dart';
 
 void main() {
   runApp(MyApp());
+
+  SocketServerRepo(3476).startSocketServer();
 }
 
 class MyApp extends StatelessWidget {
