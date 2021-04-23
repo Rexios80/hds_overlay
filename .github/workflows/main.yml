@@ -27,6 +27,8 @@ jobs:
         run: flutter test
       - name: Build
         run: flutter build linux
+      - name: Debug tree
+        run: find .
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
@@ -48,11 +50,15 @@ jobs:
         run: flutter test
       - name: Build
         run: flutter build macos
+      - name: Patch for macos artifact
+        run: |
+          mkdir build/macos/Build/Products/Release/output
+          mv build/macos/Build/Products/Release/hds_overlay.app build/macos/Build/Products/Release/output/hds_overlay.app
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: build/macos/Build/Products/Release/hds_overlay.app
+          path: build/macos/Build/Products/Release/ouput
           
   build_windows:
     runs-on: windows-latest
@@ -69,6 +75,8 @@ jobs:
         run: flutter test
       - name: Build
         run: flutter build windows
+      - name: Debug tree
+        run: find .
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
