@@ -60,7 +60,7 @@ jobs:
           security unlock-keychain -p $MACOS_KEYCHAIN_PASSWORD build.keychain
           security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k <your-password> build.keychain
-          /usr/bin/codesign --force -s $MACOS_IDENTITY_ID ./path/to/you/app -v
+          /usr/bin/codesign --force -s $MACOS_IDENTITY_ID build/macos/Build/Products/Release/hds_overlay.app -v
       - name: Patch for macos artifact
         run: |
           mkdir build/macos/Build/Products/Release/output
