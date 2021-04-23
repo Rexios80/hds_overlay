@@ -72,10 +72,7 @@ jobs:
           
   deploy:
     runs-on: ubuntu-latest
-    needs: |
-      build_linux,
-      build_macos,
-      build_windows
+    needs: [build_linux, build_macos, build_windows]
     if: success() && contains(github.ref, 'refs/tags/')
     
     steps:
