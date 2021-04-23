@@ -55,7 +55,7 @@ jobs:
           MACOS_KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
           MACOS_IDENTITY_ID: ${{ secrets.MACOS_IDENTITY_ID }}
         run: |
-          echo $MACOS_CERTIFICATE | base64 -—decode > certificate.p12
+          echo $MACOS_CERTIFICATE | base64 -d > certificate.p12
           security create-keychain -p $MACOS_KEYCHAIN_PASSWORD build.keychain security default-keychain -s build.keychain
           security unlock-keychain -p $MACOS_KEYCHAIN_PASSWORD build.keychain
           security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
