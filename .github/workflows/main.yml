@@ -57,7 +57,6 @@ jobs:
       - name: Build
         run: |
           flutter build macos
-          cd macos
         
 #       - name: "Import Certificate: Development"
 #         uses: devbotsxyz/import-signing-certificate@main
@@ -69,6 +68,7 @@ jobs:
       - name: "Import Certificate: Distribution"
         uses: devbotsxyz/import-signing-certificate@main
         with:
+          working-directory: macos
           certificate-data: ${{ secrets.DISTRIBUTION_CERTIFICATE_DATA }}
           certificate-passphrase: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
           keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
