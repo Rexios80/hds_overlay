@@ -73,13 +73,11 @@ jobs:
         run: flutter test
       - name: Build
         run: flutter build windows
-      - name: Debug tree
-        run: tree
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: build/windows/Build/Products/Release/hds_overlay.exe
+          path: build/windows/x64/Release/Runner/hds_overlay.exe
           
   deploy:
     runs-on: ubuntu-latest
