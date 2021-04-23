@@ -1,0 +1,15 @@
+{
+    "source" : ["./build/macos/Build/Products/Release/hds_overlay.app"],
+    "bundle_id" : "com.rexios.hdsOverlay",
+    "apple_id": {
+        "username" : "@env:NOTARIZATION_USERNAME",
+        "password":  "@env:NOTARIZATION_PASSWORD"
+    },
+    "sign" :{
+        "application_identity" : "@env:SIGNING_IDENTITY"
+    },
+    "dmg" :{
+        "output_path":  "hds_overlay.dmg",
+        "volume_name":  "hds_overlay"
+    }
+}

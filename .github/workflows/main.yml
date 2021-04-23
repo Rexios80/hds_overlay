@@ -56,68 +56,32 @@ jobs:
         
       - name: Build
         run: flutter build macos
-        
-#       - name: "Import Certificate: Development"
-#         uses: devbotsxyz/import-signing-certificate@main
-#         with:
-#           certificate-data: ${{ secrets.DEVELOPMENT_CERTIFICATE_DATA }}
-#           certificate-passphrase: ${{ secrets.DEVELOPMENT_CERTIFICATE_PASSPHRASE }}
-#           keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
 
-      - name: "Import Certificate: Distribution"
-        uses: devbotsxyz/import-signing-certificate@main
+      - name: Import Code-Signing Certificates
+        uses: Apple-Actions/import-codesign-certs@v1
         with:
-          certificate-data: ${{ secrets.DISTRIBUTION_CERTIFICATE_DATA }}
-          certificate-passphrase: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
-          keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
+          # The certificates in a PKCS12 file encoded as a base64 string
+          p12-file-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE_DATA }}
+          # The password used to import the PKCS12 file.
+          p12-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
 
-#       #
-#       # First we do a developer build that we archive into an
-#       # .xcarchive.
-#       #
+      - name: Install gon via HomeBrew for code signing and app notarization
+        run: |
+          brew tap mitchellh/gon
+          brew install mitchellh/gon/gon
 
-#       - name: "Archive"
-#         uses: devbotsxyz/xcode-archive@v1
-
-#       #
-#       # Next ask Xcode to export the product from the archived build
-#       # we just created. This will also re-sign the application with
-#       # the "Developer ID" certificate.
-#       #
-
-#       - name: "Export & Sign Release Build"
-#         uses: devbotsxyz/xcode-export-archive@master
-
-#       #
-#       # Now send the product to Apple's notarization service and then
-#       # staple it.
-#       #
-
-      - name: "Notarize Release Build"
-        uses: devbotsxyz/xcode-notarize@v1
-        with:
-          product-path: "build/macos/Build/Products/Release/hds_overlay.app"
-          appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
-          appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
-
-      - name: "Staple Release Build"
-        uses: devbotsxyz/xcode-staple@v1
-        with:
-          product-path: "build/macos/Build/Products/Release/hds_overlay.app"
+      - name: Sign the mac binaries with Gon
+        env:
+          NOTARIZATION_USERNAME: ${{ secrets.NOTARIZATION_USERNAME }}
+          NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
+          SIGNING_IDENTITY:  ${{ secrets.SIGNING_IDENTITY }}
+        run: gon gonConfig.json
           
-      #
-      # Zip up the app and add it to the GitHub Release as a
-      # downloadable asset.
-      #
-
-      - name: Package for Distribution
-        run: ditto -V -c -k --keepParent "build/macos/Build/Products/Release/hds_overlay.app" "hds_overlay.zip"
-        
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: hds_overlay.zip
+          path: hds_overlay.dmg
           
   build_windows:
     runs-on: windows-latest
