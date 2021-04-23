@@ -72,7 +72,6 @@ jobs:
 
       - name: Sign the mac binaries with Gon
         env:
-          NOTARIZATION_USERNAME: ${{ secrets.NOTARIZATION_USERNAME }}
           NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
         run: gon gonConfig.json
           
