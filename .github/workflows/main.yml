@@ -41,7 +41,6 @@ jobs:
   build_macos:
     runs-on: macos-latest
     steps:
-      - working-directory: macos
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
         with:
@@ -49,19 +48,14 @@ jobs:
           
       - name: Setup
         run: |
-          cd ..
           flutter config --enable-macos-desktop
           flutter pub get
           
       - name: Test
-        run: |
-          cd ..
-          flutter test
+        run: flutter test
         
       - name: Build
-        run: |
-          cd ..
-          flutter build macos
+        run: flutter build macos
         
 #       - name: "Import Certificate: Development"
 #         uses: devbotsxyz/import-signing-certificate@main
@@ -77,27 +71,27 @@ jobs:
           certificate-passphrase: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
           keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
 
-      #
-      # First we do a developer build that we archive into an
-      # .xcarchive.
-      #
+#       #
+#       # First we do a developer build that we archive into an
+#       # .xcarchive.
+#       #
 
-      - name: "Archive"
-        uses: devbotsxyz/xcode-archive@v1
+#       - name: "Archive"
+#         uses: devbotsxyz/xcode-archive@v1
 
-      #
-      # Next ask Xcode to export the product from the archived build
-      # we just created. This will also re-sign the application with
-      # the "Developer ID" certificate.
-      #
+#       #
+#       # Next ask Xcode to export the product from the archived build
+#       # we just created. This will also re-sign the application with
+#       # the "Developer ID" certificate.
+#       #
 
-      - name: "Export & Sign Release Build"
-        uses: devbotsxyz/xcode-export-archive@master
+#       - name: "Export & Sign Release Build"
+#         uses: devbotsxyz/xcode-export-archive@master
 
-      #
-      # Now send the product to Apple's notarization service and then
-      # staple it.
-      #
+#       #
+#       # Now send the product to Apple's notarization service and then
+#       # staple it.
+#       #
 
       - name: "Notarize Release Build"
         uses: devbotsxyz/xcode-notarize@v1
