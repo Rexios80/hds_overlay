@@ -41,6 +41,7 @@ jobs:
   build_macos:
     runs-on: macos-latest
     steps:
+      - working-directory: macos
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
         with:
@@ -48,14 +49,18 @@ jobs:
           
       - name: Setup
         run: |
+          cd ..
           flutter config --enable-macos-desktop
           flutter pub get
           
       - name: Test
-        run: flutter test
+        run: |
+          cd ..
+          flutter test
         
       - name: Build
         run: |
+          cd ..
           flutter build macos
         
 #       - name: "Import Certificate: Development"
@@ -79,8 +84,6 @@ jobs:
 
       - name: "Archive"
         uses: devbotsxyz/xcode-archive@v1
-        with:
-          working-directory: macos
 
       #
       # Next ask Xcode to export the product from the archived build
@@ -90,8 +93,6 @@ jobs:
 
       - name: "Export & Sign Release Build"
         uses: devbotsxyz/xcode-export-archive@master
-        with:
-          working-directory: macos
 
       #
       # Now send the product to Apple's notarization service and then
@@ -101,7 +102,6 @@ jobs:
       - name: "Notarize Release Build"
         uses: devbotsxyz/xcode-notarize@v1
         with:
-          working-directory: macos
           product-path: "Export/hds_overlay.app"
           appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
           appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
@@ -109,7 +109,6 @@ jobs:
       - name: "Staple Release Build"
         uses: devbotsxyz/xcode-staple@v1
         with:
-          working-directory: macos
           product-path: "Export/hds_overlay.app"
           
       #
@@ -118,13 +117,11 @@ jobs:
       #
 
       - name: Package for Distribution
-        working-directory: macos
         run: ditto -V -c -k --keepParent "Export/hds_overlay.app" "hds_overlay.zip"
         
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
-          working-directory: macos
           name: macos
           path: hds_overlay.zip
           
