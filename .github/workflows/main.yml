@@ -76,7 +76,7 @@ jobs:
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
-          name: macos
+          name: windows
           path: build/windows/runner/Release/hds_overlay.exe
           
   deploy:
