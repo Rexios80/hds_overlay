@@ -74,7 +74,6 @@ jobs:
         env:
           NOTARIZATION_USERNAME: ${{ secrets.NOTARIZATION_USERNAME }}
           NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
-          SIGNING_IDENTITY:  ${{ secrets.SIGNING_IDENTITY }}
         run: gon gonConfig.json
           
       - name: Archive artifact

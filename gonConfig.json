@@ -6,7 +6,7 @@
         "password":  "@env:NOTARIZATION_PASSWORD"
     },
     "sign" :{
-        "application_identity" : "@env:SIGNING_IDENTITY"
+        "application_identity" : "DDD19FCE40E12279C1A4F4018D3614848B9CF287"
     },
     "dmg" :{
         "output_path":  "hds_overlay.dmg",
