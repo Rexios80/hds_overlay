@@ -56,6 +56,7 @@ jobs:
           MACOS_IDENTITY_ID: ${{ secrets.MACOS_IDENTITY_ID }}
         run: |
           echo $MACOS_CERTIFICATE | base64 -d > certificate.p12
+          security delete-keychain signing.keychain
           security create-keychain -p $MACOS_KEYCHAIN_PASSWORD signing.keychain security default-keychain -s signing.keychain
           security unlock-keychain -p $MACOS_KEYCHAIN_PASSWORD signing.keychain
           security import certificate.p12 -k signing.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
