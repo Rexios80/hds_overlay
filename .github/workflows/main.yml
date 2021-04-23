@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: linux
-          path: build/linux/build/Products/Release/hds_overlay
+          path: build/linux/Build/Products/Release/hds_overlay
   
   build_macos:
     runs-on: macos-latest
@@ -52,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: build/macos/build/Products/Release/hds_overlay
+          path: build/macos/Build/Products/Release/hds_overlay
           
   build_windows:
     runs-on: windows-latest
@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: build/windows/build/Products/Release/hds_overlay.exe
+          path: build/windows/Build/Products/Release/hds_overlay.exe
           
   deploy:
     runs-on: ubuntu-latest
