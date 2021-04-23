@@ -14,19 +14,24 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: beta
+          
       - name: Setup
         run: |
           flutter config --enable-linux-desktop
           flutter pub get
+          
       - name: Patch for linux build
         run: |
           sudo apt install clang
           sudo apt install ninja-build
           sudo apt install libgtk-3-dev
+          
       - name: Test
         run: flutter test
+        
       - name: Build
         run: flutter build linux
+        
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
@@ -40,37 +45,81 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: beta
+          
       - name: Setup
         run: |
           flutter config --enable-macos-desktop
           flutter pub get
+          
       - name: Test
         run: flutter test
+        
       - name: Build
-        run: flutter build macos
-      - name: Codesign executable
-        env: 
-          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
-          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
-          MACOS_KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
-          MACOS_IDENTITY_ID: ${{ secrets.MACOS_IDENTITY_ID }}
         run: |
-          echo $MACOS_CERTIFICATE | base64 -d > certificate.p12
-          security delete-keychain signing.keychain
-          security create-keychain -p $MACOS_KEYCHAIN_PASSWORD signing.keychain security default-keychain -s signing.keychain
-          security unlock-keychain -p $MACOS_KEYCHAIN_PASSWORD signing.keychain
-          security import certificate.p12 -k signing.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $MACOS_KEYCHAIN_PASSWORD signing.keychain
-          /usr/bin/codesign --force -s $MACOS_IDENTITY_ID build/macos/Build/Products/Release/hds_overlay.app -v
-      - name: Patch for macos artifact
-        run: |
-          mkdir build/macos/Build/Products/Release/output
-          mv build/macos/Build/Products/Release/hds_overlay.app build/macos/Build/Products/Release/output/hds_overlay.app
+          flutter build macos
+          cd macos
+        
+#       - name: "Import Certificate: Development"
+#         uses: devbotsxyz/import-signing-certificate@main
+#         with:
+#           certificate-data: ${{ secrets.DEVELOPMENT_CERTIFICATE_DATA }}
+#           certificate-passphrase: ${{ secrets.DEVELOPMENT_CERTIFICATE_PASSPHRASE }}
+#           keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      - name: "Import Certificate: Distribution"
+        uses: devbotsxyz/import-signing-certificate@main
+        with:
+          certificate-data: ${{ secrets.DISTRIBUTION_CERTIFICATE_DATA }}
+          certificate-passphrase: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
+          keychain-password: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      #
+      # First we do a developer build that we archive into an
+      # .xcarchive.
+      #
+
+      - name: "Archive"
+        uses: devbotsxyz/xcode-archive@v1
+
+      #
+      # Next ask Xcode to export the product from the archived build
+      # we just created. This will also re-sign the application with
+      # the "Developer ID" certificate.
+      #
+
+      - name: "Export & Sign Release Build"
+        uses: devbotsxyz/xcode-export-archive@master
+
+      #
+      # Now send the product to Apple's notarization service and then
+      # staple it.
+      #
+
+      - name: "Notarize Release Build"
+        uses: devbotsxyz/xcode-notarize@v1
+        with:
+          product-path: "Export/Rings.app"
+          appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
+          appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
+
+      - name: "Staple Release Build"
+        uses: devbotsxyz/xcode-staple@v1
+        with:
+          product-path: "Export/Rings.app"
+          
+      #
+      # Zip up the app and add it to the GitHub Release as a
+      # downloadable asset.
+      #
+
+      - name: Package for Distribution
+        run: ditto -V -c -k --keepParent "Export/hds_overlay.app" "hds_overlay.zip"
+        
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: build/macos/Build/Products/Release/output
+          path: hds_overlay.zip
           
   build_windows:
     runs-on: windows-latest
@@ -79,14 +128,18 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: beta
+          
       - name: Setup
         run: |
           flutter config --enable-windows-desktop
           flutter pub get
+          
       - name: Test
         run: flutter test
+        
       - name: Build
         run: flutter build windows
+        
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
