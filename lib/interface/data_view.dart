@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hds_overlay/model/data_message.dart';
+import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/widgets/data_widget.dart';
 
@@ -15,9 +16,7 @@ class DataView extends StatelessWidget {
           return DataWidgetBase(
             message.dataType,
             message.value,
-            {
-              DataWidgetProperty.showImage: true,
-            },
+            DataWidgetProperties(),
           );
         }).toList() ??
         [];
