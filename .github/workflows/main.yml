@@ -96,11 +96,17 @@ jobs:
           flutter build windows
           flutter pub run msix:create
         
-      - name: Archive artifact
+      - name: Archive exe artifact
         uses: actions/upload-artifact@v2
         with:
-          name: windows
+          name: windows exe
           path: build/windows/runner/Release/hds_overlay.exe
+
+      - name: Archive msix artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows msix
+          path: build/windows/runner/Release/hds_overlay.msix
           
   deploy:
     runs-on: ubuntu-latest
