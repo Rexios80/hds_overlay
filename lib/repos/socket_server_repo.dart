@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hds_overlay/model/data_message.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -53,7 +54,8 @@ class SocketServerRepo {
     print(message);
 
     final parts = message.split(':');
-    final dataType = DataTypeExtension.fromString(parts[0]);
+    final dataType =
+        EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
 
     print(parts);
     print(dataType);

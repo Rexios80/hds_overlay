@@ -1,3 +1,5 @@
+import 'package:enum_to_string/enum_to_string.dart';
+
 enum DataType { heartRate, calories, unknown }
 
 // This might get annoying
@@ -27,14 +29,18 @@ class DataMessage extends DataMessageBase {
   final DataType dataType;
 
   String get name {
-    return dataType.toString();
+    return EnumToString.convertToString(dataType);
   }
 
   DataMessage(this.dataType, dynamic value) : super(value);
 }
 
 class UnknownDataMessage extends DataMessageBase {
-  final String name;
+  final String _name;
 
-  UnknownDataMessage(this.name, dynamic value) : super(value);
+  String get name {
+    return 'Unknown data type $_name';
+  }
+
+  UnknownDataMessage(this._name, dynamic value) : super(value);
 }
