@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:hds_overlay/model/data_message.dart';
 import 'package:hds_overlay/repos/socket_server_repo.dart';
 import 'package:hds_overlay/utils/null_safety.dart';

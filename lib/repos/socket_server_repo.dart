@@ -3,9 +3,8 @@ import 'dart:io';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hds_overlay/model/data_message.dart';
-import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:shelf_web_socket/shelf_web_socket.dart';
 
 class SocketServerRepo {
   final int _port;
@@ -35,8 +34,7 @@ class SocketServerRepo {
 
     try {
       _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, _port);
-      _logStreamController
-          .add('Server started on port ${_server?.port}');
+      _logStreamController.add('Server started on port ${_server?.port}');
       return Future.value();
     } catch (error) {
       _logStreamController.add(error.toString());
