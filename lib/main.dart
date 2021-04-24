@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var socketServerBloc = BlocProvider.of<SocketServerBloc>(context);
+    SocketServerBloc socketServerBloc = BlocProvider.of<SocketServerBloc>(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //

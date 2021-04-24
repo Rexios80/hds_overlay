@@ -23,14 +23,13 @@ class SocketServerRepo {
     // messageStream.listen((event) {
     //   print(event);
     // });
-    
+
     var handler = webSocketHandler((webSocket) {
       webSocket.stream.listen(_handleMessage);
     });
 
     try {
       _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, _port);
-      print('Serving at ws://${_server?.address.host}:${_server?.port}');
       _logStreamController
           .add('Serving at ws://${_server?.address.host}:${_server?.port}');
       return Future.value();

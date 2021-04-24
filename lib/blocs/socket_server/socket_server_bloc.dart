@@ -16,6 +16,7 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
   SocketServerBloc(this._repo) : super(SocketServerStateStopped());
 
   StreamSubscription? _messageStreamSubscription;
+  StreamSubscription? _logStreamSubscription;
 
   @override
   Stream<SocketServerState> mapEventToState(SocketServerEvent event) async* {
@@ -26,6 +27,7 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
         event is SocketServerEventStop) {
       await _repo.stopSocketServer();
       _messageStreamSubscription?.cancel();
+      _logStreamSubscription?.cancel();
       yield SocketServerStateStopped();
     } else if (event is SocketServerEventMessage) {
       yield SocketServerStateRunning(message: event.message);
@@ -45,10 +47,9 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
 
   void _setupStreamListeners() {
     _messageStreamSubscription = _repo.messageStream.listen((message) {
-      print('it fucking works');
       add(SocketServerEventMessage(message));
     });
-    _repo.logStream.listen((log) {
+    _logStreamSubscription = _repo.logStream.listen((log) {
       print(log);
     });
   }
