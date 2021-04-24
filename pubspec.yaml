@@ -34,6 +34,7 @@ dependencies:
   enum_to_string: ^2.0.1
   desktop_window: ^0.4.0
   tuple: ^2.0.0
+  msix: ^2.0.0
 
   # Shelf
   shelf: ^1.1.0

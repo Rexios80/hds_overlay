@@ -92,7 +92,9 @@ jobs:
         run: flutter test
         
       - name: Build
-        run: flutter build windows
+        run: |
+          flutter build windows
+          flutter pub run msix:create
         
       - name: Archive artifact
         uses: actions/upload-artifact@v2
