@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:tuple/tuple.dart';
 
+part 'data_widget_properties.g.dart';
+
 @HiveType(typeId: 0)
 class DataWidgetProperties extends HiveObject {
   @HiveField(0)
