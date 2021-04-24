@@ -4,6 +4,8 @@ import 'package:hds_overlay/repos/socket_server_repo.dart';
 import 'package:hds_overlay/utils/null_safety.dart';
 
 import 'blocs/socket_server/socket_server_bloc.dart';
+import 'interface/log_view.dart';
+import 'model/data_message.dart';
 
 void main() {
   runApp(MyApp());
@@ -76,7 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    SocketServerBloc socketServerBloc = BlocProvider.of<SocketServerBloc>(context);
+    SocketServerBloc socketServerBloc =
+        BlocProvider.of<SocketServerBloc>(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -86,6 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return StreamBuilder<SocketServerState>(
       stream: socketServerBloc.stream,
       builder: (context, socketServerState) {
+        final state = socketServerState.data;
+
         return Scaffold(
           appBar: AppBar(
             // Here we take the value from the MyHomePage object that was created by
@@ -113,15 +118,13 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  cast<SocketServerStateRunning>(socketServerState.data)
-                          ?.message
-                          ?.value ??
-                      '',
+                  cast<SocketServerStateRunning>(state)?.message?.value ?? '',
                 ),
                 Text(
                   '$_counter',
                   style: Theme.of(context).textTheme.headline4,
                 ),
+                LogView(log: cast<SocketServerStateRunning>(state)?.log ?? ''),
               ],
             ),
           ),

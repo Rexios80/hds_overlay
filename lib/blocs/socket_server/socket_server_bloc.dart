@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:hds_overlay/model/data_message.dart';
 import 'package:hds_overlay/repos/socket_server_repo.dart';
+import 'package:hds_overlay/utils/null_safety.dart';
 
 part 'socket_server_event.dart';
 
@@ -30,9 +31,10 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
       _logStreamSubscription?.cancel();
       yield SocketServerStateStopped();
     } else if (event is SocketServerEventMessage) {
-      yield SocketServerStateRunning(message: event.message);
+      yield SocketServerStateRunning(
+          message: event.message, log: appendMessageToLog(event.message));
     } else if (event is SocketServerEventLog) {
-      yield SocketServerStateRunning(log: event.log);
+      yield SocketServerStateRunning(log: appendToLog(event.log));
     }
   }
 
@@ -51,6 +53,15 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
     });
     _logStreamSubscription = _repo.logStream.listen((log) {
       print(log);
+      add(SocketServerEventLog(log));
     });
+  }
+
+  String appendToLog(String log) {
+    return '${cast<SocketServerStateRunning>(state)?.log ?? ''}$log\n';
+  }
+
+  String appendMessageToLog(DataMessageBase message) {
+    return appendToLog('${message.name}: ${message.value}');
   }
 }

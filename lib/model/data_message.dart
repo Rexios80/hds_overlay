@@ -14,15 +14,21 @@ extension DataTypeExtension on DataType {
   }
 }
 
-class DataMessageBase {
+abstract class DataMessageBase {
   final dynamic value;
   final timestamp = DateTime.now().millisecondsSinceEpoch;
+
+  String get name;
 
   DataMessageBase(this.value);
 }
 
 class DataMessage extends DataMessageBase {
   final DataType dataType;
+
+  String get name {
+    return dataType.toString();
+  }
 
   DataMessage(this.dataType, dynamic value) : super(value);
 }

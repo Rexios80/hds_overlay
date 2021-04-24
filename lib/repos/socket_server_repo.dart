@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:hds_overlay/model/data_message.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SocketServerRepo {
   final int _port;
@@ -20,13 +21,16 @@ class SocketServerRepo {
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
   Future<void> startSocketServer() async {
-    // messageStream.listen((event) {
-    //   print(event);
-    // });
-
-    var handler = webSocketHandler((webSocket) {
-      webSocket.stream.listen(_handleMessage);
-    });
+    var handler = webSocketHandler(
+      (webSocket) {
+        webSocket.stream.listen(_handleMessage).onDone(() {
+          _logStreamController
+              .add('Watch disconnected: ${webSocket.closeReason ?? ''}');
+        });
+        _logStreamController.add('Watch connected');
+      },
+      pingInterval: Duration(seconds: 15),
+    );
 
     try {
       _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, _port);
@@ -34,6 +38,7 @@ class SocketServerRepo {
           .add('Serving at ws://${_server?.address.host}:${_server?.port}');
       return Future.value();
     } catch (error) {
+      _logStreamController.add(error.toString());
       return Future.error(error);
     }
   }

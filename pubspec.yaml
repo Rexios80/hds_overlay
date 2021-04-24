@@ -31,6 +31,7 @@ dependencies:
 
   flutter_bloc: ^7.0.0
   equatable: ^2.0.0
+  enum_to_string: ^2.0.1
 
   # Shelf
   shelf: ^1.1.0
