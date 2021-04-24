@@ -8,10 +8,14 @@ class LogView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 400,
+      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(color: Colors.black),
-      child: Text(
-        log,
-        style: TextStyle(color: Colors.white),
+      child: SingleChildScrollView(
+        child: Text(
+          log,
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }

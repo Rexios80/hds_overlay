@@ -36,7 +36,7 @@ class SocketServerRepo {
     try {
       _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, _port);
       _logStreamController
-          .add('Serving at ws://${_server?.address.host}:${_server?.port}');
+          .add('Server started on port ${_server?.port}');
       return Future.value();
     } catch (error) {
       _logStreamController.add(error.toString());

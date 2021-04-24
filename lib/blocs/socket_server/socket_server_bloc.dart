@@ -58,7 +58,7 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
   }
 
   String appendToLog(String log) {
-    return '${cast<SocketServerStateRunning>(state)?.log ?? ''}$log\n';
+    return '$log\n${cast<SocketServerStateRunning>(state)?.log ?? ''}';
   }
 
   String appendMessageToLog(DataMessageBase message) {

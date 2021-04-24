@@ -1,3 +1,4 @@
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hds_overlay/repos/socket_server_repo.dart';
@@ -15,6 +16,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    DesktopWindow.setWindowSize(Size(1000, 500));
+    DesktopWindow.setMaxWindowSize(Size(1000, 500));
+    DesktopWindow.setMinWindowSize(Size(1000, 500));
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -100,30 +105,14 @@ class _MyHomePageState extends State<MyHomePage> {
           body: Center(
             // Center is a layout widget. It takes a single child and positions it
             // in the middle of the parent.
-            child: Column(
-              // Column is also a layout widget. It takes a list of children and
-              // arranges them vertically. By default, it sizes itself to fit its
-              // children horizontally, and tries to be as tall as its parent.
-              //
-              // Invoke "debug painting" (press "p" in the console, choose the
-              // "Toggle Debug Paint" action from the Flutter Inspector in Android
-              // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-              // to see the wireframe for each widget.
-              //
-              // Column has various properties to control how it sizes itself and
-              // how it positions its children. Here we use mainAxisAlignment to
-              // center the children vertically; the main axis here is the vertical
-              // axis because Columns are vertical (the cross axis would be
-              // horizontal).
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
                   cast<SocketServerStateRunning>(state)?.message?.value ?? '',
                 ),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
+                Spacer(),
                 LogView(log: cast<SocketServerStateRunning>(state)?.log ?? ''),
               ],
             ),
