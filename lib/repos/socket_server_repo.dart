@@ -11,15 +11,19 @@ class SocketServerRepo {
   SocketServerRepo(this._port);
 
   HttpServer? _server;
-  StreamController<String> _logStreamController = StreamController.broadcast();
+  StreamController<String> _logStreamController = StreamController();
   StreamController<DataMessageBase> _messageStreamController =
-      StreamController.broadcast();
+      StreamController();
 
   Stream<String> get logStream => _logStreamController.stream;
 
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
   Future<void> startSocketServer() async {
+    // messageStream.listen((event) {
+    //   print(event);
+    // });
+    
     var handler = webSocketHandler((webSocket) {
       webSocket.stream.listen(_handleMessage);
     });

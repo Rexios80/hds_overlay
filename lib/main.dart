@@ -7,8 +7,6 @@ import 'blocs/socket_server/socket_server_bloc.dart';
 
 void main() {
   runApp(MyApp());
-
-  SocketServerRepo(3476).startSocketServer();
 }
 
 class MyApp extends StatelessWidget {
@@ -79,7 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     var socketServerBloc = BlocProvider.of<SocketServerBloc>(context);
-    socketServerBloc.startSocketServer();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
