@@ -15,7 +15,9 @@ class DataView extends StatelessWidget {
           return DataWidgetBase(
             message.dataType,
             message.value,
-            {},
+            {
+              DataWidgetProperty.showImage: true,
+            },
           );
         }).toList() ??
         [];

@@ -3,9 +3,13 @@ import 'package:hds_overlay/model/data_message.dart';
 import 'package:hds_overlay/model/default_image.dart';
 
 enum DataWidgetProperty {
+  showImage,
   image,
+  imageSize,
   textSize,
   textColor,
+  textPadding,
+  textPositionVertical,
   font,
   position,
   unit,
@@ -30,6 +34,9 @@ class DataWidgetBase extends DataWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       () {
+        if (!properties[DataWidgetProperty.showImage]) {
+          return SizedBox.shrink();
+        }
         final image = properties[DataWidgetProperty.image];
         return image == null
             ? Image.asset(getDefaultImage(dataType))
