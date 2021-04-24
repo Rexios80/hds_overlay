@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
@@ -13,25 +15,37 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
 
   SocketServerBloc(this.repo) : super(SocketServerStateStopped());
 
+  StreamSubscription? messageStreamSubscription;
+
   @override
   Stream<SocketServerState> mapEventToState(SocketServerEvent event) async* {
-    if (event is SocketServerEventStart) {
+    if (state is SocketServerStateStopped && event is SocketServerEventStart) {
       yield await startSocketServer();
-    } else if (event is SocketServerEventStop) {
+      setupStreamListeners();
+    } else if (state is SocketServerStateRunning &&
+        event is SocketServerEventStop) {
       await repo.stopSocketServer();
+      messageStreamSubscription?.cancel();
       yield SocketServerStateStopped();
     } else if (event is SocketServerEventMessage) {
       yield SocketServerStateRunning(message: event.message);
+    } else if (event is SocketServerEventLog) {
+      yield SocketServerStateRunning(log: event.log);
     }
   }
 
   Future<SocketServerState> startSocketServer() async {
     try {
-      var server = await repo.startSocketServer();
-      return SocketServerStateRunning(
-          log: 'Serving at ws://${server.address.host}:${server.port}');
+      await repo.startSocketServer();
+      return SocketServerStateRunning();
     } catch (error) {
       return SocketServerStateStopped(error: error);
     }
+  }
+
+  void setupStreamListeners() {
+    messageStreamSubscription = repo.messageStream.listen((message) {
+      add(SocketServerEventMessage(message));
+    });
   }
 }

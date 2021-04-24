@@ -13,7 +13,7 @@ class SocketServerStateStopped extends SocketServerState {
 }
 
 class SocketServerStateRunning extends SocketServerState {
-  final DataMessage? message;
+  final DataMessageBase? message;
   final String? log;
 
   SocketServerStateRunning({this.message, this.log});

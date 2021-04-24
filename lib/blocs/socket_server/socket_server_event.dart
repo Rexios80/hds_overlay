@@ -11,7 +11,13 @@ class SocketServerEventStart extends SocketServerEvent {}
 class SocketServerEventStop extends SocketServerEvent {}
 
 class SocketServerEventMessage extends SocketServerEvent {
-  final DataMessage message;
+  final DataMessageBase message;
 
   SocketServerEventMessage(this.message);
+}
+
+class SocketServerEventLog extends SocketServerEvent {
+  final String log;
+
+  SocketServerEventLog(this.log);
 }

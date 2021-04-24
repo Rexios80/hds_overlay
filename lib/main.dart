@@ -32,7 +32,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => BlocProvider(
-              create: (context) => SocketServerBloc(SocketServerRepo(3476)),
+              create: (context) {
+                var socketServerBloc = SocketServerBloc(SocketServerRepo(3476));
+                socketServerBloc.add(SocketServerEventStart());
+                return socketServerBloc;
+              },
               child: MyHomePage(title: 'Flutter Demo Home Page'),
             ),
       },
