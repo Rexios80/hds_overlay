@@ -13,11 +13,11 @@ class SocketServerStateStopped extends SocketServerState {
 }
 
 class SocketServerStateRunning extends SocketServerState {
-  final DataMessageBase? message;
+  final Map<DataType, DataMessage>? messages;
   final String? log;
 
-  SocketServerStateRunning({this.message, this.log});
+  SocketServerStateRunning({this.messages, this.log});
 
   @override
-  List<Object?> get props => [message, log];
+  List<Object?> get props => [messages, log];
 }

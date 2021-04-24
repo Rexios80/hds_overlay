@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+class AppColors {
+  static final accent = Color(0xffe35c89);
+  static final chromaGreen = Color(0xff00b140);
+}
+
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
   Map<int, Color> swatch = {};

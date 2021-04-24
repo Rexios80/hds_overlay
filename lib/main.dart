@@ -1,8 +1,9 @@
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hds_overlay/interface/data_view.dart';
 import 'package:hds_overlay/repos/socket_server_repo.dart';
-import 'package:hds_overlay/utils/material_color.dart';
+import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/null_safety.dart';
 
 import 'blocs/socket_server/socket_server_bloc.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: createMaterialColor(Color(0xffe35c89)),
+        primarySwatch: createMaterialColor(AppColors.accent),
       ),
       initialRoute: '/',
       routes: {
@@ -74,13 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
             // in the middle of the parent.
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  cast<SocketServerStateRunning>(state)?.message?.value ?? '',
-                ),
-                Spacer(),
-                LogView(log: cast<SocketServerStateRunning>(state)?.log ?? ''),
+                Expanded(child: DataView(cast<SocketServerStateRunning>(socketServerState.data)?.messages)),
+                LogView(cast<SocketServerStateRunning>(state)?.log ?? ''),
               ],
             ),
           ),

@@ -32,7 +32,9 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
       yield SocketServerStateStopped();
     } else if (event is SocketServerEventMessage) {
       yield SocketServerStateRunning(
-          message: event.message, log: appendMessageToLog(event.message));
+        messages: processMessage(event.message),
+        log: appendMessageToLog(event.message),
+      );
     } else if (event is SocketServerEventLog) {
       yield SocketServerStateRunning(log: appendToLog(event.log));
     }
@@ -63,5 +65,17 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
 
   String appendMessageToLog(DataMessageBase message) {
     return appendToLog('${message.name}: ${message.value}');
+  }
+
+  Map<DataType, DataMessage> processMessage(DataMessageBase message) {
+    final map = cast<SocketServerStateRunning>(state)?.messages ?? Map();
+    if (message is UnknownDataMessage) {
+      // Don't do anything with these
+      return map;
+    }
+
+    message as DataMessage;
+    map[message.dataType] = message;
+    return map;
   }
 }

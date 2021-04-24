@@ -1,6 +1,14 @@
 import 'package:enum_to_string/enum_to_string.dart';
 
-enum DataType { heartRate, calories, unknown }
+enum DataType {
+  heartRate,
+  heartRateMin,
+  heartRateMax,
+  heartRateRanges,
+  heartRateAverage,
+  calories,
+  unknown,
+}
 
 // This might get annoying
 extension DataTypeExtension on DataType {
