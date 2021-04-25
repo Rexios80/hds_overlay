@@ -1,55 +1,60 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hive/hive.dart';
-import 'package:tuple/tuple.dart';
+
+import 'data_type.dart';
 
 part 'data_widget_properties.g.dart';
 
 @HiveType(typeId: 0)
 class DataWidgetProperties extends HiveObject {
   @HiveField(0)
-  bool showImage = true;
+  DataType dataType = DataType.unknown;
 
   @HiveField(1)
-  Uint8List? image;
+  bool showImage = true;
 
   @HiveField(2)
-  double imageSize = 50;
+  Uint8List? image;
 
   @HiveField(3)
-  double fontSize = 28;
+  double imageSize = 50;
 
   @HiveField(4)
-  Color textColor = Colors.white;
+  double fontSize = 28;
 
   @HiveField(5)
-  double textPaddingLeft = 10;
+  int textColor = Colors.white.value;
 
   @HiveField(6)
-  String font = 'Monaco';
+  double textPaddingLeft = 10;
 
   @HiveField(7)
-  Tuple2<double, double> position = Tuple2(10, 10);
+  String font = 'Monaco';
 
   @HiveField(8)
-  String unit = '';
+  Tuple2Double position = Tuple2Double(10, 100);
 
   @HiveField(9)
-  int style = 0;
+  String unit = '';
 
   @HiveField(10)
-  bool textShadow = true;
+  int style = 0;
 
   @HiveField(11)
-  double textShadowRadius = 8;
+  bool textShadow = true;
 
   @HiveField(12)
-  bool textStroke = false;
+  double textShadowRadius = 8;
 
   @HiveField(13)
-  double textStrokeWidth = 1;
+  bool textStroke = false;
 
   @HiveField(14)
+  double textStrokeWidth = 1;
+
+  @HiveField(15)
   double textPaddingTop = 10;
 }

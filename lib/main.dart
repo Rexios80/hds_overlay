@@ -7,6 +7,7 @@ import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/null_safety.dart';
 
 import 'blocs/socket_server/socket_server_bloc.dart';
+import 'hive/hive_utils.dart';
 import 'interface/log_view.dart';
 
 void main() {
@@ -14,6 +15,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final hive = HiveUtils();
+  late final SocketServerBloc socketServerBloc;
+
+  MyApp() {
+    socketServerBloc = SocketServerBloc(hive, SocketServerRepo());
+    hive.init();
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -28,12 +37,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => BlocProvider(
-              create: (context) {
-                var socketServerBloc = SocketServerBloc(SocketServerRepo(3476));
-                socketServerBloc.add(SocketServerEventStart());
-                return socketServerBloc;
-              },
+        '/': (context) => BlocProvider.value(
+              value: socketServerBloc,
               child: MyHomePage(),
             ),
       },
@@ -76,7 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Expanded(child: DataView(cast<SocketServerStateRunning>(socketServerState.data)?.messages)),
+                Expanded(
+                    child: DataView(
+                        cast<SocketServerStateRunning>(socketServerState.data)
+                            ?.messages)),
                 LogView(cast<SocketServerStateRunning>(state)?.log ?? ''),
               ],
             ),

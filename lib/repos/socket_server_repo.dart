@@ -2,14 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/data_message.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 
 class SocketServerRepo {
-  final int _port;
-
-  SocketServerRepo(this._port);
+  late int port;
 
   HttpServer? _server;
   StreamController<String> _logStreamController = StreamController();
@@ -33,7 +32,7 @@ class SocketServerRepo {
     );
 
     try {
-      _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, _port);
+      _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
       _logStreamController.add('Server started on port ${_server?.port}');
       return Future.value();
     } catch (error) {
