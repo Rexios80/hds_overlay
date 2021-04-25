@@ -29,6 +29,9 @@ jobs:
         
       - name: Build
         run: flutter build linux
+
+      - name: Debug tree
+        run: find .
         
       - name: Archive artifact
         uses: actions/upload-artifact@v2
@@ -49,9 +52,6 @@ jobs:
           
       - name: Test
         run: flutter test
-        
-      - name: Build
-        run: flutter build macos
 
       - name: Import Code-Signing Certificates
         uses: Apple-Actions/import-codesign-certs@v1
@@ -60,6 +60,9 @@ jobs:
           p12-file-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE_DATA }}
           # The password used to import the PKCS12 file.
           p12-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSPHRASE }}
+
+      - name: Build
+        run: flutter build macos
 
       - name: Install gon via HomeBrew for code signing and app notarization
         run: |
