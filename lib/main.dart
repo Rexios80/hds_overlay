@@ -6,21 +6,24 @@ import 'package:hds_overlay/repos/socket_server_repo.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/null_safety.dart';
 
+import 'blocs/hive/hive_bloc.dart';
 import 'blocs/socket_server/socket_server_bloc.dart';
 import 'hive/hive_utils.dart';
 import 'interface/log_view.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  final hive = HiveUtils();
+  await hive.init();
+  runApp(MyApp(hive));
 }
 
 class MyApp extends StatelessWidget {
-  final hive = HiveUtils();
+  late final HiveBloc hiveBloc;
   late final SocketServerBloc socketServerBloc;
 
-  MyApp() {
+  MyApp(HiveUtils hive) {
+    hiveBloc = HiveBloc(hive);
     socketServerBloc = SocketServerBloc(hive, SocketServerRepo());
-    hive.init();
   }
 
   // This widget is the root of your application.
@@ -38,8 +41,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => BlocProvider.value(
-              value: socketServerBloc,
-              child: MyHomePage(),
+              value: hiveBloc,
+              child: BlocProvider.value(
+                value: socketServerBloc,
+                child: MyHomePage(),
+              ),
             ),
       },
     );

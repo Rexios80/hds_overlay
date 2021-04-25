@@ -19,14 +19,14 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
   final SocketServerRepo _repo;
 
   SocketServerBloc(this._hive, this._repo) : super(SocketServerStateStopped()) {
-    _hive.initStream.listen((_) {
-      final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
-      add(SocketServerEventStart(port));
+    final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
 
-      _hive.settings.watch().listen((event) {
-        final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
-        add(SocketServerEventPortChange(port));
-      });
+    // Calling add before the object is fully initialized won't update the state
+    Future.delayed(Duration(milliseconds: 100), () => add(SocketServerEventStart(port)));
+
+    _hive.settings.watch().listen((event) {
+      final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
+      add(SocketServerEventPortChange(port));
     });
   }
 

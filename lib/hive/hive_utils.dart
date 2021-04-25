@@ -9,16 +9,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'data_type.dart';
 
 class HiveUtils {
-  final _initStreamController = StreamController<void>.broadcast();
-
-  Stream<void> get initStream {
-    return _initStreamController.stream;
-  }
+  static final boxSettings = 'settings';
+  static final boxDataWidgetProperties = 'dataWidgetProperties';
 
   late Box<Settings> settings;
   late Box<DataWidgetProperties> dataWidgetProperties;
 
-  void init() async {
+  Future<void> init() async {
     await Hive.initFlutter();
 
     Hive.registerAdapter(Tuple2DoubleAdapter());
@@ -26,8 +23,8 @@ class HiveUtils {
     Hive.registerAdapter(DataWidgetPropertiesAdapter());
     Hive.registerAdapter(SettingsAdapter());
 
-    settings = await Hive.openBox('settings');
-    dataWidgetProperties = await Hive.openBox('dataWidgetProperties');
+    settings = await Hive.openBox(boxSettings);
+    dataWidgetProperties = await Hive.openBox(boxDataWidgetProperties);
 
     // TODO: REMOVE
     await settings.clear();
@@ -37,6 +34,7 @@ class HiveUtils {
       settings.add(Settings());
     }
 
+    // Create default widget settings
     if (dataWidgetProperties.values.isEmpty) {
       dataWidgetProperties.add(
         DataWidgetProperties()
@@ -47,14 +45,10 @@ class HiveUtils {
       dataWidgetProperties.add(
         DataWidgetProperties()
           ..dataType = DataType.calories
-          ..position = Tuple2Double(100, 10),
+          ..position = Tuple2Double(200, 10),
       );
     }
 
-    _initStreamController.add('');
-  }
-
-  void close() {
-    _initStreamController.close();
+    return Future.value();
   }
 }

@@ -1,37 +1,48 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hds_overlay/blocs/hive/hive_bloc.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/default_image.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 abstract class DataWidget extends StatelessWidget {
   final DataType dataType;
   final dynamic value;
-  final DataWidgetProperties properties;
 
-  const DataWidget(this.dataType, this.value, this.properties, {Key? key})
-      : super(key: key);
+  const DataWidget(this.dataType, this.value, {Key? key}) : super(key: key);
 }
 
 class DataWidgetBase extends DataWidget {
   DataWidgetBase(DataType dataType, value, DataWidgetProperties properties)
-      : super(dataType, value, properties);
+      : super(dataType, value);
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: properties.position.item1,
-      top: properties.position.item2,
-      child: Row(
-        children: [
-          createImage(),
-          createValueText(),
-        ],
-      ),
-    );
+    final hiveBloc = BlocProvider.of<HiveBloc>(context);
+
+    return ValueListenableBuilder(
+        valueListenable: hiveBloc.hive.dataWidgetProperties.listenable(),
+        builder: (context, Box box, widget) {
+          final properties =
+              box.values.firstWhere((dwp) => dwp.dataType == dataType);
+
+          return Positioned(
+            left: properties.position.item1,
+            top: properties.position.item2,
+            child: Row(
+              children: [
+                createImage(properties),
+                createValueText(properties),
+              ],
+            ),
+          );
+        });
   }
 
-  Widget createImage() {
+  Widget createImage(DataWidgetProperties properties) {
     if (!properties.showImage) {
       return SizedBox.shrink();
     }
@@ -49,7 +60,7 @@ class DataWidgetBase extends DataWidget {
     return imageWidget;
   }
 
-  Widget createValueText() {
+  Widget createValueText(DataWidgetProperties properties) {
     return Padding(
       padding: EdgeInsets.only(
         left: properties.textPaddingLeft,
