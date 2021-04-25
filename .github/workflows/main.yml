@@ -29,9 +29,6 @@ jobs:
         
       - name: Build
         run: flutter build linux
-
-      - name: Debug tree
-        run: find .
         
       - name: Archive artifact
         uses: actions/upload-artifact@v2
