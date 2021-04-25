@@ -13,6 +13,8 @@ Binaries for macOS, linux, and Windows are also available on the [releases](http
 
 [Video of the overlay in action](https://www.youtube.com/watch?v=CFGlA7JWUFo)
 
+You can track development progress [here](https://trello.com/healthdataserver)
+
 ### How to set up
 1. Download the Apple Watch app and the desktop app for your platform
 2. For the Windows Firewall prompt, make sure to check both the boxes and then click "Allow access"
