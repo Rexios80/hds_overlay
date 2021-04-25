@@ -7,6 +7,7 @@ import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/default_image.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 abstract class DataWidget extends StatelessWidget {
   final DataType dataType;
@@ -21,7 +22,7 @@ class DataWidgetBase extends DataWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hiveBloc = BlocProvider.of<HiveBloc>(context);
+    final hiveBloc = Provider.of<HiveBloc>(context);
 
     return ValueListenableBuilder(
       valueListenable: hiveBloc.hive.dataWidgetProperties.listenable(),

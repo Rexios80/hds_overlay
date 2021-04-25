@@ -5,12 +5,13 @@ import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/interface/navigation_drawer.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final hiveBloc = BlocProvider.of<HiveBloc>(context);
+    final hiveBloc = Provider.of<HiveBloc>(context);
 
     return Scaffold(
       appBar: AppBar(

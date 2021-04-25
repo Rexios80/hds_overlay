@@ -22,7 +22,8 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
     final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
 
     // Calling add before the object is fully initialized won't update the state
-    Future.delayed(Duration(milliseconds: 100), () => add(SocketServerEventStart(port)));
+    Future.delayed(
+        Duration(milliseconds: 100), () => add(SocketServerEventStart(port)));
 
     _hive.settings.watch().listen((event) {
       final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
@@ -40,9 +41,7 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
       _setupStreamListeners();
     } else if (state is SocketServerStateRunning &&
         event is SocketServerEventStop) {
-      await _repo.stopSocketServer();
-      _messageStreamSubscription?.cancel();
-      _logStreamSubscription?.cancel();
+      await _stopSocketServer();
       yield SocketServerStateStopped();
     } else if (event is SocketServerEventMessage) {
       yield SocketServerStateRunning(
@@ -57,6 +56,12 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
     }
   }
 
+  @override
+  Future<void> close() async {
+    await _stopSocketServer();
+    super.close();
+  }
+
   Future<SocketServerState> _startSocketServer(int port) async {
     try {
       await _repo.startSocketServer(port);
@@ -64,6 +69,12 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
     } catch (error) {
       return SocketServerStateStopped(error: error);
     }
+  }
+
+  Future<void> _stopSocketServer() async {
+    await _repo.stopSocketServer();
+    _messageStreamSubscription?.cancel();
+    _logStreamSubscription?.cancel();
   }
 
   Future<SocketServerState> _restartSocketServer(int port) async {
