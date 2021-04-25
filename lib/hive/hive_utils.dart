@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
@@ -26,9 +27,11 @@ class HiveUtils {
     settings = await Hive.openBox(boxSettings);
     dataWidgetProperties = await Hive.openBox(boxDataWidgetProperties);
 
-    // TODO: REMOVE
-    await settings.clear();
-    await dataWidgetProperties.clear();
+    if (kDebugMode) {
+      print('Clearing hive boxes');
+      await settings.clear();
+      await dataWidgetProperties.clear();
+    }
 
     if (settings.values.isEmpty) {
       settings.add(Settings());

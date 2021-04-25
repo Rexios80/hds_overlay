@@ -35,6 +35,7 @@ dependencies:
   desktop_window: ^0.4.0
   tuple: ^2.0.0
   msix: ^2.0.0
+  settings_ui: ^1.0.0
 
   # Shelf
   shelf: ^1.1.0

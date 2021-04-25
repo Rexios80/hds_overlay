@@ -24,22 +24,23 @@ class DataWidgetBase extends DataWidget {
     final hiveBloc = BlocProvider.of<HiveBloc>(context);
 
     return ValueListenableBuilder(
-        valueListenable: hiveBloc.hive.dataWidgetProperties.listenable(),
-        builder: (context, Box box, widget) {
-          final properties =
-              box.values.firstWhere((dwp) => dwp.dataType == dataType);
+      valueListenable: hiveBloc.hive.dataWidgetProperties.listenable(),
+      builder: (context, Box box, widget) {
+        final properties =
+            box.values.firstWhere((dwp) => dwp.dataType == dataType);
 
-          return Positioned(
-            left: properties.position.item1,
-            top: properties.position.item2,
-            child: Row(
-              children: [
-                createImage(properties),
-                createValueText(properties),
-              ],
-            ),
-          );
-        });
+        return Positioned(
+          left: properties.position.item1,
+          top: properties.position.item2,
+          child: Row(
+            children: [
+              createImage(properties),
+              createValueText(properties),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget createImage(DataWidgetProperties properties) {

@@ -2,6 +2,7 @@ import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hds_overlay/interface/data_view.dart';
+import 'package:hds_overlay/interface/navigation_drawer.dart';
 import 'package:hds_overlay/repos/socket_server_repo.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/null_safety.dart';
@@ -10,6 +11,8 @@ import 'blocs/hive/hive_bloc.dart';
 import 'blocs/socket_server/socket_server_bloc.dart';
 import 'hive/hive_utils.dart';
 import 'interface/log_view.dart';
+import 'interface/routes.dart';
+import 'interface/settings_view.dart';
 
 void main() async {
   final hive = HiveUtils();
@@ -38,14 +41,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: createMaterialColor(AppColors.accent),
       ),
-      initialRoute: '/',
+      initialRoute: '/overlay',
       routes: {
-        '/': (context) => BlocProvider.value(
+        Routes.overlay: (context) => BlocProvider.value(
               value: hiveBloc,
               child: BlocProvider.value(
                 value: socketServerBloc,
                 child: MyHomePage(),
               ),
+            ),
+        Routes.settings: (context) => BlocProvider.value(
+              value: hiveBloc,
+              child: SettingsView(),
             ),
       },
     );
@@ -81,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // the App.build method, and use it to set our appbar title.
             title: Text('Health Data Server'),
           ),
+          drawer: NavigationDrawer(),
           body: Center(
             // Center is a layout widget. It takes a single child and positions it
             // in the middle of the parent.
