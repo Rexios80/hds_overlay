@@ -93,18 +93,12 @@ jobs:
         
       - name: Build
         run: flutter build windows
-      
-      - name: Zip windows files
-      - uses: papeloto/action-zip@v1
-        with:
-          files: build/windows/runner/Release/
-          dest: windows.zip
 
       - name: Archive zip artifact
         uses: actions/upload-artifact@v2
         with:
           name: windows exe
-          path: windows.zip
+          path: build/windows/runner/Release/
 
       - name: Create msix
         run: flutter pub run msix:create
