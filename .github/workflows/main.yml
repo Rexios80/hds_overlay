@@ -75,7 +75,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: macos
-          path: hds_overlay.dmg
+          path: "Health Data Server.dmg"
           
   build_windows:
     runs-on: windows-latest
