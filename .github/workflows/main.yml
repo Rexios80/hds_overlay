@@ -92,15 +92,22 @@ jobs:
         run: flutter test
         
       - name: Build
-        run: |
-          flutter build windows
-          flutter pub run msix:create
-        
-      - name: Archive exe artifact
+        run: flutter build windows
+      
+      - name: Zip windows files
+      - uses: papeloto/action-zip@v1
+        with:
+          files: build/windows/runner/Release/
+          dest: windows.zip
+
+      - name: Archive zip artifact
         uses: actions/upload-artifact@v2
         with:
           name: windows exe
-          path: build/windows/runner/Release/hds_overlay.exe
+          path: windows.zip
+
+      - name: Create msix
+        run: flutter pub run msix:create
 
       - name: Archive msix artifact
         uses: actions/upload-artifact@v2
