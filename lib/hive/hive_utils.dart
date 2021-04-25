@@ -18,7 +18,7 @@ class HiveUtils {
   late Box<DataWidgetProperties> dataWidgetProperties;
 
   Future<void> init() async {
-    await Hive.initFlutter(Directory.current.path);
+    await Hive.initFlutter('Health Data Server');
 
     Hive.registerAdapter(Tuple2DoubleAdapter());
     Hive.registerAdapter(DataTypeAdapter());
