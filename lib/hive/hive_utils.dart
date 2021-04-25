@@ -24,28 +24,29 @@ class HiveUtils {
     Hive.registerAdapter(DataWidgetPropertiesAdapter());
     Hive.registerAdapter(SettingsAdapter());
 
+    // Delete the boxes to prevent crashes while developing
+    if (kDebugMode) {
+      print('Deleting hive boxes');
+      await Hive.deleteBoxFromDisk(boxSettings);
+      await Hive.deleteBoxFromDisk(boxDataWidgetProperties);
+    }
+
     settings = await Hive.openBox(boxSettings);
     dataWidgetProperties = await Hive.openBox(boxDataWidgetProperties);
 
-    if (kDebugMode) {
-      print('Clearing hive boxes');
-      await settings.clear();
-      await dataWidgetProperties.clear();
-    }
-
     if (settings.values.isEmpty) {
-      settings.add(Settings());
+      await settings.add(Settings());
     }
 
     // Create default widget settings
     if (dataWidgetProperties.values.isEmpty) {
-      dataWidgetProperties.add(
+      await dataWidgetProperties.add(
         DataWidgetProperties()
           ..dataType = DataType.heartRate
           ..position = Tuple2Double(10, 10),
       );
 
-      dataWidgetProperties.add(
+      await dataWidgetProperties.add(
         DataWidgetProperties()
           ..dataType = DataType.calories
           ..position = Tuple2Double(200, 10),
