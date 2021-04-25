@@ -7,10 +7,14 @@ part 'settings.g.dart';
 class Settings extends HiveObject {
   static final defaultPort = 3476;
   static final defaultOverlayBackgroundColor = AppColors.chromaGreen.value;
+  static final defaultDarkMode = false;
 
   @HiveField(0)
   int port = defaultPort;
 
   @HiveField(1)
   int overlayBackgroundColor = defaultOverlayBackgroundColor;
+
+  @HiveField(2)
+  bool darkMode = defaultDarkMode;
 }

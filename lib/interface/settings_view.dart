@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hds_overlay/blocs/hive/hive_bloc.dart';
+import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/interface/navigation_drawer.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -12,21 +13,31 @@ class SettingsView extends StatelessWidget {
     final hiveBloc = BlocProvider.of<HiveBloc>(context);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          'Settings',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       drawer: NavigationDrawer(),
       body: ValueListenableBuilder(
-        valueListenable: hiveBloc.hive.dataWidgetProperties.listenable(),
+        valueListenable: hiveBloc.hive.settings.listenable(),
         builder: (context, Box box, widget) {
+          final Settings settings = box.getAt(0);
+
           return SettingsList(
             sections: [
               SettingsSection(
-                title: 'Section',
+                title: 'Style',
                 tiles: [
-                  SettingsTile(
-                    title: 'Language',
-                    subtitle: 'English',
+                  SettingsTile.switchTile(
+                    title: 'Dark mode',
                     leading: Icon(Icons.language),
-                    onPressed: (BuildContext context) {},
+                    switchValue: settings.darkMode,
+                    onToggle: (bool value) {
+                      settings.darkMode = value;
+                      settings.save();
+                    },
                   ),
                   SettingsTile.switchTile(
                     title: 'Use fingerprint',

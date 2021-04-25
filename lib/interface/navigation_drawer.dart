@@ -15,11 +15,12 @@ class NavigationDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             child: Text(
-              'Health Data Server',
+              'HDS',
               style: TextStyle(color: Colors.white),
             ),
             decoration: BoxDecoration(
-              color: AppColors.accent,
+              image: DecorationImage(image: AssetImage('assets/icon.png')),
+              color: Colors.grey,
             ),
           ),
           ListTile(
