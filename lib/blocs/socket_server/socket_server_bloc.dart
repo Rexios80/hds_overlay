@@ -27,7 +27,9 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
 
     _hive.settings.watch().listen((event) {
       final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
-      add(SocketServerEventPortChange(port));
+      if (port != _repo.server?.port) {
+        add(SocketServerEventPortChange(port));
+      }
     });
   }
 

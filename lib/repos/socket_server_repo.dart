@@ -8,7 +8,7 @@ import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 
 class SocketServerRepo {
-  HttpServer? _server;
+  HttpServer? server;
   StreamController<String> _logStreamController = StreamController();
   StreamController<DataMessageBase> _messageStreamController =
       StreamController();
@@ -30,8 +30,8 @@ class SocketServerRepo {
     );
 
     try {
-      _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
-      _logStreamController.add('Server started on port ${_server?.port}');
+      server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
+      _logStreamController.add('Server started on port ${server?.port}');
       return Future.value();
     } catch (error) {
       _logStreamController.add(error.toString());
@@ -41,7 +41,7 @@ class SocketServerRepo {
 
   Future<dynamic> stopSocketServer() async {
     _logStreamController.add('Server stopped');
-    return _server?.close();
+    return server?.close();
   }
 
   void _handleMessage(dynamic message) {
