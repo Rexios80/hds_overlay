@@ -9,8 +9,6 @@ class SocketServerEventStart extends SocketServerEvent {
   SocketServerEventStart(this.port);
 }
 
-class SocketServerEventStop extends SocketServerEvent {}
-
 class SocketServerEventPortChange extends SocketServerEvent {
   final int port;
 

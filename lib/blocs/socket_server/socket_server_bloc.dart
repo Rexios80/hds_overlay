@@ -39,10 +39,6 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
     if (state is SocketServerStateStopped && event is SocketServerEventStart) {
       yield await _startSocketServer(event.port);
       _setupStreamListeners();
-    } else if (state is SocketServerStateRunning &&
-        event is SocketServerEventStop) {
-      await _stopSocketServer();
-      yield SocketServerStateStopped();
     } else if (event is SocketServerEventMessage) {
       yield SocketServerStateRunning(
         messages: processMessage(event.message),
@@ -51,8 +47,10 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
     } else if (event is SocketServerEventLog) {
       yield SocketServerStateRunning(log: appendToLog(event.log));
     } else if (event is SocketServerEventPortChange) {
+      final log = cast<SocketServerStateRunning>(state)?.log ?? '';
       yield SocketServerStateStopped();
       yield await _restartSocketServer(event.port);
+      yield SocketServerStateRunning(log: log);
     }
   }
 
