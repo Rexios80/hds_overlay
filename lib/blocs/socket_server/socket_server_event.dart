@@ -11,6 +11,12 @@ class SocketServerEventStart extends SocketServerEvent {
 
 class SocketServerEventStop extends SocketServerEvent {}
 
+class SocketServerEventPortChange extends SocketServerEvent {
+  final int port;
+
+  SocketServerEventPortChange(this.port);
+}
+
 class SocketServerEventMessage extends SocketServerEvent {
   final DataMessageBase message;
 

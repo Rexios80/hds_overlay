@@ -22,6 +22,11 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
     _hive.initStream.listen((_) {
       final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
       add(SocketServerEventStart(port));
+
+      _hive.settings.watch().listen((event) {
+        final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
+        add(SocketServerEventPortChange(port));
+      });
     });
   }
 
@@ -46,6 +51,9 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
       );
     } else if (event is SocketServerEventLog) {
       yield SocketServerStateRunning(log: appendToLog(event.log));
+    } else if (event is SocketServerEventPortChange) {
+      yield SocketServerStateStopped();
+      yield await _restartSocketServer(event.port);
     }
   }
 
@@ -56,6 +64,11 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
     } catch (error) {
       return SocketServerStateStopped(error: error);
     }
+  }
+
+  Future<SocketServerState> _restartSocketServer(int port) async {
+    await _repo.stopSocketServer();
+    return await _startSocketServer(port);
   }
 
   void _setupStreamListeners() {
