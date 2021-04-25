@@ -42,6 +42,7 @@ class SocketServerRepo {
   Future<dynamic> stopSocketServer() async {
     await _logStreamController.close();
     await _messageStreamController.close();
+    _logStreamController.add('Server stopped');
     return _server?.close();
   }
 
