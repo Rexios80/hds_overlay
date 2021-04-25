@@ -3,7 +3,11 @@ part of 'socket_server_bloc.dart';
 @immutable
 abstract class SocketServerEvent {}
 
-class SocketServerEventStart extends SocketServerEvent {}
+class SocketServerEventStart extends SocketServerEvent {
+  final int port;
+
+  SocketServerEventStart(this.port);
+}
 
 class SocketServerEventStop extends SocketServerEvent {}
 

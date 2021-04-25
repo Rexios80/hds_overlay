@@ -8,8 +8,6 @@ import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 
 class SocketServerRepo {
-  late int port;
-
   HttpServer? _server;
   StreamController<String> _logStreamController = StreamController();
   StreamController<DataMessageBase> _messageStreamController =
@@ -19,7 +17,7 @@ class SocketServerRepo {
 
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
-  Future<void> startSocketServer() async {
+  Future<void> startSocketServer(int port) async {
     var handler = webSocketHandler(
       (webSocket) {
         webSocket.stream.listen(_handleMessage).onDone(() {

@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/hive_utils.dart';
+import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/model/data_message.dart';
 import 'package:hds_overlay/repos/socket_server_repo.dart';
 import 'package:hds_overlay/utils/null_safety.dart';
@@ -18,8 +19,9 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
   final SocketServerRepo _repo;
 
   SocketServerBloc(this._hive, this._repo) : super(SocketServerStateStopped()) {
-    _hive.initStream.listen((nothing) {
-      print('TEST');
+    _hive.initStream.listen((_) {
+      final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
+      add(SocketServerEventStart(port));
     });
   }
 
@@ -29,7 +31,7 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
   @override
   Stream<SocketServerState> mapEventToState(SocketServerEvent event) async* {
     if (state is SocketServerStateStopped && event is SocketServerEventStart) {
-      yield await _startSocketServer();
+      yield await _startSocketServer(event.port);
       _setupStreamListeners();
     } else if (state is SocketServerStateRunning &&
         event is SocketServerEventStop) {
@@ -47,9 +49,9 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
     }
   }
 
-  Future<SocketServerState> _startSocketServer() async {
+  Future<SocketServerState> _startSocketServer(int port) async {
     try {
-      await _repo.startSocketServer();
+      await _repo.startSocketServer(port);
       return SocketServerStateRunning();
     } catch (error) {
       return SocketServerStateStopped(error: error);
