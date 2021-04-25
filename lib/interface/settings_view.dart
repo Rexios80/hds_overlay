@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hds_overlay/blocs/hive/hive_bloc.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/interface/navigation_drawer.dart';

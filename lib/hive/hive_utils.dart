@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
@@ -17,7 +18,7 @@ class HiveUtils {
   late Box<DataWidgetProperties> dataWidgetProperties;
 
   Future<void> init() async {
-    await Hive.initFlutter();
+    await Hive.initFlutter(Directory.current.path);
 
     Hive.registerAdapter(Tuple2DoubleAdapter());
     Hive.registerAdapter(DataTypeAdapter());
