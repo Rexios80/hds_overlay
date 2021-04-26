@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/interface/navigation_drawer.dart';
 import 'package:hds_overlay/utils/colors.dart';
+import 'package:hds_overlay/utils/themes.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:provider/provider.dart';
 
 class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final hive = Provider.of<HiveUtils>(context);
+    final HiveUtils hive = Get.find();
 
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +20,7 @@ class SettingsView extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      drawer: NavigationDrawer(),
+      drawer: navigationDrawer,
       body: ValueListenableBuilder(
         valueListenable: hive.settingsBox.listenable(),
         builder: (context, Box box, widget) {
@@ -34,6 +35,8 @@ class SettingsView extends StatelessWidget {
                 onChanged: (value) {
                   settings.darkMode = value;
                   settings.save();
+                  Get.changeTheme(
+                      Get.isDarkMode ? Themes.dark : Themes.light);
                 },
               ),
             ],

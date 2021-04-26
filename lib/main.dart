@@ -1,121 +1,79 @@
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:hds_overlay/interface/data_view.dart';
 import 'package:hds_overlay/interface/navigation_drawer.dart';
+import 'package:hds_overlay/interface/settings_view.dart';
 import 'package:hds_overlay/repos/socket_server_repo.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/null_safety.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
-import 'package:provider/provider.dart';
 
 import 'blocs/socket_server/socket_server_bloc.dart';
 import 'hive/hive_utils.dart';
-import 'hive/settings.dart';
 import 'interface/log_view.dart';
 import 'interface/routes.dart';
-import 'interface/settings_view.dart';
 
 void main() async {
   final hive = HiveUtils();
   await hive.init();
-  runApp(MyApp(hive));
+  Get.put(hive);
+  Get.put(SocketServerBloc(SocketServerRepo()));
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final HiveUtils hive;
-  late final SocketServerBloc socketServerBloc;
+  final HiveUtils hive = Get.find();
 
-  MyApp(this.hive) {
-    socketServerBloc = SocketServerBloc(hive, SocketServerRepo());
-  }
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     DesktopWindow.setWindowSize(Size(1000, 500));
     DesktopWindow.setMaxWindowSize(Size(1000, 500));
     DesktopWindow.setMinWindowSize(Size(1000, 500));
 
-    return ValueListenableBuilder(
-      valueListenable: hive.settingsBox.listenable(),
-      builder: (context, Box box, widget) {
-        final Settings settings = box.getAt(0);
-
-        return MaterialApp(
-          title: 'Flutter Demo',
-          navigatorObservers: [defaultLifecycleObserver],
-          theme: ThemeData(
-            brightness: Brightness.light,
-            primarySwatch: createMaterialColor(AppColors.accent),
-          ),
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            primarySwatch: createMaterialColor(AppColors.accent),
-          ),
-          themeMode: settings.darkMode ? ThemeMode.dark : ThemeMode.light,
-          initialRoute: '/overlay',
-          routes: {
-            Routes.overlay: (context) => MultiProvider(
-                  providers: [
-                    Provider<HiveUtils>(create: (_) => hive),
-                    Provider<SocketServerBloc>(create: (_) => socketServerBloc),
-                  ],
-                  child: Overlay(),
-                ),
-            Routes.settings: (context) => Provider<HiveUtils>(
-                  create: (_) => hive,
-                  child: SettingsView(),
-                ),
-          },
-        );
-      },
+    return GetMaterialApp(
+      title: 'Health Data Server',
+      navigatorObservers: [defaultLifecycleObserver],
+      theme: Themes.light,
+      darkTheme: Themes.dark,
+      themeMode: hive.settings.darkMode ? ThemeMode.dark : ThemeMode.light,
+      initialRoute: Routes.overlay,
+      getPages: [
+        GetPage(name: Routes.overlay, page: () => HDSOverlay()),
+        GetPage(name: Routes.settings, page: () => SettingsView()),
+      ],
     );
   }
 }
 
-class Overlay extends StatelessWidget {
+class HDSOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final SocketServerBloc socketServerBloc =
-        Provider.of<SocketServerBloc>(context);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return StreamBuilder<SocketServerState>(
-      stream: socketServerBloc.stream,
-      initialData: socketServerBloc.state,
-      builder: (context, socketServerState) {
-        final state = socketServerState.data;
-
-        return Scaffold(
-          appBar: AppBar(
-            // Here we take the value from the MyHomePage object that was created by
-            // the App.build method, and use it to set our appbar title.
-            title: Text('Health Data Server'),
-          ),
-          drawer: NavigationDrawer(),
-          body: Center(
-            // Center is a layout widget. It takes a single child and positions it
-            // in the middle of the parent.
-            child: Row(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Health Data Server'),
+      ),
+      drawer: navigationDrawer,
+      body: Center(
+        child: BlocBuilder(
+          bloc: Get.find<SocketServerBloc>(),
+          builder: (context, SocketServerState state) {
+            return Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
-                  child: DataView(
-                      cast<SocketServerStateRunning>(socketServerState.data)
-                          ?.messages),
+                  child:
+                      DataView(cast<SocketServerStateRunning>(state)?.messages),
                 ),
                 LogView(cast<SocketServerStateRunning>(state)?.log ?? ''),
               ],
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }

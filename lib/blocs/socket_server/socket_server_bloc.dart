@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/model/data_message.dart';
@@ -14,10 +15,10 @@ part 'socket_server_event.dart';
 part 'socket_server_state.dart';
 
 class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
-  final HiveUtils _hive;
+  final HiveUtils _hive = Get.find();
   final SocketServerRepo _repo;
 
-  SocketServerBloc(this._hive, this._repo) : super(SocketServerStateStopped()) {
+  SocketServerBloc(this._repo) : super(SocketServerStateStopped()) {
     final port = _hive.settings.port;
 
     // Calling add before the object is fully initialized won't update the state
