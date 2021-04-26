@@ -42,6 +42,9 @@ class SettingsView extends StatelessWidget {
               TextEditingController(text: settings.port.toString());
           portFieldTec.selection =
               TextSelection.collapsed(offset: portFieldTec.text.length);
+          final validatePort = (port) {
+            return port >= 1234 && port <= 49151;
+          };
           final portField = Row(
             children: [
               Text('WebSocket port'),
@@ -49,13 +52,17 @@ class SettingsView extends StatelessWidget {
               Container(
                 width: 100,
                 child: TextField(
-                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    errorText:
+                        !validatePort(settings.port) ? 'Invalid port' : null,
+                  ),
                   keyboardType: TextInputType.number,
                   controller: portFieldTec,
                   onChanged: (value) {
                     final port = int.tryParse(value) ?? 0;
                     settings.port = port;
-                    if (port >= 1234 && port <= 49151) {
+                    if (validatePort(port)) {
                       settings.save();
                     }
                   },
