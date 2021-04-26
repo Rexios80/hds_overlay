@@ -35,8 +35,7 @@ class SettingsView extends StatelessWidget {
                 onChanged: (value) {
                   settings.darkMode = value;
                   settings.save();
-                  Get.changeTheme(
-                      Get.isDarkMode ? Themes.dark : Themes.light);
+                  Get.changeTheme(value ? Themes.dark : Themes.light);
                 },
               ),
             ],
