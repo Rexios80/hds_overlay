@@ -5,7 +5,6 @@ import 'package:hds_overlay/interface/navigation_drawer.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 class SettingsView extends StatelessWidget {
   @override
@@ -25,29 +24,59 @@ class SettingsView extends StatelessWidget {
         builder: (context, Box box, widget) {
           final Settings settings = box.getAt(0);
 
-          return SettingsList(
-            sections: [
-              SettingsSection(
-                title: 'Style',
-                tiles: [
-                  SettingsTile.switchTile(
-                    title: 'Dark mode',
-                    leading: Icon(Icons.language),
-                    switchValue: settings.darkMode,
-                    onToggle: (bool value) {
-                      settings.darkMode = value;
-                      settings.save();
-                    },
-                  ),
-                  SettingsTile.switchTile(
-                    title: 'Use fingerprint',
-                    leading: Icon(Icons.fingerprint),
-                    switchValue: false,
-                    onToggle: (bool value) {},
-                  ),
-                ],
+          final darkModeToggle = Row(
+            children: [
+              Text('Dark mode'),
+              Spacer(),
+              Switch(
+                value: settings.darkMode,
+                onChanged: (value) {
+                  settings.darkMode = value;
+                  settings.save();
+                },
               ),
             ],
+          );
+
+          final portFieldTec =
+              TextEditingController(text: settings.port.toString());
+          portFieldTec.selection =
+              TextSelection.collapsed(offset: portFieldTec.text.length);
+          final portField = Row(
+            children: [
+              Text('WebSocket port'),
+              Spacer(),
+              Container(
+                width: 100,
+                child: TextField(
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  keyboardType: TextInputType.number,
+                  controller: portFieldTec,
+                  onChanged: (value) {
+                    final port = int.tryParse(value) ?? 0;
+                    settings.port = port;
+                    if (port >= 1234 && port <= 49151) {
+                      settings.save();
+                    }
+                  },
+                ),
+              ),
+            ],
+          );
+
+          return Card(
+            elevation: 8,
+            margin: EdgeInsets.only(left: 100, right: 100, top: 20, bottom: 20),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: ListView(
+              padding: EdgeInsets.all(20),
+              children: [
+                darkModeToggle,
+                Divider(),
+                portField,
+              ],
+            ),
           );
         },
       ),
