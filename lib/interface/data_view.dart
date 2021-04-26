@@ -5,6 +5,9 @@ import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/model/data_message.dart';
 import 'package:hds_overlay/widgets/data_widget.dart';
+import 'package:hds_overlay/widgets/heart_rate_widget.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 class DataView extends StatelessWidget {
@@ -17,10 +20,22 @@ class DataView extends StatelessWidget {
     final HiveUtils hive = Provider.of<HiveUtils>(context);
 
     final dataWidgets = messages?.entries.map((e) => e.value).map((message) {
-          return DataWidgetBase(
-            message.dataType,
-            message.value,
-            DataWidgetProperties(),
+          return MultiProvider(
+            providers: [
+              Provider<DataMessage>(create: (context) => message),
+              Provider<DataWidgetProperties>(
+                  create: (context) => hive.dataWidgetPropertiesBox.values
+                      .firstWhere((dwp) => dwp.dataType == message.dataType))
+            ],
+            child: ValueListenableBuilder(
+              valueListenable: hive.dataWidgetPropertiesBox.listenable(),
+              builder: (context, Box box, widget) {
+                if (message.dataType == DataType.heartRate) {
+                  return HeartRateWidget();
+                }
+                return DataWidget();
+              },
+            ),
           );
         }).toList() ??
         [];
