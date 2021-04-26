@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/hive_utils.dart';
-import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/model/data_message.dart';
 import 'package:hds_overlay/repos/socket_server_repo.dart';
 import 'package:hds_overlay/utils/null_safety.dart';
@@ -19,14 +18,14 @@ class SocketServerBloc extends Bloc<SocketServerEvent, SocketServerState> {
   final SocketServerRepo _repo;
 
   SocketServerBloc(this._hive, this._repo) : super(SocketServerStateStopped()) {
-    final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
+    final port = _hive.settings.port;
 
     // Calling add before the object is fully initialized won't update the state
     Future.delayed(
         Duration(milliseconds: 100), () => add(SocketServerEventStart(port)));
 
-    _hive.settings.watch().listen((event) {
-      final port = _hive.settings.getAt(0)?.port ?? Settings.defaultPort;
+    _hive.settingsBox.watch().listen((event) {
+      final port = _hive.settings.port;
       var portIsDifferent;
       try {
         portIsDifferent = port != _repo.server?.port;

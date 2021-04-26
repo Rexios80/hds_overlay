@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class AppColors {
   static final accent = Color(0xffe35c89);
   static final chromaGreen = Color(0xff00b140);
+  static final chromaBlue = Color(0xff0047bb);
+  static final chromaMagenta = Color(0xffff00ff);
 }
 
 MaterialColor createMaterialColor(Color color) {

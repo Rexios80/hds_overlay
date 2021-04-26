@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hds_overlay/blocs/hive/hive_bloc.dart';
+import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/interface/navigation_drawer.dart';
+import 'package:hds_overlay/utils/colors.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,7 @@ import 'package:provider/provider.dart';
 class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final hiveBloc = Provider.of<HiveBloc>(context);
+    final hive = Provider.of<HiveUtils>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +21,7 @@ class SettingsView extends StatelessWidget {
       ),
       drawer: NavigationDrawer(),
       body: ValueListenableBuilder(
-        valueListenable: hiveBloc.hive.settings.listenable(),
+        valueListenable: hive.settingsBox.listenable(),
         builder: (context, Box box, widget) {
           final Settings settings = box.getAt(0);
 
@@ -71,6 +72,17 @@ class SettingsView extends StatelessWidget {
             ],
           );
 
+          final backgroundColorPicker = Row(
+            children: [
+              Text('Overlay background color'),
+              Spacer(),
+              colorCircle(
+                Color(settings.overlayBackgroundColor),
+                () => showColorPickerDialog(context, settings),
+              ),
+            ],
+          );
+
           return Card(
             elevation: 8,
             margin: EdgeInsets.only(left: 100, right: 100, top: 20, bottom: 20),
@@ -82,11 +94,58 @@ class SettingsView extends StatelessWidget {
                 darkModeToggle,
                 Divider(),
                 portField,
+                Divider(),
+                backgroundColorPicker
               ],
             ),
           );
         },
       ),
+    );
+  }
+
+  Widget colorCircle(Color color, onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+
+  Widget colorCircleWithSave(
+      BuildContext context, Settings settings, Color color) {
+    return colorCircle(color, () {
+      settings.overlayBackgroundColor = color.value;
+      settings.save();
+      Navigator.of(context).pop();
+    });
+  }
+
+  void showColorPickerDialog(BuildContext context, Settings settings) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Pick a background color to chroma key'),
+          content: Row(
+            children: [
+              Spacer(),
+              colorCircleWithSave(context, settings, AppColors.chromaGreen),
+              Spacer(),
+              colorCircleWithSave(context, settings, AppColors.chromaBlue),
+              Spacer(),
+              colorCircleWithSave(context, settings, AppColors.chromaMagenta),
+              Spacer(),
+            ],
+          ),
+        );
+      },
     );
   }
 }

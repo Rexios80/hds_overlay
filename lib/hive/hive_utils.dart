@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
@@ -14,8 +13,9 @@ class HiveUtils {
   static final boxSettings = 'settings';
   static final boxDataWidgetProperties = 'dataWidgetProperties';
 
-  late Box<Settings> settings;
-  late Box<DataWidgetProperties> dataWidgetProperties;
+  late Box<Settings> settingsBox;
+  late Box<DataWidgetProperties> dataWidgetPropertiesBox;
+  late Settings settings;
 
   Future<void> init() async {
     await Hive.initFlutter('Health Data Server');
@@ -32,22 +32,24 @@ class HiveUtils {
       await Hive.deleteBoxFromDisk(boxDataWidgetProperties);
     }
 
-    settings = await Hive.openBox(boxSettings);
-    dataWidgetProperties = await Hive.openBox(boxDataWidgetProperties);
+    settingsBox = await Hive.openBox(boxSettings);
+    dataWidgetPropertiesBox = await Hive.openBox(boxDataWidgetProperties);
 
-    if (settings.values.isEmpty) {
-      await settings.add(Settings());
+    if (settingsBox.values.isEmpty) {
+      await settingsBox.add(Settings());
     }
 
+    settings = settingsBox.getAt(0)!;
+
     // Create default widget settings
-    if (dataWidgetProperties.values.isEmpty) {
-      await dataWidgetProperties.add(
+    if (dataWidgetPropertiesBox.values.isEmpty) {
+      await dataWidgetPropertiesBox.add(
         DataWidgetProperties()
           ..dataType = DataType.heartRate
           ..position = Tuple2Double(10, 10),
       );
 
-      await dataWidgetProperties.add(
+      await dataWidgetPropertiesBox.add(
         DataWidgetProperties()
           ..dataType = DataType.calories
           ..position = Tuple2Double(200, 10),

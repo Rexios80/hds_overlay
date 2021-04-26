@@ -9,7 +9,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'blocs/hive/hive_bloc.dart';
 import 'blocs/socket_server/socket_server_bloc.dart';
 import 'hive/hive_utils.dart';
 import 'hive/settings.dart';
@@ -25,13 +24,9 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final HiveUtils hive;
-
-  // Instantiate these here so they don't get recreated with UI changes
-  late final HiveBloc hiveBloc;
   late final SocketServerBloc socketServerBloc;
 
   MyApp(this.hive) {
-    hiveBloc = HiveBloc(hive);
     socketServerBloc = SocketServerBloc(hive, SocketServerRepo());
   }
 
@@ -43,7 +38,7 @@ class MyApp extends StatelessWidget {
     DesktopWindow.setMinWindowSize(Size(1000, 500));
 
     return ValueListenableBuilder(
-      valueListenable: hive.settings.listenable(),
+      valueListenable: hive.settingsBox.listenable(),
       builder: (context, Box box, widget) {
         final Settings settings = box.getAt(0);
 
@@ -62,13 +57,13 @@ class MyApp extends StatelessWidget {
           routes: {
             Routes.overlay: (context) => MultiProvider(
                   providers: [
-                    Provider<HiveBloc>(create: (_) => hiveBloc),
+                    Provider<HiveUtils>(create: (_) => hive),
                     Provider<SocketServerBloc>(create: (_) => socketServerBloc),
                   ],
                   child: Overlay(),
                 ),
-            Routes.settings: (context) => Provider<HiveBloc>(
-                  create: (_) => hiveBloc,
+            Routes.settings: (context) => Provider<HiveUtils>(
+                  create: (_) => hive,
                   child: SettingsView(),
                 ),
           },
@@ -81,7 +76,8 @@ class MyApp extends StatelessWidget {
 class Overlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SocketServerBloc socketServerBloc = Provider.of<SocketServerBloc>(context);
+    final SocketServerBloc socketServerBloc =
+        Provider.of<SocketServerBloc>(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -108,9 +104,10 @@ class Overlay extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
-                    child: DataView(
-                        cast<SocketServerStateRunning>(socketServerState.data)
-                            ?.messages)),
+                  child: DataView(
+                      cast<SocketServerStateRunning>(socketServerState.data)
+                          ?.messages),
+                ),
                 LogView(cast<SocketServerStateRunning>(state)?.log ?? ''),
               ],
             ),

@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hds_overlay/hive/data_type.dart';
-import 'package:hds_overlay/model/data_message.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
-import 'package:hds_overlay/utils/colors.dart';
+import 'package:hds_overlay/hive/hive_utils.dart';
+import 'package:hds_overlay/model/data_message.dart';
 import 'package:hds_overlay/widgets/data_widget.dart';
+import 'package:provider/provider.dart';
 
 class DataView extends StatelessWidget {
   final Map<DataType, DataMessage>? messages;
@@ -13,6 +14,8 @@ class DataView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HiveUtils hive = Provider.of<HiveUtils>(context);
+
     final dataWidgets = messages?.entries.map((e) => e.value).map((message) {
           return DataWidgetBase(
             message.dataType,
@@ -23,7 +26,7 @@ class DataView extends StatelessWidget {
         [];
 
     return Container(
-      color: AppColors.chromaGreen,
+      color: Color(hive.settings.overlayBackgroundColor),
       child: Stack(
         children: dataWidgets,
       ),
