@@ -7,6 +7,7 @@ import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/null_safety.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:lifecycle/lifecycle.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/socket_server/socket_server_bloc.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
 
         return MaterialApp(
           title: 'Flutter Demo',
+          navigatorObservers: [defaultLifecycleObserver],
           theme: ThemeData(
             brightness: Brightness.light,
             primarySwatch: createMaterialColor(AppColors.accent),
