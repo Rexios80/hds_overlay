@@ -14,15 +14,17 @@ class LogView extends StatelessWidget {
       child: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-          child: Obx(() {
-            final column = Column();
-            socketServerController.logs.forEach((log) {
-              column.children.add(
-                Text(log.message, style: TextStyle(color: log.level.color)),
-              );
-            });
-            return column;
-          }),
+          child: Obx(
+            () => Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: socketServerController.logs.reversed.map((log) {
+                  return Text(log.message,
+                      style: TextStyle(color: log.level.color));
+                }).toList(),
+              ),
+            ),
+          ),
         ),
       ),
     );

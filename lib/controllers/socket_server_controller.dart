@@ -33,13 +33,19 @@ class SocketServerController extends GetxService {
     server.messageStream.listen((message) {
       if (message is UnknownDataMessage) {
         // Don't do anything with these
+        logs.add(LogMessage(LogLevel.warn,
+            'Unknown data received ${message.name}: ${message.value}'));
         return;
       }
 
       message as DataMessage;
       messages[message.dataType] = message;
+      logs.add(LogMessage(LogLevel.data, '${message.name}: ${message.value}'));
     });
 
-    server.logStream.listen((event) {});
+    server.logStream.listen((log) {
+      print(log.message);
+      logs.add(log);
+    });
   }
 }
