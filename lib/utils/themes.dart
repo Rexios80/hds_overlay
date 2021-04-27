@@ -13,7 +13,7 @@ class Themes {
     primarySwatch: createMaterialColor(AppColors.accent),
   );
 
-  static final sideBarWidth = 400.0;
+  static final sideBarWidth = 320.0;
   static final overlayWidth = 1280 / Get.pixelRatio;
   static final overlayHeight = 720 / Get.pixelRatio;
 }
