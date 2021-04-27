@@ -41,9 +41,9 @@ class DataWidgetBase extends StatelessWidget {
 }
 
 class DataWidgetImage extends StatelessWidget {
-  final double? size;
+  final bool square;
 
-  const DataWidgetImage({Key? key, this.size}) : super(key: key);
+  const DataWidgetImage({Key? key, this.square = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +56,13 @@ class DataWidgetImage extends StatelessWidget {
     final imageWidget = image == null
         ? Image.asset(
             getDefaultImage(message.dataType),
-            height: size ?? properties.imageSize,
+            height: properties.imageSize,
+            width: square ? properties.imageSize : null,
           )
         : Image.memory(
             image,
-            height: size ?? properties.imageSize,
+            height: properties.imageSize,
+            width: square ? properties.imageSize : null,
           );
 
     return imageWidget;

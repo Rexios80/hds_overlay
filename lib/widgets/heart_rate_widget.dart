@@ -12,17 +12,14 @@ class HeartRateWidget extends DataWidget {
   Widget build(BuildContext context) {
     final properties = Provider.of<DataWidgetProperties>(context);
 
-    final controller = useAnimationController(
-      lowerBound: 0.7,
-      upperBound: 1,
-    );
+    final controller = useAnimationController(initialValue: 1.0);
 
     useAnimation(controller);
 
     return LifecycleWrapper(
       onLifecycleEvent: (LifecycleEvent event) async {
         while (true) {
-          await controller.animateTo(0.7,
+          await controller.animateTo(0.8,
               duration: Duration(milliseconds: 1000));
           await controller.animateTo(1.0,
               duration: Duration(milliseconds: 500));
@@ -31,7 +28,17 @@ class HeartRateWidget extends DataWidget {
       child: DataWidgetBase(
         child: Row(
           children: [
-            DataWidgetImage(size: properties.imageSize * controller.value),
+            SizedBox(
+              height: properties.imageSize,
+              width: properties.imageSize,
+              child: Center(
+                child: SizedBox(
+                  height: properties.imageSize * controller.value,
+                  width: properties.imageSize * controller.value,
+                  child: DataWidgetImage(square: true),
+                ),
+              ),
+            ),
             DataWidgetText(),
           ],
         ),
