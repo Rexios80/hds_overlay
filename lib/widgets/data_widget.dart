@@ -50,8 +50,9 @@ class DataWidgetBase extends StatelessWidget {
 
 class DataWidgetImage extends StatelessWidget {
   final bool square;
+  final double? size;
 
-  DataWidgetImage({Key? key, this.square = false}) : super(key: key);
+  DataWidgetImage({Key? key, this.square = false, this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,19 +64,19 @@ class DataWidgetImage extends StatelessWidget {
         return SizedBox.shrink();
       }
       final image = dwc.properties.value.image;
-      final imageWidget = image == null
-          ? Image.asset(
-              getDefaultImage(Provider.of<DataType>(context)),
-              height: dwc.properties.value.imageSize,
-              width: square ? dwc.properties.value.imageSize : null,
-            )
-          : Image.memory(
-              image,
-              height: dwc.properties.value.imageSize,
-              width: square ? dwc.properties.value.imageSize : null,
-            );
+      final imageSize = size == null ? dwc.properties.value.imageSize : size;
 
-      return imageWidget;
+      return Container(
+        height: imageSize,
+        width: square ? imageSize : null,
+        child: Builder(builder: (context) {
+          if (image == null) {
+            return Image.asset(getDefaultImage(Provider.of<DataType>(context)));
+          } else {
+            return Image.memory(image);
+          }
+        }),
+      );
     });
   }
 }

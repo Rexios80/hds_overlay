@@ -38,6 +38,7 @@ dependencies:
   lifecycle: ^0.2.0
   get: ^4.1.4
   provider: ^5.0.0
+  file_picker_cross: ^4.3.2
 
   # Shelf
   shelf: ^1.1.0

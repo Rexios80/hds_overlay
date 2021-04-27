@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
+import 'package:hds_overlay/widgets/data_widget.dart';
+import 'package:provider/provider.dart';
 
 class WidgetEditor extends StatelessWidget {
   final EndDrawerController endDrawerController = Get.find();
@@ -88,6 +90,19 @@ class WidgetEditor extends StatelessWidget {
             },
           ),
         ),
+        Spacer(),
+        dwc.properties.value.showImage
+            ? Card(
+                elevation: 8,
+                child: Provider.value(
+                  value: endDrawerController.selectedDataType.value,
+                  child: Padding(
+                    padding: EdgeInsets.all(5),
+                    child: DataWidgetImage(square: true, ),
+                  ),
+                ),
+              )
+            : SizedBox.shrink(),
         Spacer(),
       ],
     );
