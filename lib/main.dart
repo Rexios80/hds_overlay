@@ -61,13 +61,12 @@ class HDSOverlay extends StatelessWidget {
         title: Text('Health Data Server'),
       ),
       drawer: navigationDrawer,
-      body: Center(
+      body: Container(
+        color: Colors.black,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Expanded(
-              child: DataView(),
-            ),
+            DataView(),
             LogView(),
           ],
         ),
