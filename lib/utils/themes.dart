@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hds_overlay/utils/colors.dart';
 
 class Themes {
@@ -11,4 +12,8 @@ class Themes {
     brightness: Brightness.dark,
     primarySwatch: createMaterialColor(AppColors.accent),
   );
+
+  static final sideBarWidth = 400.0;
+  static final overlayWidth = 1280 / Get.pixelRatio;
+  static final overlayHeight = 720 / Get.pixelRatio;
 }

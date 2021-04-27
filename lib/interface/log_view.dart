@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/model/log_message.dart';
+import 'package:hds_overlay/utils/themes.dart';
 
 class LogView extends StatelessWidget {
   final SocketServerController socketServerController = Get.find();
@@ -10,7 +11,7 @@ class LogView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: Colors.black),
-      width: 400,
+      width: Themes.sideBarWidth,
       child: Obx(
         () {
           final logs = socketServerController.logs.reversed.toList();

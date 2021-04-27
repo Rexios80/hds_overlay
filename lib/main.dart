@@ -24,12 +24,17 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final SettingsController settingsController = Get.find();
+  final titleBarHeight = 50.0; // TODO: Might need tweaking
 
   @override
   Widget build(BuildContext context) {
-    DesktopWindow.setWindowSize(Size(1000, 500));
-    DesktopWindow.setMaxWindowSize(Size(1000, 500));
-    DesktopWindow.setMinWindowSize(Size(1000, 500));
+    final width = Themes.overlayWidth + Themes.sideBarWidth;
+    final height = Themes.overlayHeight + kToolbarHeight + titleBarHeight;
+    print(width);
+    print(height);
+    DesktopWindow.setWindowSize(Size(width, height));
+    DesktopWindow.setMaxWindowSize(Size(width, height));
+    DesktopWindow.setMinWindowSize(Size(width, height));
 
     return GetMaterialApp(
       title: 'Health Data Server',

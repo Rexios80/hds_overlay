@@ -20,16 +20,16 @@ class DataWidgetProperties extends HiveObject {
   Uint8List? image;
 
   @HiveField(3)
-  double imageSize = 50;
+  double imageSize = 30;
 
   @HiveField(4)
-  double fontSize = 28;
+  double fontSize = 18;
 
   @HiveField(5)
   int textColor = Colors.white.value;
 
   @HiveField(6)
-  double textPaddingLeft = 10;
+  double textPaddingLeft = 7;
 
   @HiveField(7)
   String font = 'Monaco';
@@ -56,5 +56,5 @@ class DataWidgetProperties extends HiveObject {
   double textStrokeWidth = 1;
 
   @HiveField(15)
-  double textPaddingTop = 10;
+  double textPaddingTop = 6;
 }
