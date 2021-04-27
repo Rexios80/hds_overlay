@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
+import 'package:hds_overlay/controllers/global_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
+import 'package:hds_overlay/interface/data_view.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -56,20 +58,21 @@ class HiveUtils {
 
     Get.put(SettingsController(settingsBox.getAt(0)!.obs));
 
-    final dataWidgetController =
-        Get.put(DataWidgetController(createDwpMap(dataWidgetPropertiesBox)));
+    putDwpControllers(dataWidgetPropertiesBox.values);
 
     // Refresh when properties are added or removed
     dataWidgetPropertiesBox.watch().listen((event) {
-      dataWidgetController.dataWidgetProperties.value =
-          createDwpMap(dataWidgetPropertiesBox);
+      putDwpControllers(dataWidgetPropertiesBox.values);
+      Get.find<GlobalController>().update([DataView.getBuilderId]);
     });
 
     return Future.value();
   }
 
-  static RxMap<DataType, DataWidgetProperties> createDwpMap(Box dwpBox) {
-    return Map<DataType, DataWidgetProperties>.fromIterable(dwpBox.values,
-        key: (e) => e.dataType, value: (e) => e).obs;
+  static void putDwpControllers(Iterable<DataWidgetProperties> dwps) {
+    Get.put(dwps);
+    dwps.forEach((dwp) => Get.put<DataWidgetController>(
+        DataWidgetController(dwp.obs),
+        tag: dwp.dataType.toString()));
   }
 }

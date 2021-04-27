@@ -8,6 +8,7 @@ import 'package:hds_overlay/interface/settings_view.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
 
+import 'controllers/global_controller.dart';
 import 'controllers/settings_controller.dart';
 import 'hive/hive_utils.dart';
 import 'interface/log_view.dart';
@@ -15,6 +16,7 @@ import 'interface/routes.dart';
 
 void main() async {
   await HiveUtils.init();
+  Get.put(GlobalController());
   Get.put(SocketServerController());
 
   runApp(MyApp());

@@ -23,8 +23,6 @@ class DataWidget extends HookWidget {
 }
 
 class DataWidgetBase extends StatelessWidget {
-  final DataWidgetController dataWidgetController = Get.find();
-
   final Widget child;
 
   DataWidgetBase({Key? key, required this.child}) : super(key: key);
@@ -32,14 +30,12 @@ class DataWidgetBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataType = Provider.of<DataType>(context);
-    // TODO: Add default properties for new types
+    final DataWidgetController dwc = Get.find(tag: dataType.toString());
 
     return Obx(
       () => Positioned(
-        left:
-            dataWidgetController.dataWidgetProperties[dataType]!.position.item1,
-        top:
-            dataWidgetController.dataWidgetProperties[dataType]!.position.item2,
+        left: dwc.properties.value.position.item1,
+        top: dwc.properties.value.position.item2,
         child: child,
       ),
     );
@@ -47,8 +43,6 @@ class DataWidgetBase extends StatelessWidget {
 }
 
 class DataWidgetImage extends StatelessWidget {
-  final DataWidgetController dataWidgetController = Get.find();
-
   final bool square;
 
   DataWidgetImage({Key? key, this.square = false}) : super(key: key);
@@ -56,30 +50,23 @@ class DataWidgetImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataType = Provider.of<DataType>(context);
+    final DataWidgetController dwc = Get.find(tag: dataType.toString());
 
     return Obx(() {
-      if (!dataWidgetController.dataWidgetProperties[dataType]!.showImage) {
+      if (!dwc.properties.value.showImage) {
         return SizedBox.shrink();
       }
-      final image = dataWidgetController.dataWidgetProperties[dataType]!.image;
+      final image = dwc.properties.value.image;
       final imageWidget = image == null
           ? Image.asset(
               getDefaultImage(Provider.of<DataType>(context)),
-              height: dataWidgetController
-                  .dataWidgetProperties[dataType]!.imageSize,
-              width: square
-                  ? dataWidgetController
-                      .dataWidgetProperties[dataType]!.imageSize
-                  : null,
+              height: dwc.properties.value.imageSize,
+              width: square ? dwc.properties.value.imageSize : null,
             )
           : Image.memory(
               image,
-              height: dataWidgetController
-                  .dataWidgetProperties[dataType]!.imageSize,
-              width: square
-                  ? dataWidgetController
-                      .dataWidgetProperties[dataType]!.imageSize
-                  : null,
+              height: dwc.properties.value.imageSize,
+              width: square ? dwc.properties.value.imageSize : null,
             );
 
       return imageWidget;
@@ -88,47 +75,38 @@ class DataWidgetImage extends StatelessWidget {
 }
 
 class DataWidgetText extends StatelessWidget {
-  final DataWidgetController dataWidgetController = Get.find();
   final SocketServerController socketServerController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     final dataType = Provider.of<DataType>(context);
+    final DataWidgetController dwc = Get.find(tag: dataType.toString());
 
     return Obx(
       () => Padding(
         padding: EdgeInsets.only(
-          left: dataWidgetController
-              .dataWidgetProperties[dataType]!.textPaddingLeft,
-          top: dataWidgetController
-              .dataWidgetProperties[dataType]!.textPaddingTop,
+          left: dwc.properties.value.textPaddingLeft,
+          top: dwc.properties.value.textPaddingTop,
         ),
         child: Text(
           socketServerController.messages[dataType]?.value ?? '-',
           style: TextStyle(
-            color: Color(
-                dataWidgetController.dataWidgetProperties[dataType]!.textColor),
-            fontSize:
-                dataWidgetController.dataWidgetProperties[dataType]!.fontSize,
-            fontFamily:
-                dataWidgetController.dataWidgetProperties[dataType]!.font,
+            color: Color(dwc.properties.value.textColor),
+            fontSize: dwc.properties.value.fontSize,
+            fontFamily: dwc.properties.value.font,
             foreground: () {
-              if (dataWidgetController
-                  .dataWidgetProperties[dataType]!.textStroke) {
+              if (dwc.properties.value.textStroke) {
                 return Paint()
                   ..style = PaintingStyle.stroke
-                  ..strokeWidth = dataWidgetController
-                      .dataWidgetProperties[dataType]!.textStrokeWidth
+                  ..strokeWidth = dwc.properties.value.textStrokeWidth
                   ..color = Colors.black;
               }
             }(),
             shadows: () {
-              if (dataWidgetController
-                  .dataWidgetProperties[dataType]!.textShadow) {
+              if (dwc.properties.value.textShadow) {
                 return [
                   Shadow(
-                    blurRadius: dataWidgetController
-                        .dataWidgetProperties[dataType]!.textShadowRadius,
+                    blurRadius: dwc.properties.value.textShadowRadius,
                     color: Color.fromARGB(255, 0, 0, 0),
                   )
                 ];
