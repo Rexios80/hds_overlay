@@ -90,13 +90,14 @@ class WidgetEditor extends StatelessWidget {
         ),
         Spacer(),
         Obx(() {
-          if (dwc.properties.value.showImage && dwc.properties.value.image != null) {
+          if (dwc.properties.value.showImage &&
+              dwc.properties.value.image != null) {
             return TextButton(
               onPressed: () {
                 dwc.properties.value.image = null;
                 saveAndRefresh(dwc);
               },
-              child: Text('Delete'),
+              child: Text('Remove'),
             );
           } else {
             return SizedBox.shrink();
@@ -129,6 +130,17 @@ class WidgetEditor extends StatelessWidget {
       ],
     );
 
+    final deleteButton = InkWell(
+      onDoubleTap: () {
+        dwc.properties.value.delete();
+        Get.back();
+      },
+      child: TextButton(
+        onPressed: () {},
+        child: Text('DELETE WIDGET'),
+      ),
+    );
+
     return ListView(
       padding: EdgeInsets.all(10),
       children: [
@@ -137,6 +149,8 @@ class WidgetEditor extends StatelessWidget {
         positionEditor,
         SizedBox(height: 10),
         imageEditor,
+        SizedBox(height: 20),
+        deleteButton,
       ],
     );
   }

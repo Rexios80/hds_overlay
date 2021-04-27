@@ -26,6 +26,12 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
       case 5:
         return DataType.calories;
       case 6:
+        return DataType.stepCount;
+      case 7:
+        return DataType.distanceTraveled;
+      case 8:
+        return DataType.speed;
+      case 999:
         return DataType.unknown;
       default:
         return DataType.heartRate;
@@ -53,8 +59,17 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
       case DataType.calories:
         writer.writeByte(5);
         break;
-      case DataType.unknown:
+      case DataType.stepCount:
         writer.writeByte(6);
+        break;
+      case DataType.distanceTraveled:
+        writer.writeByte(7);
+        break;
+      case DataType.speed:
+        writer.writeByte(8);
+        break;
+      case DataType.unknown:
+        writer.writeByte(999);
         break;
     }
   }

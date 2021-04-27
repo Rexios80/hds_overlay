@@ -23,5 +23,14 @@ enum DataType {
   calories,
 
   @HiveField(6)
+  stepCount,
+
+  @HiveField(7)
+  distanceTraveled,
+
+  @HiveField(8)
+  speed,
+
+  @HiveField(999)
   unknown,
 }
