@@ -45,8 +45,7 @@ class WidgetEditor extends StatelessWidget {
                 double.tryParse(text) ?? 0.0,
                 dwc.properties.value.position.item2,
               );
-              dwc.properties.refresh();
-              dwc.properties.value.save();
+              saveAndRefresh(dwc);
             },
           ),
         ),
@@ -69,8 +68,7 @@ class WidgetEditor extends StatelessWidget {
                 dwc.properties.value.position.item1,
                 double.tryParse(text) ?? 0.0,
               );
-              dwc.properties.refresh();
-              dwc.properties.value.save();
+              saveAndRefresh(dwc);
             },
           ),
         ),
@@ -86,35 +84,45 @@ class WidgetEditor extends StatelessWidget {
             value: dwc.properties.value.showImage,
             onChanged: (enabled) {
               dwc.properties.value.showImage = enabled;
-              dwc.properties.refresh();
-              dwc.properties.value.save();
+              saveAndRefresh(dwc);
             },
           ),
         ),
         Spacer(),
-        Builder(builder: (context) {
-          if (dwc.properties.value.showImage) {
-            return InkWell(
-              onTap: () async {
-                final typeGroup =
-                    XTypeGroup(label: 'images', extensions: ['jpg', 'png', 'gif']);
-                final file = await openFile(acceptedTypeGroups: [typeGroup]);
+        Obx(() {
+          if (dwc.properties.value.showImage && dwc.properties.value.image != null) {
+            return TextButton(
+              onPressed: () {
+                dwc.properties.value.image = null;
+                saveAndRefresh(dwc);
               },
-              child: Card(
-                elevation: 8,
-                child: Provider.value(
-                  value: endDrawerController.selectedDataType.value,
-                  child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: DataWidgetImage(
-                      square: true,
-                    ),
-                  ),
-                ),
-              ),
+              child: Text('Delete'),
             );
           } else {
             return SizedBox.shrink();
+          }
+        }),
+        Spacer(),
+        Obx(() {
+          if (dwc.properties.value.showImage) {
+            return InkWell(
+                onTap: () => selectImageFile(dwc),
+                child: Card(
+                  elevation: 8,
+                  child: Provider.value(
+                    value: endDrawerController.selectedDataType.value,
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: DataWidgetImage(
+                        square: true,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                ));
+          } else {
+            // Prevent view shifting
+            return SizedBox(width: 48, height: 48);
           }
         }),
         Spacer(),
@@ -131,5 +139,22 @@ class WidgetEditor extends StatelessWidget {
         imageEditor,
       ],
     );
+  }
+
+  void saveAndRefresh(DataWidgetController dwc) {
+    dwc.properties.value.save();
+    dwc.properties.refresh();
+  }
+
+  void selectImageFile(DataWidgetController dwc) async {
+    final typeGroup =
+        XTypeGroup(label: 'images', extensions: ['jpg', 'png', 'gif']);
+    final file = await openFile(acceptedTypeGroups: [typeGroup]);
+
+    // Don't do anything if they don't pick a file
+    if (file == null) return;
+
+    dwc.properties.value.image = await file.readAsBytes();
+    saveAndRefresh(dwc);
   }
 }
