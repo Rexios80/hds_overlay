@@ -25,7 +25,7 @@ class SocketServer {
           _logStreamController.add(LogMessage(LogLevel.warn,
               'Watch disconnected: ${webSocket.closeReason ?? ''}'));
         });
-        _logStreamController.add(LogMessage(LogLevel.info, 'Watch connected'));
+        _logStreamController.add(LogMessage(LogLevel.good, 'Watch connected'));
       },
       pingInterval: Duration(seconds: 15),
     );
