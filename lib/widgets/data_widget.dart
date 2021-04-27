@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hds_overlay/hive/data_widget_properties.dart';
-import 'package:hds_overlay/model/data_message.dart';
+import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/data_widget_controller.dart';
+import 'package:hds_overlay/controllers/socket_server_controller.dart';
+import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/default_image.dart';
 import 'package:provider/provider.dart';
 
-class DataWidget extends HookWidget {
+class DataWidget extends GetView<DataWidgetController> {
   @override
   Widget build(BuildContext context) {
-    final message = Provider.of<DataMessage>(context);
-
     return DataWidgetBase(
       child: Row(
         children: [
@@ -23,87 +22,118 @@ class DataWidget extends HookWidget {
 }
 
 class DataWidgetBase extends StatelessWidget {
+  final DataWidgetController dataWidgetController = Get.find();
+
   final Widget child;
 
-  const DataWidgetBase({Key? key, required this.child}) : super(key: key);
+  DataWidgetBase({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final properties = Provider.of<DataWidgetProperties>(context);
+    final dataType = Provider.of<DataType>(context);
     // TODO: Add default properties for new types
 
-    return Positioned(
-      left: properties.position.item1,
-      top: properties.position.item2,
-      child: child,
+    return Obx(
+      () => Positioned(
+        left:
+            dataWidgetController.dataWidgetProperties[dataType]!.position.item1,
+        top:
+            dataWidgetController.dataWidgetProperties[dataType]!.position.item2,
+        child: child,
+      ),
     );
   }
 }
 
 class DataWidgetImage extends StatelessWidget {
+  final DataWidgetController dataWidgetController = Get.find();
+
   final bool square;
 
-  const DataWidgetImage({Key? key, this.square = false}) : super(key: key);
+  DataWidgetImage({Key? key, this.square = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final message = Provider.of<DataMessage>(context);
-    final properties = Provider.of<DataWidgetProperties>(context);
-    if (!properties.showImage) {
-      return SizedBox.shrink();
-    }
-    final image = properties.image;
-    final imageWidget = image == null
-        ? Image.asset(
-            getDefaultImage(message.dataType),
-            height: properties.imageSize,
-            width: square ? properties.imageSize : null,
-          )
-        : Image.memory(
-            image,
-            height: properties.imageSize,
-            width: square ? properties.imageSize : null,
-          );
+    final dataType = Provider.of<DataType>(context);
 
-    return imageWidget;
+    return Obx(() {
+      if (!dataWidgetController.dataWidgetProperties[dataType]!.showImage) {
+        return SizedBox.shrink();
+      }
+      final image = dataWidgetController.dataWidgetProperties[dataType]!.image;
+      final imageWidget = image == null
+          ? Image.asset(
+              getDefaultImage(Provider.of<DataType>(context)),
+              height: dataWidgetController
+                  .dataWidgetProperties[dataType]!.imageSize,
+              width: square
+                  ? dataWidgetController
+                      .dataWidgetProperties[dataType]!.imageSize
+                  : null,
+            )
+          : Image.memory(
+              image,
+              height: dataWidgetController
+                  .dataWidgetProperties[dataType]!.imageSize,
+              width: square
+                  ? dataWidgetController
+                      .dataWidgetProperties[dataType]!.imageSize
+                  : null,
+            );
+
+      return imageWidget;
+    });
   }
 }
 
 class DataWidgetText extends StatelessWidget {
+  final DataWidgetController dataWidgetController = Get.find();
+  final SocketServerController socketServerController = Get.find();
+
   @override
   Widget build(BuildContext context) {
-    final message = Provider.of<DataMessage>(context);
-    final properties = Provider.of<DataWidgetProperties>(context);
+    final dataType = Provider.of<DataType>(context);
 
-    return Padding(
-      padding: EdgeInsets.only(
-        left: properties.textPaddingLeft,
-        top: properties.textPaddingTop,
-      ),
-      child: Text(
-        message.value,
-        style: TextStyle(
-          color: Color(properties.textColor),
-          fontSize: properties.fontSize,
-          fontFamily: properties.font,
-          foreground: () {
-            if (properties.textStroke) {
-              return Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = properties.textStrokeWidth
-                ..color = Colors.black;
-            }
-          }(),
-          shadows: () {
-            if (properties.textShadow) {
-              return [
-                Shadow(
-                  blurRadius: properties.textShadowRadius,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                )
-              ];
-            }
-          }(),
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.only(
+          left: dataWidgetController
+              .dataWidgetProperties[dataType]!.textPaddingLeft,
+          top: dataWidgetController
+              .dataWidgetProperties[dataType]!.textPaddingTop,
+        ),
+        child: Text(
+          socketServerController.messages[dataType]?.value ?? '-',
+          style: TextStyle(
+            color: Color(
+                dataWidgetController.dataWidgetProperties[dataType]!.textColor),
+            fontSize:
+                dataWidgetController.dataWidgetProperties[dataType]!.fontSize,
+            fontFamily:
+                dataWidgetController.dataWidgetProperties[dataType]!.font,
+            foreground: () {
+              if (dataWidgetController
+                  .dataWidgetProperties[dataType]!.textStroke) {
+                return Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = dataWidgetController
+                      .dataWidgetProperties[dataType]!.textStrokeWidth
+                  ..color = Colors.black;
+              }
+            }(),
+            shadows: () {
+              if (dataWidgetController
+                  .dataWidgetProperties[dataType]!.textShadow) {
+                return [
+                  Shadow(
+                    blurRadius: dataWidgetController
+                        .dataWidgetProperties[dataType]!.textShadowRadius,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  )
+                ];
+              }
+            }(),
+          ),
         ),
       ),
     );

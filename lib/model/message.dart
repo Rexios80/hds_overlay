@@ -15,9 +15,12 @@ extension DataTypeExtension on DataType {
   }
 }
 
-abstract class DataMessageBase {
-  final dynamic value;
+abstract class MessageBase {
   final timestamp = DateTime.now().millisecondsSinceEpoch;
+}
+
+abstract class DataMessageBase extends MessageBase {
+  final dynamic value;
 
   String get name;
 

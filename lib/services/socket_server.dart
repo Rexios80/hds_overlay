@@ -3,44 +3,46 @@ import 'dart:io';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hds_overlay/hive/data_type.dart';
-import 'package:hds_overlay/model/data_message.dart';
+import 'package:hds_overlay/model/log_message.dart';
+import 'package:hds_overlay/model/message.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 
-class SocketServerRepo {
+class SocketServer {
   HttpServer? server;
-  StreamController<String> _logStreamController = StreamController();
+  StreamController<LogMessage> _logStreamController = StreamController();
   StreamController<DataMessageBase> _messageStreamController =
       StreamController();
 
-  Stream<String> get logStream => _logStreamController.stream;
+  Stream<LogMessage> get logStream => _logStreamController.stream;
 
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
-  Future<void> startSocketServer(int port) async {
+  Future<void> start(int port) async {
     var handler = webSocketHandler(
       (webSocket) {
         webSocket.stream.listen(_handleMessage).onDone(() {
-          _logStreamController
-              .add('Watch disconnected: ${webSocket.closeReason ?? ''}');
+          _logStreamController.add(LogMessage(LogLevel.warn,
+              'Watch disconnected: ${webSocket.closeReason ?? ''}'));
         });
-        _logStreamController.add('Watch connected');
+        _logStreamController.add(LogMessage(LogLevel.info, 'Watch connected'));
       },
       pingInterval: Duration(seconds: 15),
     );
 
     try {
       server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
-      _logStreamController.add('Server started on port ${server?.port}');
+      _logStreamController.add(
+          LogMessage(LogLevel.info, 'Server started on port ${server?.port}'));
       return Future.value();
     } catch (error) {
-      _logStreamController.add(error.toString());
+      _logStreamController.add(LogMessage(LogLevel.error, error.toString()));
       return Future.error(error);
     }
   }
 
-  Future<dynamic> stopSocketServer() async {
-    _logStreamController.add('Server stopped');
+  Future<dynamic> stop() async {
+    _logStreamController.add(LogMessage(LogLevel.warn, 'Server stopped'));
     return server?.close();
   }
 

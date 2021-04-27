@@ -29,16 +29,16 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  flutter_bloc: ^7.0.0
   equatable: ^2.0.0
   enum_to_string: ^2.0.1
   desktop_window: ^0.4.0
   tuple: ^2.0.0
   msix: ^2.0.0
-  provider: ^5.0.0
   flutter_hooks: ^0.16.0
   lifecycle: ^0.2.0
   get: ^4.1.4
+  synchronized: ^3.0.0
+  provider: ^5.0.0
 
   # Shelf
   shelf: ^1.1.0

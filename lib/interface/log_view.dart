@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/socket_server_controller.dart';
+import 'package:hds_overlay/model/log_message.dart';
 
 class LogView extends StatelessWidget {
-  final String log;
-
-  const LogView(this.log, {Key? key}) : super(key: key);
+  final SocketServerController socketServerController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +14,15 @@ class LogView extends StatelessWidget {
       child: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-          child: Text(
-            log,
-            style: TextStyle(color: Colors.white),
-          ),
+          child: Obx(() {
+            final column = Column();
+            socketServerController.logs.forEach((log) {
+              column.children.add(
+                Text(log.message, style: TextStyle(color: log.level.color)),
+              );
+            });
+            return column;
+          }),
         ),
       ),
     );

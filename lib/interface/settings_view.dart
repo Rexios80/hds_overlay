@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hds_overlay/hive/hive_utils.dart';
+import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/interface/navigation_drawer.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/themes.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final HiveUtils hive = Get.find();
+    final SettingsController settingsController = Get.find();
 
     return Scaffold(
       appBar: AppBar(
@@ -21,28 +19,27 @@ class SettingsView extends StatelessWidget {
         ),
       ),
       drawer: navigationDrawer,
-      body: ValueListenableBuilder(
-        valueListenable: hive.settingsBox.listenable(),
-        builder: (context, Box box, widget) {
-          final Settings settings = box.getAt(0);
-
+      body: Builder(
+        builder: (context) {
           final darkModeToggle = Row(
             children: [
               Text('Dark mode'),
               Spacer(),
-              Switch(
-                value: settings.darkMode,
-                onChanged: (value) {
-                  settings.darkMode = value;
-                  settings.save();
-                  Get.changeTheme(value ? Themes.dark : Themes.light);
-                },
+              Obx(
+                () => Switch(
+                  value: settingsController.settings.value.darkMode,
+                  onChanged: (value) {
+                    settingsController.settings.value.darkMode = value;
+                    settingsController.settings.value.save();
+                    Get.changeTheme(value ? Themes.dark : Themes.light);
+                  },
+                ),
               ),
             ],
           );
 
-          final portFieldTec =
-              TextEditingController(text: settings.port.toString());
+          final portFieldTec = TextEditingController(
+              text: settingsController.settings.value.port.toString());
           portFieldTec.selection =
               TextSelection.collapsed(offset: portFieldTec.text.length);
           final validatePort = (port) {
@@ -54,21 +51,23 @@ class SettingsView extends StatelessWidget {
               Spacer(),
               Container(
                 width: 100,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    errorText:
-                        !validatePort(settings.port) ? 'Invalid port' : null,
+                child: Obx(
+                  () => TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      errorText: !validatePort(settingsController.settings.value.port)
+                          ? 'Invalid port'
+                          : null,
+                    ),
+                    keyboardType: TextInputType.number,
+                    controller: portFieldTec,
+                    onChanged: (value) {
+                      final port = int.tryParse(value) ?? 0;
+                      if (validatePort(port)) {
+                        settingsController.settings.value.port = port;
+                      }
+                    },
                   ),
-                  keyboardType: TextInputType.number,
-                  controller: portFieldTec,
-                  onChanged: (value) {
-                    final port = int.tryParse(value) ?? 0;
-                    settings.port = port;
-                    if (validatePort(port)) {
-                      settings.save();
-                    }
-                  },
                 ),
               ),
             ],
@@ -78,9 +77,12 @@ class SettingsView extends StatelessWidget {
             children: [
               Text('Overlay background color'),
               Spacer(),
-              colorCircle(
-                Color(settings.overlayBackgroundColor),
-                () => showColorPickerDialog(context, settings),
+              Obx(
+                () => colorCircle(
+                  Color(settingsController.settings.value.overlayBackgroundColor),
+                  () => showColorPickerDialog(
+                      context, settingsController.settings.value),
+                ),
               ),
             ],
           );
