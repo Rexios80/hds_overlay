@@ -9,23 +9,23 @@ class LogView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
       decoration: BoxDecoration(color: Colors.black),
-      child: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-          child: Obx(
-            () => Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: socketServerController.logs.reversed.map((log) {
-                  return Text(log.message,
-                      style: TextStyle(color: log.level.color));
-                }).toList(),
-              ),
-            ),
-          ),
-        ),
+      width: 400,
+      child: Obx(
+        () {
+          final logs = socketServerController.logs.reversed.toList();
+          return ListView.builder(
+            padding: EdgeInsets.all(10),
+            itemCount: logs.length,
+            itemBuilder: (context, index) {
+              final log = logs[index];
+              return Text(
+                log.message,
+                style: TextStyle(color: log.level.color),
+              );
+            },
+          );
+        },
       ),
     );
   }
