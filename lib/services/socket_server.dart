@@ -23,7 +23,7 @@ class SocketServer {
       (webSocket) {
         webSocket.stream.listen(_handleMessage).onDone(() {
           _logStreamController.add(LogMessage(LogLevel.warn,
-              'Watch disconnected: ${webSocket.closeReason ?? ''}'));
+              'Watch disconnected: ${webSocket.closeReason ?? 'No reason given'}'));
         });
         _logStreamController.add(LogMessage(LogLevel.good, 'Watch connected'));
       },
