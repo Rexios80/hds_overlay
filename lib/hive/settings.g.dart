@@ -17,9 +17,9 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Settings()
-      .._port = fields[0] as int
-      .._overlayBackgroundColor = fields[1] as int
-      .._darkMode = fields[2] as bool;
+      ..port = fields[0] as int
+      ..overlayBackgroundColor = fields[1] as int
+      ..darkMode = fields[2] as bool;
   }
 
   @override
@@ -27,11 +27,11 @@ class SettingsAdapter extends TypeAdapter<Settings> {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj._port)
+      ..write(obj.port)
       ..writeByte(1)
-      ..write(obj._overlayBackgroundColor)
+      ..write(obj.overlayBackgroundColor)
       ..writeByte(2)
-      ..write(obj._darkMode);
+      ..write(obj.darkMode);
   }
 
   @override

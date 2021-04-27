@@ -7,10 +7,10 @@ import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/themes.dart';
 
 class SettingsView extends StatelessWidget {
+  final SettingsController settingsController = Get.find();
+
   @override
   Widget build(BuildContext context) {
-    final SettingsController settingsController = Get.find();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -30,7 +30,7 @@ class SettingsView extends StatelessWidget {
                   value: settingsController.settings.value.darkMode,
                   onChanged: (value) {
                     settingsController.settings.value.darkMode = value;
-                    settingsController.settings.value.save();
+                    refreshAndSave();
                     Get.changeTheme(value ? Themes.dark : Themes.light);
                   },
                 ),
@@ -55,9 +55,10 @@ class SettingsView extends StatelessWidget {
                   () => TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      errorText: !validatePort(settingsController.settings.value.port)
-                          ? 'Invalid port'
-                          : null,
+                      errorText:
+                          !validatePort(settingsController.settings.value.port)
+                              ? 'Invalid port'
+                              : null,
                     ),
                     keyboardType: TextInputType.number,
                     controller: portFieldTec,
@@ -65,6 +66,7 @@ class SettingsView extends StatelessWidget {
                       final port = int.tryParse(value) ?? 0;
                       if (validatePort(port)) {
                         settingsController.settings.value.port = port;
+                        refreshAndSave();
                       }
                     },
                   ),
@@ -79,7 +81,8 @@ class SettingsView extends StatelessWidget {
               Spacer(),
               Obx(
                 () => colorCircle(
-                  Color(settingsController.settings.value.overlayBackgroundColor),
+                  Color(
+                      settingsController.settings.value.overlayBackgroundColor),
                   () => showColorPickerDialog(
                       context, settingsController.settings.value),
                 ),
@@ -126,8 +129,8 @@ class SettingsView extends StatelessWidget {
       BuildContext context, Settings settings, Color color) {
     return colorCircle(color, () {
       settings.overlayBackgroundColor = color.value;
-      settings.save();
-      Navigator.of(context).pop();
+      refreshAndSave();
+      Get.back();
     });
   }
 
@@ -151,5 +154,10 @@ class SettingsView extends StatelessWidget {
         );
       },
     );
+  }
+
+  void refreshAndSave() {
+    settingsController.settings.refresh();
+    settingsController.settings.value.save();
   }
 }

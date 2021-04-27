@@ -33,7 +33,7 @@ class HiveUtils {
 
     final settingsBox = await Hive.openBox<Settings>(boxSettings);
     final dataWidgetPropertiesBox =
-    await Hive.openBox<DataWidgetProperties>(boxDataWidgetProperties);
+        await Hive.openBox<DataWidgetProperties>(boxDataWidgetProperties);
 
     if (settingsBox.values.isEmpty) {
       await settingsBox.add(Settings());
@@ -56,11 +56,11 @@ class HiveUtils {
 
     Get.put(SettingsController(settingsBox.getAt(0)!.obs));
 
-    final dataWidgetController = Get.put(
-        DataWidgetController(createDwpMap(dataWidgetPropertiesBox)));
+    final dataWidgetController =
+        Get.put(DataWidgetController(createDwpMap(dataWidgetPropertiesBox)));
 
-        // Refresh when properties are added or removed
-        dataWidgetPropertiesBox.watch().listen((event) {
+    // Refresh when properties are added or removed
+    dataWidgetPropertiesBox.watch().listen((event) {
       dataWidgetController.dataWidgetProperties.value =
           createDwpMap(dataWidgetPropertiesBox);
     });
@@ -69,9 +69,7 @@ class HiveUtils {
   }
 
   static RxMap<DataType, DataWidgetProperties> createDwpMap(Box dwpBox) {
-    return Map<DataType, DataWidgetProperties>.fromIterable(
-        dwpBox.values,
-        key: (e) => e.dataType,
-        value: (e) => e).obs;
+    return Map<DataType, DataWidgetProperties>.fromIterable(dwpBox.values,
+        key: (e) => e.dataType, value: (e) => e).obs;
   }
 }
