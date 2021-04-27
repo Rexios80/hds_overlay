@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
+import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/default_image.dart';
@@ -27,6 +28,8 @@ class DataWidgetBase extends StatelessWidget {
 
   DataWidgetBase({Key? key, required this.child}) : super(key: key);
 
+  final EndDrawerController endDrawerController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     final dataType = Provider.of<DataType>(context);
@@ -36,7 +39,10 @@ class DataWidgetBase extends StatelessWidget {
       () => Positioned(
         left: dwc.properties.value.position.item1,
         top: dwc.properties.value.position.item2,
-        child: child,
+        child: InkWell(
+          onTap: () => endDrawerController.selectedDataType.value = dataType,
+          child: child,
+        ),
       ),
     );
   }

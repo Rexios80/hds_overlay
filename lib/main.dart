@@ -2,8 +2,6 @@ import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/socket_server_controller.dart';
-import 'package:hds_overlay/interface/data_view.dart';
-import 'package:hds_overlay/interface/navigation_drawer.dart';
 import 'package:hds_overlay/interface/settings_view.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
@@ -11,7 +9,7 @@ import 'package:lifecycle/lifecycle.dart';
 import 'controllers/global_controller.dart';
 import 'controllers/settings_controller.dart';
 import 'hive/hive_utils.dart';
-import 'interface/log_view.dart';
+import 'interface/overlay.dart';
 import 'interface/routes.dart';
 
 void main() async {
@@ -49,28 +47,6 @@ class MyApp extends StatelessWidget {
         GetPage(name: Routes.overlay, page: () => HDSOverlay()),
         GetPage(name: Routes.settings, page: () => SettingsView()),
       ],
-    );
-  }
-}
-
-class HDSOverlay extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Health Data Server'),
-      ),
-      drawer: navigationDrawer,
-      body: Container(
-        color: Colors.black,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            DataView(),
-            LogView(),
-          ],
-        ),
-      ),
     );
   }
 }
