@@ -14,69 +14,92 @@ class WidgetEditor extends StatelessWidget {
     final DataWidgetController dwc =
         Get.find(tag: endDrawerController.selectedDataType.value.toString());
 
+    final header = Text(
+      EnumToString.convertToString(
+        endDrawerController.selectedDataType.value,
+        camelCase: true,
+      ),
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );
+
+    final positionEditor = Row(
+      children: [
+        Spacer(),
+        Text(
+          'x: ',
+          style: TextStyle(fontSize: 18),
+        ),
+        Container(
+          width: 100,
+          child: TextField(
+            controller: TextEditingController(
+                text: dwc.properties.value.position.item1.toString()),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+            onChanged: (text) {
+              dwc.properties.value.position = Tuple2Double(
+                double.tryParse(text) ?? 0.0,
+                dwc.properties.value.position.item2,
+              );
+              dwc.properties.refresh();
+              dwc.properties.value.save();
+            },
+          ),
+        ),
+        Spacer(),
+        Text(
+          'y: ',
+          style: TextStyle(fontSize: 18),
+        ),
+        Spacer(),
+        Container(
+          width: 100,
+          child: TextField(
+            controller: TextEditingController(
+                text: dwc.properties.value.position.item2.toString()),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+            onChanged: (text) {
+              dwc.properties.value.position = Tuple2Double(
+                dwc.properties.value.position.item1,
+                double.tryParse(text) ?? 0.0,
+              );
+              dwc.properties.refresh();
+              dwc.properties.value.save();
+            },
+          ),
+        ),
+        Spacer(),
+      ],
+    );
+
+    final imageEditor = Row(
+      children: [
+        Text('Show image'),
+        Obx(
+          () => Switch(
+            value: dwc.properties.value.showImage,
+            onChanged: (enabled) {
+              dwc.properties.value.showImage = enabled;
+              dwc.properties.refresh();
+              dwc.properties.value.save();
+            },
+          ),
+        ),
+        Spacer(),
+      ],
+    );
+
     return ListView(
       padding: EdgeInsets.all(10),
       children: [
-        Text(
-          EnumToString.convertToString(
-            endDrawerController.selectedDataType.value,
-            camelCase: true,
-          ),
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        header,
         SizedBox(height: 10),
-        Row(
-          children: [
-            Spacer(),
-            Text(
-              'x: ',
-              style: TextStyle(fontSize: 18),
-            ),
-            Container(
-              width: 100,
-              child: TextField(
-                controller: TextEditingController(
-                    text: dwc.properties.value.position.item1.toString()),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (text) {
-                  dwc.properties.value.position = Tuple2Double(
-                    double.tryParse(text) ?? 0.0,
-                    dwc.properties.value.position.item2,
-                  );
-                  dwc.properties.refresh();
-                  dwc.properties.value.save();
-                },
-              ),
-            ),
-            Spacer(),
-            Text(
-              'y: ',
-              style: TextStyle(fontSize: 18),
-            ),
-            Spacer(),
-            Container(
-              width: 100,
-              child: TextField(
-                controller: TextEditingController(
-                    text: dwc.properties.value.position.item2.toString()),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (text) {
-                  dwc.properties.value.position = Tuple2Double(
-                    dwc.properties.value.position.item1,
-                    double.tryParse(text) ?? 0.0,
-                  );
-                  dwc.properties.refresh();
-                  dwc.properties.value.save();
-                },
-              ),
-            ),
-            Spacer(),
-          ],
-        ),
+        positionEditor,
+        SizedBox(height: 10),
+        imageEditor,
       ],
     );
   }

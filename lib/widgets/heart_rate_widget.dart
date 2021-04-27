@@ -31,17 +31,21 @@ class HeartRateWidget extends DataWidget {
       child: DataWidgetBase(
         child: Row(
           children: [
-            SizedBox(
-              height: dwc.properties.value.imageSize,
-              width: dwc.properties.value.imageSize,
-              child: Center(
-                child: SizedBox(
-                  height: dwc.properties.value.imageSize * controller.value,
-                  width: dwc.properties.value.imageSize * controller.value,
-                  child: DataWidgetImage(square: true),
-                ),
-              ),
-            ),
+            dwc.properties.value.showImage
+                ? SizedBox(
+                    height: dwc.properties.value.imageSize,
+                    width: dwc.properties.value.imageSize,
+                    child: Center(
+                      child: SizedBox(
+                        height:
+                            dwc.properties.value.imageSize * controller.value,
+                        width:
+                            dwc.properties.value.imageSize * controller.value,
+                        child: DataWidgetImage(square: true),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
             DataWidgetText(),
           ],
         ),
