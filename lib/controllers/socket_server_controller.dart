@@ -28,16 +28,17 @@ class SocketServerController extends GetxService {
     });
 
     server.messageStream.listen((message) {
+      final log = '${message.name}: ${message.value}';
+
       if (message is UnknownDataMessage) {
         // Don't do anything with these
-        logs.add(LogMessage(LogLevel.warn,
-            'Unknown data received ${message.name}: ${message.value}'));
+        logs.add(LogMessage(LogLevel.warn, log));
         return;
       }
 
       message as DataMessage;
       messages[message.dataType] = message;
-      logs.add(LogMessage(LogLevel.data, '${message.name}: ${message.value}'));
+      logs.add(LogMessage(LogLevel.data, log));
     });
 
     server.logStream.listen((log) {
