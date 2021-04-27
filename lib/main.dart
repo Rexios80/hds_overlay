@@ -5,6 +5,7 @@ import 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/interface/settings_view.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
+import 'package:provider/provider.dart';
 
 import 'controllers/global_controller.dart';
 import 'controllers/settings_controller.dart';
@@ -13,6 +14,8 @@ import 'interface/overlay.dart';
 import 'interface/routes.dart';
 
 void main() async {
+  Provider.debugCheckInvalidValueType = null;
+
   await HiveUtils.init();
   Get.put(GlobalController());
   Get.put(SocketServerController());

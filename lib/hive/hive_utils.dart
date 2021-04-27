@@ -9,6 +9,7 @@ import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hds_overlay/interface/data_view.dart';
+import 'package:hds_overlay/interface/widget_selector.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -63,7 +64,10 @@ class HiveUtils {
     // Refresh when properties are added or removed
     dataWidgetPropertiesBox.watch().listen((event) {
       putDwpControllers(dataWidgetPropertiesBox.values);
-      Get.find<GlobalController>().update([DataView.getBuilderId]);
+      Get.find<GlobalController>().update([
+        DataView.getBuilderId,
+        WidgetSelector.getBuilderId,
+      ]);
     });
 
     return Future.value();

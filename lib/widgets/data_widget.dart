@@ -6,6 +6,7 @@ import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
+import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/default_image.dart';
 import 'package:provider/provider.dart';
 
@@ -33,15 +34,30 @@ class DataWidgetBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataType = Provider.of<DataType>(context);
-    final DataWidgetController dwc = Get.find(tag: dataType.toString());
+    bool demo;
+    DataWidgetController dwc;
+    try {
+      dwc = Get.find<DataWidgetController>(tag: dataType.toString());
+      demo = false;
+    } catch (error) {
+      // This widget does not show real data
+      dwc = DataWidgetController(DataWidgetProperties().obs);
+      demo = true;
+    }
 
-    return Obx(
-      () => Positioned(
-        left: dwc.properties.value.position.item1,
-        top: dwc.properties.value.position.item2,
-        child: InkWell(
-          onTap: () => endDrawerController.selectedDataType.value = dataType,
-          child: child,
+    return Provider.value(
+      value: dwc,
+      child: Obx(
+        () => Positioned(
+          left: dwc.properties.value.position.item1,
+          top: dwc.properties.value.position.item2,
+          child: InkWell(
+            onTap: () {
+              if (demo) return;
+              endDrawerController.selectedDataType.value = dataType;
+            },
+            child: child,
+          ),
         ),
       ),
     );
@@ -50,21 +66,19 @@ class DataWidgetBase extends StatelessWidget {
 
 class DataWidgetImage extends StatelessWidget {
   final bool square;
-  final double? size;
 
-  DataWidgetImage({Key? key, this.square = false, this.size}) : super(key: key);
+  DataWidgetImage({Key? key, this.square = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final dataType = Provider.of<DataType>(context);
-    final DataWidgetController dwc = Get.find(tag: dataType.toString());
+    final dwc = Provider.of<DataWidgetController>(context);
 
     return Obx(() {
       if (!dwc.properties.value.showImage) {
         return SizedBox.shrink();
       }
       final image = dwc.properties.value.image;
-      final imageSize = size == null ? dwc.properties.value.imageSize : size;
+      final imageSize = dwc.properties.value.imageSize;
 
       return Container(
         height: imageSize,
@@ -87,7 +101,7 @@ class DataWidgetText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataType = Provider.of<DataType>(context);
-    final DataWidgetController dwc = Get.find(tag: dataType.toString());
+    final dwc = Provider.of<DataWidgetController>(context);
 
     return Obx(
       () => Padding(

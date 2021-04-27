@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
-import 'package:hds_overlay/widgets/data_widget.dart';
+import 'package:hds_overlay/model/default_image.dart';
 import 'package:provider/provider.dart';
 
 class WidgetEditor extends StatelessWidget {
@@ -114,9 +114,18 @@ class WidgetEditor extends StatelessWidget {
                     value: endDrawerController.selectedDataType.value,
                     child: Padding(
                       padding: EdgeInsets.all(5),
-                      child: DataWidgetImage(
-                        square: true,
-                        size: 30,
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        child: Builder(builder: (context) {
+                          final image = dwc.properties.value.image;
+                          if (image == null) {
+                            return Image.asset(
+                                getDefaultImage(dwc.properties.value.dataType));
+                          } else {
+                            return Image.memory(image);
+                          }
+                        }),
                       ),
                     ),
                   ),
