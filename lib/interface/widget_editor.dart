@@ -1,4 +1,5 @@
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -91,18 +92,31 @@ class WidgetEditor extends StatelessWidget {
           ),
         ),
         Spacer(),
-        dwc.properties.value.showImage
-            ? Card(
+        Builder(builder: (context) {
+          if (dwc.properties.value.showImage) {
+            return InkWell(
+              onTap: () async {
+                final typeGroup =
+                    XTypeGroup(label: 'images', extensions: ['jpg', 'png', 'gif']);
+                final file = await openFile(acceptedTypeGroups: [typeGroup]);
+              },
+              child: Card(
                 elevation: 8,
                 child: Provider.value(
                   value: endDrawerController.selectedDataType.value,
                   child: Padding(
                     padding: EdgeInsets.all(5),
-                    child: DataWidgetImage(square: true, ),
+                    child: DataWidgetImage(
+                      square: true,
+                    ),
                   ),
                 ),
-              )
-            : SizedBox.shrink(),
+              ),
+            );
+          } else {
+            return SizedBox.shrink();
+          }
+        }),
         Spacer(),
       ],
     );

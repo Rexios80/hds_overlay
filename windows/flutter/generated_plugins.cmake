@@ -4,7 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_window
-  file_chooser
+  file_selector_windows
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)
