@@ -25,27 +25,31 @@ class WidgetSelector extends StatelessWidget {
 
           dataTypes.remove(DataType.unknown);
 
-          return ListView(
-              padding: EdgeInsets.all(10),
-              children: dataTypes.map((DataType dataType) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      EnumToString.convertToString(dataType, camelCase: true),
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Provider.value(
-                        value: dataType,
-                        builder: (context, _) {
-                          if (dataType == DataType.heartRate) {
-                            return HeartRateWidget();
-                          }
-                          return DataWidget();
-                        })
-                  ],
-                );
-              }).toList());
+          return Container(
+            decoration: BoxDecoration(color: Colors.black),
+            child: ListView(
+                padding: EdgeInsets.all(10),
+                children: dataTypes.map((DataType dataType) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        EnumToString.convertToString(dataType, camelCase: true),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      Provider.value(
+                          value: dataType,
+                          builder: (context, _) {
+                            if (dataType == DataType.heartRate) {
+                              return HeartRateWidget();
+                            }
+                            return DataWidget();
+                          })
+                    ],
+                  );
+                }).toList()),
+          );
         });
   }
 }
