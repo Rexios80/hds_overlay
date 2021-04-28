@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:yaml/yaml.dart';
 
-import '../routes.dart';
+import '../../routes.dart';
 
 final navigationDrawer = Drawer(
   child: ListView(

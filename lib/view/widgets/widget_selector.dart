@@ -9,8 +9,8 @@ import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
-import 'data_widget.dart';
-import 'heart_rate_widget.dart';
+import 'data/data_widget.dart';
+import 'data/heart_rate_widget.dart';
 
 class WidgetSelector extends StatelessWidget {
   static final getBuilderId = 'widgetSelector';
