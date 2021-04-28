@@ -34,32 +34,17 @@ class DataWidgetBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataType = Provider.of<DataType>(context);
-    bool demo;
     DataWidgetController dwc;
     try {
       dwc = Get.find<DataWidgetController>(tag: dataType.toString());
-      demo = false;
     } catch (error) {
       // This widget does not show real data
       dwc = DataWidgetController(DataWidgetProperties().obs);
-      demo = true;
     }
 
     return Provider.value(
       value: dwc,
-      child: Obx(
-        () => Positioned(
-          left: dwc.properties.value.position.item1,
-          top: dwc.properties.value.position.item2,
-          child: InkWell(
-            onTap: () {
-              if (demo) return;
-              endDrawerController.selectedDataType.value = dataType;
-            },
-            child: child,
-          ),
-        ),
-      ),
+      child: child,
     );
   }
 }

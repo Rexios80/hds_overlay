@@ -35,7 +35,7 @@ class DataWidgetProperties extends HiveObject {
   String font = 'Monaco';
 
   @HiveField(8)
-  Tuple2Double position = Tuple2Double(10, 100);
+  Tuple2Double position = Tuple2Double(300, 500);
 
   @HiveField(9)
   String unit = '';

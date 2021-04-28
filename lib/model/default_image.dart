@@ -6,10 +6,8 @@ String getDefaultImage(DataType dataType) {
       return 'assets/hrImage.png';
     case DataType.calories:
       return 'assets/calImage.gif';
-    case DataType.unknown:
-      print('Tried to load default image for unknown DataType');
-      return '';
     default:
-      return '';
+      print('Tried to load default image for unknown DataType');
+      return 'assets/icon.png';
   }
 }

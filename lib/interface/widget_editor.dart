@@ -92,12 +92,15 @@ class WidgetEditor extends StatelessWidget {
         Obx(() {
           if (dwc.properties.value.showImage &&
               dwc.properties.value.image != null) {
-            return TextButton(
-              onPressed: () {
+            return InkWell(
+              onDoubleTap: () {
                 dwc.properties.value.image = null;
                 saveAndRefresh(dwc);
               },
-              child: Text('Remove'),
+              child: TextButton(
+                onPressed: () {},
+                child: Text('Remove'),
+              ),
             );
           } else {
             return SizedBox.shrink();

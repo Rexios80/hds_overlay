@@ -1,3 +1,4 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/global_controller.dart';
@@ -25,17 +26,26 @@ class WidgetSelector extends StatelessWidget {
           dataTypes.remove(DataType.unknown);
 
           return ListView(
+              padding: EdgeInsets.all(10),
               children: dataTypes.map((DataType dataType) {
-            return Provider.value(
-              value: dataType,
-              builder: (context, _) {
-                if (dataType == DataType.heartRate) {
-                  return HeartRateWidget();
-                }
-                return DataWidget();
-              },
-            );
-          }).toList());
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      EnumToString.convertToString(dataType, camelCase: true),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Provider.value(
+                        value: dataType,
+                        builder: (context, _) {
+                          if (dataType == DataType.heartRate) {
+                            return HeartRateWidget();
+                          }
+                          return DataWidget();
+                        })
+                  ],
+                );
+              }).toList());
         });
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/global_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
@@ -33,14 +34,27 @@ class DataView extends StatelessWidget {
       builder: (context) {
         return Stack(
           children: Get.find<Iterable<DataWidgetProperties>>().map((dwp) {
-            return Provider.value(
-              value: dwp.dataType,
-              builder: (context, _) {
-                if (dwp.dataType == DataType.heartRate) {
-                  return HeartRateWidget();
-                }
-                return DataWidget();
-              },
+            final dwc =
+                Get.find<DataWidgetController>(tag: dwp.dataType.toString());
+            return Obx(
+              () => Positioned(
+                left: dwc.properties.value.position.item1,
+                top: dwc.properties.value.position.item2,
+                child: InkWell(
+                  onTap: () {
+                    endDrawerController.selectedDataType.value = dwp.dataType;
+                  },
+                  child: Provider.value(
+                    value: dwp.dataType,
+                    builder: (context, _) {
+                      if (dwp.dataType == DataType.heartRate) {
+                        return HeartRateWidget();
+                      }
+                      return DataWidget();
+                    },
+                  ),
+                ),
+              ),
             );
           }).toList(),
         );
