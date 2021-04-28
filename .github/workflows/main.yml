@@ -124,7 +124,8 @@ jobs:
       - name: Zip windows-exe
         uses: papeloto/action-zip@v1
         with:
-          files: windows-exe/*
+          files: windows-exe/
+          recursive: false
           dest: windows-exe.zip
           
       - name: Create release draft
