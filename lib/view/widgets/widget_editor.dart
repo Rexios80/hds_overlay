@@ -19,21 +19,21 @@ class WidgetEditor extends StatelessWidget {
         dwc.propertiesMap[endDrawerController.selectedDataType.value] ??
             DataWidgetProperties().obs;
 
-    final header = Text(
-      EnumToString.convertToString(
-        endDrawerController.selectedDataType.value,
-        camelCase: true,
+    final header = Center(
+      child: Text(
+        EnumToString.convertToString(
+          endDrawerController.selectedDataType.value,
+          camelCase: true,
+        ),
+        style: TextStyle(
+          fontSize: 24,
+        ),
       ),
-      style: TextStyle(fontWeight: FontWeight.bold),
     );
 
     final positionEditor = Row(
       children: [
-        Spacer(),
-        Text(
-          'x: ',
-          style: TextStyle(fontSize: 18),
-        ),
+        Text('x: '),
         Container(
           width: 100,
           child: TextField(
@@ -52,11 +52,7 @@ class WidgetEditor extends StatelessWidget {
           ),
         ),
         Spacer(),
-        Text(
-          'y: ',
-          style: TextStyle(fontSize: 18),
-        ),
-        Spacer(),
+        Text('y: '),
         Container(
           width: 100,
           child: TextField(
@@ -78,66 +74,92 @@ class WidgetEditor extends StatelessWidget {
       ],
     );
 
-    final imageEditor = Row(
+    final imageEditor = Column(
       children: [
-        Text('Show image'),
-        Obx(
-          () => Switch(
-            value: properties.value.showImage,
-            onChanged: (enabled) {
-              properties.value.showImage = enabled;
-              saveAndRefresh(properties);
-            },
-          ),
-        ),
-        Spacer(),
-        Obx(() {
-          if (properties.value.showImage && properties.value.image != null) {
-            return InkWell(
-              onDoubleTap: () {
-                properties.value.image = null;
-                saveAndRefresh(properties);
-              },
-              child: TextButton(
-                onPressed: () {},
-                child: Text('Remove'),
+        Row(
+          children: [
+            Text('Show image'),
+            Obx(
+              () => Switch(
+                value: properties.value.showImage,
+                onChanged: (enabled) {
+                  properties.value.showImage = enabled;
+                  saveAndRefresh(properties);
+                },
               ),
-            );
-          } else {
-            return SizedBox.shrink();
-          }
-        }),
-        Spacer(),
-        Obx(() {
-          if (properties.value.showImage) {
-            return InkWell(
-              onTap: () => selectImageFile(properties),
-              child: Card(
-                elevation: 8,
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                    child: Builder(builder: (context) {
-                      final image = properties.value.image;
-                      if (image == null) {
-                        return Image.asset(
-                            getDefaultImage(properties.value.dataType));
-                      } else {
-                        return Image.memory(image);
-                      }
-                    }),
+            ),
+            Spacer(),
+            Obx(() {
+              if (properties.value.showImage &&
+                  properties.value.image != null) {
+                return InkWell(
+                  onDoubleTap: () {
+                    properties.value.image = null;
+                    saveAndRefresh(properties);
+                  },
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text('Remove'),
                   ),
+                );
+              } else {
+                return SizedBox.shrink();
+              }
+            }),
+            Spacer(),
+            Obx(() {
+              if (properties.value.showImage) {
+                return InkWell(
+                  onTap: () => selectImageFile(properties),
+                  child: Card(
+                    elevation: 8,
+                    child: Padding(
+                      padding: EdgeInsets.all(5),
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        child: Builder(builder: (context) {
+                          final image = properties.value.image;
+                          if (image == null) {
+                            return Image.asset(
+                                getDefaultImage(properties.value.dataType));
+                          } else {
+                            return Image.memory(image);
+                          }
+                        }),
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                // Prevent view shifting
+                return SizedBox(width: 48, height: 48);
+              }
+            }),
+            Spacer(),
+          ],
+        ),
+        SizedBox(height: 5),
+        Row(
+          children: [
+            Text('Image size: '),
+            Container(
+              width: 100,
+              child: TextField(
+                controller: TextEditingController(
+                  text: properties.value.imageSize.toString(),
                 ),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  properties.value.imageSize = double.tryParse(value) ?? 0.0;
+                  saveAndRefresh(properties);
+                },
               ),
-            );
-          } else {
-            // Prevent view shifting
-            return SizedBox(width: 48, height: 48);
-          }
-        }),
-        Spacer(),
+            ),
+          ],
+        ),
       ],
     );
 
@@ -157,11 +179,25 @@ class WidgetEditor extends StatelessWidget {
       padding: EdgeInsets.all(10),
       children: [
         header,
+        SizedBox(height: 20),
+        Text(
+          'Position',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         SizedBox(height: 10),
         positionEditor,
         SizedBox(height: 10),
+        Divider(),
+        SizedBox(height: 10),
+        Text(
+          'Image',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
         imageEditor,
-        SizedBox(height: 20),
+        SizedBox(height: 10),
+        Divider(),
+        SizedBox(height: 10),
         deleteButton,
       ],
     );
