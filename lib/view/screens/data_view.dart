@@ -13,8 +13,6 @@ import 'package:hds_overlay/view/widgets/data/heart_rate_widget.dart';
 import 'package:provider/provider.dart';
 
 class DataView extends StatelessWidget {
-  static final getBuilderId = 'DataView';
-
   final endDrawerController = Get.put(EndDrawerController());
   final DataWidgetController dwc = Get.find();
   final SettingsController settingsController = Get.find();

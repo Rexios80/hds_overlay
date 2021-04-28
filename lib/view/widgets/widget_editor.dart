@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
-import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hds_overlay/model/default_image.dart';
+import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
 
 class WidgetEditor extends StatelessWidget {
   final EndDrawerController endDrawerController = Get.find();
@@ -33,43 +33,9 @@ class WidgetEditor extends StatelessWidget {
 
     final positionEditor = Row(
       children: [
-        Text('x: '),
-        Container(
-          width: 100,
-          child: TextField(
-            controller: TextEditingController(
-                text: properties.value.position.item1.toString()),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-            ),
-            onChanged: (text) {
-              properties.value.position = Tuple2Double(
-                double.tryParse(text) ?? 0.0,
-                properties.value.position.item2,
-              );
-              saveAndRefresh(properties);
-            },
-          ),
-        ),
+        WidgetEditorTextField(EditorType.positionX, properties),
         Spacer(),
-        Text('y: '),
-        Container(
-          width: 100,
-          child: TextField(
-            controller: TextEditingController(
-                text: properties.value.position.item2.toString()),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-            ),
-            onChanged: (text) {
-              properties.value.position = Tuple2Double(
-                properties.value.position.item1,
-                double.tryParse(text) ?? 0.0,
-              );
-              saveAndRefresh(properties);
-            },
-          ),
-        ),
+        WidgetEditorTextField(EditorType.positionY, properties),
       ],
     );
 
@@ -139,112 +105,27 @@ class WidgetEditor extends StatelessWidget {
           ],
         ),
         SizedBox(height: 5),
-        Row(
-          children: [
-            Text('Image size: '),
-            Spacer(),
-            Container(
-              width: 100,
-              child: TextField(
-                controller: TextEditingController(
-                  text: properties.value.imageSize.toString(),
-                ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  properties.value.imageSize = double.tryParse(value) ?? 0.0;
-                  saveAndRefresh(properties);
-                },
-              ),
-            ),
-          ],
-        ),
+        WidgetEditorTextField(EditorType.imageSize, properties),
       ],
     );
 
     final textEditor = Column(
       children: [
-        Row(
-          children: [
-            Text('Text size: '),
-            Spacer(),
-            Container(
-              width: 100,
-              child: TextField(
-                controller: TextEditingController(
-                  text: properties.value.fontSize.toString(),
-                ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  properties.value.fontSize = double.tryParse(value) ?? 0.0;
-                  saveAndRefresh(properties);
-                },
-              ),
-            ),
-          ],
-        ),
+        WidgetEditorTextField(EditorType.fontSize, properties),
         SizedBox(height: 5),
-        Row(
-          children: [
-            Text('Unit: '),
-            Spacer(),
-            Container(
-              width: 100,
-              child: TextField(
-                controller: TextEditingController(
-                  text: properties.value.unit,
-                ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  properties.value.unit = value;
-                  saveAndRefresh(properties);
-                },
-              ),
-            ),
-          ],
-        ),
+        WidgetEditorTextField(EditorType.unit, properties),
         Builder(
           builder: (context) {
-            var text = properties.value.unitFontSize.toString();
             return Obx(
               () {
                 if (properties.value.unit.isEmpty) {
                   return SizedBox.shrink();
                 } else {
-                  final controller = TextEditingController(
-                    text: text,
-                  );
-                  controller.selection =
-                      TextSelection.collapsed(offset: controller.text.length);
                   return Column(
                     children: [
                       SizedBox(height: 5),
-                      Row(
-                        children: [
-                          Text('Unit text size: '),
-                          Spacer(),
-                          Container(
-                            width: 100,
-                            child: TextField(
-                              controller: controller,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                text = value;
-                                properties.value.unitFontSize =
-                                    double.tryParse(value) ?? 0.0;
-                                saveAndRefresh(properties);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                      WidgetEditorTextField(
+                          EditorType.unitFontSize, properties),
                     ],
                   );
                 }
@@ -253,51 +134,9 @@ class WidgetEditor extends StatelessWidget {
           },
         ),
         SizedBox(height: 5),
-        Row(
-          children: [
-            Text('Left padding: '),
-            Spacer(),
-            Container(
-              width: 100,
-              child: TextField(
-                controller: TextEditingController(
-                  text: properties.value.textPaddingLeft.toString(),
-                ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  properties.value.textPaddingLeft =
-                      double.tryParse(value) ?? 0.0;
-                  saveAndRefresh(properties);
-                },
-              ),
-            ),
-          ],
-        ),
+        WidgetEditorTextField(EditorType.textPaddingLeft, properties),
         SizedBox(height: 5),
-        Row(
-          children: [
-            Text('Top padding: '),
-            Spacer(),
-            Container(
-              width: 100,
-              child: TextField(
-                controller: TextEditingController(
-                  text: properties.value.textPaddingTop.toString(),
-                ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  properties.value.textPaddingTop =
-                      double.tryParse(value) ?? 0.0;
-                  saveAndRefresh(properties);
-                },
-              ),
-            ),
-          ],
-        ),
+        WidgetEditorTextField(EditorType.textPaddingTop, properties),
       ],
     );
 
