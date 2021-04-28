@@ -16,6 +16,7 @@ class HDSOverlay extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Health Data Server'),
+        elevation: 0,
         actions: [
           Builder(
             builder: (context) => IconButton(
