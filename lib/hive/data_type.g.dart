@@ -19,8 +19,6 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
         return DataType.heartRateMin;
       case 2:
         return DataType.heartRateMax;
-      case 3:
-        return DataType.heartRateRanges;
       case 4:
         return DataType.heartRateAverage;
       case 5:
@@ -49,9 +47,6 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
         break;
       case DataType.heartRateMax:
         writer.writeByte(2);
-        break;
-      case DataType.heartRateRanges:
-        writer.writeByte(3);
         break;
       case DataType.heartRateAverage:
         writer.writeByte(4);

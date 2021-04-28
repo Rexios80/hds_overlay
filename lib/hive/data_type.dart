@@ -13,9 +13,6 @@ enum DataType {
   @HiveField(2)
   heartRateMax,
 
-  @HiveField(3)
-  heartRateRanges,
-
   @HiveField(4)
   heartRateAverage,
 

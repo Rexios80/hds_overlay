@@ -6,8 +6,20 @@ String getDefaultImage(DataType dataType) {
       return 'assets/hrImage.png';
     case DataType.calories:
       return 'assets/calImage.gif';
-    default:
-      print('Tried to load default image for unknown DataType');
+    case DataType.heartRateMin:
+      return 'assets/hrImage.png';
+    case DataType.heartRateMax:
+      return 'assets/hrImage.png';
+    case DataType.heartRateAverage:
+      return 'assets/hrImage.png';
+    case DataType.stepCount:
+      return 'assets/stepImage.png';
+    case DataType.distanceTraveled:
+      return 'assets/distanceImage.png';
+    case DataType.speed:
+      return 'assets/speedImage.png';
+    case DataType.unknown:
+      print('Tried to load default image for DataType.unknown');
       return 'assets/icon.png';
   }
 }
