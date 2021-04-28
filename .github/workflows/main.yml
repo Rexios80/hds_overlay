@@ -120,10 +120,16 @@ jobs:
 
       - name: Debug tree
         run: find .
+
+      - name: Zip windows-exe
+        uses: papeloto/action-zip@v1
+        with:
+          files: windows-exe/*
+          dest: windows-exe.zip
           
       - name: Create release draft
         uses: ncipollo/release-action@v1
         with:
-            artifacts: "windows-exe/windows-exe.zip,windows-msix/*,macos/*,linux/*"
+            artifacts: "windows-exe.zip,windows-msix/*,macos/*,linux/*"
             draft: true
             token: ${{ secrets.GITHUB_TOKEN }}
