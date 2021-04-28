@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
@@ -70,9 +71,16 @@ class DataWidgetText extends StatelessWidget {
             dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
         final value = socketServerController.messages[dataType]?.value;
 
-        final textStyle = TextStyle(
+        TextStyle fontStyle;
+        try {
+          fontStyle = GoogleFonts.getFont(properties.value.font);
+        } catch (error) {
+          // The font failed to load
+          fontStyle = TextStyle(fontFamily: 'Monaco');
+        }
+
+        final textStyle = fontStyle.copyWith(
           fontSize: properties.value.fontSize,
-          fontFamily: properties.value.font,
         );
         final baseTextStyle = textStyle.copyWith(
           color: Color(properties.value.textColor),

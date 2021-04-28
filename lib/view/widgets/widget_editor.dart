@@ -3,6 +3,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
@@ -111,6 +112,8 @@ class WidgetEditor extends StatelessWidget {
 
     final textEditor = Column(
       children: [
+        WidgetEditorTextField(EditorType.font, properties),
+        SizedBox(height: 5),
         WidgetEditorTextField(EditorType.fontSize, properties),
         SizedBox(height: 5),
         WidgetEditorTextField(EditorType.unit, properties),

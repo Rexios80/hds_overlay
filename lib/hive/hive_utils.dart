@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
@@ -24,11 +25,11 @@ class HiveUtils {
     Hive.registerAdapter(SettingsAdapter());
 
     // Delete the boxes to prevent crashes while developing
-    // if (kDebugMode) {
-    //   print('Deleting hive boxes');
-    //   await Hive.deleteBoxFromDisk(boxSettings);
-    //   await Hive.deleteBoxFromDisk(boxDataWidgetProperties);
-    // }
+    if (kDebugMode || true) {
+      print('Deleting hive boxes');
+      await Hive.deleteBoxFromDisk(boxSettings);
+      await Hive.deleteBoxFromDisk(boxDataWidgetProperties);
+    }
 
     final settingsBox = await Hive.openBox<Settings>(boxSettings);
     final dataWidgetPropertiesBox =

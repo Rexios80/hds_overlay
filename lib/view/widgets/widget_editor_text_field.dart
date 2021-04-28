@@ -61,31 +61,35 @@ class WidgetEditorTextField extends StatelessWidget {
         return properties.value.textShadowRadius.toStringAsFixed(0);
       case EditorType.textStrokeWidth:
         return properties.value.textStrokeWidth.toStringAsFixed(0);
+      case EditorType.font:
+        return properties.value.font;
     }
   }
 
   String get label {
     switch (type) {
       case EditorType.positionX:
-        return 'X: ';
+        return 'X\t';
       case EditorType.positionY:
-        return 'Y: ';
+        return 'Y\t';
       case EditorType.imageSize:
-        return 'Image size: ';
+        return 'Image size';
       case EditorType.fontSize:
-        return 'Text size: ';
+        return 'Text size';
       case EditorType.textPaddingLeft:
-        return 'Left padding: ';
+        return 'Left padding';
       case EditorType.textPaddingTop:
-        return 'Top padding: ';
+        return 'Top padding';
       case EditorType.unit:
-        return 'Unit: ';
+        return 'Unit';
       case EditorType.unitFontSize:
-        return 'Unit text size: ';
+        return 'Unit text size';
       case EditorType.textShadowRadius:
-        return 'Shadow radius: ';
+        return 'Shadow radius';
       case EditorType.textStrokeWidth:
-        return 'Stroke width: ';
+        return 'Stroke width';
+      case EditorType.font:
+        return 'Font';
     }
   }
 
@@ -127,6 +131,9 @@ class WidgetEditorTextField extends StatelessWidget {
       case EditorType.textStrokeWidth:
         properties.value.textStrokeWidth = double.tryParse(value) ?? 0.0;
         break;
+      case EditorType.font:
+        properties.value.font = value;
+        break;
     }
 
     properties.value.save();
@@ -145,4 +152,5 @@ enum EditorType {
   unitFontSize,
   textShadowRadius,
   textStrokeWidth,
+  font,
 }
