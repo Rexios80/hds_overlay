@@ -97,7 +97,7 @@ jobs:
       - name: Archive zip artifact
         uses: actions/upload-artifact@v2
         with:
-          name: windows exe
+          name: windows-exe
           path: build/windows/runner/Release/
 
       - name: Create msix
@@ -106,7 +106,7 @@ jobs:
       - name: Archive msix artifact
         uses: actions/upload-artifact@v2
         with:
-          name: windows msix
+          name: windows-msix
           path: build/windows/runner/Release/hds_overlay.msix
           
   deploy:
@@ -121,6 +121,6 @@ jobs:
       - name: Create release draft
         uses: ncipollo/release-action@v1
         with:
-            artifacts: "windows/*,macos/*,linux/*"
+            artifacts: "windows-exe/*,windows-msix/*,macos/*,linux/*"
             draft: true
             token: ${{ secrets.GITHUB_TOKEN }}
