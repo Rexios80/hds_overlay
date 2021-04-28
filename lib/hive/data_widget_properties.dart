@@ -57,4 +57,7 @@ class DataWidgetProperties extends HiveObject {
 
   @HiveField(15)
   double textPaddingTop = 6;
+
+  @HiveField(16)
+  double unitFontSize = 12;
 }

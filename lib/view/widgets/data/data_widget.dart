@@ -68,36 +68,70 @@ class DataWidgetText extends StatelessWidget {
       () {
         final properties =
             dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
+        final value = socketServerController.messages[dataType]?.value;
         return Padding(
           padding: EdgeInsets.only(
             left: properties.value.textPaddingLeft,
             top: properties.value.textPaddingTop,
           ),
-          child: Text(
-            socketServerController.messages[dataType]?.value ?? '-',
-            style: TextStyle(
-              color: Color(properties.value.textColor),
-              fontSize: properties.value.fontSize,
-              fontFamily: properties.value.font,
-              foreground: () {
-                if (properties.value.textStroke) {
-                  return Paint()
-                    ..style = PaintingStyle.stroke
-                    ..strokeWidth = properties.value.textStrokeWidth
-                    ..color = Colors.black;
-                }
-              }(),
-              shadows: () {
-                if (properties.value.textShadow) {
-                  return [
-                    Shadow(
-                      blurRadius: properties.value.textShadowRadius,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )
-                  ];
-                }
-              }(),
-            ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                value ?? '-',
+                style: TextStyle(
+                  color: Color(properties.value.textColor),
+                  fontSize: properties.value.fontSize,
+                  fontFamily: properties.value.font,
+                  foreground: () {
+                    if (properties.value.textStroke) {
+                      return Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = properties.value.textStrokeWidth
+                        ..color = Colors.black;
+                    }
+                  }(),
+                  shadows: () {
+                    if (properties.value.textShadow) {
+                      return [
+                        Shadow(
+                          blurRadius: properties.value.textShadowRadius,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        )
+                      ];
+                    }
+                  }(),
+                ),
+              ),
+              SizedBox(width: 3),
+              Text(
+                value == null ? '' : properties.value.unit,
+                style: TextStyle(
+                  color: Color(properties.value.textColor),
+                  fontSize: properties.value.unitFontSize,
+                  fontFamily: properties.value.font,
+                  foreground: () {
+                    if (properties.value.textStroke) {
+                      return Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = properties.value.textStrokeWidth
+                        ..color = Colors.black;
+                    }
+                  }(),
+                  shadows: () {
+                    if (properties.value.textShadow) {
+                      return [
+                        Shadow(
+                          blurRadius: properties.value.textShadowRadius,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        )
+                      ];
+                    }
+                  }(),
+                ),
+              ),
+            ],
           ),
         );
       },

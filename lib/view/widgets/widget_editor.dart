@@ -189,6 +189,72 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 5),
         Row(
           children: [
+            Text('Unit: '),
+            Spacer(),
+            Container(
+              width: 100,
+              child: TextField(
+                controller: TextEditingController(
+                  text: properties.value.unit,
+                ),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  properties.value.unit = value;
+                  saveAndRefresh(properties);
+                },
+              ),
+            ),
+          ],
+        ),
+        Builder(
+          builder: (context) {
+            var text = properties.value.unitFontSize.toString();
+            return Obx(
+              () {
+                if (properties.value.unit.isEmpty) {
+                  return SizedBox.shrink();
+                } else {
+                  final controller = TextEditingController(
+                    text: text,
+                  );
+                  controller.selection =
+                      TextSelection.collapsed(offset: controller.text.length);
+                  return Column(
+                    children: [
+                      SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Text('Unit text size: '),
+                          Spacer(),
+                          Container(
+                            width: 100,
+                            child: TextField(
+                              controller: controller,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                              ),
+                              onChanged: (value) {
+                                text = value;
+                                properties.value.unitFontSize =
+                                    double.tryParse(value) ?? 0.0;
+                                saveAndRefresh(properties);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }
+              },
+            );
+          },
+        ),
+        SizedBox(height: 5),
+        Row(
+          children: [
             Text('Left padding: '),
             Spacer(),
             Container(
@@ -201,7 +267,8 @@ class WidgetEditor extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  properties.value.textPaddingLeft = double.tryParse(value) ?? 0.0;
+                  properties.value.textPaddingLeft =
+                      double.tryParse(value) ?? 0.0;
                   saveAndRefresh(properties);
                 },
               ),
@@ -223,7 +290,8 @@ class WidgetEditor extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  properties.value.textPaddingTop = double.tryParse(value) ?? 0.0;
+                  properties.value.textPaddingTop =
+                      double.tryParse(value) ?? 0.0;
                   saveAndRefresh(properties);
                 },
               ),
