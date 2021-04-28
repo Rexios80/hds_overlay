@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
-import 'package:hds_overlay/controllers/global_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
@@ -17,6 +16,7 @@ class DataView extends StatelessWidget {
   static final getBuilderId = 'DataView';
 
   final endDrawerController = Get.put(EndDrawerController());
+  final DataWidgetController dwc = Get.find();
   final SettingsController settingsController = Get.find();
   final SocketServerController socketServerController = Get.find();
 
@@ -29,32 +29,35 @@ class DataView extends StatelessWidget {
       }
     });
 
-    final dataWidgets = GetBuilder<GlobalController>(
-      id: getBuilderId,
-      builder: (context) {
+    final dataWidgets = Obx(
+      () {
         return Stack(
-          children: Get.find<Iterable<DataWidgetProperties>>().map((dwp) {
-            final dwc =
-                Get.find<DataWidgetController>(tag: dwp.dataType.toString());
+          children: dwc.propertiesMap.values.map((dwp) {
             return Obx(
-              () => Positioned(
-                left: dwc.properties.value.position.item1,
-                top: dwc.properties.value.position.item2,
-                child: InkWell(
-                  onTap: () {
-                    endDrawerController.selectedDataType.value = dwp.dataType;
-                  },
-                  child: Provider.value(
-                    value: dwp.dataType,
-                    builder: (context, _) {
-                      if (dwp.dataType == DataType.heartRate) {
-                        return HeartRateWidget();
-                      }
-                      return DataWidget();
+              () {
+                final DataWidgetProperties properties =
+                    dwc.propertiesMap[dwp.value.dataType]?.value ??
+                        DataWidgetProperties();
+                return Positioned(
+                  left: properties.position.item1,
+                  top: properties.position.item2,
+                  child: InkWell(
+                    onTap: () {
+                      endDrawerController.selectedDataType.value =
+                          dwp.value.dataType;
                     },
+                    child: Provider.value(
+                      value: dwp.value.dataType,
+                      builder: (context, _) {
+                        if (dwp.value.dataType == DataType.heartRate) {
+                          return HeartRateWidget();
+                        }
+                        return DataWidget();
+                      },
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             );
           }).toList(),
         );

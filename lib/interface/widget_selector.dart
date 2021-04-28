@@ -1,6 +1,7 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/global_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
@@ -13,13 +14,15 @@ import 'package:provider/provider.dart';
 class WidgetSelector extends StatelessWidget {
   static final getBuilderId = 'widgetSelector';
 
+  final DataWidgetController dwc = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<GlobalController>(
         id: getBuilderId,
         builder: (_) {
           final usedDataTypes =
-              Get.find<Iterable<DataWidgetProperties>>().map((e) => e.dataType);
+              dwc.propertiesMap.values.map((e) => e.value.dataType);
           final dataTypes = DataType.values.toList();
 
           dataTypes.removeWhere((e) => usedDataTypes.contains(e));

@@ -5,17 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
+import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hds_overlay/model/default_image.dart';
-import 'package:provider/provider.dart';
 
 class WidgetEditor extends StatelessWidget {
   final EndDrawerController endDrawerController = Get.find();
+  final DataWidgetController dwc = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    final DataWidgetController dwc =
-        Get.find(tag: endDrawerController.selectedDataType.value.toString());
+    final properties =
+        dwc.propertiesMap[endDrawerController.selectedDataType.value] ??
+            DataWidgetProperties().obs;
 
     final header = Text(
       EnumToString.convertToString(
@@ -36,16 +38,16 @@ class WidgetEditor extends StatelessWidget {
           width: 100,
           child: TextField(
             controller: TextEditingController(
-                text: dwc.properties.value.position.item1.toString()),
+                text: properties.value.position.item1.toString()),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
             ),
             onChanged: (text) {
-              dwc.properties.value.position = Tuple2Double(
+              properties.value.position = Tuple2Double(
                 double.tryParse(text) ?? 0.0,
-                dwc.properties.value.position.item2,
+                properties.value.position.item2,
               );
-              saveAndRefresh(dwc);
+              saveAndRefresh(properties);
             },
           ),
         ),
@@ -59,16 +61,16 @@ class WidgetEditor extends StatelessWidget {
           width: 100,
           child: TextField(
             controller: TextEditingController(
-                text: dwc.properties.value.position.item2.toString()),
+                text: properties.value.position.item2.toString()),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
             ),
             onChanged: (text) {
-              dwc.properties.value.position = Tuple2Double(
-                dwc.properties.value.position.item1,
+              properties.value.position = Tuple2Double(
+                properties.value.position.item1,
                 double.tryParse(text) ?? 0.0,
               );
-              saveAndRefresh(dwc);
+              saveAndRefresh(properties);
             },
           ),
         ),
@@ -81,21 +83,20 @@ class WidgetEditor extends StatelessWidget {
         Text('Show image'),
         Obx(
           () => Switch(
-            value: dwc.properties.value.showImage,
+            value: properties.value.showImage,
             onChanged: (enabled) {
-              dwc.properties.value.showImage = enabled;
-              saveAndRefresh(dwc);
+              properties.value.showImage = enabled;
+              saveAndRefresh(properties);
             },
           ),
         ),
         Spacer(),
         Obx(() {
-          if (dwc.properties.value.showImage &&
-              dwc.properties.value.image != null) {
+          if (properties.value.showImage && properties.value.image != null) {
             return InkWell(
               onDoubleTap: () {
-                dwc.properties.value.image = null;
-                saveAndRefresh(dwc);
+                properties.value.image = null;
+                saveAndRefresh(properties);
               },
               child: TextButton(
                 onPressed: () {},
@@ -108,31 +109,29 @@ class WidgetEditor extends StatelessWidget {
         }),
         Spacer(),
         Obx(() {
-          if (dwc.properties.value.showImage) {
+          if (properties.value.showImage) {
             return InkWell(
-                onTap: () => selectImageFile(dwc),
-                child: Card(
-                  elevation: 8,
-                  child: Provider.value(
-                    value: endDrawerController.selectedDataType.value,
-                    child: Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        child: Builder(builder: (context) {
-                          final image = dwc.properties.value.image;
-                          if (image == null) {
-                            return Image.asset(
-                                getDefaultImage(dwc.properties.value.dataType));
-                          } else {
-                            return Image.memory(image);
-                          }
-                        }),
-                      ),
-                    ),
+              onTap: () => selectImageFile(properties),
+              child: Card(
+                elevation: 8,
+                child: Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    child: Builder(builder: (context) {
+                      final image = properties.value.image;
+                      if (image == null) {
+                        return Image.asset(
+                            getDefaultImage(properties.value.dataType));
+                      } else {
+                        return Image.memory(image);
+                      }
+                    }),
                   ),
-                ));
+                ),
+              ),
+            );
           } else {
             // Prevent view shifting
             return SizedBox(width: 48, height: 48);
@@ -144,8 +143,8 @@ class WidgetEditor extends StatelessWidget {
 
     final deleteButton = InkWell(
       onDoubleTap: () {
-        dwc.properties.value.delete();
-        saveAndRefresh(dwc);
+        properties.value.delete();
+        saveAndRefresh(properties);
         Get.back();
       },
       child: TextButton(
@@ -168,16 +167,16 @@ class WidgetEditor extends StatelessWidget {
     );
   }
 
-  void saveAndRefresh(DataWidgetController dwc) {
+  void saveAndRefresh(Rx<DataWidgetProperties> properties) {
     try {
-      dwc.properties.value.save();
+      properties.value.save();
     } catch (error) {
       // Don't save if the object got deleted
     }
-    dwc.properties.refresh();
+    properties.refresh();
   }
 
-  void selectImageFile(DataWidgetController dwc) async {
+  void selectImageFile(Rx<DataWidgetProperties> properties) async {
     final typeGroup =
         XTypeGroup(label: 'images', extensions: ['jpg', 'png', 'gif']);
     final file = await openFile(acceptedTypeGroups: [typeGroup]);
@@ -185,7 +184,7 @@ class WidgetEditor extends StatelessWidget {
     // Don't do anything if they don't pick a file
     if (file == null) return;
 
-    dwc.properties.value.image = await file.readAsBytes();
-    saveAndRefresh(dwc);
+    properties.value.image = await file.readAsBytes();
+    saveAndRefresh(properties);
   }
 }
