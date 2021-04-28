@@ -117,6 +117,9 @@ jobs:
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v2
+
+      - name: Debug tree
+        run: find .
           
       - name: Create release draft
         uses: ncipollo/release-action@v1
