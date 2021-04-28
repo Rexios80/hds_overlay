@@ -46,7 +46,7 @@ class DataWidgetImage extends StatelessWidget {
         width: square ? imageSize : null,
         child: Builder(builder: (context) {
           if (image == null) {
-            return Image.asset(getDefaultImage(Provider.of<DataType>(context)));
+            return Image.asset(getDefaultImage(dataType));
           } else {
             return Image.memory(image);
           }
