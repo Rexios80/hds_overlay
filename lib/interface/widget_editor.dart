@@ -145,6 +145,7 @@ class WidgetEditor extends StatelessWidget {
     final deleteButton = InkWell(
       onDoubleTap: () {
         dwc.properties.value.delete();
+        saveAndRefresh(dwc);
         Get.back();
       },
       child: TextButton(
@@ -168,7 +169,11 @@ class WidgetEditor extends StatelessWidget {
   }
 
   void saveAndRefresh(DataWidgetController dwc) {
-    dwc.properties.value.save();
+    try {
+      dwc.properties.value.save();
+    } catch (error) {
+      // Don't save if the object got deleted
+    }
     dwc.properties.refresh();
   }
 

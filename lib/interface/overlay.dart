@@ -16,6 +16,15 @@ class HDSOverlay extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Health Data Server'),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.add),
+              iconSize: 30,
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
+        ],
       ),
       drawerScrimColor: Colors.transparent,
       drawer: navigationDrawer,

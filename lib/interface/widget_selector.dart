@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/global_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
+import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/widgets/data_widget.dart';
 import 'package:hds_overlay/widgets/heart_rate_widget.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class WidgetSelector extends StatelessWidget {
@@ -16,13 +18,11 @@ class WidgetSelector extends StatelessWidget {
     return GetBuilder<GlobalController>(
         id: getBuilderId,
         builder: (_) {
-          final dwps = Get.find<Iterable<DataWidgetProperties>>();
-          final dataTypes = DataType.values
-              .toList()
-              .where((DataType dt) => !dwps
-                  .contains((DataWidgetProperties dwp) => dwp.dataType == dt))
-              .toList();
+          final usedDataTypes =
+              Get.find<Iterable<DataWidgetProperties>>().map((e) => e.dataType);
+          final dataTypes = DataType.values.toList();
 
+          dataTypes.removeWhere((e) => usedDataTypes.contains(e));
           dataTypes.remove(DataType.unknown);
 
           return Container(
@@ -38,18 +38,28 @@ class WidgetSelector extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white),
                       ),
-                      Provider.value(
-                          value: dataType,
-                          builder: (context, _) {
-                            if (dataType == DataType.heartRate) {
-                              return HeartRateWidget();
-                            }
-                            return DataWidget();
-                          })
+                      SizedBox(height: 5),
+                      InkWell(
+                        onTap: () => addWidget(dataType),
+                        child: Provider.value(
+                            value: dataType,
+                            builder: (context, _) {
+                              if (dataType == DataType.heartRate) {
+                                return HeartRateWidget();
+                              }
+                              return DataWidget();
+                            }),
+                      ),
+                      SizedBox(height: 10),
                     ],
                   );
                 }).toList()),
           );
         });
+  }
+
+  void addWidget(DataType dataType) {
+    Hive.box<DataWidgetProperties>(HiveUtils.boxDataWidgetProperties)
+        .add(DataWidgetProperties()..dataType = dataType);
   }
 }
