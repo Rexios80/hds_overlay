@@ -121,6 +121,6 @@ jobs:
       - name: Create release draft
         uses: ncipollo/release-action@v1
         with:
-            artifacts: "windows-exe/*,windows-msix/*,macos/*,linux/*"
+            artifacts: "windows-exe,windows-msix/*,macos/*,linux/*"
             draft: true
             token: ${{ secrets.GITHUB_TOKEN }}
