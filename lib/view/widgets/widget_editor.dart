@@ -239,6 +239,7 @@ class WidgetEditor extends StatelessWidget {
         Divider(),
         SizedBox(height: 10),
         deleteButton,
+        SizedBox(height: 10),
       ],
     );
   }

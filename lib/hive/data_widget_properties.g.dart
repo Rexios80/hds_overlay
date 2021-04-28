@@ -32,13 +32,14 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..textShadowRadius = fields[12] as double
       ..textStroke = fields[13] as bool
       ..textStrokeWidth = fields[14] as double
-      ..textPaddingTop = fields[15] as double;
+      ..textPaddingTop = fields[15] as double
+      ..unitFontSize = fields[16] as double;
   }
 
   @override
   void write(BinaryWriter writer, DataWidgetProperties obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.dataType)
       ..writeByte(1)
@@ -70,7 +71,9 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..writeByte(14)
       ..write(obj.textStrokeWidth)
       ..writeByte(15)
-      ..write(obj.textPaddingTop);
+      ..write(obj.textPaddingTop)
+      ..writeByte(16)
+      ..write(obj.unitFontSize);
   }
 
   @override
