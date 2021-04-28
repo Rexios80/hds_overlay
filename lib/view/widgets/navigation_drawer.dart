@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:hds_overlay/interface/routes.dart';
 import 'package:yaml/yaml.dart';
+
+import '../routes.dart';
 
 final navigationDrawer = Drawer(
   child: ListView(

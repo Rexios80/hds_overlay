@@ -66,7 +66,8 @@ class HiveUtils {
     return Future.value();
   }
 
-  static Map<DataType, Rx<DataWidgetProperties>> createDwpMap(Box<DataWidgetProperties> dwpBox) {
+  static Map<DataType, Rx<DataWidgetProperties>> createDwpMap(
+      Box<DataWidgetProperties> dwpBox) {
     final map = Map<DataType, Rx<DataWidgetProperties>>();
     dwpBox.values.forEach((e) => map[e.dataType] = e.obs);
     return map;

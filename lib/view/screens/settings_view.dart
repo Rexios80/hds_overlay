@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/settings.dart';
-import 'package:hds_overlay/interface/navigation_drawer.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/themes.dart';
+import 'package:hds_overlay/view/widgets/navigation_drawer.dart';
 
 class SettingsView extends StatelessWidget {
   final SettingsController settingsController = Get.find();

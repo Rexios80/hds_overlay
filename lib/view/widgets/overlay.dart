@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 
-import 'data_view.dart';
+import '../screens/data_view.dart';
 import 'end_drawer.dart';
 import 'log_view.dart';
 import 'navigation_drawer.dart';
