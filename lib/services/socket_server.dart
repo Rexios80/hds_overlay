@@ -18,6 +18,19 @@ class SocketServer {
 
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
+  SocketServer() {
+    NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
+      var ipLog = 'Possible IP addresses of this machine:';
+      interfaces.forEach((interface) {
+        ipLog += '\n\t\t- ${interface.name}';
+        interface.addresses.forEach((address) {
+          ipLog += '\n\t\t\t\t- ${address.address}';
+        });
+      });
+      _logStreamController.add(LogMessage(LogLevel.info, ipLog));
+    });
+  }
+
   Future<void> start(int port) async {
     var handler = webSocketHandler(
       (webSocket) {
