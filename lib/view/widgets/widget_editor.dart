@@ -33,9 +33,9 @@ class WidgetEditor extends StatelessWidget {
 
     final positionEditor = Row(
       children: [
-        WidgetEditorTextField(EditorType.positionX, properties),
+        WidgetEditorTextField(EditorType.positionX, properties, spacer: false),
         Spacer(),
-        WidgetEditorTextField(EditorType.positionY, properties),
+        WidgetEditorTextField(EditorType.positionY, properties, spacer: false),
       ],
     );
 
@@ -114,29 +114,83 @@ class WidgetEditor extends StatelessWidget {
         WidgetEditorTextField(EditorType.fontSize, properties),
         SizedBox(height: 5),
         WidgetEditorTextField(EditorType.unit, properties),
-        Builder(
-          builder: (context) {
-            return Obx(
-              () {
-                if (properties.value.unit.isEmpty) {
-                  return SizedBox.shrink();
-                } else {
-                  return Column(
-                    children: [
-                      SizedBox(height: 5),
-                      WidgetEditorTextField(
-                          EditorType.unitFontSize, properties),
-                    ],
-                  );
-                }
-              },
-            );
+        Obx(
+          () {
+            if (properties.value.unit.isEmpty) {
+              return SizedBox.shrink();
+            } else {
+              return Column(
+                children: [
+                  SizedBox(height: 5),
+                  WidgetEditorTextField(EditorType.unitFontSize, properties),
+                ],
+              );
+            }
           },
         ),
         SizedBox(height: 5),
         WidgetEditorTextField(EditorType.textPaddingLeft, properties),
         SizedBox(height: 5),
         WidgetEditorTextField(EditorType.textPaddingTop, properties),
+        SizedBox(height: 5),
+        Obx(
+          () => Row(
+            children: [
+              Text('Shadow'),
+              Switch(
+                value: properties.value.textShadow,
+                onChanged: (value) {
+                  properties.value.textShadow = value;
+                  saveAndRefresh(properties);
+                },
+              ),
+            ],
+          ),
+        ),
+        Obx(
+          () {
+            if (properties.value.textShadow) {
+              return Column(
+                children: [
+                  SizedBox(height: 5),
+                  WidgetEditorTextField(
+                      EditorType.textShadowRadius, properties),
+                ],
+              );
+            } else {
+              return SizedBox.shrink();
+            }
+          },
+        ),
+        SizedBox(height: 5),
+        Obx(
+          () => Row(
+            children: [
+              Text('Outline'),
+              Switch(
+                value: properties.value.textStroke,
+                onChanged: (value) {
+                  properties.value.textStroke = value;
+                  saveAndRefresh(properties);
+                },
+              ),
+            ],
+          ),
+        ),
+        Obx(
+          () {
+            if (properties.value.textStroke) {
+              return Column(
+                children: [
+                  SizedBox(height: 5),
+                  WidgetEditorTextField(EditorType.textStrokeWidth, properties),
+                ],
+              );
+            } else {
+              return SizedBox.shrink();
+            }
+          },
+        ),
       ],
     );
 

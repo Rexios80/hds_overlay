@@ -9,8 +9,10 @@ class WidgetEditorTextField extends StatelessWidget {
 
   final EditorType type;
   final Rx<DataWidgetProperties> properties;
+  final bool spacer;
 
-  WidgetEditorTextField(this.type, this.properties, {Key? key})
+  WidgetEditorTextField(this.type, this.properties,
+      {Key? key, this.spacer = true})
       : super(key: key);
 
   @override
@@ -22,12 +24,7 @@ class WidgetEditorTextField extends StatelessWidget {
     return Row(
       children: [
         Text(label),
-        Builder(builder: (context) {
-          if (type == EditorType.positionX || type == EditorType.positionY) {
-            return SizedBox.shrink();
-          }
-          return Spacer();
-        }),
+        spacer ? Spacer() : SizedBox.shrink(),
         Container(
           width: 100,
           child: TextField(
