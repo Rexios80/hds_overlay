@@ -28,11 +28,11 @@ class HiveUtils {
     Hive.registerAdapter(SettingsAdapter());
 
     // Delete the boxes to prevent crashes while developing
-    if (kDebugMode) {
-      print('Deleting hive boxes');
-      await Hive.deleteBoxFromDisk(boxSettings);
-      await Hive.deleteBoxFromDisk(boxDataWidgetProperties);
-    }
+    // if (kDebugMode) {
+    //   print('Deleting hive boxes');
+    //   await Hive.deleteBoxFromDisk(boxSettings);
+    //   await Hive.deleteBoxFromDisk(boxDataWidgetProperties);
+    // }
 
     final settingsBox = await Hive.openBox<Settings>(boxSettings);
     final dataWidgetPropertiesBox =
