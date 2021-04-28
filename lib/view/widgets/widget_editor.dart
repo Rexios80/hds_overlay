@@ -70,7 +70,6 @@ class WidgetEditor extends StatelessWidget {
             },
           ),
         ),
-        Spacer(),
       ],
     );
 
@@ -143,6 +142,7 @@ class WidgetEditor extends StatelessWidget {
         Row(
           children: [
             Text('Image size: '),
+            Spacer(),
             Container(
               width: 100,
               child: TextField(
@@ -154,6 +154,76 @@ class WidgetEditor extends StatelessWidget {
                 ),
                 onChanged: (value) {
                   properties.value.imageSize = double.tryParse(value) ?? 0.0;
+                  saveAndRefresh(properties);
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+
+    final textEditor = Column(
+      children: [
+        Row(
+          children: [
+            Text('Text size: '),
+            Spacer(),
+            Container(
+              width: 100,
+              child: TextField(
+                controller: TextEditingController(
+                  text: properties.value.fontSize.toString(),
+                ),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  properties.value.fontSize = double.tryParse(value) ?? 0.0;
+                  saveAndRefresh(properties);
+                },
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 5),
+        Row(
+          children: [
+            Text('Left padding: '),
+            Spacer(),
+            Container(
+              width: 100,
+              child: TextField(
+                controller: TextEditingController(
+                  text: properties.value.textPaddingLeft.toString(),
+                ),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  properties.value.textPaddingLeft = double.tryParse(value) ?? 0.0;
+                  saveAndRefresh(properties);
+                },
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 5),
+        Row(
+          children: [
+            Text('Top padding: '),
+            Spacer(),
+            Container(
+              width: 100,
+              child: TextField(
+                controller: TextEditingController(
+                  text: properties.value.textPaddingTop.toString(),
+                ),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  properties.value.textPaddingTop = double.tryParse(value) ?? 0.0;
                   saveAndRefresh(properties);
                 },
               ),
@@ -195,6 +265,15 @@ class WidgetEditor extends StatelessWidget {
         ),
         SizedBox(height: 10),
         imageEditor,
+        SizedBox(height: 10),
+        Divider(),
+        SizedBox(height: 10),
+        Text(
+          'Text',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
+        textEditor,
         SizedBox(height: 10),
         Divider(),
         SizedBox(height: 10),
