@@ -182,7 +182,7 @@ packages:
       name: dart_style
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   desktop_window:
     dependency: "direct main"
     description:
@@ -351,7 +351,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.1"
+    version: "0.13.2"
   http_multi_server:
     dependency: transitive
     description:
@@ -561,7 +561,7 @@ packages:
       name: shelf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   shelf_web_socket:
     dependency: "direct main"
     description:
