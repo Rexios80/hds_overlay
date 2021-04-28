@@ -1,21 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/interface/routes.dart';
+import 'package:yaml/yaml.dart';
 
 final navigationDrawer = Drawer(
   child: ListView(
     // Important: Remove any padding from the ListView.
     padding: EdgeInsets.zero,
     children: <Widget>[
-      DrawerHeader(
-        child: Text(
-          'HDS',
-          style: TextStyle(color: Colors.white),
-        ),
-        decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/icon.png')),
-          color: Colors.grey,
-        ),
+      FutureBuilder(
+        future: rootBundle.loadString("pubspec.yaml"),
+        builder: (context, snapshot) {
+          String version = "Unknown";
+          if (snapshot.hasData) {
+            var yaml = loadYaml(snapshot.data as String);
+            version = yaml["version"];
+          }
+
+          return DrawerHeader(
+            child: Text(
+              'HDS $version',
+              style: TextStyle(color: Colors.white),
+            ),
+            decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage('assets/icon.png')),
+              color: Colors.grey,
+            ),
+          );
+        },
       ),
       ListTile(
         title: Text('Overlay'),
