@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/heart_rate_widget_controller.dart';
+import 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 
@@ -11,6 +12,7 @@ import 'data_widget.dart';
 class HeartRateWidget extends DataWidget {
   final DataWidgetController dwc = Get.find();
   final HeartRateWidgetController hrwc = Get.put(HeartRateWidgetController());
+  final SocketServerController socketServerController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +25,19 @@ class HeartRateWidget extends DataWidget {
         Obx(() {
           final properties = dwc.propertiesMap[DataType.heartRate] ??
               DataWidgetProperties().obs;
+          hrwc.currentHeartRate = int.tryParse(
+                  socketServerController.messages[DataType.heartRate]?.value ??
+                      '') ??
+              0;
 
           ever(properties, (_) {
             if (properties.value.animated) {
               animateImage(controller);
             }
-            hrwc.animating.value = properties.value.animated;
+            hrwc.animating = properties.value.animated;
           });
 
-          if (properties.value.animated && !hrwc.animating.value) {
+          if (properties.value.animated && !hrwc.animating) {
             animateImage(controller);
           }
 
@@ -57,10 +63,20 @@ class HeartRateWidget extends DataWidget {
   }
 
   void animateImage(AnimationController controller) async {
-    hrwc.animating.value = true;
-    while (hrwc.animating.value) {
-      await controller.animateTo(0.8, duration: Duration(milliseconds: 1000));
-      await controller.animateTo(1.0, duration: Duration(milliseconds: 500));
+    hrwc.animating = true;
+    while (hrwc.animating) {
+      if (hrwc.currentHeartRate == 0) {
+        await Future.delayed(Duration(milliseconds: 100));
+        continue;
+      }
+      final int millisecondsPerBeat =
+          (60 / hrwc.currentHeartRate * 1000).toInt();
+      await controller.animateTo(0.85,
+          duration:
+              Duration(milliseconds: (millisecondsPerBeat * (3 / 4)).toInt()));
+      await controller.animateTo(1.0,
+          duration:
+              Duration(milliseconds: (millisecondsPerBeat * (1 / 4)).toInt()));
     }
   }
 }

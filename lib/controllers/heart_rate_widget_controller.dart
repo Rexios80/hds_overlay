@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
-class HeartRateWidgetController extends GetxController {
-  RxBool animating = false.obs;
+class HeartRateWidgetController {
+  bool animating = false;
+  int currentHeartRate = 0;
 }
