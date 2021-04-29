@@ -71,9 +71,9 @@ class WidgetEditorTextField extends StatelessWidget {
   String get label {
     switch (type) {
       case EditorType.positionX:
-        return 'X\t';
+        return 'X  ';
       case EditorType.positionY:
-        return 'Y\t';
+        return 'Y  ';
       case EditorType.imageSize:
         return 'Image size';
       case EditorType.fontSize:

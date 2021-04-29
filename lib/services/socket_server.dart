@@ -22,9 +22,9 @@ class SocketServer {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
       var ipLog = 'Possible IP addresses of this machine:';
       interfaces.forEach((interface) {
-        ipLog += '\n\t\t- ${interface.name}';
+        ipLog += '\n    - ${interface.name}';
         interface.addresses.forEach((address) {
-          ipLog += '\n\t\t\t\t- ${address.address}';
+          ipLog += '\n        - ${address.address}';
         });
       });
       _logStreamController.add(LogMessage(LogLevel.info, ipLog));
