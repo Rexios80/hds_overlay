@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
+import 'package:hds_overlay/controllers/widget_editor_controller.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/default_image.dart';
 import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
@@ -13,6 +14,7 @@ import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
 class WidgetEditor extends StatelessWidget {
   final EndDrawerController endDrawerController = Get.find();
   final DataWidgetController dwc = Get.find();
+  final WidgetEditorController wec = Get.put(WidgetEditorController());
 
   @override
   Widget build(BuildContext context) {
@@ -58,15 +60,18 @@ class WidgetEditor extends StatelessWidget {
             Obx(() {
               if (properties.value.showImage &&
                   properties.value.image != null) {
-                return InkWell(
-                  onDoubleTap: () {
-                    properties.value.image = null;
-                    saveAndRefresh(properties);
+                return TextButton(
+                  onPressed: () {
+                    if (wec.removeTapped.value) {
+                      properties.value.image = null;
+                      saveAndRefresh(properties);
+                    } else {
+                      wec.removeTapped.value = true;
+                      Future.delayed(Duration(seconds: 1))
+                          .then((_) => wec.removeTapped.value = false);
+                    }
                   },
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text('Remove'),
-                  ),
+                  child: Text(wec.removeTapped.value ? 'Really?' : 'Remove'),
                 );
               } else {
                 return SizedBox.shrink();
@@ -222,15 +227,20 @@ class WidgetEditor extends StatelessWidget {
       ],
     );
 
-    final deleteButton = InkWell(
-      onDoubleTap: () {
-        properties.value.delete();
-        saveAndRefresh(properties);
-        Get.back();
-      },
-      child: TextButton(
-        onPressed: () {},
-        child: Text('DELETE WIDGET'),
+    final deleteButton = Obx(
+      () => TextButton(
+        onPressed: () {
+          if (wec.deleteTapped.value) {
+            properties.value.delete();
+            saveAndRefresh(properties);
+            Get.back();
+          } else {
+            wec.deleteTapped.value = true;
+            Future.delayed(Duration(seconds: 1))
+                .then((_) => wec.deleteTapped.value = false);
+          }
+        },
+        child: Text(wec.deleteTapped.value ? 'ARE YOU SURE?' : 'DELETE WIDGET'),
       ),
     );
 
