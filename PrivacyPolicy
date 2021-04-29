@@ -1,0 +1,1 @@
+The Health Data Server application collects the health data you agree to upon the initial start of the applicaiton. It collects this health data from the built in sensors provided on the Apple Watch. This data is not stored locally. This data is only sent to the IP address you specify within the application.
