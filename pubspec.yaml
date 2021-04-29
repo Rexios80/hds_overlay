@@ -102,9 +102,9 @@ flutter:
 
 msix_config:
   display_name: Health Data Server
-  publisher_display_name: Aaron DeLory
+  publisher_display_name: Rexios
   identity_name: Rexios.hds-overlay
-  msix_version: 1.0.0.2
+  msix_version: 1.0.0.0
   publisher: Rexios
   vs_generated_images_folder_path: windows\Assets
   icons_background_color: transparent
