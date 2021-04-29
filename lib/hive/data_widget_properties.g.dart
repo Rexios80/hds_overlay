@@ -36,13 +36,14 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..unitFontSize = fields[16] as double
       ..decimals = fields[17] as int
       ..animated = fields[18] as bool
-      ..heartRateRanges = (fields[19] as Map).cast<int, int>();
+      ..heartRateRanges = (fields[19] as Map).cast<int, int>()
+      ..heartBeatSound = fields[20] as Uint8List?;
   }
 
   @override
   void write(BinaryWriter writer, DataWidgetProperties obj) {
     writer
-      ..writeByte(20)
+      ..writeByte(21)
       ..writeByte(0)
       ..write(obj.dataType)
       ..writeByte(1)
@@ -82,7 +83,9 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..writeByte(18)
       ..write(obj.animated)
       ..writeByte(19)
-      ..write(obj.heartRateRanges);
+      ..write(obj.heartRateRanges)
+      ..writeByte(20)
+      ..write(obj.heartBeatSound);
   }
 
   @override

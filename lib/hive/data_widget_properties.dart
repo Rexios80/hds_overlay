@@ -69,4 +69,7 @@ class DataWidgetProperties extends HiveObject {
 
   @HiveField(19)
   Map<int, int> heartRateRanges = Map();
+
+  @HiveField(20)
+  Uint8List? heartBeatSound;
 }

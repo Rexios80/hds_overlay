@@ -312,6 +312,25 @@ class WidgetEditor extends StatelessWidget {
               children: [
                 HeartRateRangeEditor(),
                 SizedBox(height: 10),
+                Text('Heart beat sound',
+                    style: Theme.of(context).textTheme.subtitle1),
+                SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    if (properties.value.heartBeatSound == null) {
+                      selectAudioFile(properties);
+                    } else {
+                      properties.value.heartBeatSound = null;
+                      saveAndRefresh(properties);
+                    }
+                  },
+                  child: Obx(
+                    () => Text(properties.value.heartBeatSound == null
+                        ? 'Select audio file'
+                        : 'Remove audio file'),
+                  ),
+                ),
+                SizedBox(height: 10),
               ],
             );
           } else {
@@ -343,6 +362,17 @@ class WidgetEditor extends StatelessWidget {
     if (file == null) return;
 
     properties.value.image = await file.readAsBytes();
+    saveAndRefresh(properties);
+  }
+
+  void selectAudioFile(Rx<DataWidgetProperties> properties) async {
+    final typeGroup = XTypeGroup(label: 'audio', extensions: ['mp3']);
+    final file = await openFile(acceptedTypeGroups: [typeGroup]);
+
+    // Don't do anything if they don't pick a file
+    if (file == null) return;
+
+    properties.value.heartBeatSound = await file.readAsBytes();
     saveAndRefresh(properties);
   }
 }
