@@ -39,6 +39,7 @@ dependencies:
   get: ^4.1.4
   provider: ^5.0.0
   google_fonts: ^2.0.0
+  flex_color_picker: ^2.0.0
 
   # Shelf
   shelf: ^1.1.0

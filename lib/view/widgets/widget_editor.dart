@@ -1,5 +1,6 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:file_selector/file_selector.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -109,8 +110,28 @@ class WidgetEditor extends StatelessWidget {
       ],
     );
 
+    final colorSelector = ExpansionTile(
+      title: Text('Text color'),
+      children: [
+        ColorPicker(
+          color: Color(properties.value.textColor),
+          // Update the screenPickerColor using the callback.
+          onColorChanged: (Color color) {
+            properties.value.textColor = color.value;
+            saveAndRefresh(properties);
+          },
+          subheading: Text(
+            'Color shade',
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+        ),
+      ],
+    );
+
     final textEditor = Column(
       children: [
+        colorSelector,
+        SizedBox(height: 5),
         WidgetEditorTextField(EditorType.font, properties),
         SizedBox(height: 10),
         Text(
