@@ -8,7 +8,6 @@ import 'package:hds_overlay/view/screens/settings_view.dart';
 import 'package:hds_overlay/view/widgets/overlay.dart';
 import 'package:provider/provider.dart';
 
-import 'controllers/global_controller.dart';
 import 'controllers/settings_controller.dart';
 import 'hive/hive_utils.dart';
 
@@ -16,7 +15,6 @@ void main() async {
   Provider.debugCheckInvalidValueType = null;
 
   await HiveUtils.init();
-  Get.put(GlobalController());
   Get.put(SocketServerController());
 
   runApp(MyApp());

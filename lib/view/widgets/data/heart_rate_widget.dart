@@ -57,7 +57,7 @@ class HeartRateWidget extends DataWidget {
             return SizedBox.shrink();
           }
         }),
-        DataWidgetText(),
+        HeartRateText(),
       ],
     );
   }
@@ -78,5 +78,21 @@ class HeartRateWidget extends DataWidget {
           duration:
               Duration(milliseconds: (millisecondsPerBeat * (1 / 4)).toInt()));
     }
+  }
+}
+
+class HeartRateText extends DataWidgetText {
+  final HeartRateWidgetController hrwc = Get.find();
+
+  @override
+  Color getTextColor(Rx<DataWidgetProperties> properties) {
+    final ranges = properties.value.heartRateRanges.entries.toList();
+    ranges.sort((a, b) => a.key.compareTo(b.key));
+    return Color(
+      ranges.reversed
+          .firstWhere((e) => hrwc.currentHeartRate >= e.key,
+              orElse: () => MapEntry(0, Colors.white.value))
+          .value,
+    );
   }
 }

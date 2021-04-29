@@ -66,4 +66,7 @@ class DataWidgetProperties extends HiveObject {
 
   @HiveField(18)
   bool animated = true;
+
+  @HiveField(19)
+  Map<int, int> heartRateRanges = Map();
 }

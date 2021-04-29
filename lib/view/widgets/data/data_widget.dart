@@ -95,7 +95,7 @@ class DataWidgetText extends StatelessWidget {
           fontSize: properties.value.fontSize,
         );
         final baseTextStyle = textStyle.copyWith(
-          color: Color(properties.value.textColor),
+          color: getTextColor(properties),
           shadows: () {
             if (properties.value.textShadow) {
               return [
@@ -151,5 +151,9 @@ class DataWidgetText extends StatelessWidget {
         );
       },
     );
+  }
+
+  Color getTextColor(Rx<DataWidgetProperties> properties) {
+    return Color(properties.value.textColor);
   }
 }
