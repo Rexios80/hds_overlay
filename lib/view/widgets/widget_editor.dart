@@ -28,9 +28,7 @@ class WidgetEditor extends StatelessWidget {
           endDrawerController.selectedDataType.value,
           camelCase: true,
         ),
-        style: TextStyle(
-          fontSize: 24,
-        ),
+        style: Theme.of(context).textTheme.headline6,
       ),
     );
 
@@ -251,7 +249,7 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 20),
         Text(
           'Position',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.subtitle1,
         ),
         SizedBox(height: 10),
         positionEditor,
@@ -260,7 +258,7 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 10),
         Text(
           'Image',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.subtitle1,
         ),
         SizedBox(height: 10),
         imageEditor,
@@ -269,7 +267,7 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 10),
         Text(
           'Text',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.subtitle1,
         ),
         SizedBox(height: 10),
         textEditor,

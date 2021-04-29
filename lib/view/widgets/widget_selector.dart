@@ -34,8 +34,10 @@ class WidgetSelector extends StatelessWidget {
                 children: [
                   Text(
                     EnumToString.convertToString(dataType, camelCase: true),
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        ?.copyWith(color: Colors.white),
                   ),
                   SizedBox(height: 5),
                   InkWell(
@@ -49,7 +51,7 @@ class WidgetSelector extends StatelessWidget {
                           return DataWidget();
                         }),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                 ],
               );
             }).toList()),
