@@ -63,6 +63,8 @@ class WidgetEditorTextField extends StatelessWidget {
         return properties.value.textStrokeWidth.toStringAsFixed(0);
       case EditorType.font:
         return properties.value.font;
+      case EditorType.decimals:
+        return properties.value.decimals.toString();
     }
   }
 
@@ -90,6 +92,8 @@ class WidgetEditorTextField extends StatelessWidget {
         return 'Stroke width';
       case EditorType.font:
         return 'Font';
+      case EditorType.decimals:
+        return 'Decimals';
     }
   }
 
@@ -134,6 +138,9 @@ class WidgetEditorTextField extends StatelessWidget {
       case EditorType.font:
         properties.value.font = value;
         break;
+      case EditorType.decimals:
+        properties.value.decimals = int.tryParse(value) ?? 0;
+        break;
     }
 
     properties.value.save();
@@ -153,4 +160,5 @@ enum EditorType {
   textShadowRadius,
   textStrokeWidth,
   font,
+  decimals,
 }

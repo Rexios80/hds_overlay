@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/widget_editor_controller.dart';
+import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/default_image.dart';
 import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
@@ -135,6 +136,18 @@ class WidgetEditor extends StatelessWidget {
       children: [
         colorSelector,
         SizedBox(height: 5),
+        () {
+          if (properties.value.dataType.isRounded()) {
+            return Column(
+              children: [
+                WidgetEditorTextField(EditorType.decimals, properties),
+                SizedBox(height: 5),
+              ],
+            );
+          } else {
+            return SizedBox.shrink();
+          }
+        }(),
         WidgetEditorTextField(EditorType.font, properties),
         SizedBox(height: 10),
         Text(

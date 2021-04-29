@@ -60,4 +60,7 @@ class DataWidgetProperties extends HiveObject {
 
   @HiveField(16)
   double unitFontSize = 12;
+
+  @HiveField(17)
+  int decimals = 1;
 }

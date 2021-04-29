@@ -31,3 +31,9 @@ enum DataType {
   @HiveField(999)
   unknown,
 }
+
+extension DataTypeExtension on DataType {
+  bool isRounded() {
+    return this == DataType.speed;
+  }
+}

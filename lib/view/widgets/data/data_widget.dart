@@ -69,7 +69,19 @@ class DataWidgetText extends StatelessWidget {
       () {
         final properties =
             dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
-        final value = socketServerController.messages[dataType]?.value;
+        final preProcessedValue =
+            socketServerController.messages[dataType]?.value;
+        final String valueText;
+        if (preProcessedValue == null) {
+          valueText = '-';
+        } else if (dataType.isRounded()) {
+          valueText = double.parse(preProcessedValue)
+              .toStringAsFixed(properties.value.decimals);
+        } else {
+          valueText = preProcessedValue;
+        }
+
+        final unitText = valueText == '-' ? '' : properties.value.unit;
 
         TextStyle fontStyle;
         try {
@@ -107,9 +119,6 @@ class DataWidgetText extends StatelessWidget {
             baseTextStyle.copyWith(fontSize: properties.value.unitFontSize);
         final unitStrokeTextStyle =
             strokeTextStyle.copyWith(fontSize: properties.value.unitFontSize);
-
-        final valueText = value ?? '-';
-        final unitText = value == null ? '' : properties.value.unit;
 
         return Padding(
           padding: EdgeInsets.only(
