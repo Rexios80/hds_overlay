@@ -109,4 +109,4 @@ msix_config:
   vs_generated_images_folder_path: windows\Assets
   icons_background_color: transparent
   architecture: x64
-  capabilities: 'privateNetworkClientServer'
+  capabilities: 'privateNetworkClientServer,internetClient'
