@@ -111,6 +111,25 @@ class WidgetEditor extends StatelessWidget {
         ),
         SizedBox(height: 5),
         WidgetEditorTextField(EditorType.imageSize, properties),
+        SizedBox(height: 5),
+        Obx(() {
+          if (properties.value.dataType.isAnimated()) {
+            return Row(
+              children: [
+                Text('Animate'),
+                Switch(
+                  value: properties.value.animated,
+                  onChanged: (value) {
+                    properties.value.animated = value;
+                    saveAndRefresh(properties);
+                  },
+                ),
+              ],
+            );
+          } else {
+            return SizedBox.shrink();
+          }
+        }),
       ],
     );
 

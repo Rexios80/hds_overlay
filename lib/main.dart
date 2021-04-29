@@ -6,7 +6,6 @@ import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/routes.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
 import 'package:hds_overlay/view/widgets/overlay.dart';
-import 'package:lifecycle/lifecycle.dart';
 import 'package:provider/provider.dart';
 
 import 'controllers/global_controller.dart';
@@ -37,7 +36,6 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       title: 'Health Data Server',
-      navigatorObservers: [defaultLifecycleObserver],
       theme: Themes.light,
       darkTheme: Themes.dark,
       themeMode: settingsController.settings.value.darkMode

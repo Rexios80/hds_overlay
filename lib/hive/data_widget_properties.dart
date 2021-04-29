@@ -63,4 +63,7 @@ class DataWidgetProperties extends HiveObject {
 
   @HiveField(17)
   int decimals = 1;
+
+  @HiveField(18)
+  bool animated = true;
 }

@@ -36,4 +36,8 @@ extension DataTypeExtension on DataType {
   bool isRounded() {
     return this == DataType.speed;
   }
+
+  bool isAnimated() {
+    return this == DataType.heartRate;
+  }
 }
