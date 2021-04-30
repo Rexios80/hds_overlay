@@ -14,6 +14,4 @@ class Themes {
   );
 
   static final sideBarWidth = 304.0;
-  static final overlayWidth = 1280 / Get.pixelRatio;
-  static final overlayHeight = 720 / Get.pixelRatio;
 }

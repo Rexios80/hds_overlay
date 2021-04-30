@@ -26,8 +26,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = Themes.overlayWidth + Themes.sideBarWidth;
-    final height = Themes.overlayHeight + kToolbarHeight + titleBarHeight;
+    final width =
+        settingsController.settings.value.overlayWidth / Get.pixelRatio +
+            Themes.sideBarWidth;
+    final height =
+        settingsController.settings.value.overlayHeight / Get.pixelRatio +
+            kToolbarHeight +
+            titleBarHeight;
     DesktopWindow.setWindowSize(Size(width, height));
     DesktopWindow.setMaxWindowSize(Size(width, height));
     DesktopWindow.setMinWindowSize(Size(width, height));

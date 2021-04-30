@@ -19,19 +19,25 @@ class SettingsAdapter extends TypeAdapter<Settings> {
     return Settings()
       ..port = fields[0] as int
       ..overlayBackgroundColor = fields[1] as int
-      ..darkMode = fields[2] as bool;
+      ..darkMode = fields[2] as bool
+      .._overlayWidth = fields[3] as double?
+      .._overlayHeight = fields[4] as double?;
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.port)
       ..writeByte(1)
       ..write(obj.overlayBackgroundColor)
       ..writeByte(2)
-      ..write(obj.darkMode);
+      ..write(obj.darkMode)
+      ..writeByte(3)
+      ..write(obj._overlayWidth)
+      ..writeByte(4)
+      ..write(obj._overlayHeight);
   }
 
   @override
