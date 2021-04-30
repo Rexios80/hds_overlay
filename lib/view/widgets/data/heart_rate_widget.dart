@@ -17,13 +17,13 @@ import 'data_widget.dart';
 
 class HeartRateWidget extends DataWidget {
   final DataWidgetController dwc = Get.find();
-  final HeartRateWidgetController hrwc = Get.put(HeartRateWidgetController());
+  final HeartRateWidgetController hrwc = Get.put(HeartRateWidgetController())
+    ..animating = false;
   final SocketServerController socketServerController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     final controller = useAnimationController(initialValue: 1.0);
-
     useAnimation(controller);
 
     return Row(
