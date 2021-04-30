@@ -29,7 +29,6 @@ class SocketServerController extends GetxService {
 
     server.messageStream.listen((message) {
       final log = '${message.name}: ${message.value}';
-      print(log);
 
       if (message is UnknownDataMessage) {
         // Don't do anything with these

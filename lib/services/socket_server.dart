@@ -66,6 +66,7 @@ class SocketServer {
   }
 
   void _handleMessage(WebSocketChannel client, dynamic message) {
+    print(message);
     final parts = message.split(':');
 
     if (parts[0] == 'clientName') {
