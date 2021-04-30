@@ -1,3 +1,4 @@
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,17 @@ class DataView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width =
+        settingsController.settings.value.overlayWidth / Get.pixelRatio +
+            Themes.sideBarWidth;
+    final height =
+        settingsController.settings.value.overlayHeight / Get.pixelRatio +
+            kToolbarHeight +
+            Themes.titleBarHeight;
+    DesktopWindow.setWindowSize(Size(width, height));
+    DesktopWindow.setMaxWindowSize(Size(width, height));
+    DesktopWindow.setMinWindowSize(Size(width, height));
+
     // This needs to be in here or the Scaffold can't be found
     ever(endDrawerController.selectedDataType, (DataType dataType) {
       if (dataType != DataType.unknown) {
@@ -65,7 +77,8 @@ class DataView extends StatelessWidget {
     return Obx(
       () => Container(
         width: settingsController.settings.value.overlayWidth / Get.pixelRatio,
-        height: settingsController.settings.value.overlayHeight / Get.pixelRatio,
+        height:
+            settingsController.settings.value.overlayHeight / Get.pixelRatio,
         color: Color(settingsController.settings.value.overlayBackgroundColor),
         child: dataWidgets,
       ),
