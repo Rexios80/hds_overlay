@@ -8,6 +8,7 @@ import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SocketServer {
   HttpServer? server;
@@ -19,7 +20,7 @@ class SocketServer {
 
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
-  final Map<WebSocket, String> clients = Map();
+  final Map<WebSocketChannel, String> clients = Map();
 
   SocketServer() {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
@@ -36,7 +37,7 @@ class SocketServer {
 
   Future<void> start(int port) async {
     var handler = webSocketHandler(
-      (webSocket) {
+      (WebSocketChannel webSocket) {
         webSocket.stream
             .listen((message) => _handleMessage(webSocket, message))
             .onDone(() {
@@ -63,7 +64,7 @@ class SocketServer {
     return server?.close();
   }
 
-  void _handleMessage(WebSocket client, dynamic message) {
+  void _handleMessage(WebSocketChannel client, dynamic message) {
     final parts = message.split(':');
 
     if (parts[0] == 'clientName') {
@@ -87,6 +88,6 @@ class SocketServer {
     // Broadcast to all clients that aren't the watch
     final externalClients =
         clients.entries.toList().where((e) => e.value != DataSource.watch.name);
-    externalClients.forEach((e) => e.key.add(message));
+    externalClients.forEach((e) => e.key.sink.add(message));
   }
 }
