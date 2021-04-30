@@ -89,12 +89,18 @@ class HeartRateImage extends HookWidget {
       }
       final int millisecondsPerBeat =
           (60 / hrwc.currentHeartRate * 1000).toInt();
-      await controller.animateTo(0.85,
-          duration:
-              Duration(milliseconds: (millisecondsPerBeat * (3 / 4)).toInt()));
-      await controller.animateTo(1.0,
-          duration:
-              Duration(milliseconds: (millisecondsPerBeat * (1 / 4)).toInt()));
+
+      try {
+        await controller.animateTo(0.85,
+            duration:
+            Duration(milliseconds: (millisecondsPerBeat * (3 / 4)).toInt()));
+        await controller.animateTo(1.0,
+            duration:
+            Duration(milliseconds: (millisecondsPerBeat * (1 / 4)).toInt()));
+      } catch (error) {
+        // The controller is disposed
+        return;
+      }
     }
   }
 

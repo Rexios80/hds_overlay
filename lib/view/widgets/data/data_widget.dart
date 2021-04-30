@@ -26,6 +26,7 @@ class DataWidgetBase extends HookWidget {
     return Obx(() {
       if (properties.value.textInsideImage) {
         return Stack(
+          alignment: Alignment.center,
           children: [
             properties.value.showImage ? image : SizedBox.shrink(),
             text,

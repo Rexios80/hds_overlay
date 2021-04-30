@@ -198,6 +198,20 @@ class WidgetEditor extends StatelessWidget {
           },
         ),
         SizedBox(height: 5),
+        Obx(() => Row(
+              children: [
+                Text('Text inside image'),
+                Spacer(),
+                Switch(
+                  value: properties.value.textInsideImage,
+                  onChanged: (value) {
+                    properties.value.textInsideImage = value;
+                    saveAndRefresh(properties);
+                  },
+                ),
+              ],
+            )),
+        SizedBox(height: 5),
         WidgetEditorTextField(EditorType.textPaddingLeft, properties),
         SizedBox(height: 5),
         WidgetEditorTextField(EditorType.textPaddingTop, properties),
