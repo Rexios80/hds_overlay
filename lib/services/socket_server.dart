@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hds_overlay/hive/data_type.dart';
+import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -17,6 +18,8 @@ class SocketServer {
   Stream<LogMessage> get logStream => _logStreamController.stream;
 
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
+
+  final Map<WebSocket, String> clients = Map();
 
   SocketServer() {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
@@ -34,11 +37,12 @@ class SocketServer {
   Future<void> start(int port) async {
     var handler = webSocketHandler(
       (webSocket) {
-        webSocket.stream.listen(_handleMessage).onDone(() {
-          _logStreamController
-              .add(LogMessage(LogLevel.warn, 'Watch disconnected'));
+        webSocket.stream
+            .listen((message) => _handleMessage(webSocket, message))
+            .onDone(() {
+          _logStreamController.add(LogMessage(LogLevel.warn,
+              'Client disconnected: ${clients[webSocket] ?? 'unknown'}'));
         });
-        _logStreamController.add(LogMessage(LogLevel.good, 'Watch connected'));
       },
       pingInterval: Duration(seconds: 15),
     );
@@ -59,14 +63,30 @@ class SocketServer {
     return server?.close();
   }
 
-  void _handleMessage(dynamic message) {
+  void _handleMessage(WebSocket client, dynamic message) {
     final parts = message.split(':');
+
+    if (parts[0] == 'clientName') {
+      clients[client] = parts[1];
+      _logStreamController
+          .add(LogMessage(LogLevel.good, 'Client connected: ${parts[1]}'));
+      return;
+    }
+
+    final source = DataSource(clients[client] ?? 'unknown');
+
     final dataType =
         EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
     if (dataType != DataType.unknown) {
-      _messageStreamController.add(DataMessage(dataType, parts[1]));
+      _messageStreamController.add(DataMessage(source, dataType, parts[1]));
     } else {
-      _messageStreamController.add(UnknownDataMessage(parts[0], parts[1]));
+      _messageStreamController
+          .add(UnknownDataMessage(source, parts[0], parts[1]));
     }
+
+    // Broadcast to all clients that aren't the watch
+    final externalClients =
+        clients.entries.toList().where((e) => e.value != DataSource.watch.name);
+    externalClients.forEach((e) => e.key.add(message));
   }
 }
