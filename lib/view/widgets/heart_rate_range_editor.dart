@@ -5,7 +5,6 @@ import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/heart_rate_range_editor_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
-import 'package:hds_overlay/view/widgets/data/data_widget.dart';
 import 'package:tuple/tuple.dart';
 
 class HeartRateRangeEditor extends StatelessWidget {
@@ -95,9 +94,9 @@ class HeartRateRangeEditor extends StatelessWidget {
                         Container(
                           width: 20,
                           height: 20,
-                          decoration: BoxDecoration(
+                          child: Card(
+                            margin: EdgeInsets.all(0),
                             color: Color(range.value),
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
                           ),
                         ),
                       ],
