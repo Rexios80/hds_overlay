@@ -64,16 +64,17 @@ class WidgetEditor extends StatelessWidget {
                   padding: EdgeInsets.only(left: 5, right: 5),
                   child: TextButton(
                     onPressed: () {
-                      if (wec.removeTapped.value) {
+                      if (wec.removeImageTapped.value) {
                         properties.value.image = null;
                         saveAndRefresh(properties);
                       } else {
-                        wec.removeTapped.value = true;
+                        wec.removeImageTapped.value = true;
                         Future.delayed(Duration(seconds: 1))
-                            .then((_) => wec.removeTapped.value = false);
+                            .then((_) => wec.removeImageTapped.value = false);
                       }
                     },
-                    child: Text(wec.removeTapped.value ? 'Really?' : 'Remove'),
+                    child: Text(
+                        wec.removeImageTapped.value ? 'Really?' : 'Remove'),
                   ),
                 );
               } else {
@@ -85,7 +86,8 @@ class WidgetEditor extends StatelessWidget {
                 return InkWell(
                   onTap: () => selectImageFile(properties),
                   child: Card(
-                    margin: EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
+                    margin:
+                        EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
                     elevation: 8,
                     child: Padding(
                       padding: EdgeInsets.all(5),
@@ -280,6 +282,45 @@ class WidgetEditor extends StatelessWidget {
       ),
     );
 
+    final audioFileSelector = Builder(builder: (context) {
+      if (properties.value.dataType == DataType.heartRate) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            HeartRateRangeEditor(),
+            SizedBox(height: 10),
+            Text('Heart beat sound',
+                style: Theme.of(context).textTheme.subtitle1),
+            SizedBox(height: 10),
+            TextButton(
+              onPressed: () {
+                if (properties.value.heartBeatSound == null) {
+                  selectAudioFile(properties);
+                } else if (!wec.removeSoundTapped.value) {
+                  wec.removeSoundTapped.value = true;
+                  Future.delayed(Duration(seconds: 1))
+                      .then((_) => wec.removeSoundTapped.value = false);
+                } else {
+                  properties.value.heartBeatSound = null;
+                  saveAndRefresh(properties);
+                }
+              },
+              child: Obx(
+                () => Text(properties.value.heartBeatSound == null
+                    ? 'Select audio file'
+                    : wec.removeSoundTapped.value
+                        ? 'Really?'
+                        : 'Remove audio file'),
+              ),
+            ),
+            SizedBox(height: 10),
+          ],
+        );
+      } else {
+        return SizedBox.shrink();
+      }
+    });
+
     return ListView(
       padding: EdgeInsets.all(10),
       children: [
@@ -311,37 +352,7 @@ class WidgetEditor extends StatelessWidget {
         textEditor,
         SizedBox(height: 10),
         Divider(),
-        Builder(builder: (context) {
-          if (properties.value.dataType == DataType.heartRate) {
-            return Column(
-              children: [
-                HeartRateRangeEditor(),
-                SizedBox(height: 10),
-                Text('Heart beat sound',
-                    style: Theme.of(context).textTheme.subtitle1),
-                SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    if (properties.value.heartBeatSound == null) {
-                      selectAudioFile(properties);
-                    } else {
-                      properties.value.heartBeatSound = null;
-                      saveAndRefresh(properties);
-                    }
-                  },
-                  child: Obx(
-                    () => Text(properties.value.heartBeatSound == null
-                        ? 'Select audio file'
-                        : 'Remove audio file'),
-                  ),
-                ),
-                SizedBox(height: 10),
-              ],
-            );
-          } else {
-            return SizedBox.shrink();
-          }
-        }),
+        audioFileSelector,
         SizedBox(height: 10),
         deleteButton,
         SizedBox(height: 10),

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 class WidgetEditorController extends GetxController {
-  RxBool removeTapped = false.obs;
+  RxBool removeImageTapped = false.obs;
   RxBool deleteTapped = false.obs;
+  RxBool removeSoundTapped = false.obs;
 }
