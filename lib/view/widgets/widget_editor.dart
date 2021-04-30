@@ -177,7 +177,7 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 10),
         Text(
           'Paste a font name from fonts.google.com',
-          style: TextStyle(color: Colors.grey),
+          style: Theme.of(context).textTheme.caption,
         ),
         SizedBox(height: 15),
         WidgetEditorTextField(EditorType.fontSize, properties),
@@ -302,6 +302,7 @@ class WidgetEditor extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeartRateRangeEditor(),
+            Divider(),
             SizedBox(height: 10),
             Text('Heart beat sound',
                 style: Theme.of(context).textTheme.subtitle1),

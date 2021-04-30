@@ -146,6 +146,7 @@ class DataWidgetText extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.only(
             left: properties.value.textPaddingLeft,
+            right: properties.value.textPaddingLeft,
             top: properties.value.textPaddingTop,
           ),
           child: Row(
