@@ -11,6 +11,7 @@ import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/utils/audio_source_macos.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'data_widget.dart';
 
@@ -107,9 +108,13 @@ class HeartRateWidget extends DataWidget {
       player.setAudioSource(MacosAudioSource(soundBytes));
     } else {
       player = await Player.create(id: 69420);
-      await player.open(await Media.file(File.fromRawPath(soundBytes)));
+      await player.open(await Media.file(File(
+          (await getApplicationDocumentsDirectory()).path +
+              '\\Health Data Server\\beatSound.mp3')
+        ..writeAsBytesSync(soundBytes)));
     }
     while (hrwc.sounding) {
+      final startTime = DateTime.now().millisecondsSinceEpoch;
       if (hrwc.currentHeartRate == 0) {
         await Future.delayed(Duration(milliseconds: 100));
         continue;
@@ -118,10 +123,17 @@ class HeartRateWidget extends DataWidget {
       final int millisecondsPerBeat =
           (60 / hrwc.currentHeartRate * 1000).toInt();
 
-      player.seek(Duration(seconds: 0));
-      player.play();
+      if (Platform.isMacOS) {
+        player.seek(Duration(seconds: 0));
+        player.play();
+      } else {
+        await player.play();
+      }
 
-      await Future.delayed(Duration(milliseconds: millisecondsPerBeat));
+      final endTime = DateTime.now().millisecondsSinceEpoch;
+      final duration = endTime - startTime;
+      await Future.delayed(
+          Duration(milliseconds: millisecondsPerBeat - duration));
     }
   }
 }

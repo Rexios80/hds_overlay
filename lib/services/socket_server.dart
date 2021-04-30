@@ -60,14 +60,9 @@ class SocketServer {
   }
 
   void _handleMessage(dynamic message) {
-    print(message);
-
     final parts = message.split(':');
     final dataType =
         EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
-
-    print(parts);
-    print(dataType);
     if (dataType != DataType.unknown) {
       _messageStreamController.add(DataMessage(dataType, parts[1]));
     } else {
