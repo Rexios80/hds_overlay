@@ -105,7 +105,7 @@ msix_config:
   display_name: Health Data Server
   publisher_display_name: Rexios
   identity_name: 63554Rexios.HealthDataServer
-  msix_version: 1.0.0.0
+  msix_version: 10.1.0.0
   certificate_path: windows\fluttercertificate.pfx
   certificate_password: f>G@wtohG7]Y
   publisher: CN=3DC3FAF1-ABA5-4AAC-856A-275AF0D1C0B4
