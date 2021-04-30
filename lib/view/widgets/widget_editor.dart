@@ -47,6 +47,7 @@ class WidgetEditor extends StatelessWidget {
         Row(
           children: [
             Text('Show image'),
+            Spacer(),
             Obx(
               () => Switch(
                 value: properties.value.showImage,
@@ -56,33 +57,35 @@ class WidgetEditor extends StatelessWidget {
                 },
               ),
             ),
-            Spacer(),
             Obx(() {
               if (properties.value.showImage &&
                   properties.value.image != null) {
-                return TextButton(
-                  onPressed: () {
-                    if (wec.removeTapped.value) {
-                      properties.value.image = null;
-                      saveAndRefresh(properties);
-                    } else {
-                      wec.removeTapped.value = true;
-                      Future.delayed(Duration(seconds: 1))
-                          .then((_) => wec.removeTapped.value = false);
-                    }
-                  },
-                  child: Text(wec.removeTapped.value ? 'Really?' : 'Remove'),
+                return Padding(
+                  padding: EdgeInsets.only(left: 5, right: 5),
+                  child: TextButton(
+                    onPressed: () {
+                      if (wec.removeTapped.value) {
+                        properties.value.image = null;
+                        saveAndRefresh(properties);
+                      } else {
+                        wec.removeTapped.value = true;
+                        Future.delayed(Duration(seconds: 1))
+                            .then((_) => wec.removeTapped.value = false);
+                      }
+                    },
+                    child: Text(wec.removeTapped.value ? 'Really?' : 'Remove'),
+                  ),
                 );
               } else {
                 return SizedBox.shrink();
               }
             }),
-            Spacer(),
             Obx(() {
               if (properties.value.showImage) {
                 return InkWell(
                   onTap: () => selectImageFile(properties),
                   child: Card(
+                    margin: EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
                     elevation: 8,
                     child: Padding(
                       padding: EdgeInsets.all(5),
@@ -104,10 +107,9 @@ class WidgetEditor extends StatelessWidget {
                 );
               } else {
                 // Prevent view shifting
-                return SizedBox(width: 48, height: 48);
+                return SizedBox(width: 0, height: 48);
               }
             }),
-            Spacer(),
           ],
         ),
         SizedBox(height: 5),
@@ -118,6 +120,7 @@ class WidgetEditor extends StatelessWidget {
             return Row(
               children: [
                 Text('Animate'),
+                Spacer(),
                 Switch(
                   value: properties.value.animated,
                   onChanged: (value) {
@@ -201,6 +204,7 @@ class WidgetEditor extends StatelessWidget {
           () => Row(
             children: [
               Text('Shadow'),
+              Spacer(),
               Switch(
                 value: properties.value.textShadow,
                 onChanged: (value) {
@@ -231,6 +235,7 @@ class WidgetEditor extends StatelessWidget {
           () => Row(
             children: [
               Text('Outline'),
+              Spacer(),
               Switch(
                 value: properties.value.textStroke,
                 onChanged: (value) {

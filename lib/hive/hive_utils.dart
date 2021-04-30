@@ -49,7 +49,7 @@ class HiveUtils {
       await dataWidgetPropertiesBox.add(
         DataWidgetProperties()
           ..dataType = DataType.calories
-          ..position = Tuple2Double(100, 10),
+          ..position = Tuple2Double(200, 10),
       );
     }
 
