@@ -15,7 +15,11 @@ import 'package:path_provider/path_provider.dart';
 
 import 'data_widget.dart';
 
-class HeartRateWidget extends DataWidget {
+class HeartRateWidget extends DataWidgetBase {
+  HeartRateWidget() : super.withWidgets(HeartRateImage(), HeartRateText());
+}
+
+class HeartRateImage extends HookWidget {
   final DataWidgetController dwc = Get.find();
   final HeartRateWidgetController hrwc = Get.put(HeartRateWidgetController())
     ..animating = false;
@@ -26,55 +30,53 @@ class HeartRateWidget extends DataWidget {
     final controller = useAnimationController(initialValue: 1.0);
     useAnimation(controller);
 
-    return Row(
-      children: [
-        Obx(() {
-          final properties = dwc.propertiesMap[DataType.heartRate] ??
-              DataWidgetProperties().obs;
-          hrwc.currentHeartRate = int.tryParse(
-                  socketServerController.messages[DataType.heartRate]?.value ??
-                      '') ??
-              0;
+    final properties =
+        dwc.propertiesMap[DataType.heartRate] ?? DataWidgetProperties().obs;
 
-          ever(properties, (_) {
-            if (properties.value.animated && !hrwc.animating) {
-              animateImage(controller);
-            }
-            hrwc.animating = properties.value.animated;
+    ever(
+        socketServerController.messages,
+        (_) => hrwc.currentHeartRate = int.tryParse(
+                socketServerController.messages[DataType.heartRate]?.value ??
+                    '') ??
+            0);
 
-            if (properties.value.heartBeatSound != null && !hrwc.sounding) {
-              playBeatSound(properties);
-            }
-            hrwc.sounding = properties.value.heartBeatSound != null;
-          });
+    ever(properties, (_) {
+      if (properties.value.animated && !hrwc.animating) {
+        animateImage(controller);
+      }
+      hrwc.animating = properties.value.animated;
 
-          if (properties.value.animated && !hrwc.animating) {
-            animateImage(controller);
-          }
+      if (properties.value.heartBeatSound != null && !hrwc.sounding) {
+        playBeatSound(properties);
+      }
+      hrwc.sounding = properties.value.heartBeatSound != null;
+    });
 
-          if (properties.value.heartBeatSound != null && !hrwc.sounding) {
-            playBeatSound(properties);
-          }
+    if (properties.value.animated && !hrwc.animating) {
+      animateImage(controller);
+    }
 
-          if (properties.value.showImage) {
-            return SizedBox(
-              height: properties.value.imageSize,
-              width: properties.value.imageSize,
-              child: Center(
-                child: SizedBox(
-                  height: properties.value.imageSize * controller.value,
-                  width: properties.value.imageSize * controller.value,
-                  child: DataWidgetImage(square: true),
-                ),
-              ),
-            );
-          } else {
-            return SizedBox.shrink();
-          }
-        }),
-        HeartRateText(),
-      ],
-    );
+    if (properties.value.heartBeatSound != null && !hrwc.sounding) {
+      playBeatSound(properties);
+    }
+
+    return Obx(() {
+      if (properties.value.showImage) {
+        return SizedBox(
+          height: properties.value.imageSize,
+          width: properties.value.imageSize,
+          child: Center(
+            child: SizedBox(
+              height: properties.value.imageSize * controller.value,
+              width: properties.value.imageSize * controller.value,
+              child: DataWidgetImage(square: true),
+            ),
+          ),
+        );
+      } else {
+        return SizedBox.shrink();
+      }
+    });
   }
 
   void animateImage(AnimationController controller) async {

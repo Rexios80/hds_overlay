@@ -10,16 +10,41 @@ import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/default_image.dart';
 import 'package:provider/provider.dart';
 
-class DataWidget extends HookWidget {
+class DataWidgetBase extends HookWidget {
+  final DataWidgetController dwc = Get.find();
+  late final Widget image;
+  late final Widget text;
+
+  DataWidgetBase.withWidgets(this.image, this.text);
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        DataWidgetImage(),
-        DataWidgetText(),
-      ],
-    );
+    final dataType = Provider.of<DataType>(context);
+    final properties =
+        dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
+
+    return Obx(() {
+      if (properties.value.textInsideImage) {
+        return Stack(
+          children: [
+            properties.value.showImage ? image : SizedBox.shrink(),
+            text,
+          ],
+        );
+      } else {
+        return Row(
+          children: [
+            properties.value.showImage ? image : SizedBox.shrink(),
+            text
+          ],
+        );
+      }
+    });
   }
+}
+
+class DataWidget extends DataWidgetBase {
+  DataWidget() : super.withWidgets(DataWidgetImage(), DataWidgetText());
 }
 
 class DataWidgetImage extends StatelessWidget {
@@ -36,9 +61,6 @@ class DataWidgetImage extends StatelessWidget {
     return Obx(() {
       final properties =
           dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
-      if (!properties.value.showImage) {
-        return SizedBox.shrink();
-      }
       final image = properties.value.image;
       final imageSize = properties.value.imageSize;
 

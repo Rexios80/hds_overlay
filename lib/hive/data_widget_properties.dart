@@ -72,4 +72,13 @@ class DataWidgetProperties extends HiveObject {
 
   @HiveField(20)
   Uint8List? heartBeatSound;
+
+  @HiveField(21)
+  bool? _textInsideImage = false;
+
+  bool get textInsideImage => _textInsideImage ?? false;
+
+  set textInsideImage(bool value) {
+    _textInsideImage = value;
+  }
 }
