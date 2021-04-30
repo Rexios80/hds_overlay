@@ -106,8 +106,8 @@ class HeartRateWidget extends DataWidget {
       player = AudioPlayer();
       player.setAudioSource(MacosAudioSource(soundBytes));
     } else {
-      player = Player.create(id: 69420);
-      player.open(await Media.file(File.fromRawPath(soundBytes)));
+      player = await Player.create(id: 69420);
+      await player.open(await Media.file(File.fromRawPath(soundBytes)));
     }
     while (hrwc.sounding) {
       if (hrwc.currentHeartRate == 0) {
