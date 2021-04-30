@@ -296,7 +296,7 @@ class WidgetEditor extends StatelessWidget {
       ),
     );
 
-    final audioFileSelector = Builder(builder: (context) {
+    final heartRateEditor = Builder(builder: (context) {
       if (properties.value.dataType == DataType.heartRate) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -366,7 +366,7 @@ class WidgetEditor extends StatelessWidget {
         textEditor,
         SizedBox(height: 10),
         Divider(),
-        audioFileSelector,
+        heartRateEditor,
         SizedBox(height: 10),
         deleteButton,
         SizedBox(height: 10),
