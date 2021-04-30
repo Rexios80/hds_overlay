@@ -113,7 +113,7 @@ class SettingsView extends StatelessWidget {
                   onChanged: (value) {
                     final number = double.tryParse(value);
                     // Don't allow the user to make the window too small
-                    if (number != null && number >= 200) {
+                    if (number != null && number >= 800) {
                       settingsController.settings.value.overlayWidth = number;
                       refreshAndSave();
                     }
@@ -134,7 +134,7 @@ class SettingsView extends StatelessWidget {
                   onChanged: (value) {
                     final number = double.tryParse(value);
                     // Don't allow the user to make the window too small
-                    if (number != null && number >= 200) {
+                    if (number != null && number >= 600) {
                       settingsController.settings.value.overlayHeight = number;
                       refreshAndSave();
                     }
