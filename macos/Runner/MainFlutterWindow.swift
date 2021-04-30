@@ -9,8 +9,6 @@ class MainFlutterWindow: NSWindow {
     self.setFrame(windowFrame, display: true)
 
     RegisterGeneratedPlugins(registry: flutterViewController)
-    
-    standardWindowButton(.zoomButton)?.isEnabled = false
 
     super.awakeFromNib()
   }
