@@ -1,15 +1,13 @@
 # Health Data Server Overlay
 This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch running the Health Data Server app
 
-[iOS/Apple Watch app]((https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8))
-
-[macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
+[iOS/Apple Watch/macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
 
 [Windows app](https://www.microsoft.com/store/apps/9PHN402J6LVJ)
 
 Binaries for macOS, linux, and Windows are also available on the [releases](https://github.com/Rexios80/Health-Data-Server-Overlay/releases) page.
 
-![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/PreviewImage.gif)
+![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/PreviewImage.png)
 
 [Video of the overlay in action](https://www.youtube.com/watch?v=CFGlA7JWUFo)
 
@@ -22,13 +20,12 @@ You can track development progress [here](https://trello.com/healthdataserver)
 
 ### Connecting to the Apple Watch application
 1. Make sure the Apple Watch and device running the overlay application are on the same network. If the watch is connected to an iPhone, you just need to make sure the iPhone is connected to the same network.
-2. [Install the Health Data Server application on your Apple Watch](https://apps.apple.com/us/app/health-data-server/id1496042074)
+2. [Install the Health Data Server application on your Apple Watch](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
    - THE APP REQUIRES WATCHOS 6+. The App Store will let you purchase it even if your watch can't run watchOS 6+, so make sure before buying.
 3. Open the application
 4. Type the IP address of the machine running the overlay application
    - The overlay application will list possible IP addresses of your machine on startup. If none of those work, you may have to find the IP address manually.
    - If you need help finding the IP address of your machine, read [this](https://www.tp-link.com/us/support/faq/838/). It probably looks something like this: `192.168.xxx.xxx`
-   - There is an input method in watchOS 6 that allows you to type in text fields from your iPhone. This is by far the easiest way to input the information into the watch application.
    - If you want to send data to an external server, you will need to input the full websocket URL ex: `ws://hostname:port/other/stuff`
 5. Click the start button
 
