@@ -43,7 +43,7 @@ class SocketServer {
             .onDone(() {
           clients.remove(webSocket);
           _logStreamController.add(LogMessage(LogLevel.warn,
-              'Client disconnected: ${clients[webSocket] ?? 'unknown'}'));
+              'Client disconnected: ${clients[webSocket] ?? DataSource.unknown.name}'));
         });
       },
       pingInterval: Duration(seconds: 15),
@@ -76,7 +76,11 @@ class SocketServer {
       return;
     }
 
-    final source = DataSource(clients[client] ?? 'unknown');
+    final source = DataSource(clients[client] ?? DataSource.unknown.name);
+    if (source.name == DataSource.unknown.name) {
+      // Ignore messages from unidentified clients
+      return;
+    }
 
     final dataType =
         EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
