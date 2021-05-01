@@ -1,8 +1,0 @@
-version: "2"
- services:
-  hds-overlay:
-    image: "pilo1337/hds-overlay:latest"
-    ports:
-    # format is HOSTPORT : CONTAINER, therefore second post must be 8080 / 3476
-      - "8080:8080" # Port for OBS Browser Source
-      - "3476:3476" # Port for App
