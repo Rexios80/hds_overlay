@@ -20,6 +20,7 @@ jobs:
           
       - name: Patch for linux build
         run: |
+          sudo apt update
           sudo apt install clang
           sudo apt install ninja-build
           sudo apt install libgtk-3-dev
