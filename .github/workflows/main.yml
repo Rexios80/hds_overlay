@@ -106,7 +106,7 @@ jobs:
       - name: Decode MSIX signing certificate
         uses: timheuer/base64-to-file@v1
         with:
-          fileName: 'windows\fluttercertificate.pfx'
+          fileName: fluttercertificate.pfx
           encodedString: ${{ secrets.MSIX_CERTIFICATE_DATA }}
 
       - name: Create msix
