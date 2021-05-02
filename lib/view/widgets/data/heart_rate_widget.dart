@@ -78,9 +78,10 @@ class HeartRateImage extends HookWidget {
           hrwc.visible = false;
         }
       },
-      child: Obx(() {
-        if (properties.value.showImage) {
-          return SizedBox(
+      child: Obx(
+        () => Visibility(
+          visible: properties.value.showImage,
+          child: SizedBox(
             height: properties.value.imageSize,
             width: properties.value.imageSize,
             child: Center(
@@ -90,11 +91,9 @@ class HeartRateImage extends HookWidget {
                 child: DataWidgetImage(square: true),
               ),
             ),
-          );
-        } else {
-          return SizedBox.shrink();
-        }
-      }),
+          ),
+        ),
+      ),
     );
   }
 

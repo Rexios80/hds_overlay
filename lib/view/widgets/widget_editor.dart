@@ -65,10 +65,11 @@ class WidgetEditor extends StatelessWidget {
                 },
               ),
             ),
-            Obx(() {
-              if (properties.value.showImage &&
-                  properties.value.image != null) {
-                return Padding(
+            Obx(
+              () => Visibility(
+                visible: properties.value.showImage &&
+                    properties.value.image != null,
+                child: Padding(
                   padding: EdgeInsets.only(left: 5, right: 5),
                   child: TextButton(
                     onPressed: () {
@@ -84,50 +85,47 @@ class WidgetEditor extends StatelessWidget {
                     child: Text(
                         wec.removeImageTapped.value ? 'Really?' : 'Remove'),
                   ),
-                );
-              } else {
-                return SizedBox.shrink();
-              }
-            }),
-            Obx(() {
-              if (properties.value.showImage) {
-                return InkWell(
-                  onTap: () => selectImageFile(properties),
-                  child: Card(
-                    margin:
-                        EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
-                    elevation: 8,
-                    child: Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        child: Builder(builder: (context) {
-                          final image = properties.value.image;
-                          if (image == null) {
-                            return Image.asset(
-                                getDefaultImage(properties.value.dataType));
-                          } else {
-                            return Image.memory(image);
-                          }
-                        }),
+                ),
+              ),
+            ),
+            Obx(
+              () => Visibility(
+                  visible: properties.value.showImage,
+                  replacement: SizedBox(width: 0, height: 48),
+                  child: InkWell(
+                    onTap: () => selectImageFile(properties),
+                    child: Card(
+                      margin: EdgeInsets.only(
+                          left: 10, right: 10, top: 4, bottom: 4),
+                      elevation: 8,
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          child: Builder(builder: (context) {
+                            final image = properties.value.image;
+                            if (image == null) {
+                              return Image.asset(
+                                  getDefaultImage(properties.value.dataType));
+                            } else {
+                              return Image.memory(image);
+                            }
+                          }),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              } else {
-                // Prevent view shifting
-                return SizedBox(width: 0, height: 48);
-              }
-            }),
+                  )),
+            ),
           ],
         ),
         SizedBox(height: 5),
         WidgetEditorTextField(EditorType.imageSize, properties),
         SizedBox(height: 5),
-        Obx(() {
-          if (properties.value.dataType.isAnimated()) {
-            return Row(
+        Obx(
+          () => Visibility(
+            visible: properties.value.dataType.isAnimated(),
+            child: Row(
               children: [
                 Text('Animate'),
                 Spacer(),
@@ -139,11 +137,9 @@ class WidgetEditor extends StatelessWidget {
                   },
                 ),
               ],
-            );
-          } else {
-            return SizedBox.shrink();
-          }
-        }),
+            ),
+          ),
+        ),
       ],
     );
 
@@ -169,18 +165,15 @@ class WidgetEditor extends StatelessWidget {
       children: [
         colorSelector,
         SizedBox(height: 5),
-        () {
-          if (properties.value.dataType.isRounded()) {
-            return Column(
-              children: [
-                WidgetEditorTextField(EditorType.decimals, properties),
-                SizedBox(height: 5),
-              ],
-            );
-          } else {
-            return SizedBox.shrink();
-          }
-        }(),
+        Visibility(
+          visible: properties.value.dataType.isRounded(),
+          child: Column(
+            children: [
+              WidgetEditorTextField(EditorType.decimals, properties),
+              SizedBox(height: 5),
+            ],
+          ),
+        ),
         WidgetEditorTextField(EditorType.font, properties),
         SizedBox(height: 10),
         Text(
@@ -192,18 +185,15 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 5),
         WidgetEditorTextField(EditorType.unit, properties),
         Obx(
-          () {
-            if (properties.value.unit.isEmpty) {
-              return SizedBox.shrink();
-            } else {
-              return Column(
-                children: [
-                  SizedBox(height: 5),
-                  WidgetEditorTextField(EditorType.unitFontSize, properties),
-                ],
-              );
-            }
-          },
+          () => Visibility(
+            visible: !properties.value.unit.isEmpty,
+            child: Column(
+              children: [
+                SizedBox(height: 5),
+                WidgetEditorTextField(EditorType.unitFontSize, properties),
+              ],
+            ),
+          ),
         ),
         SizedBox(height: 5),
         Obx(() => Row(
@@ -240,19 +230,15 @@ class WidgetEditor extends StatelessWidget {
           ),
         ),
         Obx(
-          () {
-            if (properties.value.textShadow) {
-              return Column(
-                children: [
-                  SizedBox(height: 5),
-                  WidgetEditorTextField(
-                      EditorType.textShadowRadius, properties),
-                ],
-              );
-            } else {
-              return SizedBox.shrink();
-            }
-          },
+          () => Visibility(
+            visible: properties.value.textShadow,
+            child: Column(
+              children: [
+                SizedBox(height: 5),
+                WidgetEditorTextField(EditorType.textShadowRadius, properties),
+              ],
+            ),
+          ),
         ),
         SizedBox(height: 5),
         Obx(
@@ -271,18 +257,15 @@ class WidgetEditor extends StatelessWidget {
           ),
         ),
         Obx(
-          () {
-            if (properties.value.textStroke) {
-              return Column(
-                children: [
-                  SizedBox(height: 5),
-                  WidgetEditorTextField(EditorType.textStrokeWidth, properties),
-                ],
-              );
-            } else {
-              return SizedBox.shrink();
-            }
-          },
+          () => Visibility(
+            visible: properties.value.textStroke,
+            child: Column(
+              children: [
+                SizedBox(height: 5),
+                WidgetEditorTextField(EditorType.textStrokeWidth, properties),
+              ],
+            ),
+          ),
         ),
       ],
     );
@@ -304,45 +287,42 @@ class WidgetEditor extends StatelessWidget {
       ),
     );
 
-    final heartRateEditor = Builder(builder: (context) {
-      if (properties.value.dataType == DataType.heartRate) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HeartRateRangeEditor(),
-            Divider(),
-            SizedBox(height: 10),
-            Text('Heart beat sound',
-                style: Theme.of(context).textTheme.subtitle1),
-            SizedBox(height: 10),
-            TextButton(
-              onPressed: () {
-                if (properties.value.heartBeatSound == null) {
-                  selectAudioFile(properties);
-                } else if (!wec.removeSoundTapped.value) {
-                  wec.removeSoundTapped.value = true;
-                  Future.delayed(Duration(seconds: 1))
-                      .then((_) => wec.removeSoundTapped.value = false);
-                } else {
-                  properties.value.heartBeatSound = null;
-                  saveAndRefresh(properties);
-                }
-              },
-              child: Obx(
-                () => Text(properties.value.heartBeatSound == null
-                    ? 'Select audio file'
-                    : wec.removeSoundTapped.value
-                        ? 'Really?'
-                        : 'Remove audio file'),
-              ),
+    final heartRateEditor = Visibility(
+      visible: properties.value.dataType == DataType.heartRate,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          HeartRateRangeEditor(),
+          Divider(),
+          SizedBox(height: 10),
+          Text('Heart beat sound',
+              style: Theme.of(context).textTheme.subtitle1),
+          SizedBox(height: 10),
+          TextButton(
+            onPressed: () {
+              if (properties.value.heartBeatSound == null) {
+                selectAudioFile(properties);
+              } else if (!wec.removeSoundTapped.value) {
+                wec.removeSoundTapped.value = true;
+                Future.delayed(Duration(seconds: 1))
+                    .then((_) => wec.removeSoundTapped.value = false);
+              } else {
+                properties.value.heartBeatSound = null;
+                saveAndRefresh(properties);
+              }
+            },
+            child: Obx(
+              () => Text(properties.value.heartBeatSound == null
+                  ? 'Select audio file'
+                  : wec.removeSoundTapped.value
+                      ? 'Really?'
+                      : 'Remove audio file'),
             ),
-            SizedBox(height: 10),
-          ],
-        );
-      } else {
-        return SizedBox.shrink();
-      }
-    });
+          ),
+          SizedBox(height: 10),
+        ],
+      ),
+    );
 
     return ListView(
       padding: EdgeInsets.all(10),

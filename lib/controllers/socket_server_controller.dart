@@ -34,4 +34,12 @@ class SocketServerController extends GetxService {
       logs.add(log);
     });
   }
+
+  void stopServer() {
+    server.stop();
+  }
+
+  void startServer() {
+    server.start(settingsController.settings.value.port);
+  }
 }

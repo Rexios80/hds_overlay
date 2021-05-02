@@ -28,14 +28,20 @@ class DataWidgetBase extends StatelessWidget {
         return Stack(
           alignment: Alignment.center,
           children: [
-            properties.value.showImage ? image : SizedBox.shrink(),
+            Visibility(
+              visible: properties.value.showImage,
+              child: image,
+            ),
             text,
           ],
         );
       } else {
         return Row(
           children: [
-            properties.value.showImage ? image : SizedBox.shrink(),
+            Visibility(
+              visible: properties.value.showImage,
+              child: image,
+            ),
             text
           ],
         );
@@ -156,18 +162,20 @@ class DataWidgetText extends StatelessWidget {
               Stack(
                 children: [
                   Text(valueText, style: baseTextStyle),
-                  properties.value.textStroke
-                      ? Text(valueText, style: strokeTextStyle)
-                      : SizedBox.shrink(),
+                  Visibility(
+                    visible: properties.value.textStroke,
+                    child: Text(valueText, style: strokeTextStyle),
+                  ),
                 ],
               ),
               SizedBox(width: 3),
               Stack(
                 children: [
                   Text(unitText, style: unitBaseTextStyle),
-                  properties.value.textStroke
-                      ? Text(unitText, style: unitStrokeTextStyle)
-                      : SizedBox.shrink(),
+                  Visibility(
+                    visible: properties.value.textStroke,
+                    child: Text(unitText, style: unitStrokeTextStyle),
+                  ),
                 ],
               ),
             ],
