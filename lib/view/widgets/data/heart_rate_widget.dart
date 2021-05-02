@@ -19,19 +19,26 @@ import 'package:tuple/tuple.dart';
 import 'data_widget.dart';
 
 class HeartRateWidget extends DataWidgetBase {
-  final hrwc = Get.put(HeartRateWidgetController()..animating = false);
+  final hrwc = HeartRateWidgetController()..animating = false;
 
   HeartRateWidget() : super.withWidgets(HeartRateImage(), HeartRateText());
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider.value(
+      value: hrwc,
+      child: super.build(context),
+    );
+  }
 }
 
 class HeartRateImage extends HookWidget {
   final DataWidgetController dwc = Get.find();
-  final HeartRateWidgetController hrwc = Get.find();
-
   final SocketServerController socketServerController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    final hrwc = Provider.of<HeartRateWidgetController>(context);
     final typeSource = Provider.of<Tuple2<DataType, String>>(context);
 
     final controller = useAnimationController(initialValue: 1.0);
@@ -48,22 +55,22 @@ class HeartRateImage extends HookWidget {
 
     ever(properties, (_) {
       if (properties.value.animated && !hrwc.animating) {
-        animateImage(controller);
+        animateImage(controller, hrwc);
       }
       hrwc.animating = properties.value.animated;
 
       if (properties.value.heartBeatSound != null && !hrwc.sounding) {
-        playBeatSound(properties);
+        playBeatSound(properties, hrwc);
       }
       hrwc.sounding = properties.value.heartBeatSound != null;
     });
 
     if (properties.value.animated && !hrwc.animating) {
-      animateImage(controller);
+      animateImage(controller, hrwc);
     }
 
     if (properties.value.heartBeatSound != null && !hrwc.sounding) {
-      playBeatSound(properties);
+      playBeatSound(properties, hrwc);
     }
 
     return Obx(() {
@@ -85,7 +92,8 @@ class HeartRateImage extends HookWidget {
     });
   }
 
-  void animateImage(AnimationController controller) async {
+  void animateImage(
+      AnimationController controller, HeartRateWidgetController hrwc) async {
     hrwc.animating = true;
 
     while (hrwc.animating) {
@@ -110,7 +118,8 @@ class HeartRateImage extends HookWidget {
     }
   }
 
-  void playBeatSound(Rx<DataWidgetProperties> properties) async {
+  void playBeatSound(Rx<DataWidgetProperties> properties,
+      HeartRateWidgetController hrwc) async {
     if (properties.value.heartBeatSound == null) return;
 
     hrwc.sounding = true;
@@ -153,10 +162,10 @@ class HeartRateImage extends HookWidget {
 }
 
 class HeartRateText extends DataWidgetText {
-  final HeartRateWidgetController hrwc = Get.find();
-
   @override
-  Color getTextColor(Rx<DataWidgetProperties> properties) {
+  Color getTextColor(Rx<DataWidgetProperties> properties, BuildContext context) {
+    final hrwc = Provider.of<HeartRateWidgetController>(context);
+
     final ranges = properties.value.heartRateRanges.entries.toList();
     ranges.sort((a, b) => a.key.compareTo(b.key));
     return Color(

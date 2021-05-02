@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
@@ -119,7 +118,7 @@ class DataWidgetText extends StatelessWidget {
           fontSize: properties.value.fontSize,
         );
         final baseTextStyle = textStyle.copyWith(
-          color: getTextColor(properties),
+          color: getTextColor(properties, context),
           shadows: () {
             if (properties.value.textShadow) {
               return [
@@ -178,7 +177,8 @@ class DataWidgetText extends StatelessWidget {
     );
   }
 
-  Color getTextColor(Rx<DataWidgetProperties> properties) {
+  Color getTextColor(
+      Rx<DataWidgetProperties> properties, BuildContext context) {
     return Color(properties.value.textColor);
   }
 }
