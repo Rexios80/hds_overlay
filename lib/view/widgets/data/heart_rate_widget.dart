@@ -177,7 +177,7 @@ class HeartRateText extends DataWidgetText {
     return Color(
       ranges.reversed
           .firstWhere((e) => hrwc.currentHeartRate >= e.key,
-              orElse: () => MapEntry(0, Colors.white.value))
+              orElse: () => MapEntry(0, properties.value.textColor))
           .value,
     );
   }
