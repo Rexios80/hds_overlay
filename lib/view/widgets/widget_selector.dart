@@ -25,9 +25,13 @@ class WidgetSelector extends StatelessWidget {
           .map((e) => Tuple2(e.value.dataType, e.value.dataSource));
       final dataTypes = DataType.values.toList();
 
-      dataTypes.removeWhere(
-          (e) => usedDataTypeSources.contains(Tuple2(e, wsc.dataSource)));
-      dataTypes.remove(DataType.unknown);
+      if (wsc.dataSource.isEmpty) {
+        dataTypes.clear();
+      } else {
+        dataTypes.removeWhere(
+                (e) => usedDataTypeSources.contains(Tuple2(e, wsc.dataSource)));
+        dataTypes.remove(DataType.unknown);
+      }
 
       final tec = TextEditingController(text: wsc.dataSource.value);
       tec.selection = TextSelection.collapsed(offset: tec.text.length);
