@@ -1,5 +1,6 @@
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 part 'settings.g.dart';
 
@@ -39,5 +40,14 @@ class Settings extends HiveObject {
 
   set overlayHeight(double value) {
     _overlayHeight = value;
+  }
+
+  @HiveField(5)
+  String? _clientName;
+
+  String get clientName => _clientName ?? 'HDS-${Uuid().toString()}';
+
+  set clientName(String value) {
+    _clientName = value;
   }
 }

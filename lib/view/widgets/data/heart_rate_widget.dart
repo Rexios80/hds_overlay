@@ -12,6 +12,7 @@ import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/utils/audio_source_macos.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lifecycle/lifecycle.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -71,30 +72,37 @@ class HeartRateImage extends HookWidget {
       playBeatSound(properties, hrwc);
     }
 
-    return Obx(() {
-      if (properties.value.showImage) {
-        return SizedBox(
-          height: properties.value.imageSize,
-          width: properties.value.imageSize,
-          child: Center(
-            child: SizedBox(
-              height: properties.value.imageSize * controller.value,
-              width: properties.value.imageSize * controller.value,
-              child: DataWidgetImage(square: true),
+    return LifecycleWrapper(
+      onLifecycleEvent: (LifecycleEvent event) {
+        if (event == LifecycleEvent.invisible) {
+          hrwc.visible = false;
+        }
+      },
+      child: Obx(() {
+        if (properties.value.showImage) {
+          return SizedBox(
+            height: properties.value.imageSize,
+            width: properties.value.imageSize,
+            child: Center(
+              child: SizedBox(
+                height: properties.value.imageSize * controller.value,
+                width: properties.value.imageSize * controller.value,
+                child: DataWidgetImage(square: true),
+              ),
             ),
-          ),
-        );
-      } else {
-        return SizedBox.shrink();
-      }
-    });
+          );
+        } else {
+          return SizedBox.shrink();
+        }
+      }),
+    );
   }
 
   void animateImage(
       AnimationController controller, HeartRateWidgetController hrwc) async {
     hrwc.animating = true;
 
-    while (hrwc.animating) {
+    while (hrwc.animating && hrwc.visible) {
       if (hrwc.currentHeartRate == 0) {
         await Future.delayed(Duration(milliseconds: 100));
         continue;
@@ -134,7 +142,7 @@ class HeartRateImage extends HookWidget {
               '\\Health Data Server\\beatSound.mp3')
         ..writeAsBytesSync(soundBytes)));
     }
-    while (hrwc.sounding) {
+    while (hrwc.sounding && hrwc.visible) {
       final startTime = DateTime.now().millisecondsSinceEpoch;
       if (hrwc.currentHeartRate == 0) {
         await Future.delayed(Duration(milliseconds: 100));

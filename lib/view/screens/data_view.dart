@@ -11,6 +11,7 @@ import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/widgets/data/data_widget.dart';
 import 'package:hds_overlay/view/widgets/data/heart_rate_widget.dart';
+import 'package:lifecycle/lifecycle.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -78,13 +79,20 @@ class DataView extends StatelessWidget {
       },
     );
 
-    return Obx(
-      () => Container(
-        width: settingsController.settings.value.overlayWidth / Get.pixelRatio,
-        height:
-            settingsController.settings.value.overlayHeight / Get.pixelRatio,
-        color: Color(settingsController.settings.value.overlayBackgroundColor),
-        child: dataWidgets,
+    return LifecycleWrapper(
+      onLifecycleEvent: (LifecycleEvent event) {
+        print(event);
+      },
+      child: Obx(
+        () => Container(
+          width:
+              settingsController.settings.value.overlayWidth / Get.pixelRatio,
+          height:
+              settingsController.settings.value.overlayHeight / Get.pixelRatio,
+          color:
+              Color(settingsController.settings.value.overlayBackgroundColor),
+          child: dataWidgets,
+        ),
       ),
     );
   }
