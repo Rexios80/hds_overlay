@@ -21,16 +21,24 @@ class WidgetEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final properties =
-        dwc.propertiesMap[endDrawerController.selectedDataType.value] ??
+        dwc.propertiesMap[endDrawerController.selectedDataTypeSource.value] ??
             DataWidgetProperties().obs;
 
     final header = Center(
-      child: Text(
-        EnumToString.convertToString(
-          endDrawerController.selectedDataType.value,
-          camelCase: true,
-        ),
-        style: Theme.of(context).textTheme.headline6,
+      child: Column(
+        children: [
+          Text(
+            EnumToString.convertToString(
+              endDrawerController.selectedDataTypeSource.value.item1,
+              camelCase: true,
+            ),
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Text(
+            'Data source: ${properties.value.dataSource}',
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ],
       ),
     );
 

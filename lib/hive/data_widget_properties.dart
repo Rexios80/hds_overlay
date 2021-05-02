@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
+import 'package:hds_overlay/model/data_source.dart';
 import 'package:hive/hive.dart';
 
 import 'data_type.dart';
@@ -80,5 +81,14 @@ class DataWidgetProperties extends HiveObject {
 
   set textInsideImage(bool value) {
     _textInsideImage = value;
+  }
+
+  @HiveField(22)
+  String? _dataSource;
+
+  String get dataSource => _dataSource ?? DataSource.watch;
+
+  set dataSource(String value) {
+    _dataSource = value;
   }
 }

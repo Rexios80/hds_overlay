@@ -9,8 +9,9 @@ import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/default_image.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
-class DataWidgetBase extends HookWidget {
+class DataWidgetBase extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
   late final Widget image;
   late final Widget text;
@@ -19,9 +20,9 @@ class DataWidgetBase extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataType = Provider.of<DataType>(context);
+    final typeSource = Provider.of<Tuple2<DataType, String>>(context);
     final properties =
-        dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
+        dwc.propertiesMap[typeSource] ?? DataWidgetProperties().obs;
 
     return Obx(() {
       if (properties.value.textInsideImage) {
@@ -57,11 +58,11 @@ class DataWidgetImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataType = Provider.of<DataType>(context);
+    final typeSource = Provider.of<Tuple2<DataType, String>>(context);
 
     return Obx(() {
       final properties =
-          dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
+          dwc.propertiesMap[typeSource] ?? DataWidgetProperties().obs;
       final image = properties.value.image;
       final imageSize = properties.value.imageSize;
 
@@ -70,7 +71,7 @@ class DataWidgetImage extends StatelessWidget {
         width: square ? imageSize : null,
         child: Builder(builder: (context) {
           if (image == null) {
-            return Image.asset(getDefaultImage(dataType));
+            return Image.asset(getDefaultImage(typeSource.item1));
           } else {
             return Image.memory(image);
           }
@@ -86,18 +87,18 @@ class DataWidgetText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataType = Provider.of<DataType>(context);
+    final typeSource = Provider.of<Tuple2<DataType, String>>(context);
 
     return Obx(
       () {
         final properties =
-            dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
+            dwc.propertiesMap[typeSource] ?? DataWidgetProperties().obs;
         final preProcessedValue =
-            socketServerController.messages[dataType]?.value;
+            socketServerController.messages[typeSource]?.value;
         final String valueText;
         if (preProcessedValue == null) {
           valueText = '-';
-        } else if (dataType.isRounded()) {
+        } else if (typeSource.item1.isRounded()) {
           valueText = double.parse(preProcessedValue)
               .toStringAsFixed(properties.value.decimals);
         } else {

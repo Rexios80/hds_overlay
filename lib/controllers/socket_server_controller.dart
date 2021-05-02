@@ -5,11 +5,12 @@ import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/socket_server.dart';
+import 'package:tuple/tuple.dart';
 
 class SocketServerController extends GetxService {
   final SettingsController settingsController = Get.find();
   final server = SocketServer();
-  final messages = Map<DataType, DataMessage>().obs;
+  final messages = Map<Tuple2<DataType, String>, DataMessage>().obs;
   final logs = <LogMessage>[].obs;
 
   late int port;
@@ -37,7 +38,7 @@ class SocketServerController extends GetxService {
       }
 
       message as DataMessage;
-      messages[message.dataType] = message;
+      messages[Tuple2(message.dataType, message.source)] = message;
       logs.add(LogMessage(LogLevel.data, log));
     });
 

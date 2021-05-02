@@ -12,6 +12,7 @@ import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/widgets/data/data_widget.dart';
 import 'package:hds_overlay/view/widgets/data/heart_rate_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class DataView extends StatelessWidget {
   final endDrawerController = Get.put(EndDrawerController());
@@ -33,8 +34,9 @@ class DataView extends StatelessWidget {
     DesktopWindow.setMinWindowSize(Size(width, height));
 
     // This needs to be in here or the Scaffold can't be found
-    ever(endDrawerController.selectedDataType, (DataType dataType) {
-      if (dataType != DataType.unknown) {
+    ever(endDrawerController.selectedDataTypeSource,
+        (Tuple2<DataType, String> dataType) {
+      if (dataType.item1 != DataType.unknown) {
         Scaffold.of(context).openEndDrawer();
       }
     });
@@ -45,19 +47,21 @@ class DataView extends StatelessWidget {
           children: dwc.propertiesMap.values.map((dwp) {
             return Obx(
               () {
+                final typeSource =
+                    Tuple2(dwp.value.dataType, dwp.value.dataSource);
                 final DataWidgetProperties properties =
-                    dwc.propertiesMap[dwp.value.dataType]?.value ??
+                    dwc.propertiesMap[typeSource]?.value ??
                         DataWidgetProperties();
                 return Positioned(
                   left: properties.position.item1,
                   top: properties.position.item2,
                   child: InkWell(
                     onTap: () {
-                      endDrawerController.selectedDataType.value =
-                          dwp.value.dataType;
+                      endDrawerController.selectedDataTypeSource.value =
+                          Tuple2(dwp.value.dataType, dwp.value.dataSource);
                     },
                     child: Provider.value(
-                      value: dwp.value.dataType,
+                      value: typeSource,
                       builder: (context, _) {
                         if (dwp.value.dataType == DataType.heartRate) {
                           return HeartRateWidget();

@@ -2,65 +2,100 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
+import 'package:hds_overlay/controllers/widget_selector_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/hive_utils.dart';
+import 'package:hds_overlay/model/data_source.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 import 'data/data_widget.dart';
 import 'data/heart_rate_widget.dart';
 
 class WidgetSelector extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
+  final WidgetSelectorController wsc = WidgetSelectorController();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final usedDataTypes =
-          dwc.propertiesMap.values.map((e) => e.value.dataType);
+      final usedDataTypeSources = dwc.propertiesMap.values
+          .map((e) => Tuple2(e.value.dataType, e.value.dataSource));
       final dataTypes = DataType.values.toList();
 
-      dataTypes.removeWhere((e) => usedDataTypes.contains(e));
+      dataTypes.removeWhere(
+          (e) => usedDataTypeSources.contains(Tuple2(e, wsc.dataSource)));
       dataTypes.remove(DataType.unknown);
+
+      final tec = TextEditingController(text: wsc.dataSource.value);
+      tec.selection = TextSelection.collapsed(offset: tec.text.length);
 
       return Container(
         decoration: BoxDecoration(color: Colors.black),
         child: ListView(
             padding: EdgeInsets.all(10),
-            children: dataTypes.map((DataType dataType) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    EnumToString.convertToString(dataType, camelCase: true),
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        ?.copyWith(color: Colors.white),
-                  ),
-                  SizedBox(height: 5),
-                  InkWell(
-                    onTap: () => addWidget(dataType),
-                    child: Provider.value(
-                        value: dataType,
-                        builder: (context, _) {
-                          if (dataType == DataType.heartRate) {
-                            return HeartRateWidget();
-                          }
-                          return DataWidget();
-                        }),
+            children: <Widget>[
+                  Row(
+                    children: [
+                      Text(
+                        'Data source',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Spacer(),
+                      Container(
+                        width: 100,
+                        child: TextField(
+                          controller: tec,
+                          onChanged: (value) => wsc.dataSource.value = value,
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 20),
-                ],
-              );
-            }).toList()),
+                ] +
+                dataTypes.map((DataType dataType) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        EnumToString.convertToString(dataType, camelCase: true),
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            ?.copyWith(color: Colors.white),
+                      ),
+                      SizedBox(height: 5),
+                      InkWell(
+                        onTap: () => addWidget(dataType, wsc.dataSource.value),
+                        child: Provider.value(
+                            value: Tuple2(dataType, DataSource.unknown),
+                            builder: (context, _) {
+                              if (dataType == DataType.heartRate) {
+                                return HeartRateWidget();
+                              }
+                              return DataWidget();
+                            }),
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  );
+                }).toList()),
       );
     });
   }
 
-  void addWidget(DataType dataType) {
+  void addWidget(DataType dataType, String dataSource) {
     Hive.box<DataWidgetProperties>(HiveUtils.boxDataWidgetProperties)
-        .add(DataWidgetProperties()..dataType = dataType);
+        .add(DataWidgetProperties()
+          ..dataType = dataType
+          ..dataSource = dataSource);
   }
 }

@@ -9,36 +9,42 @@ import 'package:hds_overlay/controllers/heart_rate_widget_controller.dart';
 import 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
+import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/utils/audio_source_macos.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 import 'data_widget.dart';
 
 class HeartRateWidget extends DataWidgetBase {
+  final hrwc = Get.put(HeartRateWidgetController()..animating = false);
+
   HeartRateWidget() : super.withWidgets(HeartRateImage(), HeartRateText());
 }
 
 class HeartRateImage extends HookWidget {
   final DataWidgetController dwc = Get.find();
-  final HeartRateWidgetController hrwc = Get.put(HeartRateWidgetController())
-    ..animating = false;
+  final HeartRateWidgetController hrwc = Get.find();
+
   final SocketServerController socketServerController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    final typeSource = Provider.of<Tuple2<DataType, String>>(context);
+
     final controller = useAnimationController(initialValue: 1.0);
     useAnimation(controller);
 
     final properties =
-        dwc.propertiesMap[DataType.heartRate] ?? DataWidgetProperties().obs;
+        dwc.propertiesMap[typeSource] ?? DataWidgetProperties().obs;
 
-    ever(
-        socketServerController.messages,
-        (_) => hrwc.currentHeartRate = int.tryParse(
-                socketServerController.messages[DataType.heartRate]?.value ??
-                    '') ??
-            0);
+    ever(socketServerController.messages,
+        (Map<Tuple2<DataType, String>, DataMessage> messages) {
+      hrwc.currentHeartRate =
+          int.tryParse(messages[typeSource]?.value ?? '') ?? 0;
+    });
 
     ever(properties, (_) {
       if (properties.value.animated && !hrwc.animating) {
@@ -92,11 +98,11 @@ class HeartRateImage extends HookWidget {
 
       try {
         await controller.animateTo(0.85,
-            duration:
-            Duration(milliseconds: (millisecondsPerBeat * (3 / 4)).toInt()));
+            duration: Duration(
+                milliseconds: (millisecondsPerBeat * (3 / 4)).toInt()));
         await controller.animateTo(1.0,
-            duration:
-            Duration(milliseconds: (millisecondsPerBeat * (1 / 4)).toInt()));
+            duration: Duration(
+                milliseconds: (millisecondsPerBeat * (1 / 4)).toInt()));
       } catch (error) {
         // The controller is disposed
         return;

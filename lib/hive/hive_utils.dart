@@ -8,6 +8,7 @@ import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:tuple/tuple.dart';
 
 import 'data_type.dart';
 
@@ -66,10 +67,10 @@ class HiveUtils {
     return Future.value();
   }
 
-  static Map<DataType, Rx<DataWidgetProperties>> createDwpMap(
+  static Map<Tuple2<DataType, String>, Rx<DataWidgetProperties>> createDwpMap(
       Box<DataWidgetProperties> dwpBox) {
-    final map = Map<DataType, Rx<DataWidgetProperties>>();
-    dwpBox.values.forEach((e) => map[e.dataType] = e.obs);
+    final map = Map<Tuple2<DataType, String>, Rx<DataWidgetProperties>>();
+    dwpBox.values.forEach((e) => map[Tuple2(e.dataType, e.dataSource)] = e.obs);
     return map;
   }
 }
