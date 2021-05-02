@@ -19,14 +19,12 @@ import 'package:tuple/tuple.dart';
 import 'data_widget.dart';
 
 class HeartRateWidget extends DataWidgetBase {
-  final hrwc = HeartRateWidgetController()..animating = false;
-
   HeartRateWidget() : super.withWidgets(HeartRateImage(), HeartRateText());
 
   @override
   Widget build(BuildContext context) {
-    return Provider.value(
-      value: hrwc,
+    return Provider(
+      create: (_) => HeartRateWidgetController(),
       child: super.build(context),
     );
   }
@@ -163,7 +161,8 @@ class HeartRateImage extends HookWidget {
 
 class HeartRateText extends DataWidgetText {
   @override
-  Color getTextColor(Rx<DataWidgetProperties> properties, BuildContext context) {
+  Color getTextColor(
+      Rx<DataWidgetProperties> properties, BuildContext context) {
     final hrwc = Provider.of<HeartRateWidgetController>(context);
 
     final ranges = properties.value.heartRateRanges.entries.toList();
