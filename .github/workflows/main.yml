@@ -104,13 +104,14 @@ jobs:
           path: build/windows/runner/Release/
 
       - name: Decode MSIX signing certificate
+        id: write_file
         uses: timheuer/base64-to-file@v1
         with:
           fileName: fluttercertificate.pfx
           encodedString: ${{ secrets.MSIX_CERTIFICATE_DATA }}
 
       - name: Create msix
-        run: flutter pub run msix:create --p "${{ secrets.MSIX_CERTIFICATE_PASSWORD }}" --pu "${{ secrets.MSIX_PUBLISHER }}"
+        run: flutter pub run msix:create --c "${{ steps.write_file.outputs.filePath }}" --p "${{ secrets.MSIX_CERTIFICATE_PASSWORD }}" --pu "${{ secrets.MSIX_PUBLISHER }}"
 
       - name: Archive msix artifact
         uses: actions/upload-artifact@v2
