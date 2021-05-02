@@ -13,8 +13,6 @@ class SocketServerController extends GetxService {
   final logs = <LogMessage>[].obs;
 
   SocketServerController() {
-    server.start(settingsController.settings.value.port);
-
     server.messageStream.listen((message) {
       final log = '(${message.source}) ${message.name}: ${message.value}';
 

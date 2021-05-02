@@ -81,7 +81,11 @@ class DataView extends StatelessWidget {
 
     return LifecycleWrapper(
       onLifecycleEvent: (LifecycleEvent event) {
-        print(event);
+        if (event == LifecycleEvent.push) {
+          socketServerController.startServer();
+        } else if (event == LifecycleEvent.invisible) {
+          socketServerController.stopServer();
+        }
       },
       child: Obx(
         () => Container(
