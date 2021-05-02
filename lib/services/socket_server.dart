@@ -43,7 +43,7 @@ class SocketServer {
             .onDone(() {
           clients.remove(webSocket);
           _logStreamController.add(LogMessage(LogLevel.warn,
-              'Client disconnected: ${clients[webSocket] ?? DataSource.unknown.name}'));
+              'Client disconnected: ${clients[webSocket] ?? DataSource.unknown}'));
         });
       },
       pingInterval: Duration(seconds: 15),
@@ -76,8 +76,8 @@ class SocketServer {
       return;
     }
 
-    final source = DataSource(clients[client] ?? DataSource.unknown.name);
-    if (source.name == DataSource.unknown.name) {
+    final source = clients[client] ?? DataSource.unknown;
+    if (source == DataSource.unknown) {
       // Ignore messages from unidentified clients
       return;
     }
@@ -91,9 +91,13 @@ class SocketServer {
           .add(UnknownDataMessage(source, parts[0], parts[1]));
     }
 
-    // Broadcast to all clients that aren't the watch
-    final externalClients =
-        clients.entries.toList().where((e) => e.value != DataSource.watch.name);
+    // Only broadcast messages from the watch
+    if (source != DataSource.watch) return;
+
+    // Broadcast to all clients that aren't the watch or the source the data came from
+    final externalClients = clients.entries
+        .toList()
+        .where((e) => e.value != DataSource.watch && e.value != source);
     externalClients.forEach((e) => e.key.sink.add(message));
   }
 }
