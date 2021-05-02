@@ -25,7 +25,7 @@ final navigationDrawer = Drawer(
               style: TextStyle(color: Colors.white),
             ),
             decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage('assets/icon.png')),
+              image: DecorationImage(image: AssetImage('assets/images/icon.png')),
               color: Colors.grey,
             ),
           );
