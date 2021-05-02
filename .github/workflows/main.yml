@@ -110,7 +110,7 @@ jobs:
           encodedString: ${{ secrets.MSIX_CERTIFICATE_DATA }}
 
       - name: Create msix
-        run: flutter pub run msix:create -p "${{ secrets.MSIX_CERTIFICATE_PASSWORD }}" --pu "${{ secrets.MSIX_PUBLISHER }}"
+        run: flutter pub run msix:create --p "${{ secrets.MSIX_CERTIFICATE_PASSWORD }}" --pu "${{ secrets.MSIX_PUBLISHER }}"
 
       - name: Archive msix artifact
         uses: actions/upload-artifact@v2
