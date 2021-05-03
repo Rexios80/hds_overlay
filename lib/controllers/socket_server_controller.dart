@@ -31,8 +31,6 @@ class SocketServerController extends GetxService {
       print(log.message);
       logs.add(log);
     });
-
-    logs.add(LogMessage(LogLevel.info, 'Client name: ${settingsController.settings.value.clientName}'));
   }
 
   void stopServer() {
@@ -40,6 +38,11 @@ class SocketServerController extends GetxService {
   }
 
   void startServer() {
+    // If the log is modified here the view will be in a bad state
+    Future.delayed(
+        Duration(milliseconds: 500),
+        () => logs.add(LogMessage(LogLevel.info,
+            'Client name: ${settingsController.settings.value.clientName}')));
     server.start(settingsController.settings.value.port);
   }
 }
