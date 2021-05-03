@@ -80,7 +80,7 @@ class WidgetSelector extends StatelessWidget {
                       InkWell(
                         onTap: () => addWidget(dataType, wsc.dataSource.value),
                         child: Provider.value(
-                            value: Tuple2(dataType, DataSource.unknown),
+                            value: Tuple2(dataType, wsc.dataSource.value),
                             builder: (context, _) {
                               if (dataType == DataType.heartRate) {
                                 return HeartRateWidget();
