@@ -1,8 +1,4 @@
 class DataSource {
-  static final watch = DataSource('watch');
-  static final unknown = DataSource('unknown');
-
-  final String name;
-
-  DataSource(this.name);
+  static final watch = 'watch';
+  static final unknown = 'unknown';
 }

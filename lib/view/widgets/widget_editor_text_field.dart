@@ -24,7 +24,10 @@ class WidgetEditorTextField extends StatelessWidget {
     return Row(
       children: [
         Text(label),
-        spacer ? Spacer() : SizedBox.shrink(),
+        Visibility(
+          visible: spacer,
+          child: Spacer(),
+        ),
         Container(
           width: 100,
           child: TextField(

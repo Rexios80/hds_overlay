@@ -21,6 +21,7 @@ class SocketServer {
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
   final Map<WebSocketChannel, String> clients = Map();
+  final List<WebSocketChannel> servers = [];
 
   SocketServer() {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
@@ -35,7 +36,8 @@ class SocketServer {
     });
   }
 
-  Future<void> start(int port) async {
+  Future<void> start(
+      int port, String clientName, List<String> serverIps) async {
     var handler = webSocketHandler(
       (WebSocketChannel webSocket) {
         webSocket.stream
@@ -43,7 +45,7 @@ class SocketServer {
             .onDone(() {
           clients.remove(webSocket);
           _logStreamController.add(LogMessage(LogLevel.warn,
-              'Client disconnected: ${clients[webSocket] ?? DataSource.unknown.name}'));
+              'Client disconnected: ${clients[webSocket] ?? DataSource.unknown}'));
         });
       },
       pingInterval: Duration(seconds: 15),
@@ -53,15 +55,48 @@ class SocketServer {
       server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
       _logStreamController.add(
           LogMessage(LogLevel.info, 'Server started on port ${server?.port}'));
-      return Future.value();
     } catch (error) {
       _logStreamController.add(LogMessage(LogLevel.error, error.toString()));
       return Future.error(error);
+    }
+
+    // Set up server connections
+    serverIps.forEach((ip) => connectToServer(clientName, ip));
+
+    return Future.value();
+  }
+
+  void connectToServer(String clientName, String ip) async {
+    try {
+      var uri = Uri.parse('ws://$ip');
+      if (!uri.hasPort) {
+        uri = Uri.parse('${uri.toString()}:3476');
+      }
+      final channel = WebSocketChannel.connect(uri);
+      channel.sink.add('clientName:$clientName');
+      servers.add(channel);
+      _logStreamController
+          .add(LogMessage(LogLevel.good, 'Connecting to server: $ip'));
+      await channel.stream.listen((_) {}).asFuture();
+      _logStreamController
+          .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
+      connectToServer(clientName, ip);
+    } catch (e) {
+      print(e.toString());
+      _logStreamController
+          .add(LogMessage(LogLevel.error, 'Unable to connect to server: $ip'));
+      Future.delayed(
+          Duration(seconds: 10), () => connectToServer(clientName, ip));
     }
   }
 
   Future<dynamic> stop() async {
     _logStreamController.add(LogMessage(LogLevel.warn, 'Server stopped'));
+
+    // Close connection to all servers
+    servers.forEach((server) => server.sink.close());
+    servers.clear();
+
     return server?.close();
   }
 
@@ -76,8 +111,8 @@ class SocketServer {
       return;
     }
 
-    final source = DataSource(clients[client] ?? DataSource.unknown.name);
-    if (source.name == DataSource.unknown.name) {
+    final source = clients[client] ?? DataSource.unknown;
+    if (source == DataSource.unknown) {
       // Ignore messages from unidentified clients
       return;
     }
@@ -91,9 +126,16 @@ class SocketServer {
           .add(UnknownDataMessage(source, parts[0], parts[1]));
     }
 
-    // Broadcast to all clients that aren't the watch
-    final externalClients =
-        clients.entries.toList().where((e) => e.value != DataSource.watch.name);
+    // Only broadcast messages from the watch
+    if (source != DataSource.watch) return;
+
+    // Broadcast to all clients that aren't the watch or the source the data came from
+    final externalClients = clients.entries
+        .toList()
+        .where((e) => e.value != DataSource.watch && e.value != source);
     externalClients.forEach((e) => e.key.sink.add(message));
+
+    // Broadcast to all servers
+    servers.forEach((e) => e.sink.add(message));
   }
 }

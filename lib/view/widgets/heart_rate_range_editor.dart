@@ -2,21 +2,22 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
+import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/heart_rate_range_editor_controller.dart';
-import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:tuple/tuple.dart';
 
 class HeartRateRangeEditor extends StatelessWidget {
   final DataWidgetController dataWidgetController = Get.find();
+  final EndDrawerController endDrawerController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     final HeartRateRangeEditorController hrrec =
         HeartRateRangeEditorController();
-    final Rx<DataWidgetProperties> properties =
-        dataWidgetController.propertiesMap[DataType.heartRate] ??
-            DataWidgetProperties().obs;
+    final Rx<DataWidgetProperties> properties = dataWidgetController
+            .propertiesMap[endDrawerController.selectedDataTypeSource.value] ??
+        DataWidgetProperties().obs;
     return Column(
       children: [
         Row(

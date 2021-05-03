@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
@@ -9,8 +8,9 @@ import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/default_image.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
-class DataWidgetBase extends HookWidget {
+class DataWidgetBase extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
   late final Widget image;
   late final Widget text;
@@ -19,23 +19,29 @@ class DataWidgetBase extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataType = Provider.of<DataType>(context);
+    final typeSource = Provider.of<Tuple2<DataType, String>>(context);
     final properties =
-        dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
+        dwc.propertiesMap[typeSource] ?? DataWidgetProperties().obs;
 
     return Obx(() {
       if (properties.value.textInsideImage) {
         return Stack(
           alignment: Alignment.center,
           children: [
-            properties.value.showImage ? image : SizedBox.shrink(),
+            Visibility(
+              visible: properties.value.showImage,
+              child: image,
+            ),
             text,
           ],
         );
       } else {
         return Row(
           children: [
-            properties.value.showImage ? image : SizedBox.shrink(),
+            Visibility(
+              visible: properties.value.showImage,
+              child: image,
+            ),
             text
           ],
         );
@@ -57,11 +63,11 @@ class DataWidgetImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataType = Provider.of<DataType>(context);
+    final typeSource = Provider.of<Tuple2<DataType, String>>(context);
 
     return Obx(() {
       final properties =
-          dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
+          dwc.propertiesMap[typeSource] ?? DataWidgetProperties().obs;
       final image = properties.value.image;
       final imageSize = properties.value.imageSize;
 
@@ -70,7 +76,7 @@ class DataWidgetImage extends StatelessWidget {
         width: square ? imageSize : null,
         child: Builder(builder: (context) {
           if (image == null) {
-            return Image.asset(getDefaultImage(dataType));
+            return Image.asset(getDefaultImage(typeSource.item1));
           } else {
             return Image.memory(image);
           }
@@ -86,18 +92,18 @@ class DataWidgetText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dataType = Provider.of<DataType>(context);
+    final typeSource = Provider.of<Tuple2<DataType, String>>(context);
 
     return Obx(
       () {
         final properties =
-            dwc.propertiesMap[dataType] ?? DataWidgetProperties().obs;
+            dwc.propertiesMap[typeSource] ?? DataWidgetProperties().obs;
         final preProcessedValue =
-            socketServerController.messages[dataType]?.value;
+            socketServerController.messages[typeSource]?.value;
         final String valueText;
         if (preProcessedValue == null) {
           valueText = '-';
-        } else if (dataType.isRounded()) {
+        } else if (typeSource.item1.isRounded()) {
           valueText = double.parse(preProcessedValue)
               .toStringAsFixed(properties.value.decimals);
         } else {
@@ -118,7 +124,7 @@ class DataWidgetText extends StatelessWidget {
           fontSize: properties.value.fontSize,
         );
         final baseTextStyle = textStyle.copyWith(
-          color: getTextColor(properties),
+          color: getTextColor(properties, context),
           shadows: () {
             if (properties.value.textShadow) {
               return [
@@ -156,18 +162,20 @@ class DataWidgetText extends StatelessWidget {
               Stack(
                 children: [
                   Text(valueText, style: baseTextStyle),
-                  properties.value.textStroke
-                      ? Text(valueText, style: strokeTextStyle)
-                      : SizedBox.shrink(),
+                  Visibility(
+                    visible: properties.value.textStroke,
+                    child: Text(valueText, style: strokeTextStyle),
+                  ),
                 ],
               ),
               SizedBox(width: 3),
               Stack(
                 children: [
                   Text(unitText, style: unitBaseTextStyle),
-                  properties.value.textStroke
-                      ? Text(unitText, style: unitStrokeTextStyle)
-                      : SizedBox.shrink(),
+                  Visibility(
+                    visible: properties.value.textStroke,
+                    child: Text(unitText, style: unitStrokeTextStyle),
+                  ),
                 ],
               ),
             ],
@@ -177,7 +185,8 @@ class DataWidgetText extends StatelessWidget {
     );
   }
 
-  Color getTextColor(Rx<DataWidgetProperties> properties) {
+  Color getTextColor(
+      Rx<DataWidgetProperties> properties, BuildContext context) {
     return Color(properties.value.textColor);
   }
 }

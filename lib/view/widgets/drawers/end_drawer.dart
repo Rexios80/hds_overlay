@@ -13,7 +13,8 @@ class EndDrawer extends StatelessWidget {
     return Drawer(
       child: Obx(
         () {
-          if (controller.selectedDataType.value == DataType.unknown) {
+          if (controller.selectedDataTypeSource.value.item1 ==
+              DataType.unknown) {
             return WidgetSelector();
           } else {
             return WidgetEditor();
