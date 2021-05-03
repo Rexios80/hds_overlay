@@ -92,6 +92,11 @@ class SocketServer {
 
   Future<dynamic> stop() async {
     _logStreamController.add(LogMessage(LogLevel.warn, 'Server stopped'));
+
+    // Close connection to all servers
+    servers.forEach((server) => server.sink.close());
+    servers.clear();
+
     return server?.close();
   }
 
