@@ -43,6 +43,10 @@ class SocketServerController extends GetxService {
         Duration(milliseconds: 500),
         () => logs.add(LogMessage(LogLevel.info,
             'Client name: ${settingsController.settings.value.clientName}')));
-    server.start(settingsController.settings.value.port);
+    server.start(
+      settingsController.settings.value.port,
+      settingsController.settings.value.clientName,
+      settingsController.settings.value.serverIps,
+    );
   }
 }

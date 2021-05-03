@@ -21,6 +21,7 @@ class SocketServer {
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
   final Map<WebSocketChannel, String> clients = Map();
+  final List<WebSocketChannel> servers = [];
 
   SocketServer() {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
@@ -35,7 +36,8 @@ class SocketServer {
     });
   }
 
-  Future<void> start(int port) async {
+  Future<void> start(
+      int port, String clientName, List<String> serverIps) async {
     var handler = webSocketHandler(
       (WebSocketChannel webSocket) {
         webSocket.stream
@@ -53,10 +55,33 @@ class SocketServer {
       server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
       _logStreamController.add(
           LogMessage(LogLevel.info, 'Server started on port ${server?.port}'));
-      return Future.value();
     } catch (error) {
       _logStreamController.add(LogMessage(LogLevel.error, error.toString()));
       return Future.error(error);
+    }
+
+    // Set up server connections
+    serverIps.forEach((ip) => connectToServer(clientName, ip));
+
+    return Future.value();
+  }
+
+  void connectToServer(String clientName, String ip) async {
+    try {
+      final channel = WebSocketChannel.connect(Uri.dataFromString(ip));
+      channel.sink.add('clientName:$clientName');
+      servers.add(channel);
+      _logStreamController
+          .add(LogMessage(LogLevel.good, 'Connected to server: $ip'));
+      await channel.sink.done;
+      _logStreamController
+          .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
+      connectToServer(clientName, ip);
+    } catch (e) {
+      _logStreamController
+          .add(LogMessage(LogLevel.error, 'Unable to connect to server: $ip'));
+      Future.delayed(
+          Duration(seconds: 10), () => connectToServer(clientName, ip));
     }
   }
 
@@ -99,5 +124,8 @@ class SocketServer {
         .toList()
         .where((e) => e.value != DataSource.watch && e.value != source);
     externalClients.forEach((e) => e.key.sink.add(message));
+
+    // Broadcast to all servers
+    servers.forEach((e) => e.sink.add(message));
   }
 }
