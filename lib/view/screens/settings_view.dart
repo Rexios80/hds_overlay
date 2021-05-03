@@ -169,8 +169,10 @@ class SettingsView extends StatelessWidget {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                   ),
-                  onChanged: (value) =>
-                      settingsController.settings.value.clientName = value,
+                  onChanged: (value) {
+                    settingsController.settings.value.clientName = value;
+                    refreshAndSave();
+                  },
                 ),
               ),
             ],
