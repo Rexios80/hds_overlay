@@ -96,7 +96,9 @@ class SettingsView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Overlay size'),
-                  Text('Minimum 800x600', style: Theme.of(context).textTheme.caption),
+                  SizedBox(height: 3),
+                  Text('Minimum 800x600',
+                      style: Theme.of(context).textTheme.caption),
                 ],
               ),
               Spacer(),
@@ -144,6 +146,36 @@ class SettingsView extends StatelessWidget {
             ],
           );
 
+          final clientNameEditor = Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Client name'),
+                  SizedBox(height: 3),
+                  Text(
+                    'Used to identify with other HDS overlays',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ],
+              ),
+              Spacer(),
+              Container(
+                width: 200,
+                child: TextField(
+                  controller: TextEditingController(
+                    text: settingsController.settings.value.clientName,
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) =>
+                      settingsController.settings.value.clientName = value,
+                ),
+              ),
+            ],
+          );
+
           return Card(
             elevation: 8,
             margin: EdgeInsets.only(left: 100, right: 100, top: 20, bottom: 20),
@@ -159,6 +191,8 @@ class SettingsView extends StatelessWidget {
                 backgroundColorPicker,
                 Divider(),
                 overlaySizeEditor,
+                Divider(),
+                clientNameEditor,
               ],
             ),
           );

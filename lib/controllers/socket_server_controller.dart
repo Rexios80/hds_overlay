@@ -31,6 +31,8 @@ class SocketServerController extends GetxService {
       print(log.message);
       logs.add(log);
     });
+
+    logs.add(LogMessage(LogLevel.info, 'Client name: ${settingsController.settings.value.clientName}'));
   }
 
   void stopServer() {

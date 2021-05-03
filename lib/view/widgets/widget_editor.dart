@@ -356,6 +356,7 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 10),
         Divider(),
         heartRateEditor,
+        Divider(),
         SizedBox(height: 10),
         deleteButton,
         SizedBox(height: 10),
