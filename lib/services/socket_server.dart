@@ -68,7 +68,11 @@ class SocketServer {
 
   void connectToServer(String clientName, String ip) async {
     try {
-      final channel = WebSocketChannel.connect(Uri.dataFromString(ip));
+      var uri = Uri.parse('ws://$ip');
+      if (!uri.hasPort) {
+        uri = Uri.parse('${uri.toString()}:3476');
+      }
+      final channel = WebSocketChannel.connect(Uri.parse('ws://$ip'));
       channel.sink.add('clientName:$clientName');
       servers.add(channel);
       _logStreamController
@@ -78,6 +82,7 @@ class SocketServer {
           .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
       connectToServer(clientName, ip);
     } catch (e) {
+      print(e.toString());
       _logStreamController
           .add(LogMessage(LogLevel.error, 'Unable to connect to server: $ip'));
       Future.delayed(
