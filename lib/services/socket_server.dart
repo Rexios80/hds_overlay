@@ -77,7 +77,7 @@ class SocketServer {
       servers.add(channel);
       _logStreamController
           .add(LogMessage(LogLevel.good, 'Connected to server: $ip'));
-      await channel.sink.done;
+      await channel.stream.listen((_) {}).asFuture();
       _logStreamController
           .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
       connectToServer(clientName, ip);
