@@ -72,11 +72,11 @@ class SocketServer {
       if (!uri.hasPort) {
         uri = Uri.parse('${uri.toString()}:3476');
       }
-      final channel = WebSocketChannel.connect(Uri.parse('ws://$ip'));
+      final channel = WebSocketChannel.connect(uri);
       channel.sink.add('clientName:$clientName');
       servers.add(channel);
       _logStreamController
-          .add(LogMessage(LogLevel.good, 'Connected to server: $ip'));
+          .add(LogMessage(LogLevel.good, 'Connecting to server: $ip'));
       await channel.stream.listen((_) {}).asFuture();
       _logStreamController
           .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
