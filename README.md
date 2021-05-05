@@ -1,9 +1,9 @@
 # Health Data Server Overlay
-This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch, Tizen watch, or Android watch running the Health Data Server app
+This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch, Samsung watch, or Android watch running the Health Data Server app
 
 [iOS/Apple Watch/macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
 
-[Tizen app [COMING SOON]]()
+[Samsung watch app [COMING SOON]]()
 
 [Android watch app [COMING SOON]]()
 
