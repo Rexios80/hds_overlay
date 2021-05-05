@@ -3,6 +3,12 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 
 [iOS/Apple Watch/macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
 
+[Tizen app [COMING SOON]]()
+
+[Android watch app [COMING SOON]]()
+
+(As soon as these people let me actually release something)
+
 [Windows app](https://www.microsoft.com/store/apps/9PHN402J6LVJ)
 
 Binaries for macOS, linux, and Windows are also available on the [releases](https://github.com/Rexios80/Health-Data-Server-Overlay/releases) page.
