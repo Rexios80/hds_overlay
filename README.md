@@ -7,6 +7,8 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 
 [Samsung watch app [COMING SOON]]()
 
+If you would like to test the Samsung watch app, please join the [Discord server](https://discord.gg/FayYYcm) and message me (You need to have a Samsung phone too)
+
 [Android watch app [COMING SOON]]()
 
 (As soon as these people let me actually release something)
