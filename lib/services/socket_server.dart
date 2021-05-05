@@ -43,9 +43,9 @@ class SocketServer {
         webSocket.stream
             .listen((message) => _handleMessage(webSocket, message))
             .onDone(() {
-          clients.remove(webSocket);
           _logStreamController.add(LogMessage(LogLevel.warn,
               'Client disconnected: ${clients[webSocket] ?? DataSource.unknown}'));
+          clients.remove(webSocket);
         });
       },
       pingInterval: Duration(seconds: 15),
