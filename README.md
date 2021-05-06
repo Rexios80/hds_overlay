@@ -4,6 +4,7 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 ### Links
 
 - [iOS/Apple Watch/macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
+  - Make sure to join the [TestFlight](https://testflight.apple.com/join/hG4FkmZ4) group or the new overlay will not work. Apple is being *very* slow at approving my updates.
 - [Samsung watch app [COMING SOON]]()
   - If you would like to test the Samsung watch app, please join the [Discord server](https://discord.gg/FayYYcm) and message me (You need to have a Samsung phone too)
 - [Android watch app [COMING SOON]]()
