@@ -4,6 +4,8 @@ import 'package:hds_overlay/services/socket/socket_base.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SocketClient extends SocketBase {
+  WebSocketChannel? _channel;
+
   Future<WebSocketChannel> connect(
     String clientName,
     String ip,
@@ -55,12 +57,12 @@ class SocketClient extends SocketBase {
     String clientName,
     List<String> serverIps,
   ) async {
-    await connect('browser', 'ws://localhost:$port');
+    _channel = await connect('browser', 'ws://localhost:$port');
   }
 
   @override
   Future<void> stop() {
-    // TODO: implement stop
-    throw UnimplementedError();
+    _channel?.sink.close();
+    return Future.value();
   }
 }

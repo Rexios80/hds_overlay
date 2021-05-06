@@ -32,7 +32,7 @@ class HDSOverlay extends StatelessWidget {
         ],
       ),
       drawerScrimColor: Colors.transparent,
-      drawer: navigationDrawer,
+      drawer: NavigationDrawer(),
       endDrawer: EndDrawer(),
       onEndDrawerChanged: (open) {
         if (!open) {

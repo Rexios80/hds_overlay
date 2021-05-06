@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
@@ -18,7 +19,7 @@ class SettingsView extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      drawer: navigationDrawer,
+      drawer: NavigationDrawer(),
       body: Builder(
         builder: (context) {
           final darkModeToggle = Row(
@@ -79,14 +80,28 @@ class SettingsView extends StatelessWidget {
             children: [
               Text('Overlay background color'),
               Spacer(),
-              Obx(
-                () => colorCircle(
-                  Color(
-                      settingsController.settings.value.overlayBackgroundColor),
-                  () => showColorPickerDialog(
-                      context, settingsController.settings.value),
-                ),
-              ),
+              Obx(() {
+                final color = Color(
+                  settingsController.settings.value.overlayBackgroundColor,
+                );
+                return Container(
+                  width: 50,
+                  height: 50,
+                  decoration: color == Colors.transparent
+                      ? BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(),
+                        )
+                      : null,
+                  child: colorCircle(
+                    color,
+                    () => showColorPickerDialog(
+                      context,
+                      settingsController.settings.value,
+                    ),
+                  ),
+                );
+              }),
             ],
           );
 
@@ -322,22 +337,53 @@ class SettingsView extends StatelessWidget {
   }
 
   void showColorPickerDialog(BuildContext context, Settings settings) {
+    final dialogOptions;
+    if (kIsWeb) {
+      dialogOptions = Row(
+        children: [
+          Spacer(),
+          colorCircleWithSave(context, settings, Themes.dark.backgroundColor),
+          Spacer(),
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(),
+            ),
+            child: Stack(
+              children: [
+                colorCircleWithSave(
+                  context,
+                  settings,
+                  Colors.transparent,
+                ),
+              ],
+            ),
+          ),
+          Spacer(),
+        ],
+      );
+    } else {
+      dialogOptions = Row(
+        children: [
+          Spacer(),
+          colorCircleWithSave(context, settings, AppColors.chromaGreen),
+          Spacer(),
+          colorCircleWithSave(context, settings, AppColors.chromaBlue),
+          Spacer(),
+          colorCircleWithSave(context, settings, AppColors.chromaMagenta),
+          Spacer(),
+        ],
+      );
+    }
+
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text('Pick a background color to chroma key'),
-          content: Row(
-            children: [
-              Spacer(),
-              colorCircleWithSave(context, settings, AppColors.chromaGreen),
-              Spacer(),
-              colorCircleWithSave(context, settings, AppColors.chromaBlue),
-              Spacer(),
-              colorCircleWithSave(context, settings, AppColors.chromaMagenta),
-              Spacer(),
-            ],
-          ),
+          content: dialogOptions,
         );
       },
     );

@@ -94,7 +94,11 @@ class DataView extends StatelessWidget {
       child: Builder(builder: (context) {
         if (kIsWeb) {
           return Expanded(
-            child: dataWidgets,
+            child: Container(
+                color: Color(
+                  settingsController.settings.value.overlayBackgroundColor,
+                ),
+                child: dataWidgets),
           );
         } else {
           return Obx(() => Container(
@@ -102,9 +106,9 @@ class DataView extends StatelessWidget {
                     Get.pixelRatio,
                 height: settingsController.settings.value.overlayHeight /
                     Get.pixelRatio,
-                color: Color(kIsWeb
-                    ? Colors.transparent.value
-                    : settingsController.settings.value.overlayBackgroundColor),
+                color: Color(
+                  settingsController.settings.value.overlayBackgroundColor,
+                ),
                 child: dataWidgets,
               ));
         }
