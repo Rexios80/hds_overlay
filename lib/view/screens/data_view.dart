@@ -97,8 +97,9 @@ class DataView extends StatelessWidget {
               settingsController.settings.value.overlayWidth / Get.pixelRatio,
           height:
               settingsController.settings.value.overlayHeight / Get.pixelRatio,
-          color:
-              Color(settingsController.settings.value.overlayBackgroundColor),
+          color: Color(kIsWeb
+              ? Colors.transparent.value
+              : settingsController.settings.value.overlayBackgroundColor),
           child: dataWidgets,
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
@@ -16,6 +17,7 @@ class HDSOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kIsWeb ? Colors.transparent : null,
       appBar: AppBar(
         title: Text('Health Data Server'),
         elevation: 0,
@@ -40,7 +42,7 @@ class HDSOverlay extends StatelessWidget {
         }
       },
       body: Container(
-        color: Colors.black,
+        color: kIsWeb ? Colors.transparent : Colors.black,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
