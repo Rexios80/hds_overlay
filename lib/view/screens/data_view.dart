@@ -7,8 +7,6 @@ import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
-import 'package:hds_overlay/controllers/socket_client_controller.dart'
-    if (dart.library.io) 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/utils/themes.dart';
@@ -22,15 +20,7 @@ class DataView extends StatelessWidget {
   final endDrawerController = Get.put(EndDrawerController());
   final DataWidgetController dwc = Get.find();
   final SettingsController settingsController = Get.find();
-  late final ConnectionController connectionController;
-
-  DataView() {
-    if (kIsWeb) {
-      connectionController = Get.find<SocketClientController>();
-    } else {
-      connectionController = Get.find<SocketServerController>();
-    }
-  }
+  final ConnectionController connectionController = Get.find();
 
   @override
   Widget build(BuildContext context) {

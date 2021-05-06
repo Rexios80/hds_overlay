@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hds_overlay/controllers/socket_client_controller.dart'
-    if (dart.library.io) 'package:hds_overlay/controllers/socket_server_controller.dart';
+import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/routes.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
@@ -17,11 +15,7 @@ void main() async {
   Provider.debugCheckInvalidValueType = null;
 
   await HiveUtils.init();
-  if (kIsWeb) {
-    Get.put(SocketClientController());
-  } else {
-    Get.put(SocketServerController());
-  }
+  Get.put(ConnectionController());
 
   runApp(MyApp());
 }

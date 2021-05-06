@@ -2,21 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
-import 'package:hds_overlay/controllers/socket_client_controller.dart'
-    if (dart.library.io) 'package:hds_overlay/controllers/socket_server_controller.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/utils/themes.dart';
 
 class LogView extends StatelessWidget {
-  late final ConnectionController connectionController;
-
-  LogView() {
-    if (kIsWeb) {
-      connectionController = Get.find<SocketClientController>();
-    } else {
-      connectionController = Get.find<SocketServerController>();
-    }
-  }
+  final ConnectionController connectionController = Get.find();
 
   @override
   Widget build(BuildContext context) {

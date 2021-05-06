@@ -6,19 +6,14 @@ import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
+import 'package:hds_overlay/services/socket_base.dart';
+import 'package:hds_overlay/services/socket_client.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class SocketServer {
+class SocketServer extends SocketBase {
   HttpServer? server;
-  StreamController<LogMessage> _logStreamController = StreamController();
-  StreamController<DataMessageBase> _messageStreamController =
-      StreamController();
-
-  Stream<LogMessage> get logStream => _logStreamController.stream;
-
-  Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
   final Map<WebSocketChannel, String> clients = Map();
   final List<WebSocketChannel> servers = [];
@@ -32,7 +27,7 @@ class SocketServer {
           ipLog += '\n        - ${address.address}';
         });
       });
-      _logStreamController.add(LogMessage(LogLevel.info, ipLog));
+      logStreamController.add(LogMessage(LogLevel.info, ipLog));
     });
   }
 
@@ -43,7 +38,7 @@ class SocketServer {
         webSocket.stream
             .listen((message) => _handleMessage(webSocket, message))
             .onDone(() {
-          _logStreamController.add(LogMessage(LogLevel.warn,
+          logStreamController.add(LogMessage(LogLevel.warn,
               'Client disconnected: ${clients[webSocket] ?? DataSource.unknown}'));
           clients.remove(webSocket);
         });
@@ -53,45 +48,21 @@ class SocketServer {
 
     try {
       server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
-      _logStreamController.add(
+      logStreamController.add(
           LogMessage(LogLevel.info, 'Server started on port ${server?.port}'));
     } catch (error) {
-      _logStreamController.add(LogMessage(LogLevel.error, error.toString()));
+      logStreamController.add(LogMessage(LogLevel.error, error.toString()));
       return Future.error(error);
     }
 
     // Set up server connections
-    serverIps.forEach((ip) => connectToServer(clientName, ip));
+    serverIps.forEach((ip) => SocketClient().connect(clientName, ip));
 
     return Future.value();
   }
 
-  void connectToServer(String clientName, String ip) async {
-    try {
-      var uri = Uri.parse('ws://$ip');
-      if (!uri.hasPort) {
-        uri = Uri.parse('${uri.toString()}:3476');
-      }
-      final channel = WebSocketChannel.connect(uri);
-      channel.sink.add('clientName:$clientName');
-      servers.add(channel);
-      _logStreamController
-          .add(LogMessage(LogLevel.good, 'Connecting to server: $ip'));
-      await channel.stream.listen((_) {}).asFuture();
-      _logStreamController
-          .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
-      connectToServer(clientName, ip);
-    } catch (e) {
-      print(e.toString());
-      _logStreamController
-          .add(LogMessage(LogLevel.error, 'Unable to connect to server: $ip'));
-      Future.delayed(
-          Duration(seconds: 10), () => connectToServer(clientName, ip));
-    }
-  }
-
   Future<dynamic> stop() async {
-    _logStreamController.add(LogMessage(LogLevel.warn, 'Server stopped'));
+    logStreamController.add(LogMessage(LogLevel.warn, 'Server stopped'));
 
     // Close connection to all servers
     servers.forEach((server) => server.sink.close());
@@ -106,7 +77,7 @@ class SocketServer {
 
     if (parts[0] == 'clientName') {
       clients[client] = parts[1];
-      _logStreamController
+      logStreamController
           .add(LogMessage(LogLevel.good, 'Client connected: ${parts[1]}'));
       return;
     }
@@ -120,9 +91,9 @@ class SocketServer {
     final dataType =
         EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
     if (dataType != DataType.unknown) {
-      _messageStreamController.add(DataMessage(source, dataType, parts[1]));
+      messageStreamController.add(DataMessage(source, dataType, parts[1]));
     } else {
-      _messageStreamController
+      messageStreamController
           .add(UnknownDataMessage(source, parts[0], parts[1]));
     }
 
