@@ -1,16 +1,15 @@
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
-import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/socket_server.dart';
 import 'package:tuple/tuple.dart';
 
-class SocketServerController extends GetxService {
+import 'connection_controller.dart';
+
+class SocketServerController extends ConnectionController {
   final SettingsController settingsController = Get.find();
   final server = SocketServer();
-  final messages = Map<Tuple2<DataType, String>, DataMessage>().obs;
-  final logs = <LogMessage>[].obs;
 
   SocketServerController() {
     server.messageStream.listen((message) {
@@ -33,11 +32,11 @@ class SocketServerController extends GetxService {
     });
   }
 
-  void stopServer() {
+  void stop() {
     server.stop();
   }
 
-  void startServer() {
+  void start() {
     // If the log is modified here the view will be in a bad state
     Future.delayed(
         Duration(milliseconds: 500),
@@ -49,4 +48,14 @@ class SocketServerController extends GetxService {
       settingsController.settings.value.serverIps,
     );
   }
+}
+
+// This makes the compiler happy
+class SocketClientController extends ConnectionController {
+  @override
+  void start() {}
+
+  @override
+  void stop() {}
+
 }
