@@ -45,7 +45,7 @@ All configuration is done in the watch app and desktop app
 
 ### Set up as stream overlay
 
-#### Browser capture
+#### Browser source
 1. Add https://hds.dev as a browser source
 2. Right click the source and "Interact" with it
 3. Set the background color to transparent in the settings
