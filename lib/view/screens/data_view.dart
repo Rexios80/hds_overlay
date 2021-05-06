@@ -91,18 +91,24 @@ class DataView extends StatelessWidget {
           connectionController.stop();
         }
       },
-      child: Obx(
-        () => Container(
-          width:
-              settingsController.settings.value.overlayWidth / Get.pixelRatio,
-          height:
-              settingsController.settings.value.overlayHeight / Get.pixelRatio,
-          color: Color(kIsWeb
-              ? Colors.transparent.value
-              : settingsController.settings.value.overlayBackgroundColor),
-          child: dataWidgets,
-        ),
-      ),
+      child: Builder(builder: (context) {
+        if (kIsWeb) {
+          return Expanded(
+            child: dataWidgets,
+          );
+        } else {
+          return Obx(() => Container(
+                width: settingsController.settings.value.overlayWidth /
+                    Get.pixelRatio,
+                height: settingsController.settings.value.overlayHeight /
+                    Get.pixelRatio,
+                color: Color(kIsWeb
+                    ? Colors.transparent.value
+                    : settingsController.settings.value.overlayBackgroundColor),
+                child: dataWidgets,
+              ));
+        }
+      }),
     );
   }
 }
