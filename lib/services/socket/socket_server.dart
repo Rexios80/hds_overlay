@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:enum_to_string/enum_to_string.dart';
-import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
-import 'package:hds_overlay/model/message.dart';
-import 'package:hds_overlay/services/socket_base.dart';
-import 'package:hds_overlay/services/socket_client.dart';
+import 'package:hds_overlay/services/socket/socket_base.dart';
+import 'package:hds_overlay/services/socket/socket_client.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -31,6 +28,7 @@ class SocketServer extends SocketBase {
     });
   }
 
+  @override
   Future<void> start(
       int port, String clientName, List<String> serverIps) async {
     var handler = webSocketHandler(
@@ -61,6 +59,7 @@ class SocketServer extends SocketBase {
     return Future.value();
   }
 
+  @override
   Future<dynamic> stop() async {
     logStreamController.add(LogMessage(LogLevel.warn, 'Server stopped'));
 
@@ -88,14 +87,7 @@ class SocketServer extends SocketBase {
       return;
     }
 
-    final dataType =
-        EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
-    if (dataType != DataType.unknown) {
-      messageStreamController.add(DataMessage(source, dataType, parts[1]));
-    } else {
-      messageStreamController
-          .add(UnknownDataMessage(source, parts[0], parts[1]));
-    }
+    handleMessage(client, message, source);
 
     // Only broadcast messages from the watch
     if (source != DataSource.watch) return;

@@ -4,10 +4,10 @@ import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
-import 'package:hds_overlay/services/socket_client_stub.dart'
-    if (dart.library.js) 'package:hds_overlay/services/socket_client_stub.dart';
-import 'package:hds_overlay/services/socket_server_stub.dart'
-    if (dart.library.io) 'package:hds_overlay/services/socket_server.dart';
+import 'package:hds_overlay/services/socket/socket_client_stub.dart'
+    if (dart.library.js) 'package:hds_overlay/services/socket/socket_client.dart';
+import 'package:hds_overlay/services/socket/socket_server_stub.dart'
+    if (dart.library.io) 'package:hds_overlay/services/socket/socket_server.dart';
 import 'package:tuple/tuple.dart';
 
 class ConnectionController extends GetxController {
