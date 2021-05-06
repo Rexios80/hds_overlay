@@ -44,6 +44,14 @@ You should soon see numbers in the desktop app. This is the health data the watc
 All configuration is done in the watch app and desktop app
 
 ### Set up as stream overlay
+
+#### Browser capture
+1. Add https://hds.dev as a browser source
+2. Right click the source and "Interact" with it
+3. Set the background color to transparent in the settings
+4. Add a crop filter
+
+#### Window capture
 1. Add a window capture for the desktop app
 2. Add a chroma key filter to the window capture
 3. Add a crop filter to the window capture
