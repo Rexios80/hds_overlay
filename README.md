@@ -1,7 +1,7 @@
 # Health Data Server Overlay
 This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch, Samsung watch, or Android watch running the Health Data Server app
 
-# YOU MUST JOIN THE [TESTFLIGHT](https://testflight.apple.com/join/hG4FkmZ4) GROUP FOR THE OVERLAY TO WORK RIHT NOW
+# YOU MUST JOIN THE [TESTFLIGHT](https://testflight.apple.com/join/hG4FkmZ4) GROUP FOR THE OVERLAY TO WORK RIGHT NOW
 
 Apple is being ungodly show at approving the update. If you ask in Discord why your overlay isn't working and you're not in the TestFlight group I will be upset.
 
