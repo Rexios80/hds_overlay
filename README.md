@@ -1,9 +1,14 @@
 # Health Data Server Overlay
 This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch, Samsung watch, or Android watch running the Health Data Server app
 
+# YOU MUST JOIN THE [TESTFLIGHT](https://testflight.apple.com/join/hG4FkmZ4) GROUP FOR THE OVERLAY TO WORK RIGHT NOW
+
+Apple is being ungodly show at approving the update. If you ask in Discord why your overlay isn't working and you're not in the TestFlight group I will be upset.
+
 ### Links
 
 - [iOS/Apple Watch/macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
+  - Make sure to join the [TestFlight](https://testflight.apple.com/join/hG4FkmZ4) group or the new overlay will not work. Apple is being *very* slow at approving my updates.
 - [Samsung watch app [COMING SOON]]()
   - If you would like to test the Samsung watch app, please join the [Discord server](https://discord.gg/FayYYcm) and message me (You need to have a Samsung phone too)
 - [Android watch app [COMING SOON]]()
@@ -44,6 +49,14 @@ You should soon see numbers in the desktop app. This is the health data the watc
 All configuration is done in the watch app and desktop app
 
 ### Set up as stream overlay
+
+#### Browser source
+1. Add https://hds.dev as a browser source
+2. Right click the source and "Interact" with it
+3. Set the background color to transparent in the settings
+4. Add a crop filter
+
+#### Window capture
 1. Add a window capture for the desktop app
 2. Add a chroma key filter to the window capture
 3. Add a crop filter to the window capture
