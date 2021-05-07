@@ -174,6 +174,8 @@ class WidgetEditor extends StatelessWidget {
             ],
           ),
         ),
+        WidgetEditorTextField(EditorType.scaleFactor, properties),
+        SizedBox(height: 10),
         WidgetEditorTextField(EditorType.font, properties),
         SizedBox(height: 10),
         Text(

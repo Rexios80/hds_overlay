@@ -104,11 +104,14 @@ class DataWidgetText extends StatelessWidget {
         final String valueText;
         if (preProcessedValue == null) {
           valueText = '-';
-        } else if (typeSource.item1.isRounded()) {
-          valueText = double.parse(preProcessedValue)
-              .toStringAsFixed(properties.value.decimals);
         } else {
-          valueText = preProcessedValue;
+          final scaledValue =
+              double.parse(preProcessedValue) * properties.value.scaleFactor;
+          if (typeSource.item1.isRounded()) {
+            valueText = scaledValue.toStringAsFixed(properties.value.decimals);
+          } else {
+            valueText = scaledValue.toStringAsFixed(0);
+          }
         }
 
         final unitText = valueText == '-' ? '' : properties.value.unit;

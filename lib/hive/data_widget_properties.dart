@@ -91,4 +91,13 @@ class DataWidgetProperties extends HiveObject {
   set dataSource(String value) {
     _dataSource = value;
   }
+
+  @HiveField(23)
+  double? _scaleFactor;
+
+  double get scaleFactor => _scaleFactor ?? 1;
+
+  set scaleFactor(double value) {
+    _scaleFactor = value;
+  }
 }
