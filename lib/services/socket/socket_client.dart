@@ -6,10 +6,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class SocketClient extends SocketBase {
   WebSocketChannel? _channel;
 
-  Future<WebSocketChannel> connect(
-    String clientName,
-    String ip,
-  ) async {
+  Future<WebSocketChannel> connect(String clientName, String ip) async {
     try {
       Uri uri;
       if (ip.startsWith('ws')) {
@@ -41,14 +38,27 @@ class SocketClient extends SocketBase {
     String clientName,
     String ip,
   ) async {
-    await channel.stream.listen((message) {
+    // This channel is used for sending data on desktop and receiving data on web
+    final channelSubscription = channel.stream.listen((message) {
       if (kIsWeb) {
         handleMessage(channel, message, 'watch');
       }
-    }).asFuture();
+    });
+    channelSubscription.onDone(() {
+      channelSubscription.cancel();
+      reconnect(clientName, ip);
+    });
+    channelSubscription.onError((error) {
+      print(error);
+      channelSubscription.cancel();
+      reconnect(clientName, ip);
+    });
+  }
+
+  void reconnect(String clientName, String ip) {
     logStreamController
         .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
-    connect(clientName, ip);
+    Future.delayed(Duration(seconds: 5), () => connect(clientName, ip));
   }
 
   @override
