@@ -1,13 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
+import 'package:hds_overlay/controllers/overlay_controller.dart';
 import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
+import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
+import 'package:hds_overlay/model/log_message.dart';
 import 'package:hive/hive.dart';
 import 'package:tuple/tuple.dart';
 
@@ -20,6 +24,8 @@ class HDSOverlay extends StatelessWidget {
   final endDrawerController = Get.put(EndDrawerController());
   final DataWidgetController dwc = Get.find();
   final OverlayProfilesController overlayProfilesController = Get.find();
+  final overlayController = Get.put(OverlayController());
+  final ConnectionController connectionController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -50,22 +56,61 @@ class HDSOverlay extends StatelessWidget {
       ),
     ];
 
+    final profileLoad = overlayProfilesController.profiles
+        .map(
+          (profile) => PopupMenuItem<OverlayProfile>(
+            value: profile,
+            child: Row(
+              children: [
+                Text(profile.name),
+                Spacer(),
+                Obx(
+                  () => IconButton(
+                    icon: Icon(
+                      overlayController
+                                  .profileDeleteButtonPressedMap[profile] ??
+                              false
+                          ? Icons.delete_forever
+                          : Icons.delete,
+                      color: Colors.red,
+                    ),
+                    onPressed: () {
+                      if (overlayController
+                              .profileDeleteButtonPressedMap[profile] ??
+                          false) {
+                        overlayController
+                            .profileDeleteButtonPressedMap[profile] = true;
+                        Future.delayed(
+                            Duration(seconds: 1),
+                            () => overlayController
+                                .profileDeleteButtonPressedMap
+                                .remove(profile));
+                      } else {
+                        profile.delete();
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+        .toList();
+
     final actions = [
       Builder(
         builder: (context) => PopupMenuButton(
           icon: Icon(Icons.save),
-          itemBuilder: (BuildContext context) {
-            return profileAdd;
-          },
+          itemBuilder: (BuildContext context) => profileAdd,
         ),
       ),
       Obx(
         () => Visibility(
           visible: overlayProfilesController.profiles.isNotEmpty,
-          child: IconButton(
+          child: PopupMenuButton<OverlayProfile>(
+            onSelected: loadProfile,
             icon: Icon(Icons.upload_file),
-            iconSize: 30,
-            onPressed: () => Scaffold.of(context).openEndDrawer(),
+            itemBuilder: (BuildContext context) => profileLoad,
           ),
         ),
       ),
@@ -118,5 +163,20 @@ class HDSOverlay extends StatelessWidget {
         ..widgetProperties =
             dwc.propertiesMap.values.map((e) => e.value).toList(),
     );
+
+    connectionController.logs
+        .add(LogMessage(LogLevel.good, 'Profile saved: $profileName'));
+  }
+
+  void loadProfile(OverlayProfile profile) async {
+    // Might be dangerous to delete everything but meh
+    final box =
+        Hive.box<DataWidgetProperties>(HiveUtils.boxDataWidgetProperties);
+
+    await box.clear();
+    await box.addAll(profile.widgetProperties);
+
+    connectionController.logs
+        .add(LogMessage(LogLevel.good, 'Profile loaded: ${profile.name}'));
   }
 }
