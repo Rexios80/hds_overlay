@@ -180,7 +180,9 @@ class HDSOverlay extends StatelessWidget {
         Hive.box<DataWidgetProperties>(HiveUtils.boxDataWidgetProperties);
 
     await box.clear();
-    await box.addAll(profile.widgetProperties);
+    // We have to copy the objects or they get edited unintentionally
+    await box.addAll(
+        profile.widgetProperties.map((e) => DataWidgetProperties.copy(e)));
 
     connectionController.logs
         .add(LogMessage(LogLevel.good, 'Profile loaded: ${profile.name}'));
