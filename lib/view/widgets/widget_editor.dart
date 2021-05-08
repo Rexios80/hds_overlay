@@ -174,8 +174,6 @@ class WidgetEditor extends StatelessWidget {
             ],
           ),
         ),
-        WidgetEditorTextField(EditorType.scaleFactor, properties),
-        SizedBox(height: 10),
         WidgetEditorTextField(EditorType.font, properties),
         SizedBox(height: 10),
         Text(
@@ -184,6 +182,8 @@ class WidgetEditor extends StatelessWidget {
         ),
         SizedBox(height: 15),
         WidgetEditorTextField(EditorType.fontSize, properties),
+        SizedBox(height: 5),
+        WidgetEditorTextField(EditorType.scaleFactor, properties),
         SizedBox(height: 5),
         WidgetEditorTextField(EditorType.unit, properties),
         Obx(
