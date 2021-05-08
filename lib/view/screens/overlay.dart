@@ -56,46 +56,59 @@ class HDSOverlay extends StatelessWidget {
       ),
     ];
 
-    final profileLoad = overlayProfilesController.profiles
-        .map(
-          (profile) => PopupMenuItem<OverlayProfile>(
-            value: profile,
-            child: Row(
-              children: [
-                Text(profile.name),
-                Spacer(),
-                Obx(
-                  () => IconButton(
-                    icon: Icon(
-                      overlayController
-                                  .profileDeleteButtonPressedMap[profile] ??
-                              false
-                          ? Icons.delete_forever
-                          : Icons.delete,
-                      color: Colors.red,
-                    ),
-                    onPressed: () {
-                      if (overlayController
-                              .profileDeleteButtonPressedMap[profile] ??
-                          false) {
-                        overlayController
-                            .profileDeleteButtonPressedMap[profile] = true;
-                        Future.delayed(
-                            Duration(seconds: 1),
-                            () => overlayController
-                                .profileDeleteButtonPressedMap
-                                .remove(profile));
-                      } else {
-                        profile.delete();
-                      }
-                    },
+    // ffs this is ugly
+    final profileLoad = Obx(
+      () => Visibility(
+        visible: overlayProfilesController.profiles.isNotEmpty,
+        child: PopupMenuButton<OverlayProfile>(
+          onSelected: loadProfile,
+          icon: Icon(Icons.upload_file),
+          itemBuilder: (BuildContext context) => overlayProfilesController
+              .profiles
+              .map(
+                (profile) => PopupMenuItem<OverlayProfile>(
+                  value: profile,
+                  child: Row(
+                    children: [
+                      Text(profile.name),
+                      Spacer(),
+                      Obx(
+                        () => IconButton(
+                          icon: Icon(
+                            overlayController.profileDeleteButtonPressedMap[
+                                        profile] ??
+                                    false
+                                ? Icons.delete_forever
+                                : Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            if (overlayController
+                                    .profileDeleteButtonPressedMap[profile] ??
+                                false) {
+                              profile.delete();
+                              Get.back();
+                            } else {
+                              overlayController
+                                      .profileDeleteButtonPressedMap[profile] =
+                                  true;
+                              Future.delayed(
+                                  Duration(seconds: 1),
+                                  () => overlayController
+                                      .profileDeleteButtonPressedMap
+                                      .remove(profile));
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        )
-        .toList();
+              )
+              .toList(),
+        ),
+      ),
+    );
 
     final actions = [
       Builder(
@@ -104,16 +117,7 @@ class HDSOverlay extends StatelessWidget {
           itemBuilder: (BuildContext context) => profileAdd,
         ),
       ),
-      Obx(
-        () => Visibility(
-          visible: overlayProfilesController.profiles.isNotEmpty,
-          child: PopupMenuButton<OverlayProfile>(
-            onSelected: loadProfile,
-            icon: Icon(Icons.upload_file),
-            itemBuilder: (BuildContext context) => profileLoad,
-          ),
-        ),
-      ),
+      profileLoad,
       Builder(
         builder: (context) => IconButton(
           icon: Icon(Icons.add),
