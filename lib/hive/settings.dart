@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hive/hive.dart';
@@ -48,7 +49,13 @@ class Settings extends HiveObject {
   @HiveField(5)
   String? _clientName;
 
-  String get clientName => _clientName ?? 'HDS-${Uuid().v4()}';
+  String get clientName {
+    if (kIsWeb) {
+      return DataSource.browser;
+    } else {
+      return _clientName ?? 'HDS-${Uuid().v4()}';
+    }
+  }
 
   set clientName(String value) {
     _clientName = value;
@@ -61,5 +68,14 @@ class Settings extends HiveObject {
 
   set serverIps(List<String> value) {
     _serverIps = value;
+  }
+
+  @HiveField(7)
+  String? _serverIp = 'localhost';
+
+  String get serverIp => _serverIp ?? 'localhost';
+
+  set serverIp(String value) {
+    _serverIp = value;
   }
 }

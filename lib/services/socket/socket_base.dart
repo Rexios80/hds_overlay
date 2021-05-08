@@ -7,6 +7,7 @@ import 'package:hds_overlay/model/message.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 abstract class SocketBase {
+  // ignore: close_sinks
   StreamController<LogMessage> logStreamController = StreamController();
   StreamController<DataMessageBase> messageStreamController =
       StreamController();
@@ -15,7 +16,7 @@ abstract class SocketBase {
 
   Stream<DataMessageBase> get messageStream => messageStreamController.stream;
 
-  Future<void> start(int port, String clientName, List<String> serverIps);
+  Future<void> start(int port, String serverIp, String clientName, List<String> serverIps);
 
   Future<void> stop();
 

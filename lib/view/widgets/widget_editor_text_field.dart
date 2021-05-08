@@ -70,7 +70,6 @@ class WidgetEditorTextField extends StatelessWidget {
         return properties.value.decimals.toString();
       case EditorType.scaleFactor:
         return properties.value.scaleFactor.toString();
-        break;
     }
   }
 

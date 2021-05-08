@@ -6,6 +6,7 @@ import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/widgets/drawers/navigation_drawer.dart';
+import 'package:hds_overlay/view/widgets/settings_text_field.dart';
 
 class SettingsView extends StatelessWidget {
   final SettingsController settingsController = Get.find();
@@ -34,43 +35,6 @@ class SettingsView extends StatelessWidget {
                     refreshAndSave();
                     Get.changeTheme(value ? Themes.dark : Themes.light);
                   },
-                ),
-              ),
-            ],
-          );
-
-          final portFieldTec = TextEditingController(
-              text: settingsController.settings.value.port.toString());
-          portFieldTec.selection =
-              TextSelection.collapsed(offset: portFieldTec.text.length);
-          final validatePort = (port) {
-            return port >= 1234 && port <= 49151;
-          };
-          final portField = Row(
-            children: [
-              Text('WebSocket port'),
-              Spacer(),
-              Container(
-                width: 100,
-                child: Obx(
-                  () => TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      errorText:
-                          !validatePort(settingsController.settings.value.port)
-                              ? 'Invalid port'
-                              : null,
-                    ),
-                    keyboardType: TextInputType.number,
-                    controller: portFieldTec,
-                    onChanged: (value) {
-                      final port = int.tryParse(value) ?? 0;
-                      if (validatePort(port)) {
-                        settingsController.settings.value.port = port;
-                        refreshAndSave();
-                      }
-                    },
-                  ),
                 ),
               ),
             ],
@@ -155,38 +119,6 @@ class SettingsView extends StatelessWidget {
                       settingsController.settings.value.overlayHeight = number;
                       refreshAndSave();
                     }
-                  },
-                ),
-              ),
-            ],
-          );
-
-          final clientNameEditor = Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Client name'),
-                  SizedBox(height: 3),
-                  Text(
-                    'Used to identify with other HDS overlays',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                ],
-              ),
-              Spacer(),
-              Container(
-                width: 200,
-                child: TextField(
-                  controller: TextEditingController(
-                    text: settingsController.settings.value.clientName,
-                  ),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    settingsController.settings.value.clientName = value;
-                    refreshAndSave();
                   },
                 ),
               ),
@@ -294,18 +226,28 @@ class SettingsView extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.all(20),
               children: [
-                darkModeToggle,
-                Divider(),
-                portField,
-                Divider(),
-                backgroundColorPicker,
-                Divider(),
-                overlaySizeEditor,
-                Divider(),
-                clientNameEditor,
-                Divider(),
-                serverIpsEditor,
-              ],
+                    darkModeToggle,
+                    Divider(),
+                    backgroundColorPicker,
+                    Divider(),
+                    SettingsTextField(
+                        EditorType.port, settingsController.settings.value),
+                  ] +
+                  (kIsWeb
+                      ? [
+                          Divider(),
+                          SettingsTextField(EditorType.serverIp,
+                              settingsController.settings.value),
+                        ]
+                      : [
+                          Divider(),
+                          overlaySizeEditor,
+                          Divider(),
+                          SettingsTextField(EditorType.clientName,
+                              settingsController.settings.value),
+                          Divider(),
+                          serverIpsEditor,
+                        ]),
             ),
           );
         },

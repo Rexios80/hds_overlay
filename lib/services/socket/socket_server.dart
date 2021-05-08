@@ -10,10 +10,10 @@ import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SocketServer extends SocketBase {
-  HttpServer? server;
+  HttpServer? _server;
 
-  final Map<WebSocketChannel, String> clients = Map();
-  final List<WebSocketChannel> servers = [];
+  final Map<WebSocketChannel, String> _clients = Map();
+  final List<WebSocketChannel> _servers = [];
 
   SocketServer() {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
@@ -30,24 +30,28 @@ class SocketServer extends SocketBase {
 
   @override
   Future<void> start(
-      int port, String clientName, List<String> serverIps) async {
+    int port,
+    String serverIp,
+    String clientName,
+    List<String> serverIps,
+  ) async {
     var handler = webSocketHandler(
       (WebSocketChannel webSocket) {
         webSocket.stream
             .listen((message) => _handleMessage(webSocket, message))
             .onDone(() {
           logStreamController.add(LogMessage(LogLevel.warn,
-              'Client disconnected: ${clients[webSocket] ?? DataSource.unknown}'));
-          clients.remove(webSocket);
+              'Client disconnected: ${_clients[webSocket] ?? DataSource.unknown}'));
+          _clients.remove(webSocket);
         });
       },
       pingInterval: Duration(seconds: 15),
     );
 
     try {
-      server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
+      _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
       logStreamController.add(
-          LogMessage(LogLevel.info, 'Server started on port ${server?.port}'));
+          LogMessage(LogLevel.info, 'Server started on port ${_server?.port}'));
     } catch (error) {
       logStreamController.add(LogMessage(LogLevel.error, error.toString()));
       return Future.error(error);
@@ -64,10 +68,10 @@ class SocketServer extends SocketBase {
     logStreamController.add(LogMessage(LogLevel.warn, 'Server stopped'));
 
     // Close connection to all servers
-    servers.forEach((server) => server.sink.close());
-    servers.clear();
+    _servers.forEach((server) => server.sink.close());
+    _servers.clear();
 
-    return server?.close();
+    return _server?.close();
   }
 
   void _handleMessage(WebSocketChannel client, dynamic message) {
@@ -75,13 +79,13 @@ class SocketServer extends SocketBase {
     final parts = message.split(':');
 
     if (parts[0] == 'clientName') {
-      clients[client] = parts[1];
+      _clients[client] = parts[1];
       logStreamController
           .add(LogMessage(LogLevel.good, 'Client connected: ${parts[1]}'));
       return;
     }
 
-    final source = clients[client] ?? DataSource.unknown;
+    final source = _clients[client] ?? DataSource.unknown;
     if (source == DataSource.unknown) {
       // Ignore messages from unidentified clients
       return;
@@ -93,12 +97,12 @@ class SocketServer extends SocketBase {
     if (source != DataSource.watch) return;
 
     // Broadcast to all clients that aren't the watch or the source the data came from
-    final externalClients = clients.entries
+    final externalClients = _clients.entries
         .toList()
         .where((e) => e.value != DataSource.watch && e.value != source);
     externalClients.forEach((e) => e.key.sink.add(message));
 
     // Broadcast to all servers
-    servers.forEach((e) => e.sink.add(message));
+    _servers.forEach((e) => e.sink.add(message));
   }
 }
