@@ -1,13 +1,13 @@
-name: Remove old artifacts
-
-on: workflow_dispatch
+name: 'nightly artifacts cleanup'
+on:
+  schedule:
+    - cron: '0 1 * * *' # every night at 1 am UTC
 
 jobs:
-  remove-old-artifacts:
+  delete-artifacts:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Remove old artifacts
-      uses: c-hive/gha-remove-artifacts@v1
-      with:
-        age: '1 day'
+      - uses: kolpav/purge-artifacts-action@v1
+        with:
+          token: $
+          expire-in: 7days # Set this to 0 to delete all artifacts
