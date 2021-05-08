@@ -54,7 +54,9 @@ class SettingsView extends StatelessWidget {
                   decoration: color == Colors.transparent
                       ? BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(),
+                          border: Border.all(
+                            color: Get.isDarkMode ? Colors.white : Colors.black,
+                          ),
                         )
                       : null,
                   child: colorCircle(
@@ -291,7 +293,9 @@ class SettingsView extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(),
+              border: Border.all(
+                color: Get.isDarkMode ? Colors.white : Colors.black,
+              ),
             ),
             child: Stack(
               children: [
