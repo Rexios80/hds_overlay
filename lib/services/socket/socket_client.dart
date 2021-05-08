@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
@@ -6,7 +8,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SocketClient extends SocketBase {
   WebSocketChannel? _channel;
-  bool _isClosed = false;
+  Timer? _reconnectTimer;
 
   Future<WebSocketChannel> connect(String clientName, String ip) async {
     try {
@@ -47,27 +49,22 @@ class SocketClient extends SocketBase {
       }
     });
     channelSubscription.onDone(() {
-      logStreamController
-          .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
       channelSubscription.cancel();
-      // Don't reconnect if we requested this socket to close
-      if (_isClosed) return;
       _reconnect(clientName, ip);
     });
     channelSubscription.onError((error) {
-      logStreamController
-          .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
       print(error);
       channelSubscription.cancel();
-      // Don't reconnect if we requested this socket to close
-      if (_isClosed) return;
       _reconnect(clientName, ip);
     });
   }
 
   void _reconnect(String clientName, String ip) {
+    logStreamController
+        .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
     _channel?.sink.close();
-    Future.delayed(Duration(seconds: 5), () => connect(clientName, ip));
+    _reconnectTimer =
+        Timer(Duration(seconds: 5), () => connect(clientName, ip));
   }
 
   @override
@@ -82,7 +79,7 @@ class SocketClient extends SocketBase {
 
   @override
   Future<void> stop() {
-    _isClosed = true;
+    _reconnectTimer?.cancel();
     _channel?.sink.close();
     return Future.value();
   }
