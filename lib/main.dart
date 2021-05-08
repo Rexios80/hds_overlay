@@ -4,7 +4,7 @@ import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/routes.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
-import 'package:hds_overlay/view/widgets/overlay.dart';
+import 'package:hds_overlay/view/screens/overlay.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:provider/provider.dart';
 

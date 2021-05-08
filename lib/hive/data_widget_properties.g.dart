@@ -39,13 +39,14 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..heartRateRanges = (fields[19] as Map).cast<int, int>()
       ..heartBeatSound = fields[20] as Uint8List?
       .._textInsideImage = fields[21] as bool?
-      .._dataSource = fields[22] as String?;
+      .._dataSource = fields[22] as String?
+      .._scaleFactor = fields[23] as double?;
   }
 
   @override
   void write(BinaryWriter writer, DataWidgetProperties obj) {
     writer
-      ..writeByte(23)
+      ..writeByte(24)
       ..writeByte(0)
       ..write(obj.dataType)
       ..writeByte(1)
@@ -91,7 +92,9 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..writeByte(21)
       ..write(obj._textInsideImage)
       ..writeByte(22)
-      ..write(obj._dataSource);
+      ..write(obj._dataSource)
+      ..writeByte(23)
+      ..write(obj._scaleFactor);
   }
 
   @override

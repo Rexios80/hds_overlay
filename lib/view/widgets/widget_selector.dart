@@ -28,7 +28,7 @@ class WidgetSelector extends StatelessWidget {
         dataTypes.clear();
       } else {
         dataTypes.removeWhere(
-                (e) => usedDataTypeSources.contains(Tuple2(e, wsc.dataSource)));
+            (e) => usedDataTypeSources.contains(Tuple2(e, wsc.dataSource)));
         dataTypes.remove(DataType.unknown);
       }
 
@@ -96,9 +96,10 @@ class WidgetSelector extends StatelessWidget {
   }
 
   void addWidget(DataType dataType, String dataSource) {
-    Hive.box<DataWidgetProperties>(HiveUtils.boxDataWidgetProperties)
-        .add(DataWidgetProperties()
-          ..dataType = dataType
-          ..dataSource = dataSource);
+    Hive.box<DataWidgetProperties>(HiveUtils.boxDataWidgetProperties).add(
+      DataWidgetProperties()
+        ..dataType = dataType
+        ..dataSource = dataSource,
+    );
   }
 }
