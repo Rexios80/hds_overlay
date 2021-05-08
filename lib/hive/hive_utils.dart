@@ -65,8 +65,8 @@ class HiveUtils {
     final dwc = Get.put(
         DataWidgetController(createDwpMap(dataWidgetPropertiesBox).obs));
 
-    final opc =
-        Get.put(OverlayProfilesController(overlayProfilesBox.values.toList().obs));
+    final opc = Get.put(
+        OverlayProfilesController(overlayProfilesBox.values.toList().obs));
 
     // Refresh when properties are added or removed
     dataWidgetPropertiesBox.watch().listen((_) {

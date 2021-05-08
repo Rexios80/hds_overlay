@@ -23,13 +23,14 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       .._overlayWidth = fields[3] as double?
       .._overlayHeight = fields[4] as double?
       .._clientName = fields[5] as String?
-      .._serverIps = (fields[6] as List?)?.cast<String>();
+      .._serverIps = (fields[6] as List?)?.cast<String>()
+      .._serverIp = fields[7] as String?;
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.port)
       ..writeByte(1)
@@ -43,7 +44,9 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       ..writeByte(5)
       ..write(obj._clientName)
       ..writeByte(6)
-      ..write(obj._serverIps);
+      ..write(obj._serverIps)
+      ..writeByte(7)
+      ..write(obj._serverIp);
   }
 
   @override

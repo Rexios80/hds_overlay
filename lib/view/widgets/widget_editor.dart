@@ -188,7 +188,7 @@ class WidgetEditor extends StatelessWidget {
         WidgetEditorTextField(EditorType.unit, properties),
         Obx(
           () => Visibility(
-            visible: !properties.value.unit.isEmpty,
+            visible: properties.value.unit.isNotEmpty,
             child: Column(
               children: [
                 SizedBox(height: 5),

@@ -16,7 +16,8 @@ abstract class SocketBase {
 
   Stream<DataMessageBase> get messageStream => messageStreamController.stream;
 
-  Future<void> start(int port, String serverIp, String clientName, List<String> serverIps);
+  Future<void> start(
+      int port, String serverIp, String clientName, List<String> serverIps);
 
   Future<void> stop();
 
