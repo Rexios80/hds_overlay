@@ -161,11 +161,13 @@ class HDSOverlay extends StatelessWidget {
     if (profileName.isEmpty) return;
     Get.back();
 
+    // We have to copy the objects or they get edited unintentionally
     Hive.box<OverlayProfile>(HiveUtils.boxOverlayProfiles).add(
       OverlayProfile()
         ..name = profileName
-        ..widgetProperties =
-            dwc.propertiesMap.values.map((e) => e.value).toList(),
+        ..widgetProperties = dwc.propertiesMap.values
+            .map((e) => DataWidgetProperties.copy(e.value))
+            .toList(),
     );
 
     connectionController.logs

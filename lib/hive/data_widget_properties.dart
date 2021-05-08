@@ -100,4 +100,34 @@ class DataWidgetProperties extends HiveObject {
   set scaleFactor(double value) {
     _scaleFactor = value;
   }
+
+  DataWidgetProperties();
+
+  // Well this is a pain in the ass
+  DataWidgetProperties.copy(DataWidgetProperties original) {
+    this.dataType = original.dataType;
+    this.showImage = original.showImage;
+    this.image = original.image;
+    this.imageSize = original.imageSize;
+    this.fontSize = original.fontSize;
+    this.textColor = original.textColor;
+    this.textPaddingLeft = original.textPaddingLeft;
+    this.font = original.font;
+    this.position = original.position;
+    this.unit = original.unit;
+    this.style = original.style;
+    this.textShadow = original.textShadow;
+    this.textShadowRadius = original.textShadowRadius;
+    this.textStroke = original.textStroke;
+    this.textStrokeWidth = original.textStrokeWidth;
+    this.textPaddingTop = original.textPaddingTop;
+    this.unitFontSize = original.unitFontSize;
+    this.decimals = original.decimals;
+    this.animated = original.animated;
+    this.heartRateRanges = original.heartRateRanges;
+    this.heartBeatSound = original.heartBeatSound;
+    this._textInsideImage = original._textInsideImage;
+    this._dataSource = original._dataSource;
+    this._scaleFactor = original._scaleFactor;
+  }
 }
