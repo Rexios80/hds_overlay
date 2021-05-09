@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yaml/yaml.dart';
 
 import '../../routes.dart';
 
 class NavigationDrawer extends StatelessWidget {
+  final _githubUrl = 'https://git.io/J3NOR';
+  final _iosUrl =
+      'https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=hds.dev&mt=8';
+  final _androidUrl =
+      'https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter';
+
+  // final _samsungUrl ='https://git.io/J3NOR';
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -53,6 +62,63 @@ class NavigationDrawer extends StatelessWidget {
               } else {
                 Get.back();
               }
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Row(
+              children: [
+                Text('Setup instructions'),
+                Spacer(),
+                Container(
+                  height: 30,
+                  child: Image.asset(Get.isDarkMode
+                      ? 'assets/images/githubDark.png'
+                      : 'assets/images/githubLight.png'),
+                ),
+              ],
+            ),
+            onTap: () => launch(_githubUrl),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                Text('Apple Watch app'),
+                Spacer(),
+                Container(
+                  height: 30,
+                  child: Image.asset('assets/images/appStore.png'),
+                ),
+              ],
+            ),
+            onTap: () => launch(_iosUrl),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                Text('Android watch app'),
+                Spacer(),
+                Container(
+                  height: 30,
+                  child: Image.asset('assets/images/googlePlay.png'),
+                ),
+              ],
+            ),
+            onTap: () => launch(_androidUrl),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                Text('Samsung watch app'),
+                Spacer(),
+                Container(
+                  height: 30,
+                  child: Image.asset('assets/images/galaxyStore.png'),
+                ),
+              ],
+            ),
+            onTap: () {
+              // launch(_samsungUrl);
             },
           ),
         ],
