@@ -33,7 +33,7 @@ class NavigationDrawer extends StatelessWidget {
 
               return DrawerHeader(
                 child: Text(
-                  'HDS $version',
+                  version,
                   style: TextStyle(color: Colors.white),
                 ),
                 decoration: BoxDecoration(
@@ -113,7 +113,10 @@ class NavigationDrawer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Samsung watch app'),
-                    Text('Coming soon', style: Theme.of(context).textTheme.caption,),
+                    Text(
+                      'Coming soon',
+                      style: Theme.of(context).textTheme.caption,
+                    ),
                   ],
                 ),
                 Spacer(),
