@@ -19,8 +19,9 @@ void main() async {
   final hiveUtils = Get.put(HiveUtils());
   await hiveUtils.init();
 
-  if (Platform.isMacOS || kIsWeb) {
+  if (kIsWeb || Platform.isMacOS) {
     // This will not work on other platforms
+    // We must check kIsWeb first of Flutter web will complain
     final firebaseUtils = Get.put(FirebaseUtils());
     await firebaseUtils.init();
   }
