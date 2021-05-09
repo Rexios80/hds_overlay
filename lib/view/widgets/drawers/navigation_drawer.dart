@@ -8,6 +8,7 @@ import '../../routes.dart';
 
 class NavigationDrawer extends StatelessWidget {
   final _githubUrl = 'https://git.io/J3NOR';
+  final _discordUrl = 'https://discord.gg/FayYYcm';
   final _iosUrl =
       'https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=hds.dev&mt=8';
   final _androidUrl =
@@ -79,6 +80,19 @@ class NavigationDrawer extends StatelessWidget {
               ],
             ),
             onTap: () => launch(_githubUrl),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                Text('Discord server'),
+                Spacer(),
+                Container(
+                  height: 30,
+                  child: Image.asset('assets/images/discord.png'),
+                ),
+              ],
+            ),
+            onTap: () => launch(_discordUrl),
           ),
           ListTile(
             title: Row(
