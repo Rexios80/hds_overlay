@@ -11,8 +11,7 @@ Apple is being ungodly show at approving the update. If you ask in Discord why y
   - Make sure to join the [TestFlight](https://testflight.apple.com/join/hG4FkmZ4) group or the new overlay will not work. Apple is being *very* slow at approving my updates.
 - [Samsung watch app [COMING SOON]]()
   - If you would like to test the Samsung watch app, please join the [Discord server](https://discord.gg/FayYYcm) and message me (You need to have a Samsung phone too)
-- [Android watch app [COMING SOON]]()
-  - (As soon as these people let me actually release something)
+- [Android watch app](https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter)
 - [Windows app](https://www.microsoft.com/store/apps/9PHN402J6LVJ)
 - [Web app](https://hds.dev/)
   - You can use this as a browser source as long as one of the desktop apps is running on the same machine
