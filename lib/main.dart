@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/routes.dart';
-import 'package:hds_overlay/view/screens/settings_view.dart';
 import 'package:hds_overlay/view/screens/overlay.dart';
+import 'package:hds_overlay/view/screens/settings_view.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +13,8 @@ import 'hive/hive_utils.dart';
 void main() async {
   Provider.debugCheckInvalidValueType = null;
 
-  await HiveUtils.init();
-  Get.put(ConnectionController());
+  final hiveUtils = Get.put(HiveUtils());
+  await hiveUtils.init();
 
   runApp(MyApp());
 }

@@ -7,12 +7,9 @@ import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/overlay_controller.dart';
 import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
-import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
-import 'package:hds_overlay/model/log_message.dart';
-import 'package:hive/hive.dart';
 import 'package:tuple/tuple.dart';
 
 import '../widgets/data_view.dart';
@@ -26,6 +23,7 @@ class HDSOverlay extends StatelessWidget {
   final OverlayProfilesController overlayProfilesController = Get.find();
   final overlayController = Get.put(OverlayController());
   final ConnectionController connectionController = Get.find();
+  final HiveUtils hiveUtils = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,7 @@ class HDSOverlay extends StatelessWidget {
                 Icons.save,
                 color: Get.isDarkMode ? Colors.white : Colors.black,
               ),
-              onPressed: () => saveProfile(profileName),
+              onPressed: () => hiveUtils.saveProfile(profileName),
             )
           ],
         ),
@@ -61,7 +59,7 @@ class HDSOverlay extends StatelessWidget {
       () => Visibility(
         visible: overlayProfilesController.profiles.isNotEmpty,
         child: PopupMenuButton<OverlayProfile>(
-          onSelected: loadProfile,
+          onSelected: hiveUtils.loadProfile,
           icon: Icon(Icons.upload_file),
           itemBuilder: (BuildContext context) => overlayProfilesController
               .profiles
@@ -155,36 +153,5 @@ class HDSOverlay extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void saveProfile(String profileName) {
-    if (profileName.isEmpty) return;
-    Get.back();
-
-    // We have to copy the objects or they get edited unintentionally
-    Hive.box<OverlayProfile>(HiveUtils.boxOverlayProfiles).add(
-      OverlayProfile()
-        ..name = profileName
-        ..widgetProperties = dwc.propertiesMap.values
-            .map((e) => DataWidgetProperties.copy(e.value))
-            .toList(),
-    );
-
-    connectionController.logs
-        .add(LogMessage(LogLevel.good, 'Profile saved: $profileName'));
-  }
-
-  void loadProfile(OverlayProfile profile) async {
-    // Might be dangerous to delete everything but meh
-    final box =
-        Hive.box<DataWidgetProperties>(HiveUtils.boxDataWidgetProperties);
-
-    await box.clear();
-    // We have to copy the objects or they get edited unintentionally
-    await box.addAll(
-        profile.widgetProperties.map((e) => DataWidgetProperties.copy(e)));
-
-    connectionController.logs
-        .add(LogMessage(LogLevel.good, 'Profile loaded: ${profile.name}'));
   }
 }
