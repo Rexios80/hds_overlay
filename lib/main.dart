@@ -1,20 +1,29 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/routes.dart';
 import 'package:hds_overlay/view/screens/overlay.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
 import 'package:lifecycle/lifecycle.dart';
-import 'package:provider/provider.dart';
 
 import 'controllers/settings_controller.dart';
 import 'hive/hive_utils.dart';
 
 void main() async {
-  Provider.debugCheckInvalidValueType = null;
+  WidgetsFlutterBinding.ensureInitialized();
 
   final hiveUtils = Get.put(HiveUtils());
   await hiveUtils.init();
+
+  if (Platform.isMacOS || kIsWeb) {
+    // This will not work on other platforms
+    final firebaseUtils = Get.put(FirebaseUtils());
+    await firebaseUtils.init();
+  }
 
   runApp(MyApp());
 }
