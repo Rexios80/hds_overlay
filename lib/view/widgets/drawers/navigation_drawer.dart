@@ -109,7 +109,13 @@ class NavigationDrawer extends StatelessWidget {
           ListTile(
             title: Row(
               children: [
-                Text('Samsung watch app'),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Samsung watch app'),
+                    Text('Coming soon', style: Theme.of(context).textTheme.caption,),
+                  ],
+                ),
                 Spacer(),
                 Container(
                   height: 30,
