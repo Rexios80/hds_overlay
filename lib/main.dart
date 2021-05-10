@@ -30,10 +30,10 @@ void main() async {
     await firebase.init();
   }
 
-  runApp(MyApp());
+  runApp(HDS());
 }
 
-class MyApp extends StatelessWidget {
+class HDS extends StatelessWidget {
   final SettingsController settingsController = Get.find();
 
   @override

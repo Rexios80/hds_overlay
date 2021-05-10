@@ -7,18 +7,21 @@ import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:hds_overlay/services/connection/fcm_client.dart';
 import 'package:hds_overlay/services/connection/socket_client_stub.dart'
-    if (dart.library.js) 'package:hds_overlay/services/socket/socket_client.dart';
+    if (dart.library.js) 'package:hds_overlay/services/connection/socket_client.dart';
 import 'package:hds_overlay/services/connection/socket_server_stub.dart'
     if (dart.library.io) 'package:hds_overlay/services/connection/socket_server.dart';
 import 'package:tuple/tuple.dart';
 
 class ConnectionController extends GetxController {
-  final messages = Map<Tuple2<DataType, String>, DataMessage>().obs;
-  final logs = <LogMessage>[].obs;
+  final _messages = Map<Tuple2<DataType, String>, DataMessage>().obs;
+  final _logs = <LogMessage>[].obs;
+
+  RxMap<Tuple2<DataType, String>, DataMessage> get messages => _messages;
+
+  List<LogMessage> get logs => _logs;
 
   final SettingsController _settingsController = Get.find();
   ConnectionBase? _connection;
-
 
   void start() {
     if (_settingsController.settings.value.hdsCloud) {

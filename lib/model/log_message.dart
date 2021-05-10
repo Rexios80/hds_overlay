@@ -4,6 +4,7 @@ import 'package:hds_overlay/model/message.dart';
 enum LogLevel {
   info,
   good,
+  hdsCloud,
   data,
   warn,
   error,
@@ -16,6 +17,8 @@ extension LogLevelExtension on LogLevel {
         return Colors.white;
       case LogLevel.good:
         return Colors.green;
+      case LogLevel.hdsCloud:
+        return Colors.orange;
       case LogLevel.data:
         return Colors.blue;
       case LogLevel.warn:

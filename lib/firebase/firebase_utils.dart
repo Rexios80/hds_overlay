@@ -27,7 +27,6 @@ class FirebaseUtils {
   Future<void> _setUp() async {
     await _setUpAccount();
     await _setUpOverlay();
-    await _listenForMessages();
   }
 
   Future<void> _setUpAccount() async {
@@ -102,9 +101,5 @@ class FirebaseUtils {
         UserFields.overlays: FieldValue.arrayUnion([overlayDoc.reference]),
       }, SetOptions(merge: true));
     }
-  }
-
-  Future<void> _listenForMessages() async {
-    return _messaging.subscribeToTopic(_firebase.config.overlayId);
   }
 }
