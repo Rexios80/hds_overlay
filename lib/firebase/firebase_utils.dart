@@ -47,6 +47,7 @@ class FirebaseUtils {
           .get();
 
       if (!userDoc.exists) {
+        print('Create user doc');
         // Create a new user doc
         await userDoc.reference.set({
           UserFields.isSubscribed: false,
@@ -79,31 +80,36 @@ class FirebaseUtils {
   }
 
   Future<void> _createOverlayDoc(String fcmToken) async {
-    final overlayDoc = await _firestore
+    print('_createOverlayDoc(${_firebase.config.overlayId})');
+
+    final overlayDocRef = _firestore
         .collection(FirestorePaths.overlays)
-        .doc(_firebase.config.overlayId)
-        .get();
+        .doc(_firebase.config.overlayId);
 
-    if (overlayDoc.exists) {
-      // Another overlay exists with this id
-      _firebase.config.generateOverlayId();
-
-      // Try again
-      await _createOverlayDoc(fcmToken);
-    } else {
-      // Create the overlay doc
-      await overlayDoc.reference.set({
-        OverlayFields.fcmToken: fcmToken,
-        OverlayFields.uid: _auth.currentUser?.uid,
-      });
-
+    // Create the overlay doc
+    overlayDocRef.set({
+      OverlayFields.fcmToken: fcmToken,
+      OverlayFields.uid: _auth.currentUser?.uid,
+    }).then((value) {
+      // Success
+      print('Update user overlays');
       // Add the overlay reference to the user doc
-      await _firestore
+      _firestore
           .collection(FirestorePaths.users)
           .doc(_auth.currentUser?.uid)
           .set({
-        UserFields.overlays: FieldValue.arrayUnion([overlayDoc.reference]),
+        UserFields.overlays:
+            FieldValue.arrayUnion([_firebase.config.overlayId]),
       }, SetOptions(merge: true));
-    }
+    }).onError((error, stackTrace) {
+      // Epic fail
+      // An overlay with that ID must already exist
+      print(error);
+      print(stackTrace);
+
+      // So let's try again
+      _firebase.config.generateOverlayId();
+      _createOverlayDoc(fcmToken);
+    });
   }
 }

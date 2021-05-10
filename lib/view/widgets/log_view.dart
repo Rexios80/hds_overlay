@@ -20,7 +20,7 @@ class LogView extends StatelessWidget {
             itemCount: logs.length,
             itemBuilder: (context, index) {
               final log = logs[index];
-              return Text(
+              return SelectableText(
                 log.message,
                 style: TextStyle(color: log.level.color),
               );

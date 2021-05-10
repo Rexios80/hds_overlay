@@ -10,7 +10,11 @@ class SocketClient extends ConnectionBase {
   WebSocketChannel? _channel;
   Timer? _reconnectTimer;
 
+  bool _stopped = true;
+
   Future<WebSocketChannel> connect(String clientName, String ip) async {
+    if (_stopped) return Future.value();
+
     try {
       Uri uri;
       if (ip.startsWith('ws')) {
@@ -71,11 +75,13 @@ class SocketClient extends ConnectionBase {
     String clientName,
     List<String> serverIps,
   ) async {
+    _stopped = false;
     _channel = await connect(DataSource.browser, 'ws://$serverIp:$port');
   }
 
   @override
   Future<void> stop() {
+    _stopped = true;
     _reconnectTimer?.cancel();
     _channel?.sink.close();
     return Future.value();
