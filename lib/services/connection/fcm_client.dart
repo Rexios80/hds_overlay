@@ -6,8 +6,6 @@ import 'package:hds_overlay/model/log_message.dart';
 import 'connection_base.dart';
 
 class FcmClient extends ConnectionBase {
-  StreamSubscription? _fcmSubscription;
-
   @override
   Future<void> start(
     int port,
@@ -16,14 +14,13 @@ class FcmClient extends ConnectionBase {
     List<String> serverIps,
   ) {
     log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
-    _fcmSubscription = FirebaseMessaging.onMessage.listen((message) {
+    FirebaseMessaging.onMessage.listen((message) {
+      print('FCM message received');
       print(message.notification?.title);
     });
     return Future.value();
   }
 
   @override
-  Future<void> stop() async {
-    return _fcmSubscription?.cancel();
-  }
+  Future<void> stop() async {}
 }

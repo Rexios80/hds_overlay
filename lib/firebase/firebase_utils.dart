@@ -11,6 +11,8 @@ class FirebaseUtils {
   late final FirebaseAuth _auth;
   late final FirebaseFirestore _firestore;
 
+  late final String _fcmToken;
+
   late final FirebaseController _firebase;
 
   Future<void> init() async {
@@ -18,6 +20,12 @@ class FirebaseUtils {
     _messaging = FirebaseMessaging.instance;
     _auth = FirebaseAuth.instance;
     _firestore = FirebaseFirestore.instance;
+
+    // Must be called every time or messaging will not work on web
+    _fcmToken = await _messaging.getToken(
+            vapidKey:
+                "BO61mOhL_8RYP8ZWZrtocxjcIO4puNDzJWXx63kHyGhxpAxAgC_B4EOpTRFKtcyKdFbTdKUCrdq2wF7H-D6jsWY") ??
+        '';
 
     _setUp();
 
@@ -64,14 +72,10 @@ class FirebaseUtils {
       return;
     }
 
-    final String? fcmToken = await _messaging.getToken(
-        vapidKey:
-            "BO61mOhL_8RYP8ZWZrtocxjcIO4puNDzJWXx63kHyGhxpAxAgC_B4EOpTRFKtcyKdFbTdKUCrdq2wF7H-D6jsWY");
-
     // This should hopefully never happen
-    if (fcmToken == null || _auth.currentUser == null) return;
+    if (_fcmToken.isEmpty || _auth.currentUser == null) return;
 
-    await _createOverlayDoc(fcmToken);
+    await _createOverlayDoc(_fcmToken);
   }
 
   Future<void> _createOverlayDoc(String fcmToken) async {
