@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/widget_selector_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
-import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -14,7 +13,6 @@ import 'data/heart_rate_widget.dart';
 class WidgetSelector extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
   final WidgetSelectorController wsc = WidgetSelectorController();
-  final HiveUtils hiveUtils = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +75,7 @@ class WidgetSelector extends StatelessWidget {
                       SizedBox(height: 5),
                       InkWell(
                         onTap: () =>
-                            hiveUtils.addWidget(dataType, wsc.dataSource.value),
+                            wsc.addWidget(dataType, wsc.dataSource.value),
                         child: Provider.value(
                             value: Tuple2(dataType, wsc.dataSource.value),
                             builder: (context, _) {

@@ -16,14 +16,19 @@ import 'hive/hive_utils.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final hiveUtils = Get.put(HiveUtils());
-  await hiveUtils.init();
-
+  FirebaseUtils? firebase;
   if (kIsWeb || Platform.isMacOS) {
     // This will not work on other platforms
     // We must check kIsWeb first of Flutter web will complain
-    final firebaseUtils = Get.put(FirebaseUtils());
-    await firebaseUtils.init();
+    firebase = Get.put(FirebaseUtils());
+    await firebase?.init();
+  }
+
+  final hive = Get.put(HiveUtils());
+  await hive.init();
+
+  if (kIsWeb || Platform.isMacOS) {
+    await firebase?.setUp();
   }
 
   runApp(MyApp());

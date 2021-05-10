@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
+import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
+import 'package:hds_overlay/hive/firebase_config.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
@@ -20,10 +22,12 @@ class HiveUtils {
   final _boxSettings = 'settings';
   final _boxDataWidgetProperties = 'dataWidgetProperties';
   final _boxOverlayProfiles = 'overlayProfiles';
+  final _boxFirebaseConfig = 'firebaseConfig';
 
   late final Box<Settings> _settingsBox;
   late final Box<DataWidgetProperties> _dataWidgetPropertiesBox;
   late final Box<OverlayProfile> _overlayProfilesBox;
+  late final Box<FirebaseConfig> _firebaseConfigBox;
 
   late final ConnectionController _connectionController;
   late final DataWidgetController _dwc;
@@ -36,6 +40,7 @@ class HiveUtils {
     Hive.registerAdapter(DataWidgetPropertiesAdapter());
     Hive.registerAdapter(SettingsAdapter());
     Hive.registerAdapter(OverlayProfileAdapter());
+    Hive.registerAdapter(FirebaseConfigAdapter());
 
     // Delete the boxes to prevent crashes while developing
     // if (kDebugMode) {
@@ -49,9 +54,14 @@ class HiveUtils {
         await Hive.openBox<DataWidgetProperties>(_boxDataWidgetProperties);
     _overlayProfilesBox =
         await Hive.openBox<OverlayProfile>(_boxOverlayProfiles);
+    _firebaseConfigBox = await Hive.openBox<FirebaseConfig>(_boxFirebaseConfig);
 
     if (_settingsBox.values.isEmpty) {
       await _settingsBox.add(Settings());
+    }
+
+    if (_firebaseConfigBox.values.isEmpty) {
+      await _firebaseConfigBox.add(FirebaseConfig());
     }
 
     // Create default widget settings
@@ -70,6 +80,7 @@ class HiveUtils {
     }
 
     Get.put(SettingsController(_settingsBox.getAt(0)!.obs));
+    Get.put(FirebaseController(_firebaseConfigBox.getAt(0)!));
 
     _connectionController = Get.put(ConnectionController());
 

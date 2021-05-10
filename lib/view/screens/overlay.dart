@@ -7,7 +7,6 @@ import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/overlay_controller.dart';
 import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
-import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:tuple/tuple.dart';
@@ -23,7 +22,6 @@ class HDSOverlay extends StatelessWidget {
   final OverlayProfilesController overlayProfilesController = Get.find();
   final overlayController = Get.put(OverlayController());
   final ConnectionController connectionController = Get.find();
-  final HiveUtils hiveUtils = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +45,7 @@ class HDSOverlay extends StatelessWidget {
                 Icons.save,
                 color: Get.isDarkMode ? Colors.white : Colors.black,
               ),
-              onPressed: () => hiveUtils.saveProfile(profileName),
+              onPressed: () => overlayController.saveProfile(profileName),
             )
           ],
         ),
@@ -59,7 +57,7 @@ class HDSOverlay extends StatelessWidget {
       () => Visibility(
         visible: overlayProfilesController.profiles.isNotEmpty,
         child: PopupMenuButton<OverlayProfile>(
-          onSelected: hiveUtils.loadProfile,
+          onSelected: overlayController.loadProfile,
           icon: Icon(Icons.upload_file),
           itemBuilder: (BuildContext context) => overlayProfilesController
               .profiles
