@@ -21,7 +21,7 @@ abstract class ConnectionBase {
 
   Future<void> stop();
 
-  void handleMessage(WebSocketChannel client, dynamic message, String source) {
+  void handleMessage(dynamic message, String source) {
     print(message);
     final parts = message.split(':');
 

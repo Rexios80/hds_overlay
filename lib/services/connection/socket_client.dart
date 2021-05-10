@@ -43,7 +43,7 @@ class SocketClient extends ConnectionBase {
     // This channel is used for sending data on desktop and receiving data on web
     final channelSubscription = channel.stream.listen((message) {
       if (kIsWeb) {
-        handleMessage(channel, message, 'watch');
+        handleMessage(message, 'watch');
       }
     });
     channelSubscription.onDone(() {

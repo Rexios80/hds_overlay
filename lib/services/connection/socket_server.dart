@@ -89,7 +89,7 @@ class SocketServer extends ConnectionBase {
       return;
     }
 
-    handleMessage(client, message, source);
+    handleMessage(message, source);
 
     // Only broadcast messages from the watch
     if (source != DataSource.watch) return;
