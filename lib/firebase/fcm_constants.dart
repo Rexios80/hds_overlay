@@ -1,3 +1,5 @@
 class FcmData {
-  static final sensorData = 'sensorData';
+  static final clientName = 'clientName';
+  static final feature = 'feature';
+  static final value = 'value';
 }

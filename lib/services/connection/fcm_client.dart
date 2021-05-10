@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
+import 'package:hds_overlay/firebase/fcm_constants.dart';
 import 'package:hds_overlay/model/log_message.dart';
 
 import 'connection_base.dart';
 
 class FcmClient extends ConnectionBase {
-  final FirebaseController firebaseController = Get.find();
+  final FirebaseController _firebaseController = Get.find();
 
   @override
   Future<void> start(
@@ -20,12 +21,14 @@ class FcmClient extends ConnectionBase {
     log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
     log(
       LogLevel.hdsCloud,
-      'Overlay ID: ${firebaseController.config.overlayId}',
+      'Overlay ID: ${_firebaseController.config.overlayId}',
     );
     FirebaseMessaging.onMessage.listen((message) {
-      log(LogLevel.hdsCloud, 'FCM message received');
-      // handleMessage(data, DataSource.hdsCloud);
-      print(message.data['clientName']);
+      print('FCM message received');
+      final data = message.data;
+      final dataMessage = '${data[FcmData.feature]}:${data[FcmData.value]}';
+      final clientName = data[FcmData.clientName];
+      handleMessage(dataMessage, clientName);
     });
     FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
 
@@ -33,7 +36,7 @@ class FcmClient extends ConnectionBase {
   }
 
   Future<void> backgroundMessageHandler(RemoteMessage message) {
-    log(LogLevel.hdsCloud, 'FCM background message received');
+    print('FCM background message received');
     return Future.value();
   }
 
