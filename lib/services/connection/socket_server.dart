@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
-import 'package:hds_overlay/services/socket/socket_base.dart';
-import 'package:hds_overlay/services/socket/socket_client.dart';
+import 'package:hds_overlay/services/connection/connection_base.dart';
+import 'package:hds_overlay/services/connection/socket_client.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class SocketServer extends SocketBase {
+class SocketServer extends ConnectionBase {
   HttpServer? _server;
 
   final Map<WebSocketChannel, String> _clients = Map();
@@ -24,7 +24,7 @@ class SocketServer extends SocketBase {
           ipLog += '\n        - ${address.address}';
         });
       });
-      logStreamController.add(LogMessage(LogLevel.info, ipLog));
+      log(LogLevel.info, ipLog);
     });
   }
 
@@ -40,8 +40,8 @@ class SocketServer extends SocketBase {
         webSocket.stream
             .listen((message) => _handleMessage(webSocket, message))
             .onDone(() {
-          logStreamController.add(LogMessage(LogLevel.warn,
-              'Client disconnected: ${_clients[webSocket] ?? DataSource.unknown}'));
+          log(LogLevel.warn,
+              'Client disconnected: ${_clients[webSocket] ?? DataSource.unknown}');
           _clients.remove(webSocket);
         });
       },
@@ -50,10 +50,9 @@ class SocketServer extends SocketBase {
 
     try {
       _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
-      logStreamController.add(
-          LogMessage(LogLevel.info, 'Server started on port ${_server?.port}'));
+      log(LogLevel.info, 'Server started on port ${_server?.port}');
     } catch (error) {
-      logStreamController.add(LogMessage(LogLevel.error, error.toString()));
+      log(LogLevel.error, error.toString());
       return Future.error(error);
     }
 
@@ -65,7 +64,7 @@ class SocketServer extends SocketBase {
 
   @override
   Future<dynamic> stop() async {
-    logStreamController.add(LogMessage(LogLevel.warn, 'Server stopped'));
+    log(LogLevel.warn, 'Server stopped');
 
     // Close connection to all servers
     _servers.forEach((server) => server.sink.close());
@@ -80,8 +79,7 @@ class SocketServer extends SocketBase {
 
     if (parts[0] == 'clientName') {
       _clients[client] = parts[1];
-      logStreamController
-          .add(LogMessage(LogLevel.good, 'Client connected: ${parts[1]}'));
+      log(LogLevel.good, 'Client connected: ${parts[1]}');
       return;
     }
 

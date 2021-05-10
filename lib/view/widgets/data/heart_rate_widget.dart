@@ -135,7 +135,7 @@ class HeartRateImage extends HookWidget {
       player = AudioPlayer();
       player.setAudioSource(MacosAudioSource(soundBytes));
     } else {
-      player = await Player.create(id: 69420);
+      player = Player(id: 69420);
       await player.open(await Media.file(File(
           (await getApplicationDocumentsDirectory()).path +
               '\\Health Data Server\\beatSound.mp3')

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
-import 'package:hds_overlay/services/socket/socket_base.dart';
+import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class SocketClient extends SocketBase {
+class SocketClient extends ConnectionBase {
   WebSocketChannel? _channel;
   Timer? _reconnectTimer;
 
@@ -23,15 +23,13 @@ class SocketClient extends SocketBase {
       }
       final channel = WebSocketChannel.connect(uri);
       channel.sink.add('clientName:$clientName');
-      logStreamController
-          .add(LogMessage(LogLevel.good, 'Connecting to server: $ip'));
+      log(LogLevel.good, 'Connecting to server: $ip');
 
       _reconnectOnDisconnect(channel, clientName, ip);
       return Future.value(channel);
     } catch (e) {
       print(e.toString());
-      logStreamController
-          .add(LogMessage(LogLevel.error, 'Unable to connect to server: $ip'));
+      log(LogLevel.error, 'Unable to connect to server: $ip');
       Future.delayed(Duration(seconds: 10), () => connect(clientName, ip));
       return Future.error('Unable to connect to server: $ip');
     }
@@ -60,8 +58,7 @@ class SocketClient extends SocketBase {
   }
 
   void _reconnect(String clientName, String ip) {
-    logStreamController
-        .add(LogMessage(LogLevel.warn, 'Disconnected from server: $ip'));
+    log(LogLevel.warn, 'Disconnected from server: $ip');
     _channel?.sink.close();
     _reconnectTimer =
         Timer(Duration(seconds: 5), () => connect(clientName, ip));

@@ -1,7 +1,7 @@
-import 'package:hds_overlay/services/socket/socket_base.dart';
+import 'package:hds_overlay/services/connection/connection_base.dart';
 
 // This makes the compiler happy
-class SocketClient extends SocketBase {
+class SocketServer extends ConnectionBase {
   @override
   Future<void> start(
     int port,

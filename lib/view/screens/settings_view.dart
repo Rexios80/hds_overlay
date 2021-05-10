@@ -248,41 +248,61 @@ class SettingsView extends StatelessWidget {
             margin: EdgeInsets.only(left: 100, right: 100, top: 20, bottom: 20),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: ListView(
-              padding: EdgeInsets.all(20),
-              children: [
-                darkModeToggle,
-                Divider(),
-                backgroundColorPicker,
-                Divider(),
-                SettingsTextField(
-                    EditorType.port, settingsController.settings.value),
-                Visibility(
-                  visible: kIsWeb,
-                  child: Column(
-                    children: [
-                      Divider(),
-                      SettingsTextField(EditorType.serverIp,
-                          settingsController.settings.value),
-                    ],
+            child: Obx(
+              () => ListView(
+                padding: EdgeInsets.all(20),
+                children: [
+                  darkModeToggle,
+                  Visibility(
+                    visible: kIsWeb || Platform.isMacOS,
+                    child: Column(
+                      children: [
+                        Divider(),
+                        hdsCloudToggle,
+                      ],
+                    ),
                   ),
-                  replacement: Column(
-                    children: [
-                      Divider(),
-                      overlaySizeEditor,
-                      Divider(),
-                      SettingsTextField(EditorType.clientName,
-                          settingsController.settings.value),
-                      Divider(),
-                      serverIpsEditor,
-                    ],
+                  Divider(),
+                  backgroundColorPicker,
+                  Visibility(
+                    visible:
+                        kIsWeb && !settingsController.settings.value.hdsCloud,
+                    child: Column(
+                      children: [
+                        Divider(),
+                        SettingsTextField(EditorType.serverIp,
+                            settingsController.settings.value),
+                      ],
+                    ),
                   ),
-                ),
-                Visibility(
-                  visible: kIsWeb || Platform.isMacOS,
-                  child: hdsCloudToggle,
-                ),
-              ],
+                  Visibility(
+                    visible: !kIsWeb,
+                    child: Column(
+                      children: [
+                        Divider(),
+                        overlaySizeEditor,
+                        Visibility(
+                          visible: !settingsController.settings.value.hdsCloud,
+                          child: Column(
+                            children: [
+                              Divider(),
+                              SettingsTextField(
+                                EditorType.port,
+                                settingsController.settings.value,
+                              ),
+                              Divider(),
+                              SettingsTextField(EditorType.clientName,
+                                  settingsController.settings.value),
+                              Divider(),
+                              serverIpsEditor,
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },

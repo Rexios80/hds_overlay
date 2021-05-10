@@ -6,15 +6,15 @@ import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-abstract class SocketBase {
+abstract class ConnectionBase {
   // ignore: close_sinks
-  StreamController<LogMessage> logStreamController = StreamController();
-  StreamController<DataMessageBase> messageStreamController =
+  StreamController<LogMessage> _logStreamController = StreamController();
+  StreamController<DataMessageBase> _messageStreamController =
       StreamController();
 
-  Stream<LogMessage> get logStream => logStreamController.stream;
+  Stream<LogMessage> get logStream => _logStreamController.stream;
 
-  Stream<DataMessageBase> get messageStream => messageStreamController.stream;
+  Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
   Future<void> start(
       int port, String serverIp, String clientName, List<String> serverIps);
@@ -28,10 +28,14 @@ abstract class SocketBase {
     final dataType =
         EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
     if (dataType != DataType.unknown) {
-      messageStreamController.add(DataMessage(source, dataType, parts[1]));
+      _messageStreamController.add(DataMessage(source, dataType, parts[1]));
     } else {
-      messageStreamController
+      _messageStreamController
           .add(UnknownDataMessage(source, parts[0], parts[1]));
     }
+  }
+
+  void log(LogLevel level, String message) {
+    _logStreamController.add(LogMessage(level, message));
   }
 }
