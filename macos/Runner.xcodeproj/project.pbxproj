@@ -431,6 +431,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = Rexios.HealthDataServer;
 				PRODUCT_NAME = "Health Data Server";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -562,6 +563,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = Rexios.HealthDataServer;
 				PRODUCT_NAME = "Health Data Server";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -587,6 +589,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = Rexios.HealthDataServer;
 				PRODUCT_NAME = "Health Data Server";
 				PROVISIONING_PROFILE_SPECIFIER = "";
