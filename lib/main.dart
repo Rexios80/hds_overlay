@@ -19,12 +19,15 @@ void main() async {
   final hive = Get.put(HiveUtils());
   await hive.init();
 
-  if (kIsWeb || Platform.isMacOS) {
+  final SettingsController settingsController = Get.find();
+  final FirebaseUtils firebase = Get.put(FirebaseUtils());
+
+  // Only init Firebase if the user has it enabled
+  if ((kIsWeb || Platform.isMacOS) &&
+      settingsController.settings.value.hdsCloud) {
     // This will not work on other platforms
     // We must check kIsWeb first of Flutter web will complain
-    FirebaseUtils firebase = Get.put(FirebaseUtils());
     await firebase.init();
-    firebase.setUp();
   }
 
   runApp(MyApp());

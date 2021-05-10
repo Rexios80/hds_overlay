@@ -78,4 +78,13 @@ class Settings extends HiveObject {
   set serverIp(String value) {
     _serverIp = value;
   }
+
+  @HiveField(8)
+  bool? _hdsCloud;
+
+  bool get hdsCloud => _hdsCloud ?? false;
+
+  set hdsCloud(bool value) {
+    _hdsCloud = value;
+  }
 }

@@ -19,15 +19,17 @@ class FirebaseUtils {
     _auth = FirebaseAuth.instance;
     _firestore = FirebaseFirestore.instance;
 
+    _setUp();
+
     return Future.value();
   }
 
-  Future<void> setUp() async {
-    await setUpAccount();
-    await setUpOverlay();
+  Future<void> _setUp() async {
+    await _setUpAccount();
+    await _setUpOverlay();
   }
 
-  Future<void> setUpAccount() async {
+  Future<void> _setUpAccount() async {
     if (_auth.currentUser == null) {
       await _auth.signInAnonymously();
 
@@ -47,7 +49,7 @@ class FirebaseUtils {
     }
   }
 
-  Future<void> setUpOverlay() async {
+  Future<void> _setUpOverlay() async {
     _firebase = Get.find();
 
     final userDoc = await _firestore
@@ -69,10 +71,10 @@ class FirebaseUtils {
     // This should hopefully never happen
     if (fcmToken == null || _auth.currentUser == null) return;
 
-    await createOverlayDoc(fcmToken);
+    await _createOverlayDoc(fcmToken);
   }
 
-  Future<void> createOverlayDoc(String fcmToken) async {
+  Future<void> _createOverlayDoc(String fcmToken) async {
     final overlayDoc = await _firestore
         .collection(FirestorePaths.overlays)
         .doc(_firebase.config.overlayId)
@@ -83,7 +85,7 @@ class FirebaseUtils {
       _firebase.config.generateOverlayId();
 
       // Try again
-      await createOverlayDoc(fcmToken);
+      await _createOverlayDoc(fcmToken);
     } else {
       // Create the overlay doc
       await overlayDoc.reference.set({

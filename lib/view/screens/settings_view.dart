@@ -1,7 +1,10 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
+import 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/themes.dart';
@@ -10,6 +13,7 @@ import 'package:hds_overlay/view/widgets/settings_text_field.dart';
 
 class SettingsView extends StatelessWidget {
   final SettingsController settingsController = Get.find();
+  final FirebaseUtils firebase = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,8 @@ class SettingsView extends StatelessWidget {
                   value: settingsController.settings.value.darkMode,
                   onChanged: (value) {
                     settingsController.settings.value.darkMode = value;
-                    Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
+                    Get.changeThemeMode(
+                        value ? ThemeMode.dark : ThemeMode.light);
                     refreshAndSave();
                   },
                 ),
@@ -220,6 +225,24 @@ class SettingsView extends StatelessWidget {
             ],
           );
 
+          final hdsCloudToggle = Row(
+            children: [
+              Text('HDS Cloud'),
+              Spacer(),
+              Obx(
+                () => Switch(
+                    value: settingsController.settings.value.hdsCloud,
+                    onChanged: (value) {
+                      settingsController.settings.value.hdsCloud = value;
+                      if (value) {
+                        firebase.init();
+                      }
+                      refreshAndSave();
+                    }),
+              ),
+            ],
+          );
+
           return Card(
             elevation: 8,
             margin: EdgeInsets.only(left: 100, right: 100, top: 20, bottom: 20),
@@ -228,28 +251,38 @@ class SettingsView extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.all(20),
               children: [
-                    darkModeToggle,
-                    Divider(),
-                    backgroundColorPicker,
-                    Divider(),
-                    SettingsTextField(
-                        EditorType.port, settingsController.settings.value),
-                  ] +
-                  (kIsWeb
-                      ? [
-                          Divider(),
-                          SettingsTextField(EditorType.serverIp,
-                              settingsController.settings.value),
-                        ]
-                      : [
-                          Divider(),
-                          overlaySizeEditor,
-                          Divider(),
-                          SettingsTextField(EditorType.clientName,
-                              settingsController.settings.value),
-                          Divider(),
-                          serverIpsEditor,
-                        ]),
+                darkModeToggle,
+                Divider(),
+                backgroundColorPicker,
+                Divider(),
+                SettingsTextField(
+                    EditorType.port, settingsController.settings.value),
+                Visibility(
+                  visible: kIsWeb,
+                  child: Column(
+                    children: [
+                      Divider(),
+                      SettingsTextField(EditorType.serverIp,
+                          settingsController.settings.value),
+                    ],
+                  ),
+                  replacement: Column(
+                    children: [
+                      Divider(),
+                      overlaySizeEditor,
+                      Divider(),
+                      SettingsTextField(EditorType.clientName,
+                          settingsController.settings.value),
+                      Divider(),
+                      serverIpsEditor,
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: kIsWeb || Platform.isMacOS,
+                  child: hdsCloudToggle,
+                ),
+              ],
             ),
           );
         },
