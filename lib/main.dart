@@ -28,7 +28,7 @@ void main() async {
   await hive.init();
 
   if (kIsWeb || Platform.isMacOS) {
-    await firebase?.setUp();
+    firebase?.setUp();
   }
 
   runApp(MyApp());

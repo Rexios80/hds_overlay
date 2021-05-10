@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hds_overlay/firebase/firestore_constants.dart';
+import 'dart:math';
+
 import 'package:hive/hive.dart';
 
 part 'firebase_config.g.dart';
@@ -7,6 +7,13 @@ part 'firebase_config.g.dart';
 @HiveType(typeId: 6)
 class FirebaseConfig extends HiveObject {
   @HiveField(0)
-  String overlayId =
-      FirebaseFirestore.instance.collection(FirestorePaths.overlays).doc().id;
+  late String overlayId;
+
+  FirebaseConfig() {
+    overlayId = generateOverlayId();
+  }
+
+  String generateOverlayId() {
+    return Random.secure().nextInt(pow(2, 32).toInt()).toString();
+  }
 }

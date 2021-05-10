@@ -7,11 +7,11 @@ import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/firebase/firestore_constants.dart';
 
 class FirebaseUtils {
-  final FirebaseController _firebase = Get.find();
-
   late final FirebaseMessaging _messaging;
   late final FirebaseAuth _auth;
   late final FirebaseFirestore _firestore;
+
+  late final FirebaseController _firebase;
 
   Future<void> init() async {
     await Firebase.initializeApp();
@@ -38,25 +38,53 @@ class FirebaseUtils {
 
       if (!userDoc.exists) {
         // Create a new user doc
-        await userDoc.reference.set({});
+        await userDoc.reference.set({
+          UserFields.isSubscribed: false,
+          UserFields.lastSubCheck: Timestamp.now(),
+          UserFields.overlays: []
+        });
       }
     }
   }
 
   Future<void> setUpOverlay() async {
+    _firebase = Get.find();
+
+    final userDoc = await _firestore
+        .collection(FirestorePaths.users)
+        .doc(_auth.currentUser?.uid)
+        .get();
+
+    final List<dynamic> userOverlays = userDoc.data()?[UserFields.overlays];
+
+    if (userOverlays.contains(_firebase.config.overlayId)) {
+      // This overlay is already set up
+      return;
+    }
+
+    final String? fcmToken = await _messaging.getToken(
+        vapidKey:
+            "BO61mOhL_8RYP8ZWZrtocxjcIO4puNDzJWXx63kHyGhxpAxAgC_B4EOpTRFKtcyKdFbTdKUCrdq2wF7H-D6jsWY");
+
+    // This should hopefully never happen
+    if (fcmToken == null || _auth.currentUser == null) return;
+
+    await createOverlayDoc(fcmToken);
+  }
+
+  Future<void> createOverlayDoc(String fcmToken) async {
     final overlayDoc = await _firestore
         .collection(FirestorePaths.overlays)
         .doc(_firebase.config.overlayId)
         .get();
 
-    if (!overlayDoc.exists) {
-      final String? fcmToken = await _messaging.getToken(
-          vapidKey:
-              "BO61mOhL_8RYP8ZWZrtocxjcIO4puNDzJWXx63kHyGhxpAxAgC_B4EOpTRFKtcyKdFbTdKUCrdq2wF7H-D6jsWY");
+    if (overlayDoc.exists) {
+      // Another overlay exists with this id
+      _firebase.config.generateOverlayId();
 
-      // This should hopefully never happen
-      if (fcmToken == null || _auth.currentUser == null) return;
-
+      // Try again
+      await createOverlayDoc(fcmToken);
+    } else {
       // Create the overlay doc
       await overlayDoc.reference.set({
         OverlayFields.fcmToken: fcmToken,
