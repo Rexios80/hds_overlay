@@ -23,11 +23,17 @@ class FcmClient extends ConnectionBase {
       'Overlay ID: ${firebaseController.config.overlayId}',
     );
     FirebaseMessaging.onMessage.listen((message) {
-      print('FCM message received');
+      log(LogLevel.hdsCloud, 'FCM message received');
       // handleMessage(data, DataSource.hdsCloud);
       print(message.data['clientName']);
     });
+    FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
 
+    return Future.value();
+  }
+
+  Future<void> backgroundMessageHandler(RemoteMessage message) {
+    log(LogLevel.hdsCloud, 'FCM background message received');
     return Future.value();
   }
 
