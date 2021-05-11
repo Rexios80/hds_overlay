@@ -22,6 +22,7 @@ class FirebaseUtils {
     _firestore = FirebaseFirestore.instance;
 
     return _messaging.requestPermission().then((value) async {
+      print('User allowed permission for notifications');
       print('Requesting FCM token');
 
       // Must be called every time or messaging will not work on web

@@ -33,10 +33,7 @@
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="/__/firebase/8.5.0/firebase-app.js"></script>
 
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-       https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script src="/__/firebase/8.5.0/firebase-messaging.js"></script>
-  <script src="/__/firebase/8.5.0/firebase-firestore.js"></script>
+  <script src="/__/firebase/8.5.0/firebase-database.js"></script>
   <script src="/__/firebase/8.5.0/firebase-auth.js"></script>
 
   <!-- Initialize Firebase -->
@@ -47,9 +44,8 @@
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("/flutter_service_worker.js");
-        navigator.serviceWorker.register("/firebase-messaging-sw.js");
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
       });
     }
   </script>
