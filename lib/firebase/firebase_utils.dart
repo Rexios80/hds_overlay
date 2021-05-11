@@ -7,23 +7,20 @@ import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/firebase/firestore_constants.dart';
 
 class FirebaseUtils {
-  late final FirebaseMessaging _messaging;
-  late final FirebaseAuth _auth;
-  late final FirebaseFirestore _firestore;
+  late FirebaseMessaging _messaging;
+  late FirebaseAuth _auth;
+  late FirebaseFirestore _firestore;
 
-  late final String _fcmToken;
+  late String _fcmToken;
 
-  late final FirebaseController _firebase;
-
-  FirebaseUtils() {
-    Firebase.initializeApp().then((_) {
-      _messaging = FirebaseMessaging.instance;
-      _auth = FirebaseAuth.instance;
-      _firestore = FirebaseFirestore.instance;
-    });
-  }
+  late FirebaseController _firebase;
 
   Future<void> init() async {
+    await Firebase.initializeApp();
+    _messaging = FirebaseMessaging.instance;
+    _auth = FirebaseAuth.instance;
+    _firestore = FirebaseFirestore.instance;
+
     return _messaging.requestPermission().then((value) async {
       print('Requesting FCM token');
 
