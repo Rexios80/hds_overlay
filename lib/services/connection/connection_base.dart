@@ -53,18 +53,18 @@ abstract class ConnectionBase {
     if (heartRate < (hrMins[source] ?? 999)) {
       hrMins[source] = heartRate;
       _messageStreamController
-          .add(DataMessage(source, DataType.heartRateMin, heartRate));
+          .add(DataMessage(source, DataType.heartRateMin, heartRate.toString()));
     }
     if (heartRate > (hrMaxs[source] ?? 0)) {
       hrMaxs[source] = heartRate;
       _messageStreamController
-          .add(DataMessage(source, DataType.heartRateMax, heartRate));
+          .add(DataMessage(source, DataType.heartRateMax, heartRate.toString()));
     }
     hrs[source] = (hrs[source] ?? []) + [heartRate];
     final hrAvg =
         hrs[source]!.reduce((e1, e2) => e1 + e2) / hrs[source]!.length;
     _messageStreamController
-        .add(DataMessage(source, DataType.heartRateAverage, heartRate));
+        .add(DataMessage(source, DataType.heartRateAverage, heartRate.toString()));
   }
 
   void log(LogLevel level, String message) {

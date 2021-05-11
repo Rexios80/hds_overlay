@@ -35,7 +35,7 @@ class DataMessage extends DataMessageBase {
     return EnumToString.convertToString(dataType);
   }
 
-  DataMessage(String source, this.dataType, dynamic value)
+  DataMessage(String source, this.dataType, String value)
       : super(source, value);
 }
 
