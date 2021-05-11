@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: Routes.overlay, page: () => HDSOverlay()),
         GetPage(name: Routes.settings, page: () => SettingsView()),
+        GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicy()),
       ],
     );
   }
