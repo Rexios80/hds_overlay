@@ -27,6 +27,7 @@ class FirebaseUtils {
             vapidKey:
                 'BO61mOhL_8RYP8ZWZrtocxjcIO4puNDzJWXx63kHyGhxpAxAgC_B4EOpTRFKtcyKdFbTdKUCrdq2wF7H-D6jsWY') ??
         '';
+    print('FCM token received: $_fcmToken');
 
     _setUp();
 
@@ -43,6 +44,7 @@ class FirebaseUtils {
     if (_auth.currentUser == null) {
       print('Not authenticated, signing in');
       await _auth.signInAnonymously();
+      print('User is authenticated as: ${_auth.currentUser?.uid}');
 
       print('Creating user doc');
       final userDoc = await _firestore
