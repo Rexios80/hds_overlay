@@ -15,12 +15,15 @@ class FirebaseUtils {
 
   late final FirebaseController _firebase;
 
-  Future<void> init() async {
-    await Firebase.initializeApp();
-    _messaging = FirebaseMessaging.instance;
-    _auth = FirebaseAuth.instance;
-    _firestore = FirebaseFirestore.instance;
+  FirebaseUtils() {
+    Firebase.initializeApp().then((_) {
+      _messaging = FirebaseMessaging.instance;
+      _auth = FirebaseAuth.instance;
+      _firestore = FirebaseFirestore.instance;
+    });
+  }
 
+  Future<void> init() async {
     return _messaging.requestPermission().then((value) async {
       print('Requesting FCM token');
 
