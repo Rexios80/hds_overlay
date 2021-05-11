@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,8 +22,7 @@ void main() async {
   final FirebaseUtils firebase = Get.put(FirebaseUtils());
 
   // Only init Firebase if the user has it enabled
-  if ((kIsWeb || Platform.isMacOS) &&
-      settingsController.settings.value.hdsCloud) {
+  if (kIsWeb && settingsController.settings.value.hdsCloud) {
     // This will not work on other platforms
     // We must check kIsWeb first of Flutter web will complain
     await firebase.init();

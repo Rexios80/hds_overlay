@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -254,7 +252,7 @@ class SettingsView extends StatelessWidget {
                 children: [
                   darkModeToggle,
                   Visibility(
-                    visible: kIsWeb || Platform.isMacOS,
+                    visible: kIsWeb,
                     child: Column(
                       children: [
                         Divider(),
