@@ -21,17 +21,22 @@ class FirebaseUtils {
     _auth = FirebaseAuth.instance;
     _firestore = FirebaseFirestore.instance;
 
-    print('Requesting FCM token');
-    // Must be called every time or messaging will not work on web
-    _fcmToken = await _messaging.getToken(
-            vapidKey:
-                'BO61mOhL_8RYP8ZWZrtocxjcIO4puNDzJWXx63kHyGhxpAxAgC_B4EOpTRFKtcyKdFbTdKUCrdq2wF7H-D6jsWY') ??
-        '';
-    print('FCM token received: $_fcmToken');
+    return _messaging.requestPermission().then((value) async {
+      print('Requesting FCM token');
 
-    _setUp();
-
-    return Future.value();
+      // Must be called every time or messaging will not work on web
+      _fcmToken = await _messaging.getToken(
+              vapidKey:
+                  'BO61mOhL_8RYP8ZWZrtocxjcIO4puNDzJWXx63kHyGhxpAxAgC_B4EOpTRFKtcyKdFbTdKUCrdq2wF7H-D6jsWY') ??
+          '';
+      print('FCM token received: $_fcmToken');
+      _firebase.fcmRegistered.value = true;
+      _setUp();
+    }).onError((error, stackTrace) {
+      print(error);
+      print(stackTrace);
+      print('User denied permission for notifications');
+    });
   }
 
   Future<void> _setUp() async {
@@ -62,6 +67,8 @@ class FirebaseUtils {
           UserFields.overlays: []
         });
       }
+    } else {
+      print('User is already authenticated');
     }
   }
 
