@@ -13,7 +13,7 @@ class FirebaseUtils {
 
   late String _fcmToken;
 
-  late FirebaseController _firebase;
+  final FirebaseController _firebase = Get.find();
 
   Future<void> init() async {
     await Firebase.initializeApp();
@@ -73,8 +73,6 @@ class FirebaseUtils {
   }
 
   Future<void> _setUpOverlay() async {
-    _firebase = Get.find();
-
     print('Fetching user doc');
     final userDoc = await _firestore
         .collection(FirestorePaths.users)
