@@ -25,7 +25,7 @@ void main() async {
   if (kIsWeb && settingsController.settings.value.hdsCloud) {
     // This will not work on other platforms
     // We must check kIsWeb first of Flutter web will complain
-    await firebase.init();
+    await firebase.signIn();
   }
 
   runApp(HDS());

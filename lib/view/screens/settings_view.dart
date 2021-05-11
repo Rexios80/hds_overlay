@@ -233,7 +233,7 @@ class SettingsView extends StatelessWidget {
                     onChanged: (value) {
                       settingsController.settings.value.hdsCloud = value;
                       if (value) {
-                        firebase.init();
+                        firebase.signIn();
                       }
                       refreshAndSave();
                     }),
