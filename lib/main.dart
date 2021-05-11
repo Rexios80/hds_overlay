@@ -7,6 +7,7 @@ import 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/routes.dart';
 import 'package:hds_overlay/view/screens/overlay.dart';
+import 'package:hds_overlay/view/screens/privacy_policy.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
 import 'package:lifecycle/lifecycle.dart';
 
@@ -50,6 +51,7 @@ class HDS extends StatelessWidget {
       getPages: [
         GetPage(name: Routes.overlay, page: () => HDSOverlay()),
         GetPage(name: Routes.settings, page: () => SettingsView()),
+        GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicy()),
       ],
     );
   }
