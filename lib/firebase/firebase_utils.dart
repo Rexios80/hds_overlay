@@ -21,10 +21,11 @@ class FirebaseUtils {
     _auth = FirebaseAuth.instance;
     _firestore = FirebaseFirestore.instance;
 
+    print('Requesting FCM token');
     // Must be called every time or messaging will not work on web
     _fcmToken = await _messaging.getToken(
             vapidKey:
-                "BO61mOhL_8RYP8ZWZrtocxjcIO4puNDzJWXx63kHyGhxpAxAgC_B4EOpTRFKtcyKdFbTdKUCrdq2wF7H-D6jsWY") ??
+                'BO61mOhL_8RYP8ZWZrtocxjcIO4puNDzJWXx63kHyGhxpAxAgC_B4EOpTRFKtcyKdFbTdKUCrdq2wF7H-D6jsWY') ??
         '';
 
     _setUp();
@@ -38,15 +39,19 @@ class FirebaseUtils {
   }
 
   Future<void> _setUpAccount() async {
+    print('Starting Firebase authorization');
     if (_auth.currentUser == null) {
+      print('Not authenticated, signing in');
       await _auth.signInAnonymously();
 
+      print('Creating user doc');
       final userDoc = await _firestore
           .collection(FirestorePaths.users)
           .doc(_auth.currentUser?.uid)
           .get();
 
       if (!userDoc.exists) {
+        print('User doc does not exist');
         print('Create user doc');
         // Create a new user doc
         await userDoc.reference.set({
@@ -61,6 +66,7 @@ class FirebaseUtils {
   Future<void> _setUpOverlay() async {
     _firebase = Get.find();
 
+    print('Fetching user doc');
     final userDoc = await _firestore
         .collection(FirestorePaths.users)
         .doc(_auth.currentUser?.uid)
@@ -69,18 +75,22 @@ class FirebaseUtils {
     final List<dynamic> userOverlays = userDoc.data()?[UserFields.overlays];
 
     if (userOverlays.contains(_firebase.config.overlayId)) {
+      print('Overlay is already set up');
       // This overlay is already set up
       return;
     }
 
     // This should hopefully never happen
-    if (_fcmToken.isEmpty || _auth.currentUser == null) return;
+    if (_fcmToken.isEmpty || _auth.currentUser == null) {
+      print('FCM token is empty or user is not authenticated');
+      return;
+    }
 
     await _createOverlayDoc(_fcmToken);
   }
 
   Future<void> _createOverlayDoc(String fcmToken) async {
-    print('_createOverlayDoc(${_firebase.config.overlayId})');
+    print('Creating doc for overlay id ${_firebase.config.overlayId}');
 
     final overlayDocRef = _firestore
         .collection(FirestorePaths.overlays)
