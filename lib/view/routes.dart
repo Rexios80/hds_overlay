@@ -1,5 +1,5 @@
 class Routes {
   static final overlay = '/overlay';
   static final settings = '/settings';
-  static final privacyPolicy = '/privacyPolicy';
+  static final privacyPolicy = '/privacy_policy';
 }
