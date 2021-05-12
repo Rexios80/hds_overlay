@@ -35,7 +35,6 @@ class RtdClient extends ConnectionBase {
       print("HDS Cloud data received");
       source.snapshot.forEach((data) {
         final message = '${data.key}: ${data.val()}';
-        print(message);
         handleMessage(message, source.snapshot.key);
       });
     });
