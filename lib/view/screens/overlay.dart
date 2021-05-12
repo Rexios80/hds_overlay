@@ -7,6 +7,7 @@ import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/overlay_controller.dart';
 import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
+import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
@@ -24,6 +25,7 @@ class HDSOverlay extends StatelessWidget {
   final overlayController = Get.put(OverlayController());
   final ConnectionController connectionController = Get.find();
   final FirebaseController firebaseController = Get.find();
+  final SettingsController settingsController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +134,11 @@ class HDSOverlay extends StatelessWidget {
           children: [
             Text('Health Data Server'),
             Spacer(),
-            Obx(() => Text('HDS Cloud ID: ${firebaseController.config.value.overlayId}'))
+            Visibility(
+              visible: settingsController.settings.value.hdsCloud,
+              child: Obx(() => Text(
+                  'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
+            ),
           ],
         ),
         elevation: 0,
