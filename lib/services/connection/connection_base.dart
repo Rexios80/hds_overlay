@@ -21,7 +21,12 @@ abstract class ConnectionBase {
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
   Future<void> start(
-      int port, String serverIp, String clientName, List<String> serverIps);
+    int port,
+    String serverIp,
+    String clientName,
+    List<String> serverIps,
+    String overlayId,
+  );
 
   @mustCallSuper
   Future<void> stop() {
@@ -52,19 +57,19 @@ abstract class ConnectionBase {
   void calcMinMaxAvg(int heartRate, String source) {
     if (heartRate < (hrMins[source] ?? 999)) {
       hrMins[source] = heartRate;
-      _messageStreamController
-          .add(DataMessage(source, DataType.heartRateMin, heartRate.toString()));
+      _messageStreamController.add(
+          DataMessage(source, DataType.heartRateMin, heartRate.toString()));
     }
     if (heartRate > (hrMaxs[source] ?? 0)) {
       hrMaxs[source] = heartRate;
-      _messageStreamController
-          .add(DataMessage(source, DataType.heartRateMax, heartRate.toString()));
+      _messageStreamController.add(
+          DataMessage(source, DataType.heartRateMax, heartRate.toString()));
     }
     hrs[source] = (hrs[source] ?? []) + [heartRate];
     final hrAvg =
         hrs[source]!.reduce((e1, e2) => e1 + e2) / hrs[source]!.length;
-    _messageStreamController
-        .add(DataMessage(source, DataType.heartRateAverage, heartRate.toString()));
+    _messageStreamController.add(
+        DataMessage(source, DataType.heartRateAverage, heartRate.toString()));
   }
 
   void log(LogLevel level, String message) {

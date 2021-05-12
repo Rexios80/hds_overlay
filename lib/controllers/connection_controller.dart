@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
-import 'package:hds_overlay/services/connection/fcm_client.dart';
+import 'package:hds_overlay/services/connection/rtd_client.dart';
 import 'package:hds_overlay/services/connection/socket_client_stub.dart'
     if (dart.library.js) 'package:hds_overlay/services/connection/socket_client.dart';
 import 'package:hds_overlay/services/connection/socket_server_stub.dart'
@@ -21,11 +22,12 @@ class ConnectionController extends GetxController {
   List<LogMessage> get logs => _logs;
 
   final SettingsController _settingsController = Get.find();
+  final FirebaseController _firebaseController = Get.find();
   ConnectionBase? _connection;
 
   void start() {
     if (_settingsController.settings.value.hdsCloud) {
-      _connection = FcmClient();
+      _connection = RtdClient();
     } else if (kIsWeb) {
       _connection = SocketClient();
     } else {
@@ -68,6 +70,7 @@ class ConnectionController extends GetxController {
       _settingsController.settings.value.serverIp,
       _settingsController.settings.value.clientName,
       _settingsController.settings.value.serverIps,
+      _firebaseController.config.overlayId,
     );
   }
 

@@ -34,6 +34,7 @@ class SocketServer extends ConnectionBase {
     String serverIp,
     String clientName,
     List<String> serverIps,
+    String overlayId,
   ) async {
     var handler = webSocketHandler(
       (WebSocketChannel webSocket) {

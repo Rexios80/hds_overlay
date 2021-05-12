@@ -47,7 +47,7 @@ dependencies:
   # Firebase
   firebase_core: ^1.1.0
   firebase_auth: ^1.1.3
-  firebase_database: ^7.0.0-dev.2
+  firebase: ^9.0.1
 
   # Shelf
   shelf: ^1.1.0

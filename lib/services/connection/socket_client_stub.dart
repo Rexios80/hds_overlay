@@ -8,6 +8,7 @@ class SocketClient extends ConnectionBase {
     String serverIp,
     String clientName,
     List<String> serverIps,
+    String overlayId,
   ) {
     throw UnimplementedError();
   }

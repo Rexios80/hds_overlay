@@ -74,6 +74,7 @@ class SocketClient extends ConnectionBase {
     String serverIp,
     String clientName,
     List<String> serverIps,
+    String overlayId,
   ) async {
     _stopped = false;
     _channel = await connect(DataSource.browser, 'ws://$serverIp:$port');
