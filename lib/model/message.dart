@@ -32,7 +32,7 @@ class DataMessage extends DataMessageBase {
   final DataType dataType;
 
   String get name {
-    return EnumToString.convertToString(dataType);
+    return EnumToString.convertToString(dataType, camelCase: true);
   }
 
   DataMessage(String source, this.dataType, String value)
