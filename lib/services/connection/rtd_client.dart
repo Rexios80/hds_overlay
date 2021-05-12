@@ -38,6 +38,22 @@ class RtdClient extends ConnectionBase {
         handleMessage(message, source.snapshot.key);
       });
     });
+
+    _sub?.onError((error) {
+      print("HDS Cloud connection error");
+      print(error);
+      _sub?.cancel();
+      print("Reconnecting...");
+      start(port, serverIp, clientName, serverIps, overlayId);
+    });
+
+    _sub?.onDone(() {
+      print("HDS Cloud connection interruption");
+      _sub?.cancel();
+      print("Reconnecting...");
+      start(port, serverIp, clientName, serverIps, overlayId);
+    });
+
     return Future.value();
   }
 
