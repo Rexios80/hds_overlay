@@ -270,6 +270,11 @@ class SettingsView extends StatelessWidget {
                         Divider(),
                         SettingsTextField(EditorType.serverIp,
                             settingsController.settings.value),
+                        Divider(),
+                        SettingsTextField(
+                          EditorType.port,
+                          settingsController.settings.value,
+                        ),
                       ],
                     ),
                   ),
@@ -283,11 +288,6 @@ class SettingsView extends StatelessWidget {
                           visible: !settingsController.settings.value.hdsCloud,
                           child: Column(
                             children: [
-                              Divider(),
-                              SettingsTextField(
-                                EditorType.port,
-                                settingsController.settings.value,
-                              ),
                               Divider(),
                               SettingsTextField(EditorType.clientName,
                                   settingsController.settings.value),
