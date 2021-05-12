@@ -38,15 +38,6 @@ class RtdClient extends ConnectionBase {
         print(message);
         handleMessage(message, source.snapshot.key);
       });
-
-      // Remove the data for privacy
-      source.snapshot.ref.remove().then((_) {
-        print("HDS Cloud data removed for privacy");
-      }).onError((error, stackTrace) {
-        print(error);
-        print(stackTrace);
-        print("Unable to remove HDS Cloud data");
-      });
     });
     return Future.value();
   }
