@@ -16,7 +16,8 @@ class PrivacyPolicy extends StatelessWidget {
               padding: EdgeInsets.all(20),
               child: Text('The Health Data Server application reads the health data you provide consent for access. ' +
                   'It reads this health data from the built in sensors provided by the devices. ' +
-                  'This data is neither stored locally or in any cloud locations it may pass through.'),
+                  'This data is not stored locally, but it can be stored for up to 15 minutes in ' +
+                  'the HDS Cloud database to allow the overlay to read the data.'),
             ),
           ),
         ),

@@ -38,6 +38,9 @@ class RtdClient extends ConnectionBase {
         print(message);
         handleMessage(message, source.snapshot.key);
       });
+
+      // Remove the data for privacy
+      source.snapshot.ref.remove();
     });
     return Future.value();
   }
