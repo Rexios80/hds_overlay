@@ -43,6 +43,7 @@ class RtdClient extends ConnectionBase {
         _firebaseController.config.value.overlayId,
       );
     } else if (!uidSnapshot.exists()) {
+      print("Setting uid for Overlay ID");
       uidSnapshot.ref.set(_auth.currentUser?.uid).then((_) {
         print('UID set for Overlay ID');
       }).onError((error, stackTrace) {
@@ -50,6 +51,8 @@ class RtdClient extends ConnectionBase {
         print(stackTrace);
         print('Error setting uid for Overlay ID');
       });
+    } else {
+      print("Overlay is already set up");
     }
 
     _sub = _ref.child(overlayId).onChildChanged.listen((source) {
