@@ -10,10 +10,11 @@ class FirebaseConfig extends HiveObject {
   late String overlayId;
 
   FirebaseConfig() {
-    overlayId = generateOverlayId();
+    generateOverlayId();
   }
 
-  String generateOverlayId() {
-    return Random.secure().nextInt(pow(2, 32).toInt()).toString();
+  void generateOverlayId() {
+    overlayId = Random.secure().nextInt(pow(2, 32).toInt()).toString();
+    save();
   }
 }

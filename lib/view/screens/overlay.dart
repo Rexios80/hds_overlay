@@ -132,7 +132,7 @@ class HDSOverlay extends StatelessWidget {
           children: [
             Text('Health Data Server'),
             Spacer(),
-            Text('HDS Cloud ID: ${firebaseController.config.overlayId}')
+            Obx(() => Text('HDS Cloud ID: ${firebaseController.config.overlayId}'))
           ],
         ),
         elevation: 0,

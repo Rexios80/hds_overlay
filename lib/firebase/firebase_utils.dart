@@ -8,7 +8,6 @@ import 'package:hds_overlay/model/log_message.dart';
 class FirebaseUtils {
   final ConnectionController connectionController = Get.find();
 
-  // TODO: Convert to non-anonymous auth
   Future<void> signIn() async {
     await Firebase.initializeApp();
     final auth = FirebaseAuth.instance;

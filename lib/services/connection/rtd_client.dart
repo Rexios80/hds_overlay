@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase/firebase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/firebase/rtd_constants.dart';
@@ -9,8 +10,9 @@ import 'package:hds_overlay/model/log_message.dart';
 import 'connection_base.dart';
 
 class RtdClient extends ConnectionBase {
-  final FirebaseController _firebaseController = Get.find();
   late final DatabaseReference _ref;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseController _firebaseController = Get.find();
 
   StreamSubscription? _sub;
 
@@ -26,7 +28,30 @@ class RtdClient extends ConnectionBase {
     String clientName,
     List<String> serverIps,
     String overlayId,
-  ) {
+  ) async {
+    final uidSnapshot =
+        (await _ref.child(RtdConstants.uid).onValue.first).snapshot;
+    if (uidSnapshot.exists() && uidSnapshot.val() != _auth.currentUser?.uid) {
+      log(LogLevel.error, 'Overlay ID collision detected');
+      log(LogLevel.error, 'Regenerating Overlay ID...');
+      _firebaseController.regenerateOverlayId();
+      return start(
+        port,
+        serverIp,
+        clientName,
+        serverIps,
+        _firebaseController.config.overlayId,
+      );
+    } else if (!uidSnapshot.exists()) {
+      uidSnapshot.ref.set(_auth.currentUser?.uid).then((_) {
+        print('UID set for Overlay ID');
+      }).onError((error, stackTrace) {
+        print(error);
+        print(stackTrace);
+        print('Error setting uid for Overlay ID');
+      });
+    }
+
     _sub = _ref.child(overlayId).onChildChanged.listen((source) {
       print("HDS Cloud data received");
       source.snapshot.forEach((data) {
