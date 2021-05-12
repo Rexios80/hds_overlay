@@ -79,7 +79,7 @@ class HiveUtils {
     }
 
     Get.put(SettingsController(_settingsBox.getAt(0)!.obs));
-    Get.put(FirebaseController(_firebaseConfigBox.getAt(0)!));
+    Get.put(FirebaseController(_firebaseConfigBox.getAt(0)!.obs));
 
     _connectionController = Get.put(ConnectionController());
 

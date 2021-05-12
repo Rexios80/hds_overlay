@@ -84,7 +84,7 @@ class ConnectionController extends GetxController {
       _settingsController.settings.value.serverIp,
       _settingsController.settings.value.clientName,
       _settingsController.settings.value.serverIps,
-      _firebaseController.config.overlayId,
+      _firebaseController.config.value.overlayId,
     );
   }
 

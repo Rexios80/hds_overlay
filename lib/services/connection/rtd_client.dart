@@ -40,7 +40,7 @@ class RtdClient extends ConnectionBase {
         serverIp,
         clientName,
         serverIps,
-        _firebaseController.config.overlayId,
+        _firebaseController.config.value.overlayId,
       );
     } else if (!uidSnapshot.exists()) {
       uidSnapshot.ref.set(_auth.currentUser?.uid).then((_) {
