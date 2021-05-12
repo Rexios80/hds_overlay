@@ -29,11 +29,15 @@ class RtdClient extends ConnectionBase {
     List<String> serverIps,
     String overlayId,
   ) async {
+    print('Requesting uidSnapshot');
     final uidSnapshot =
-        (await _ref.child(RtdConstants.uid).onValue.first).snapshot;
+        (await _ref.child(overlayId).child(RtdConstants.uid).once('value'))
+            .snapshot;
+    print('uidSnapshot received');
+    print('HDS Cloud uid: ${uidSnapshot.val()}');
     if (uidSnapshot.exists() && uidSnapshot.val() != _auth.currentUser?.uid) {
-      log(LogLevel.error, 'Overlay ID collision detected');
-      log(LogLevel.error, 'Regenerating Overlay ID...');
+      log(LogLevel.error, 'HDS Cloud ID collision detected');
+      log(LogLevel.error, 'Regenerating HDS Cloud ID...');
       _firebaseController.regenerateOverlayId();
       return start(
         port,
@@ -43,16 +47,16 @@ class RtdClient extends ConnectionBase {
         _firebaseController.config.value.overlayId,
       );
     } else if (!uidSnapshot.exists()) {
-      print("Setting uid for Overlay ID");
-      uidSnapshot.ref.set(_auth.currentUser?.uid).then((_) {
-        print('UID set for Overlay ID');
+      log(LogLevel.hdsCloud, 'Registering with HDS Cloud...');
+      await uidSnapshot.ref.set(_auth.currentUser?.uid).then((_) {
+        log(LogLevel.hdsCloud, 'Registered with HDS Cloud');
       }).onError((error, stackTrace) {
         print(error);
         print(stackTrace);
-        print('Error setting uid for Overlay ID');
+        log(LogLevel.error, 'Unable to register with HDS Cloud');
       });
     } else {
-      print("Overlay is already set up");
+      log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
     }
 
     _sub = _ref.child(overlayId).onChildChanged.listen((source) {

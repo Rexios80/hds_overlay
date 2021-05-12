@@ -1,5 +1,5 @@
+import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
@@ -9,7 +9,25 @@ class FirebaseUtils {
   final ConnectionController connectionController = Get.find();
 
   Future<void> signIn() async {
-    await Firebase.initializeApp();
+    if (apps.isEmpty) {
+      final dbUrl;
+      if (kDebugMode) {
+        dbUrl = 'http://localhost:9000/?ns=health-data-server-default-rtdb';
+      } else {
+        dbUrl = 'https://health-data-server-default-rtdb.firebaseio.com';
+      }
+      initializeApp(
+        apiKey: "AIzaSyCbbBPvlWvmOvI6Is8PYXNpJ78N03AYcyU",
+        authDomain: "health-data-server.firebaseapp.com",
+        databaseURL: dbUrl,
+        projectId: "health-data-server",
+        storageBucket: "health-data-server.appspot.com",
+        messagingSenderId: "47929674141",
+        appId: "1:47929674141:web:0606fd3354256f51860774",
+        measurementId: "G-1V10QYSSHG",
+      );
+    }
+
     final auth = FirebaseAuth.instance;
     if (kDebugMode) {
       auth.useEmulator("http://localhost:9099");
@@ -23,8 +41,5 @@ class FirebaseUtils {
     } else {
       print('User is already authenticated');
     }
-
-    connectionController.logs
-        .add(LogMessage(LogLevel.hdsCloud, "Connected to HDS Cloud"));
   }
 }
