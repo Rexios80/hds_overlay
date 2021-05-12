@@ -11,4 +11,9 @@ class RtdClient extends ConnectionBase {
   ) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> stop() {
+    throw UnimplementedError();
+  }
 }

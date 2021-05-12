@@ -26,6 +26,10 @@ class ConnectionController extends GetxController {
   final FirebaseController _firebaseController = Get.find();
   ConnectionBase? _connection;
 
+  final hrMins = <String, int>{};
+  final hrMaxs = <String, int>{};
+  final hrs = <String, List<int>>{};
+
   void start() {
     if (_settingsController.settings.value.hdsCloud) {
       _connection = RtdClient();
@@ -45,8 +49,17 @@ class ConnectionController extends GetxController {
       }
 
       message as DataMessage;
-      messages[Tuple2(message.dataType, message.source)] = message;
+      final typeSource = Tuple2(message.dataType, message.source);
+      if (_messages[typeSource]?.value == message.value) {
+        // Don't process data if the value didn't change
+        return;
+      }
+      _messages[typeSource] = message;
       logs.add(LogMessage(LogLevel.data, log));
+
+      if (message.dataType == DataType.heartRate) {
+        calcMinMaxAvg(int.tryParse(message.value) ?? -1, message.source);
+      }
     });
 
     _connection?.logStream.listen((log) {
@@ -75,7 +88,28 @@ class ConnectionController extends GetxController {
     );
   }
 
+  void calcMinMaxAvg(int heartRate, String source) {
+    if (heartRate < (hrMins[source] ?? 999)) {
+      hrMins[source] = heartRate;
+      _messages[Tuple2(DataType.heartRateMin, source)] =
+          DataMessage(source, DataType.heartRateMin, heartRate.toString());
+    }
+    if (heartRate > (hrMaxs[source] ?? 0)) {
+      hrMaxs[source] = heartRate;
+      _messages[Tuple2(DataType.heartRateMax, source)] =
+          DataMessage(source, DataType.heartRateMax, heartRate.toString());
+    }
+    hrs[source] = (hrs[source] ?? []) + [heartRate];
+    final hrAvg =
+        hrs[source]!.reduce((e1, e2) => e1 + e2) / hrs[source]!.length;
+    _messages[Tuple2(DataType.heartRateAverage, source)] =
+        DataMessage(source, DataType.heartRateAverage, hrAvg.toString());
+  }
+
   void stop() {
+    hrMins.clear();
+    hrMaxs.clear();
+    hrs.clear();
     _connection?.stop();
   }
 }

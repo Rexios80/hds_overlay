@@ -82,7 +82,6 @@ class SocketClient extends ConnectionBase {
 
   @override
   Future<void> stop() {
-    super.stop();
     _stopped = true;
     _reconnectTimer?.cancel();
     _channel?.sink.close();

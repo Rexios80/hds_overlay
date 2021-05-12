@@ -65,7 +65,6 @@ class SocketServer extends ConnectionBase {
 
   @override
   Future<dynamic> stop() async {
-    super.stop();
     log(LogLevel.warn, 'Server stopped');
 
     // Close connection to all servers

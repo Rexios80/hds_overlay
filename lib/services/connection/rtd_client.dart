@@ -60,6 +60,5 @@ class RtdClient extends ConnectionBase {
   @override
   Future<void> stop() async {
     _sub?.cancel();
-    super.stop();
   }
 }
