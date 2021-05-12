@@ -32,7 +32,7 @@ class RtdClient extends ConnectionBase {
       'Overlay ID: ${_firebaseController.config.overlayId}',
     );
     _sub = _ref.child(overlayId).onChildChanged.listen((source) {
-      print("child changed");
+      print("HDS Cloud data received");
       source.snapshot.forEach((data) {
         final message = '${data.key}: ${data.val()}';
         print(message);
@@ -40,7 +40,13 @@ class RtdClient extends ConnectionBase {
       });
 
       // Remove the data for privacy
-      source.snapshot.ref.remove();
+      source.snapshot.ref.remove().then((_) {
+        print("HDS Cloud data removed for privacy");
+      }).onError((error, stackTrace) {
+        print(error);
+        print(stackTrace);
+        print("Unable to remove HDS Cloud data");
+      });
     });
     return Future.value();
   }
