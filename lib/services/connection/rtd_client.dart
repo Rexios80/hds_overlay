@@ -27,10 +27,6 @@ class RtdClient extends ConnectionBase {
     List<String> serverIps,
     String overlayId,
   ) {
-    log(
-      LogLevel.hdsCloud,
-      'Overlay ID: ${_firebaseController.config.overlayId}',
-    );
     _sub = _ref.child(overlayId).onChildChanged.listen((source) {
       print("HDS Cloud data received");
       source.snapshot.forEach((data) {
@@ -40,17 +36,17 @@ class RtdClient extends ConnectionBase {
     });
 
     _sub?.onError((error) {
-      print("HDS Cloud connection error");
+      log(LogLevel.hdsCloud, "HDS Cloud connection error");
       print(error);
       _sub?.cancel();
-      print("Reconnecting...");
+      log(LogLevel.hdsCloud, "Reconnecting...");
       start(port, serverIp, clientName, serverIps, overlayId);
     });
 
     _sub?.onDone(() {
-      print("HDS Cloud connection interruption");
+      log(LogLevel.hdsCloud, "HDS Cloud connection interruption");
       _sub?.cancel();
-      print("Reconnecting...");
+      log(LogLevel.hdsCloud, "Reconnecting...");
       start(port, serverIp, clientName, serverIps, overlayId);
     });
 
