@@ -51,7 +51,8 @@ class WidgetSelector extends StatelessWidget {
                           onChanged: (value) => wsc.dataSource.value = value,
                           style: TextStyle(color: Colors.white),
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(
+                            border: OutlineInputBorder(),
+                            enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
                             ),
                           ),
