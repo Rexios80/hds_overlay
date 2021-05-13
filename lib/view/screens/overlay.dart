@@ -131,16 +131,36 @@ class HDSOverlay extends StatelessWidget {
     return Scaffold(
       backgroundColor: kIsWeb ? Colors.transparent : null,
       appBar: AppBar(
-        title: Row(
-          children: [
-            Text('Health Data Server'),
-            Spacer(),
-            Visibility(
-              visible: settingsController.settings.value.hdsCloud,
-              child: Obx(() => Text(
-                  'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
-            ),
-          ],
+        title: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            if (constraints.maxWidth < 600) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Health Data Server'),
+                  Obx(() => Text(
+                        'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            ?.copyWith(color: Colors.white),
+                      )),
+                ],
+              );
+            } else {
+              return Row(
+                children: [
+                  Text('Health Data Server'),
+                  Spacer(),
+                  Visibility(
+                    visible: settingsController.settings.value.hdsCloud,
+                    child: Obx(() => Text(
+                        'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
+                  ),
+                ],
+              );
+            }
+          },
         ),
         elevation: 0,
         actions: actions,
