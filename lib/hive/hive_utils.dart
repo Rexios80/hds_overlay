@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
@@ -45,6 +46,9 @@ class HiveUtils {
     // Delete the boxes to prevent crashes while developing
     // if (kDebugMode) {
     //   print('Deleting hive boxes');
+    //   await Hive.deleteBoxFromDisk(_boxSettings);
+    //   await Hive.deleteBoxFromDisk(_boxDataWidgetProperties);
+    //   await Hive.deleteBoxFromDisk(_boxOverlayProfiles);
     //   await Hive.deleteBoxFromDisk(_boxFirebaseConfig);
     // }
 
