@@ -2,7 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
-import 'package:hds_overlay/firebase/firebase_utils.dart';
+import 'package:hds_overlay/firebase/firebase_utils_stub.dart'
+    if (dart.library.js) 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/themes.dart';
