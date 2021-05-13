@@ -17,6 +17,7 @@ import 'package:tuple/tuple.dart';
 class ConnectionController extends GetxController {
   final _messages = Map<Tuple2<DataType, String>, DataMessage>().obs;
   final _logs = <LogMessage>[].obs;
+  bool _started = false;
 
   RxMap<Tuple2<DataType, String>, DataMessage> get messages => _messages;
 
@@ -31,6 +32,9 @@ class ConnectionController extends GetxController {
   final hrs = <String, List<int>>{};
 
   void start() {
+    if (_started) return;
+    _started = true;
+
     if (_settingsController.settings.value.hdsCloud) {
       _connection = RtdClient();
     } else if (kIsWeb) {
@@ -107,7 +111,10 @@ class ConnectionController extends GetxController {
   }
 
   void stop() {
+    if (!_started) return;
+    _started = false;
     hrMins.clear();
+
     hrMaxs.clear();
     hrs.clear();
     _connection?.stop();
