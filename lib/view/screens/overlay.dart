@@ -11,6 +11,7 @@ import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
+import 'package:hds_overlay/utils/themes.dart';
 import 'package:tuple/tuple.dart';
 
 import '../widgets/data_view.dart';
@@ -156,12 +157,31 @@ class HDSOverlay extends StatelessWidget {
       },
       body: Container(
         color: kIsWeb ? Colors.transparent : Colors.black,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            DataView(),
-            LogView(),
-          ],
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            if (constraints.maxWidth < 750) {
+              return Column(
+                children: [
+                  DataView(),
+                  Container(
+                    height: constraints.maxHeight / 2,
+                    child: LogView(),
+                  ),
+                ],
+              );
+            } else {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DataView(),
+                  Container(
+                    width: Themes.sideBarWidth,
+                    child: LogView(),
+                  ),
+                ],
+              );
+            }
+          },
         ),
       ),
     );

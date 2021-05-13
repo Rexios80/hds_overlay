@@ -241,67 +241,78 @@ class SettingsView extends StatelessWidget {
             ],
           );
 
-          return Card(
-            elevation: 8,
-            margin: EdgeInsets.only(left: 100, right: 100, top: 20, bottom: 20),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: Obx(
-              () => ListView(
-                padding: EdgeInsets.all(20),
-                children: [
-                  darkModeToggle,
-                  Visibility(
-                    visible: kIsWeb,
-                    child: Column(
-                      children: [
-                        Divider(),
-                        hdsCloudToggle,
-                      ],
-                    ),
+          final settingsView = Obx(
+            () => ListView(
+              padding: EdgeInsets.all(20),
+              children: [
+                darkModeToggle,
+                Visibility(
+                  visible: kIsWeb,
+                  child: Column(
+                    children: [
+                      Divider(),
+                      hdsCloudToggle,
+                    ],
                   ),
-                  Divider(),
-                  backgroundColorPicker,
-                  Visibility(
-                    visible:
-                        kIsWeb && !settingsController.settings.value.hdsCloud,
-                    child: Column(
-                      children: [
-                        Divider(),
-                        SettingsTextField(EditorType.serverIp,
-                            settingsController.settings.value),
-                        Divider(),
-                        SettingsTextField(
-                          EditorType.port,
-                          settingsController.settings.value,
+                ),
+                Divider(),
+                backgroundColorPicker,
+                Visibility(
+                  visible:
+                      kIsWeb && !settingsController.settings.value.hdsCloud,
+                  child: Column(
+                    children: [
+                      Divider(),
+                      SettingsTextField(EditorType.serverIp,
+                          settingsController.settings.value),
+                      Divider(),
+                      SettingsTextField(
+                        EditorType.port,
+                        settingsController.settings.value,
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: !kIsWeb,
+                  child: Column(
+                    children: [
+                      Divider(),
+                      overlaySizeEditor,
+                      Visibility(
+                        visible: !settingsController.settings.value.hdsCloud,
+                        child: Column(
+                          children: [
+                            Divider(),
+                            SettingsTextField(EditorType.clientName,
+                                settingsController.settings.value),
+                            Divider(),
+                            serverIpsEditor,
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Visibility(
-                    visible: !kIsWeb,
-                    child: Column(
-                      children: [
-                        Divider(),
-                        overlaySizeEditor,
-                        Visibility(
-                          visible: !settingsController.settings.value.hdsCloud,
-                          child: Column(
-                            children: [
-                              Divider(),
-                              SettingsTextField(EditorType.clientName,
-                                  settingsController.settings.value),
-                              Divider(),
-                              serverIpsEditor,
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
+          );
+
+          return LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth < 600) {
+                return settingsView;
+              } else {
+                return Card(
+                  elevation: 8,
+                  margin: EdgeInsets.only(
+                      left: 100, right: 100, top: 20, bottom: 20),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: settingsView,
+                );
+              }
+            },
           );
         },
       ),
