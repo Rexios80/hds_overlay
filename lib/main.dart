@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/firebase/firebase_utils_stub.dart'
     if (dart.library.js) 'package:hds_overlay/firebase/firebase_utils.dart';
+import 'package:hds_overlay/utils/splash_fix_stub.dart'
+    if (dart.library.js) 'package:hds_overlay/utils/splash_fix.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/routes.dart';
 import 'package:hds_overlay/view/screens/overlay.dart';
@@ -37,6 +39,8 @@ class HDS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(milliseconds: 500), hideSplash);
+
     return GetMaterialApp(
       navigatorObservers: [defaultLifecycleObserver],
       title: 'Health Data Server',
