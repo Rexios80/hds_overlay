@@ -39,7 +39,7 @@ class HDS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 500), hideSplash);
+    hideSplash();
 
     return GetMaterialApp(
       navigatorObservers: [defaultLifecycleObserver],
