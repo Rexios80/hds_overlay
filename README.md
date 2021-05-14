@@ -10,8 +10,7 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 - [Windows app](https://www.microsoft.com/store/apps/9PHN402J6LVJ)
 - [Web app](https://hds.dev/)
   - You can use this as a browser source as long as one of the desktop apps is running on the same machine
-
-Binaries for macOS, linux, and Windows are also available on the [releases](https://github.com/Rexios80/Health-Data-Server-Overlay/releases) page.
+- [Windows/macOS/linux executables](https://github.com/Rexios80/Health-Data-Server-Overlay/releases)
 
 ### HDS in action
 
