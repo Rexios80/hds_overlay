@@ -1,6 +1,3 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:js' as js;
-
 import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -28,9 +25,6 @@ class FirebaseUtils {
         appId: "1:47929674141:web:0606fd3354256f51860774",
         measurementId: "G-1V10QYSSHG",
       );
-
-      print('firebaseAppCheck');
-      js.context.callMethod('firebaseAppCheck');
     }
 
     final auth = FirebaseAuth.instance;
