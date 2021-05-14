@@ -74,12 +74,6 @@ class HiveUtils {
           ..dataType = DataType.heartRate
           ..position = Tuple2Double(10, 10),
       );
-
-      await _dataWidgetPropertiesBox.add(
-        DataWidgetProperties()
-          ..dataType = DataType.calories
-          ..position = Tuple2Double(200, 10),
-      );
     }
 
     Get.put(SettingsController(_settingsBox.getAt(0)!.obs));
