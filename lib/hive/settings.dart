@@ -83,7 +83,7 @@ class Settings extends HiveObject {
   bool? _hdsCloud;
 
   // Enable HDS Cloud for web by default (not supported on desktop)
-  bool get hdsCloud => _hdsCloud ?? kIsWeb;
+  bool get hdsCloud => _hdsCloud ?? false;
 
   set hdsCloud(bool value) {
     _hdsCloud = value;
