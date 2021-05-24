@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,10 +41,15 @@ class HDS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAnalytics analytics = FirebaseAnalytics();
+
     hideSplash();
 
     return GetMaterialApp(
-      navigatorObservers: [defaultLifecycleObserver],
+      navigatorObservers: [
+        defaultLifecycleObserver,
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
       title: 'Health Data Server',
       theme: Themes.light,
       darkTheme: Themes.dark,
