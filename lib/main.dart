@@ -26,11 +26,12 @@ void main() async {
   final SettingsController settingsController = Get.find();
   final FirebaseUtils firebase = Get.put(FirebaseUtils());
 
+  firebase.init();
+
   // Only init Firebase if the user has it enabled
   if (kIsWeb && settingsController.settings.value.hdsCloud) {
     // This will not work on other platforms
     // We must check kIsWeb first of Flutter web will complain
-    firebase.init();
     await firebase.signIn();
   }
 
