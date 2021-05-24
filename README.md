@@ -19,14 +19,16 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 You can track development progress [here](https://trello.com/healthdataserver)
 
 ### Set up with HDS Cloud (Apple Watch and heart rate only for now)
-1. Download the watch app for your device
-2. Add hds.dev as a browser source in OBS
-3. Input the HDS Cloud ID from the browser source into the HDS Cloud config on the watch
-4. Right click on the browser source in the sources section and click "Interact"
-5. Go into the HDS settings and make the background color transparent
-6. Add a crop filter to the browser source
-7. Click the start button on the watch
-8. It should *just work*
+1. [Get the TestFlight version of the watch app](https://testflight.apple.com/join/hG4FkmZ4)
+ - It's not quite stable yet, but I wanted to get it out there in case it works for anyone.
+2. Download the watch app for your device
+3. Add hds.dev as a browser source in OBS
+4. Input the HDS Cloud ID from the browser source into the HDS Cloud config on the watch
+5. Right click on the browser source in the sources section and click "Interact"
+6. Go into the HDS settings and make the background color transparent
+7. Add a crop filter to the browser source
+8. Click the start button on the watch
+9. It should *just work*
 
 ### Set up the old fashioned way
 1. Download the watch app and the desktop app for your platform
