@@ -10,7 +10,7 @@ import 'package:hds_overlay/controllers/connection_controller.dart';
 class FirebaseUtils {
   final ConnectionController connectionController = Get.find();
 
-  Future<void> signIn() async {
+  void init() {
     if (apps.isEmpty) {
       final dbUrl;
       if (kDebugMode) {
@@ -32,7 +32,9 @@ class FirebaseUtils {
       print('firebaseAppCheck');
       js.context.callMethod('firebaseAppCheck');
     }
+  }
 
+  Future<void> signIn() async {
     final auth = FirebaseAuth.instance;
     if (kDebugMode) {
       auth.useEmulator("http://localhost:9099");

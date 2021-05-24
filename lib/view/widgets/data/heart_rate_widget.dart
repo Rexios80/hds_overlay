@@ -123,46 +123,47 @@ class HeartRateImage extends HookWidget {
     }
   }
 
+  // TODO: FIX THIS
   void playBeatSound(Rx<DataWidgetProperties> properties,
       HeartRateWidgetController hrwc) async {
-    if (properties.value.heartBeatSound == null) return;
+//     if (properties.value.heartBeatSound == null) return;
 
-    hrwc.sounding = true;
+//     hrwc.sounding = true;
 
-    final soundBytes = properties.value.heartBeatSound!;
-    final player;
-    if (Platform.isMacOS) {
-      player = AudioPlayer();
-      player.setAudioSource(MacosAudioSource(soundBytes));
-    } else {
-      player = Player(id: 69420);
-      await player.open(await Media.file(File(
-          (await getApplicationDocumentsDirectory()).path +
-              '\\Health Data Server\\beatSound.mp3')
-        ..writeAsBytesSync(soundBytes)));
-    }
-    while (hrwc.sounding && hrwc.visible) {
-      final startTime = DateTime.now().millisecondsSinceEpoch;
-      if (hrwc.currentHeartRate == 0) {
-        await Future.delayed(Duration(milliseconds: 100));
-        continue;
-      }
+//     final soundBytes = properties.value.heartBeatSound!;
+//     final player;
+//     if (Platform.isMacOS) {
+//       player = AudioPlayer();
+//       player.setAudioSource(MacosAudioSource(soundBytes));
+//     } else {
+//       player = Player(id: 69420);
+//       await player.open(await Media.file(File(
+//           (await getApplicationDocumentsDirectory()).path +
+//               '\\Health Data Server\\beatSound.mp3')
+//         ..writeAsBytesSync(soundBytes)));
+//     }
+//     while (hrwc.sounding && hrwc.visible) {
+//       final startTime = DateTime.now().millisecondsSinceEpoch;
+//       if (hrwc.currentHeartRate == 0) {
+//         await Future.delayed(Duration(milliseconds: 100));
+//         continue;
+//       }
 
-      final int millisecondsPerBeat =
-          (60 / hrwc.currentHeartRate * 1000).toInt();
+//       final int millisecondsPerBeat =
+//           (60 / hrwc.currentHeartRate * 1000).toInt();
 
-      if (Platform.isMacOS) {
-        player.seek(Duration(seconds: 0));
-        player.play();
-      } else {
-        await player.play();
-      }
+//       if (Platform.isMacOS) {
+//         player.seek(Duration(seconds: 0));
+//         player.play();
+//       } else {
+//         await player.play();
+//       }
 
-      final endTime = DateTime.now().millisecondsSinceEpoch;
-      final duration = endTime - startTime;
-      await Future.delayed(
-          Duration(milliseconds: millisecondsPerBeat - duration));
-    }
+//       final endTime = DateTime.now().millisecondsSinceEpoch;
+//       final duration = endTime - startTime;
+//       await Future.delayed(
+//           Duration(milliseconds: millisecondsPerBeat - duration));
+//     }
   }
 }
 

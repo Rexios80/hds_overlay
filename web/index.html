@@ -39,6 +39,21 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app-check.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
 
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyCbbBPvlWvmOvI6Is8PYXNpJ78N03AYcyU",
+      authDomain: "health-data-server.firebaseapp.com",
+      databaseURL: "https://health-data-server-default-rtdb.firebaseio.com",
+      projectId: "health-data-server",
+      storageBucket: "health-data-server.appspot.com",
+      messagingSenderId: "47929674141",
+      appId: "1:47929674141:web:0606fd3354256f51860774",
+      measurementId: "G-1V10QYSSHG"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
   <!-- Custom utils -->
   <script src="firebase_utils.js" defer></script>
   <script src="splash_fix.js" defer></script>
