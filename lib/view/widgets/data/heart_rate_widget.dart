@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:dart_vlc/dart_vlc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
@@ -10,10 +8,9 @@ import 'package:hds_overlay/controllers/heart_rate_widget_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/message.dart';
-import 'package:hds_overlay/utils/audio_source_macos.dart';
+import 'package:hds_overlay/utils/audio_source_web.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lifecycle/lifecycle.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -123,47 +120,34 @@ class HeartRateImage extends HookWidget {
     }
   }
 
-  // TODO: FIX THIS
   void playBeatSound(Rx<DataWidgetProperties> properties,
       HeartRateWidgetController hrwc) async {
-//     if (properties.value.heartBeatSound == null) return;
+    if (properties.value.heartBeatSound == null || !kIsWeb) return;
 
-//     hrwc.sounding = true;
+    hrwc.sounding = true;
 
-//     final soundBytes = properties.value.heartBeatSound!;
-//     final player;
-//     if (Platform.isMacOS) {
-//       player = AudioPlayer();
-//       player.setAudioSource(MacosAudioSource(soundBytes));
-//     } else {
-//       player = Player(id: 69420);
-//       await player.open(await Media.file(File(
-//           (await getApplicationDocumentsDirectory()).path +
-//               '\\Health Data Server\\beatSound.mp3')
-//         ..writeAsBytesSync(soundBytes)));
-//     }
-//     while (hrwc.sounding && hrwc.visible) {
-//       final startTime = DateTime.now().millisecondsSinceEpoch;
-//       if (hrwc.currentHeartRate == 0) {
-//         await Future.delayed(Duration(milliseconds: 100));
-//         continue;
-//       }
+    final soundBytes = properties.value.heartBeatSound!;
+    final player = AudioPlayer();
+      player.setAudioSource(WebAudioSource(soundBytes));
 
-//       final int millisecondsPerBeat =
-//           (60 / hrwc.currentHeartRate * 1000).toInt();
+    while (hrwc.sounding && hrwc.visible) {
+      final startTime = DateTime.now().millisecondsSinceEpoch;
+      if (hrwc.currentHeartRate == 0) {
+        await Future.delayed(Duration(milliseconds: 100));
+        continue;
+      }
 
-//       if (Platform.isMacOS) {
-//         player.seek(Duration(seconds: 0));
-//         player.play();
-//       } else {
-//         await player.play();
-//       }
+      final int millisecondsPerBeat =
+          (60 / hrwc.currentHeartRate * 1000).toInt();
 
-//       final endTime = DateTime.now().millisecondsSinceEpoch;
-//       final duration = endTime - startTime;
-//       await Future.delayed(
-//           Duration(milliseconds: millisecondsPerBeat - duration));
-//     }
+      player.seek(Duration(seconds: 0));
+      player.play();
+
+      final endTime = DateTime.now().millisecondsSinceEpoch;
+      final duration = endTime - startTime;
+      await Future.delayed(
+          Duration(milliseconds: millisecondsPerBeat - duration));
+    }
   }
 }
 

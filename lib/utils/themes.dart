@@ -13,5 +13,5 @@ class Themes {
   );
 
   static final sideBarWidth = 304.0;
-  static final titleBarHeight = 50.0; // TODO: Might need tweaking
+  static final titleBarHeight = 50.0;
 }

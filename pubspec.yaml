@@ -47,7 +47,6 @@ dependencies:
   file_selector_windows: ^0.0.2
 
   # Audio players
-  dart_vlc: ^0.0.5
   just_audio: ^0.7.4
 
 dev_dependencies:

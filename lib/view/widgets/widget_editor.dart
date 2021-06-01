@@ -2,6 +2,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
@@ -289,6 +290,28 @@ class WidgetEditor extends StatelessWidget {
       ),
     );
 
+    final heartBeatSoundEditor = TextButton(
+      onPressed: () {
+        if (properties.value.heartBeatSound == null) {
+          selectAudioFile(properties);
+        } else if (!wec.removeSoundTapped.value) {
+          wec.removeSoundTapped.value = true;
+          Future.delayed(Duration(seconds: 1))
+              .then((_) => wec.removeSoundTapped.value = false);
+        } else {
+          properties.value.heartBeatSound = null;
+          saveAndRefresh(properties);
+        }
+      },
+      child: Obx(
+        () => Text(properties.value.heartBeatSound == null
+            ? 'Select audio file'
+            : wec.removeSoundTapped.value
+                ? 'Really?'
+                : 'Remove audio file'),
+      ),
+    );
+
     final heartRateEditor = Visibility(
       visible: properties.value.dataType == DataType.heartRate,
       child: Column(
@@ -300,26 +323,9 @@ class WidgetEditor extends StatelessWidget {
           Text('Heart beat sound',
               style: Theme.of(context).textTheme.subtitle1),
           SizedBox(height: 10),
-          TextButton(
-            onPressed: () {
-              if (properties.value.heartBeatSound == null) {
-                selectAudioFile(properties);
-              } else if (!wec.removeSoundTapped.value) {
-                wec.removeSoundTapped.value = true;
-                Future.delayed(Duration(seconds: 1))
-                    .then((_) => wec.removeSoundTapped.value = false);
-              } else {
-                properties.value.heartBeatSound = null;
-                saveAndRefresh(properties);
-              }
-            },
-            child: Obx(
-              () => Text(properties.value.heartBeatSound == null
-                  ? 'Select audio file'
-                  : wec.removeSoundTapped.value
-                      ? 'Really?'
-                      : 'Remove audio file'),
-            ),
+          Visibility(
+            visible: kIsWeb,
+            child: heartBeatSoundEditor,
           ),
           SizedBox(height: 10),
           Divider(),
