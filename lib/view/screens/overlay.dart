@@ -64,6 +64,7 @@ class HDSOverlay extends StatelessWidget {
         child: PopupMenuButton<OverlayProfile>(
           onSelected: overlayController.loadProfile,
           icon: Icon(Icons.upload_file),
+          tooltip: 'Load profile',
           itemBuilder: (BuildContext context) => overlayProfilesController
               .profiles
               .map(
@@ -115,6 +116,7 @@ class HDSOverlay extends StatelessWidget {
       Builder(
         builder: (context) => PopupMenuButton(
           icon: Icon(Icons.save),
+          tooltip: 'Create profile',
           itemBuilder: (BuildContext context) => profileAdd,
         ),
       ),
@@ -122,6 +124,7 @@ class HDSOverlay extends StatelessWidget {
       Builder(
         builder: (context) => IconButton(
           icon: Icon(Icons.add),
+          tooltip: 'Add widget',
           iconSize: 30,
           onPressed: () => Scaffold.of(context).openEndDrawer(),
         ),
