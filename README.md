@@ -6,7 +6,7 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 - [Web app (for use as a browser source)](https://hds.dev/)
   - If you have an Apple Watch and just want heart rate (more HDS Cloud data is coming soon) all you need is this and the watch app
 - [Apple Watch/iOS/macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
-  - THE WATCHOS APP REQUIRES WATCHOS 6+. The App Store will let you purchase it even if your watch can't run watchOS 6+, so make sure before buying.
+  - THE WATCHOS APP REQUIRES WATCHOS 7+. The App Store will let you purchase it even if your watch can't run watchOS 7+, so make sure before buying.
 - [Samsung watch app [COMING SOON]]()
 - [Android watch app](https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter)
 - [Windows app](https://www.microsoft.com/store/apps/9PHN402J6LVJ)
@@ -19,14 +19,16 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 You can track development progress [here](https://trello.com/healthdataserver)
 
 ### Set up with HDS Cloud (Apple Watch and heart rate only for now)
-1. Download the watch app for your device
-2. Add hds.dev as a browser source in OBS
-3. Input the HDS Cloud ID from the browser source into the HDS Cloud config on the watch
-4. Right click on the browser source in the sources section and click "Interact"
-5. Go into the HDS settings and make the background color transparent
-6. Add a crop filter to the browser source
-7. Click the start button on the watch
-8. It should *just work*
+1. [Get the TestFlight version of the watch app](https://testflight.apple.com/join/hG4FkmZ4)
+ - It's not quite stable yet, but I wanted to get it out there in case it works for anyone.
+2. Download the watch app for your device
+3. Add hds.dev as a browser source in OBS
+4. Input the HDS Cloud ID from the browser source into the HDS Cloud config on the watch
+5. Right click on the browser source in the sources section and click "Interact"
+6. Go into the HDS settings and make the background color transparent
+7. Add a crop filter to the browser source
+8. Click the start button on the watch
+9. It should *just work*
 
 ### Set up the old fashioned way
 1. Download the watch app and the desktop app for your platform
