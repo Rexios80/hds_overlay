@@ -141,13 +141,18 @@ class HDSOverlay extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Health Data Server'),
-                  Obx(() => Text(
+                  Obx(
+                    () => Visibility(
+                      visible: settingsController.settings.value.hdsCloud,
+                      child: Text(
                         'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
                         style: Theme.of(context)
                             .textTheme
                             .caption
                             ?.copyWith(color: Colors.white),
-                      )),
+                      ),
+                    ),
+                  ),
                 ],
               );
             } else {
