@@ -15,7 +15,6 @@ class LogView extends StatelessWidget {
       child: Obx(
         () {
           final logs = connectionController.logs.reversed.toList();
-          print(logs);
           return ListView.builder(
             padding: EdgeInsets.all(10),
             itemCount: logs.length,
