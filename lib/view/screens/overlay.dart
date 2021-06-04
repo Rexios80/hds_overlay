@@ -12,6 +12,7 @@ import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/utils/themes.dart';
+import 'package:lifecycle/lifecycle.dart';
 import 'package:tuple/tuple.dart';
 
 import '../widgets/data_view.dart';
@@ -112,104 +113,115 @@ class HDSOverlay extends StatelessWidget {
       ),
     );
 
-    final actions = [
-      Builder(
-        builder: (context) => PopupMenuButton(
-          icon: Icon(Icons.save),
-          tooltip: 'Create profile',
-          itemBuilder: (BuildContext context) => profileAdd,
-        ),
-      ),
-      profileLoad,
-      Builder(
-        builder: (context) => IconButton(
-          icon: Icon(Icons.add),
-          tooltip: 'Add widget',
-          iconSize: 30,
-          onPressed: () => Scaffold.of(context).openEndDrawer(),
-        ),
-      ),
-    ];
+    final actions = kIsWeb
+        ? <Widget>[
+            Builder(
+              builder: (context) => PopupMenuButton(
+                icon: Icon(Icons.save),
+                tooltip: 'Create profile',
+                itemBuilder: (BuildContext context) => profileAdd,
+              ),
+            ),
+            profileLoad,
+            Builder(
+              builder: (context) => IconButton(
+                icon: Icon(Icons.add),
+                tooltip: 'Add widget',
+                iconSize: 30,
+                onPressed: () => Scaffold.of(context).openEndDrawer(),
+              ),
+            ),
+          ]
+        : <Widget>[];
 
-    return Scaffold(
-      backgroundColor: kIsWeb ? Colors.transparent : null,
-      appBar: AppBar(
-        title: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            if (constraints.maxWidth < 600) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Health Data Server'),
-                  Obx(
-                    () => Visibility(
-                      visible: settingsController.settings.value.hdsCloud,
-                      child: Text(
-                        'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            } else {
-              return Row(
-                children: [
-                  Text('Health Data Server'),
-                  Spacer(),
-                  Visibility(
-                    visible: settingsController.settings.value.hdsCloud,
-                    child: Obx(() => Text(
-                        'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
-                  ),
-                ],
-              );
-            }
-          },
-        ),
-        elevation: 0,
-        actions: actions,
-      ),
-      drawerScrimColor: Colors.transparent,
-      drawer: NavigationDrawer(),
-      endDrawer: EndDrawer(),
-      onEndDrawerChanged: (open) {
-        if (!open) {
-          // Reset the drawer when it is closed
-          endDrawerController.selectedDataTypeSource.value =
-              Tuple2(DataType.unknown, DataSource.watch);
+    return LifecycleWrapper(
+      onLifecycleEvent: (LifecycleEvent event) {
+        if (event == LifecycleEvent.push) {
+          connectionController.start();
+        } else if (event == LifecycleEvent.invisible) {
+          connectionController.stop();
         }
       },
-      body: Container(
-        color: kIsWeb ? Colors.transparent : Colors.black,
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            if (constraints.maxWidth < 750) {
-              return Column(
-                children: [
-                  DataView(),
-                  Container(
-                    height: constraints.maxHeight / 2,
-                    child: LogView(),
-                  ),
-                ],
-              );
-            } else {
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DataView(),
-                  Container(
-                    width: Themes.sideBarWidth,
-                    child: LogView(),
-                  ),
-                ],
-              );
-            }
-          },
+      child: Scaffold(
+        backgroundColor: kIsWeb ? Colors.transparent : null,
+        appBar: AppBar(
+          title: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth < 600) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Health Data Server'),
+                    Obx(
+                      () => Visibility(
+                        visible: settingsController.settings.value.hdsCloud,
+                        child: Text(
+                          'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              } else {
+                return Row(
+                  children: [
+                    Text('Health Data Server'),
+                    Spacer(),
+                    Visibility(
+                      visible: settingsController.settings.value.hdsCloud,
+                      child: Obx(() => Text(
+                          'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+          elevation: 0,
+          actions: actions,
+        ),
+        drawerScrimColor: Colors.transparent,
+        drawer: NavigationDrawer(),
+        endDrawer: kIsWeb ? EndDrawer() : null,
+        onEndDrawerChanged: (open) {
+          if (!open) {
+            // Reset the drawer when it is closed
+            endDrawerController.selectedDataTypeSource.value =
+                Tuple2(DataType.unknown, DataSource.watch);
+          }
+        },
+        body: Container(
+          color: kIsWeb ? Colors.transparent : Colors.black,
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth < 750 && kIsWeb) {
+                return Column(
+                  children: [
+                    DataView(),
+                    Container(
+                      height: constraints.maxHeight / 2,
+                      child: LogView(),
+                    ),
+                  ],
+                );
+              } else {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Visibility(
+                      visible: kIsWeb,
+                      child: DataView(),
+                    ),
+                    LogView(),
+                  ],
+                );
+              }
+            },
+          ),
         ),
       ),
     );

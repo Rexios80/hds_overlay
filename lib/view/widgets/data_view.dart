@@ -1,4 +1,3 @@
-import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +8,8 @@ import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
-import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/widgets/data/data_widget.dart';
 import 'package:hds_overlay/view/widgets/data/heart_rate_widget.dart';
-import 'package:lifecycle/lifecycle.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -24,20 +21,6 @@ class DataView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!kIsWeb) {
-      final width =
-          settingsController.settings.value.overlayWidth / Get.pixelRatio +
-              Themes.sideBarWidth;
-      final height =
-          settingsController.settings.value.overlayHeight / Get.pixelRatio +
-              kToolbarHeight +
-              Themes.titleBarHeight;
-
-      DesktopWindow.setWindowSize(Size(width, height));
-      DesktopWindow.setMaxWindowSize(Size(width, height));
-      DesktopWindow.setMinWindowSize(Size(width, height));
-    }
-
     // This needs to be in here or the Scaffold can't be found
     ever(endDrawerController.selectedDataTypeSource,
         (Tuple2<DataType, String> dataType) {
@@ -83,36 +66,27 @@ class DataView extends StatelessWidget {
       },
     );
 
-    return LifecycleWrapper(
-      onLifecycleEvent: (LifecycleEvent event) {
-        if (event == LifecycleEvent.push) {
-          connectionController.start();
-        } else if (event == LifecycleEvent.invisible) {
-          connectionController.stop();
-        }
-      },
-      child: Builder(builder: (context) {
-        if (kIsWeb) {
-          return Expanded(
-            child: Container(
-                color: Color(
-                  settingsController.settings.value.overlayBackgroundColor,
-                ),
-                child: dataWidgets),
-          );
-        } else {
-          return Obx(() => Container(
-                width: settingsController.settings.value.overlayWidth /
-                    Get.pixelRatio,
-                height: settingsController.settings.value.overlayHeight /
-                    Get.pixelRatio,
-                color: Color(
-                  settingsController.settings.value.overlayBackgroundColor,
-                ),
-                child: dataWidgets,
-              ));
-        }
-      }),
-    );
+    return Builder(builder: (context) {
+      if (kIsWeb) {
+        return Expanded(
+          child: Container(
+              color: Color(
+                settingsController.settings.value.overlayBackgroundColor,
+              ),
+              child: dataWidgets),
+        );
+      } else {
+        return Obx(() => Container(
+              width: settingsController.settings.value.overlayWidth /
+                  Get.pixelRatio,
+              height: settingsController.settings.value.overlayHeight /
+                  Get.pixelRatio,
+              color: Color(
+                settingsController.settings.value.overlayBackgroundColor,
+              ),
+              child: dataWidgets,
+            ));
+      }
+    });
   }
 }

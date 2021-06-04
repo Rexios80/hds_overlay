@@ -48,10 +48,14 @@ class HDS extends StatelessWidget {
     hideSplash();
 
     return GetMaterialApp(
-      navigatorObservers: [
-        defaultLifecycleObserver,
-        FirebaseAnalyticsObserver(analytics: analytics),
-      ],
+      navigatorObservers: kIsWeb
+          ? [
+              defaultLifecycleObserver,
+              FirebaseAnalyticsObserver(analytics: analytics),
+            ]
+          : [
+              defaultLifecycleObserver,
+            ],
       title: 'Health Data Server',
       theme: Themes.light,
       darkTheme: Themes.dark,
