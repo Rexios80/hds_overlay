@@ -128,7 +128,7 @@ class HeartRateImage extends HookWidget {
 
     final soundBytes = properties.value.heartBeatSound!;
     final player = AudioPlayer();
-      player.setAudioSource(WebAudioSource(soundBytes));
+    player.setAudioSource(WebAudioSource(soundBytes));
 
     while (hrwc.sounding && hrwc.visible) {
       final startTime = DateTime.now().millisecondsSinceEpoch;

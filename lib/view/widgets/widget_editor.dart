@@ -290,26 +290,33 @@ class WidgetEditor extends StatelessWidget {
       ),
     );
 
-    final heartBeatSoundEditor = TextButton(
-      onPressed: () {
-        if (properties.value.heartBeatSound == null) {
-          selectAudioFile(properties);
-        } else if (!wec.removeSoundTapped.value) {
-          wec.removeSoundTapped.value = true;
-          Future.delayed(Duration(seconds: 1))
-              .then((_) => wec.removeSoundTapped.value = false);
-        } else {
-          properties.value.heartBeatSound = null;
-          saveAndRefresh(properties);
-        }
-      },
-      child: Obx(
-        () => Text(properties.value.heartBeatSound == null
-            ? 'Select audio file'
-            : wec.removeSoundTapped.value
-                ? 'Really?'
-                : 'Remove audio file'),
-      ),
+    final heartBeatSoundEditor = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Heart beat sound', style: Theme.of(context).textTheme.subtitle1),
+        SizedBox(height: 10),
+        TextButton(
+          onPressed: () {
+            if (properties.value.heartBeatSound == null) {
+              selectAudioFile(properties);
+            } else if (!wec.removeSoundTapped.value) {
+              wec.removeSoundTapped.value = true;
+              Future.delayed(Duration(seconds: 1))
+                  .then((_) => wec.removeSoundTapped.value = false);
+            } else {
+              properties.value.heartBeatSound = null;
+              saveAndRefresh(properties);
+            }
+          },
+          child: Obx(
+            () => Text(properties.value.heartBeatSound == null
+                ? 'Select audio file'
+                : wec.removeSoundTapped.value
+                    ? 'Really?'
+                    : 'Remove audio file'),
+          ),
+        ),
+      ],
     );
 
     final heartRateEditor = Visibility(
@@ -319,9 +326,6 @@ class WidgetEditor extends StatelessWidget {
         children: [
           HeartRateRangeEditor(),
           Divider(),
-          SizedBox(height: 10),
-          Text('Heart beat sound',
-              style: Theme.of(context).textTheme.subtitle1),
           SizedBox(height: 10),
           Visibility(
             visible: kIsWeb,
