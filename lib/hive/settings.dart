@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:hds_overlay/model/data_source.dart';
-import 'package:hds_overlay/utils/colors.dart';
-import 'package:hds_overlay/utils/themes.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
@@ -10,8 +9,7 @@ part 'settings.g.dart';
 @HiveType(typeId: 1)
 class Settings extends HiveObject {
   static final defaultPort = 3476;
-  static final defaultOverlayBackgroundColor =
-      kIsWeb ? Themes.dark.backgroundColor.value : AppColors.chromaGreen.value;
+  static final defaultOverlayBackgroundColor = Colors.transparent.value;
   static final defaultDarkMode = false;
 
   @HiveField(0)
