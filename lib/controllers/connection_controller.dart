@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
@@ -15,6 +17,8 @@ import 'package:hds_overlay/services/connection/socket_server_stub.dart'
 import 'package:tuple/tuple.dart';
 
 class ConnectionController extends GetxController {
+  static const _dataClearInterval = 30000; // milliseconds
+
   final _messages = Map<Tuple2<DataType, String>, DataMessage>().obs;
   final _logs = <LogMessage>[].obs;
   bool _started = false;
@@ -30,6 +34,17 @@ class ConnectionController extends GetxController {
   final hrMins = <String, int>{};
   final hrMaxs = <String, int>{};
   final hrs = <String, List<int>>{};
+
+  ConnectionController() {
+    Timer.periodic(Duration(seconds: 5), (_) {
+      _messages.forEach((key, value) {
+        if (DateTime.now().millisecondsSinceEpoch - value.timestamp >
+            _dataClearInterval) {
+          _messages.remove(key);
+        }
+      });
+    });
+  }
 
   void start() {
     if (_started) return;
