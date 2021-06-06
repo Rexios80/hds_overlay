@@ -8,9 +8,10 @@ import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
+import 'package:hds_overlay/services/connection/cloud_socket_client_stub.dart'
+    if (dart.library.js) 'package:hds_overlay/services/connection/cloud_socket_client.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
-import 'package:hds_overlay/services/connection/socket_client_stub.dart'
-    if (dart.library.js) 'package:hds_overlay/services/connection/socket_client.dart';
+import 'package:hds_overlay/services/connection/socket_client.dart';
 import 'package:hds_overlay/services/connection/socket_server_stub.dart'
     if (dart.library.io) 'package:hds_overlay/services/connection/socket_server.dart';
 import 'package:tuple/tuple.dart';
