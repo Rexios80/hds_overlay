@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/firebase/firebase_utils.dart';
-import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/log_message.dart';
-import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -25,14 +22,22 @@ abstract class SocketClient extends ConnectionBase {
 
     try {
       _channel = WebSocketChannel.connect(await createUri());
-      _channel.sink.add('clientName:$clientName');
-      log(LogLevel.good, 'Connecting to server: $ip');
+      if (this is LocalSocketClient) {
+        _channel.sink.add('clientName:$clientName');
+        log(LogLevel.good, 'Connecting to server: $ip');
+      } else if (this is CloudSocketClient) {
+        log(LogLevel.good, 'Connecting to HDS Cloud');
+      }
 
       _reconnectOnDisconnect();
       return Future.value(_channel);
     } catch (e) {
       print(e.toString());
-      log(LogLevel.error, 'Unable to connect to server: $ip');
+      if (this is LocalSocketClient) {
+        log(LogLevel.error, 'Unable to connect to server: $ip');
+      } else if (this is CloudSocketClient) {
+        log(LogLevel.error, 'Unable to connect to HDS Cloud');
+      }
       Future.delayed(Duration(seconds: 10), () => _connect());
       return Future.error('Unable to connect to server: $ip');
     }
@@ -53,17 +58,21 @@ abstract class SocketClient extends ConnectionBase {
     });
     channelSubscription.onDone(() {
       channelSubscription.cancel();
-      _reconnect(clientName, ip);
+      _reconnect();
     });
     channelSubscription.onError((error) {
       print(error);
       channelSubscription.cancel();
-      _reconnect(clientName, ip);
+      _reconnect();
     });
   }
 
-  void _reconnect(String clientName, String ip) {
-    log(LogLevel.warn, 'Disconnected from server: $ip');
+  void _reconnect() {
+    if (this is LocalSocketClient) {
+      log(LogLevel.warn, 'Disconnected from server: $ip');
+    } else if (this is CloudSocketClient) {
+      log(LogLevel.warn, 'Disconnected from HDS Cloud');
+    }
     _channel.sink.close();
     _reconnectTimer = Timer(Duration(seconds: 5), () => _connect());
   }
