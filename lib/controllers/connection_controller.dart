@@ -17,7 +17,7 @@ import 'package:hds_overlay/services/connection/socket_server_stub.dart'
 import 'package:tuple/tuple.dart';
 
 class ConnectionController extends GetxController {
-  static const _dataClearInterval = 30000; // milliseconds
+  static const _dataClearInterval = 120000; // milliseconds
 
   final _messages = Map<Tuple2<DataType, String>, DataMessage>().obs;
   final _logs = <LogMessage>[].obs;
