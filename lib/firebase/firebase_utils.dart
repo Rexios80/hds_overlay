@@ -10,7 +10,6 @@ import 'package:hds_overlay/controllers/connection_controller.dart';
 class FirebaseUtils {
   final ConnectionController connectionController = Get.find();
   late final auth;
-  late final String token;
 
   void init() {
     if (apps.isEmpty) {
@@ -52,7 +51,7 @@ class FirebaseUtils {
     }
   }
 
-  Future<void> getIdToken() async {
-    token = await auth.currentUser?.getIdToken() ?? '';
+  Future<String> getIdToken() async {
+    return await auth.currentUser?.getIdToken() ?? '';
   }
 }

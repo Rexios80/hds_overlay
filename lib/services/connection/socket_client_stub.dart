@@ -18,3 +18,7 @@ class SocketClient extends ConnectionBase {
     throw UnimplementedError();
   }
 }
+
+class LocalSocketClient extends SocketClient {}
+
+class CloudSocketClient extends SocketClient {}

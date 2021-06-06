@@ -51,9 +51,9 @@ class ConnectionController extends GetxController {
     _started = true;
 
     if (_settingsController.settings.value.hdsCloud) {
-      _connection = RtdClient();
+      _connection = CloudSocketClient();
     } else if (kIsWeb) {
-      _connection = SocketClient();
+      _connection = LocalSocketClient();
     } else {
       _connection = SocketServer();
     }

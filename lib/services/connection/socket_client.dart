@@ -1,7 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+import 'package:hds_overlay/firebase/firebase_utils.dart';
+import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/log_message.dart';
+import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -9,6 +15,7 @@ abstract class SocketClient extends ConnectionBase {
   late WebSocketChannel _channel;
   String clientName = '';
   String ip = '';
+  String overlayId = '';
   Timer? _reconnectTimer;
 
   bool _stopped = true;
@@ -17,7 +24,7 @@ abstract class SocketClient extends ConnectionBase {
     if (_stopped) return Future.value();
 
     try {
-      _channel = WebSocketChannel.connect(createUri(ip));
+      _channel = WebSocketChannel.connect(await createUri());
       _channel.sink.add('clientName:$clientName');
       log(LogLevel.good, 'Connecting to server: $ip');
 
@@ -35,7 +42,7 @@ abstract class SocketClient extends ConnectionBase {
     _channel.sink.add(message);
   }
 
-  Uri createUri(String ip);
+  Future<Uri> createUri();
 
   void _reconnectOnDisconnect() async {
     // This channel is used for sending data on desktop and receiving data on web
@@ -57,7 +64,7 @@ abstract class SocketClient extends ConnectionBase {
 
   void _reconnect(String clientName, String ip) {
     log(LogLevel.warn, 'Disconnected from server: $ip');
-    _channel?.sink.close();
+    _channel.sink.close();
     _reconnectTimer = Timer(Duration(seconds: 5), () => _connect());
   }
 
@@ -71,6 +78,7 @@ abstract class SocketClient extends ConnectionBase {
   ) async {
     this.clientName = clientName;
     this.ip = ip;
+    this.overlayId = overlayId;
     _stopped = false;
     _channel = await _connect();
   }
@@ -86,7 +94,7 @@ abstract class SocketClient extends ConnectionBase {
 
 class LocalSocketClient extends SocketClient {
   @override
-  Uri createUri(String ip) {
+  Future<Uri> createUri() {
     Uri uri;
     if (ip.startsWith('ws')) {
       uri = Uri.parse('$ip');
@@ -96,6 +104,28 @@ class LocalSocketClient extends SocketClient {
     if (!uri.hasPort) {
       uri = Uri.parse('${uri.toString()}:3476');
     }
-    return uri;
+    return Future.value(uri);
+  }
+}
+
+class CloudSocketClient extends SocketClient {
+  final FirebaseUtils firebase = Get.find();
+
+  @override
+  Future<Uri> createUri() async {
+    final token = firebase.getIdToken();
+    return Uri.parse(
+      'wss://xcdj6tkeza.execute-api.us-east-1.amazonaws.com/dev?auth=$token&overlayId=$overlayId',
+    );
+  }
+
+  @override
+  void handleMessage(dynamic message, String source) {
+    final json = jsonDecode(message);
+
+    super.handleMessage(
+      '${json['dataType']}:${json['value']}',
+      json['clientName'],
+    );
   }
 }
