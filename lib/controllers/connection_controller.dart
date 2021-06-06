@@ -5,11 +5,10 @@ import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
+import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
-import 'package:hds_overlay/services/connection/rtd_client_stub.dart'
-    if (dart.library.js) 'package:hds_overlay/services/connection/rtd_client.dart';
 import 'package:hds_overlay/services/connection/socket_client_stub.dart'
     if (dart.library.js) 'package:hds_overlay/services/connection/socket_client.dart';
 import 'package:hds_overlay/services/connection/socket_server_stub.dart'
@@ -101,7 +100,9 @@ class ConnectionController extends GetxController {
     _connection?.start(
       _settingsController.settings.value.serverIp,
       _settingsController.settings.value.port,
-      _settingsController.settings.value.clientName,
+      kIsWeb
+          ? DataSource.browser
+          : _settingsController.settings.value.clientName,
       _settingsController.settings.value.serverIps,
       _firebaseController.config.value.overlayId,
     );
