@@ -52,6 +52,6 @@ class FirebaseUtils {
   }
 
   Future<String> getIdToken() async {
-    return await auth.currentUser?.getIdToken() ?? '';
+    return await auth.currentUser?.getIdToken(true) ?? '';
   }
 }

@@ -123,7 +123,7 @@ class CloudSocketClient extends SocketClient {
 
   @override
   Future<Uri> createUri() async {
-    final token = firebase.getIdToken();
+    final token = await firebase.getIdToken();
     return Uri.parse(
       'wss://xcdj6tkeza.execute-api.us-east-1.amazonaws.com/dev?auth=$token&overlayId=$overlayId',
     );
