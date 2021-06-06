@@ -9,6 +9,8 @@ import 'package:hds_overlay/controllers/connection_controller.dart';
 
 class FirebaseUtils {
   final ConnectionController connectionController = Get.find();
+  late final auth;
+  late final String token;
 
   void init() {
     if (apps.isEmpty) {
@@ -32,14 +34,14 @@ class FirebaseUtils {
       print('firebaseAppCheck');
       js.context.callMethod('firebaseAppCheck');
     }
-  }
 
-  Future<void> signIn() async {
-    final auth = FirebaseAuth.instance;
+    auth = FirebaseAuth.instance;
     if (kDebugMode) {
       auth.useEmulator("http://localhost:9099");
     }
+  }
 
+  Future<void> signIn() async {
     print('Starting Firebase authorization');
     if (auth.currentUser == null) {
       print('Not authenticated, signing in');
@@ -48,5 +50,9 @@ class FirebaseUtils {
     } else {
       print('User is already authenticated');
     }
+  }
+
+  Future<void> getIdToken() async {
+    token = await auth.currentUser?.getIdToken() ?? '';
   }
 }

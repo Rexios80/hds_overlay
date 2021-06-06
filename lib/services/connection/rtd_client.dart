@@ -23,8 +23,8 @@ class RtdClient extends ConnectionBase {
 
   @override
   Future<void> start(
+    String ip,
     int port,
-    String serverIp,
     String clientName,
     List<String> serverIps,
     String overlayId,
@@ -40,8 +40,8 @@ class RtdClient extends ConnectionBase {
       log(LogLevel.error, 'Regenerating HDS Cloud ID...');
       _firebaseController.regenerateOverlayId();
       return start(
+        ip,
         port,
-        serverIp,
         clientName,
         serverIps,
         _firebaseController.config.value.overlayId,
@@ -72,14 +72,14 @@ class RtdClient extends ConnectionBase {
       print(error);
       _sub?.cancel();
       log(LogLevel.hdsCloud, "Reconnecting...");
-      start(port, serverIp, clientName, serverIps, overlayId);
+      start(ip, port, clientName, serverIps, overlayId);
     });
 
     _sub?.onDone(() {
       log(LogLevel.hdsCloud, "HDS Cloud connection interruption");
       _sub?.cancel();
       log(LogLevel.hdsCloud, "Reconnecting...");
-      start(port, serverIp, clientName, serverIps, overlayId);
+      start(ip, port, clientName, serverIps, overlayId);
     });
 
     return Future.value();

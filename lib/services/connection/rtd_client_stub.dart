@@ -3,8 +3,8 @@ import 'connection_base.dart';
 class RtdClient extends ConnectionBase {
   @override
   Future<void> start(
+    String ip,
     int port,
-    String serverIp,
     String clientName,
     List<String> serverIps,
     String overlayId,

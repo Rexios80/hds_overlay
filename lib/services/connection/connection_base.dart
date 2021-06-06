@@ -16,8 +16,8 @@ abstract class ConnectionBase {
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
   Future<void> start(
+    String ip,
     int port,
-    String serverIp,
     String clientName,
     List<String> serverIps,
     String overlayId,

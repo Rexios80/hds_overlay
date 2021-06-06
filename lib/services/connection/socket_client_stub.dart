@@ -4,8 +4,8 @@ import 'package:hds_overlay/services/connection/connection_base.dart';
 class SocketClient extends ConnectionBase {
   @override
   Future<void> start(
+    String ip,
     int port,
-    String serverIp,
     String clientName,
     List<String> serverIps,
     String overlayId,

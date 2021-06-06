@@ -13,7 +13,7 @@ class SocketServer extends ConnectionBase {
   HttpServer? _server;
 
   final Map<WebSocketChannel, String> _clients = Map();
-  final List<WebSocketChannel> _servers = [];
+  final List<LocalSocketClient> _servers = [];
 
   SocketServer() {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
@@ -30,8 +30,8 @@ class SocketServer extends ConnectionBase {
 
   @override
   Future<void> start(
+    String ip,
     int port,
-    String serverIp,
     String clientName,
     List<String> serverIps,
     String overlayId,
@@ -58,7 +58,19 @@ class SocketServer extends ConnectionBase {
     }
 
     // Set up server connections
-    serverIps.forEach((ip) => SocketClient().connect(clientName, ip));
+    // TODO: Wtf is this shit
+    serverIps.forEach((ip) {
+      final client = LocalSocketClient();
+      final ipPort = ip.split(':');
+      client.start(
+        ipPort[0],
+        int.parse(ipPort[1]),
+        clientName,
+        serverIps,
+        overlayId,
+      );
+      _servers.add(client);
+    });
 
     return Future.value();
   }
@@ -68,7 +80,7 @@ class SocketServer extends ConnectionBase {
     log(LogLevel.warn, 'Server stopped');
 
     // Close connection to all servers
-    _servers.forEach((server) => server.sink.close());
+    _servers.forEach((server) => server.stop());
     _servers.clear();
 
     return _server?.close();
@@ -102,6 +114,6 @@ class SocketServer extends ConnectionBase {
     externalClients.forEach((e) => e.key.sink.add(message));
 
     // Broadcast to all servers
-    _servers.forEach((e) => e.sink.add(message));
+    _servers.forEach((e) => e.sendMessage(message));
   }
 }

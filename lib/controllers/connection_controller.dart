@@ -99,8 +99,8 @@ class ConnectionController extends GetxController {
       );
     }
     _connection?.start(
-      _settingsController.settings.value.port,
       _settingsController.settings.value.serverIp,
+      _settingsController.settings.value.port,
       _settingsController.settings.value.clientName,
       _settingsController.settings.value.serverIps,
       _firebaseController.config.value.overlayId,
