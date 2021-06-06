@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:hds_overlay/firebase/firebase_utils.dart';
+import 'package:hds_overlay/firebase/firebase_utils_stub.dart'
+    if (dart.library.js) 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
