@@ -27,7 +27,7 @@ abstract class SocketClient extends ConnectionBase {
         _channel.sink.add('clientName:$clientName');
         log(LogLevel.good, 'Connecting to server: $ip');
       } else if (this is CloudSocketClient) {
-        log(LogLevel.good, 'Connecting to HDS Cloud');
+        log(LogLevel.hdsCloud, 'Connecting to HDS Cloud');
       }
 
       _reconnectOnDisconnect();
@@ -37,7 +37,7 @@ abstract class SocketClient extends ConnectionBase {
       if (this is LocalSocketClient) {
         log(LogLevel.error, 'Unable to connect to server: $ip');
       } else if (this is CloudSocketClient) {
-        log(LogLevel.error, 'Unable to connect to HDS Cloud');
+        log(LogLevel.hdsCloud, 'Unable to connect to HDS Cloud');
       }
       Future.delayed(Duration(seconds: 10), () => _connect());
       return Future.error('Unable to connect to server: $ip');
@@ -72,7 +72,7 @@ abstract class SocketClient extends ConnectionBase {
     if (this is LocalSocketClient) {
       log(LogLevel.warn, 'Disconnected from server: $ip');
     } else if (this is CloudSocketClient) {
-      log(LogLevel.warn, 'Disconnected from HDS Cloud');
+      log(LogLevel.hdsCloud, 'Disconnected from HDS Cloud');
     }
     _channel.sink.close();
     _reconnectTimer = Timer(Duration(seconds: 5), () => _connect());
