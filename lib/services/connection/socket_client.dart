@@ -133,6 +133,7 @@ class CloudSocketClient extends SocketClient {
   void handleMessage(dynamic message, String source) {
     final json = jsonDecode(message);
 
+    print(json.toString());
     super.handleMessage(
       '${json['dataType']}:${json['value']}',
       json['clientName'],
