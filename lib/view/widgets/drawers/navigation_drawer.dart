@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -46,7 +47,7 @@ class NavigationDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Overlay'),
+            title: Text(kIsWeb ? 'Overlay' : 'Console'),
             onTap: () {
               if (Get.currentRoute != Routes.overlay) {
                 Get.toNamed(Routes.overlay);
@@ -94,55 +95,62 @@ class NavigationDrawer extends StatelessWidget {
             ),
             onTap: () => launch(_discordUrl),
           ),
-          ListTile(
-            title: Row(
+          Visibility(
+            visible: kIsWeb,
+            child: Column(
               children: [
-                Text('Apple Watch app'),
-                Spacer(),
-                Container(
-                  height: 30,
-                  child: Image.asset('assets/images/appStore.png'),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('Apple Watch app'),
+                      Spacer(),
+                      Container(
+                        height: 30,
+                        child: Image.asset('assets/images/appStore.png'),
+                      ),
+                    ],
+                  ),
+                  onTap: () => launch(_iosUrl),
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Text('Android watch app'),
+                      Spacer(),
+                      Container(
+                        height: 30,
+                        child: Image.asset('assets/images/googlePlay.png'),
+                      ),
+                    ],
+                  ),
+                  onTap: () => launch(_androidUrl),
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Samsung watch app'),
+                          Text(
+                            'Coming soon',
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Container(
+                        height: 30,
+                        child: Image.asset('assets/images/galaxyStore.png'),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    // launch(_samsungUrl);
+                  },
                 ),
               ],
             ),
-            onTap: () => launch(_iosUrl),
-          ),
-          ListTile(
-            title: Row(
-              children: [
-                Text('Android watch app'),
-                Spacer(),
-                Container(
-                  height: 30,
-                  child: Image.asset('assets/images/googlePlay.png'),
-                ),
-              ],
-            ),
-            onTap: () => launch(_androidUrl),
-          ),
-          ListTile(
-            title: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Samsung watch app'),
-                    Text(
-                      'Coming soon',
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  ],
-                ),
-                Spacer(),
-                Container(
-                  height: 30,
-                  child: Image.asset('assets/images/galaxyStore.png'),
-                ),
-              ],
-            ),
-            onTap: () {
-              // launch(_samsungUrl);
-            },
           ),
         ],
       ),
