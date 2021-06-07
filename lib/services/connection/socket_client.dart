@@ -24,9 +24,9 @@ abstract class SocketClient extends ConnectionBase {
       _channel = WebSocketChannel.connect(await createUri());
       if (this is LocalSocketClient) {
         _channel.sink.add('clientName:$clientName');
-        log(LogLevel.good, 'Connecting to server: $ip');
+        log(LogLevel.good, 'Connected to server: $ip');
       } else if (this is CloudSocketClient) {
-        log(LogLevel.hdsCloud, 'Connecting to HDS Cloud');
+        log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
       }
 
       _reconnectOnDisconnect();
