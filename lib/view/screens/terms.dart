@@ -6,7 +6,7 @@ class Terms extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Privacy Policy'),
+        title: Text('Terms of Use'),
       ),
       body: Center(
         child: Card(
