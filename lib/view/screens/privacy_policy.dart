@@ -10,8 +10,7 @@ class PrivacyPolicy extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          width: 500,
-          height: 300,
+          constraints: BoxConstraints(maxWidth: 500),
           child: Card(
             child: Padding(
               padding: EdgeInsets.all(20),
