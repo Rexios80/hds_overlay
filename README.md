@@ -25,7 +25,7 @@ You can track development progress [here](https://trello.com/healthdataserver)
 4. Hold alt (Windows) or opt (macOS) and drag the edges of the browser source to crop it
 5. Click the start button on the watch
 6. It should *just work*™
-7. To edit the overlay configuration right click on the browser source and click `Interact`
+7. To edit the overlay configuration right click on the browser source in the sources list and click `Interact`
 
 ### Set up the old fashioned way
 1. Download the watch app and the desktop app for your platform
