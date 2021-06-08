@@ -1,1 +1,3 @@
-The Health Data Server application collects the health data you agree to upon the initial start of the applicaiton. It collects this health data from the built in sensors provided on the watch. This data is not stored locally. This data is only sent to the IP addresses you specify within the application.
+The Health Data Server application reads the health data you provide consent for access.
+It reads this health data from the built in sensors provided by the devices.
+This data is never stored locally or externally.
