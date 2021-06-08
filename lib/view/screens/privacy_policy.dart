@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class PrivacyPolicy extends StatelessWidget {
   @override
@@ -14,10 +15,9 @@ class PrivacyPolicy extends StatelessWidget {
           child: Card(
             child: Padding(
               padding: EdgeInsets.all(20),
-              child: Text(
-                'The Health Data Server application reads the health data you provide consent for access. ' +
-                    'It reads this health data from the built in sensors provided by the devices. ' +
-                    'This data is never stored locally or externally.',
+              child: FutureBuilder(
+                future: rootBundle.loadString('assets/strings/privacy_policy'),
+                builder: (context, snap) => Text(snap.data as String),
               ),
             ),
           ),

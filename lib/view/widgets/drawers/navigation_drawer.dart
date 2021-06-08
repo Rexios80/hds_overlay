@@ -46,114 +46,97 @@ class NavigationDrawer extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            title: Text(kIsWeb ? 'Overlay' : 'Console'),
-            onTap: () {
-              if (Get.currentRoute != Routes.overlay) {
-                Get.toNamed(Routes.overlay);
-              } else {
-                Get.back();
-              }
-            },
+          routeItem(
+            Text(kIsWeb ? 'Overlay' : 'Console'),
+            Routes.overlay,
           ),
-          ListTile(
-            title: Text('Settings'),
-            onTap: () {
-              if (Get.currentRoute != Routes.settings) {
-                Get.toNamed(Routes.settings);
-              } else {
-                Get.back();
-              }
-            },
+          routeItem(
+            Text('Settings'),
+            Routes.settings,
           ),
           Divider(),
-          ListTile(
-            title: Row(
-              children: [
-                Text('Setup instructions'),
-                Spacer(),
-                Container(
-                  height: 30,
-                  child: Image.asset(Get.isDarkMode
-                      ? 'assets/images/githubDark.png'
-                      : 'assets/images/githubLight.png'),
-                ),
-              ],
-            ),
-            onTap: () => launch(_githubUrl),
+          urlItem(
+            Text('Setup instructions'),
+            Get.isDarkMode
+                ? 'assets/images/githubDark.png'
+                : 'assets/images/githubLight.png',
+            _githubUrl,
           ),
-          ListTile(
-            title: Row(
-              children: [
-                Text('Discord server'),
-                Spacer(),
-                Container(
-                  height: 30,
-                  child: Image.asset('assets/images/discord.png'),
-                ),
-              ],
-            ),
-            onTap: () => launch(_discordUrl),
+          urlItem(
+            Text('Discord server'),
+            'assets/images/discord.png',
+            _discordUrl,
           ),
           Visibility(
             visible: kIsWeb,
             child: Column(
               children: [
-                ListTile(
-                  title: Row(
-                    children: [
-                      Text('Apple Watch app'),
-                      Spacer(),
-                      Container(
-                        height: 30,
-                        child: Image.asset('assets/images/appStore.png'),
-                      ),
-                    ],
-                  ),
-                  onTap: () => launch(_iosUrl),
+                urlItem(
+                  Text('Apple Watch app'),
+                  'assets/images/appStore.png',
+                  _iosUrl,
                 ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Text('Android watch app'),
-                      Spacer(),
-                      Container(
-                        height: 30,
-                        child: Image.asset('assets/images/googlePlay.png'),
-                      ),
-                    ],
-                  ),
-                  onTap: () => launch(_androidUrl),
+                urlItem(
+                  Text('Android watch app'),
+                  'assets/images/googlePlay.png',
+                  _androidUrl,
                 ),
-                ListTile(
-                  title: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Samsung watch app'),
-                          Text(
-                            'Coming soon',
-                            style: Theme.of(context).textTheme.caption,
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      Container(
-                        height: 30,
-                        child: Image.asset('assets/images/galaxyStore.png'),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    // launch(_samsungUrl);
-                  },
-                ),
+                urlItem(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Samsung watch app'),
+                        Text(
+                          'Coming soon',
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ],
+                    ),
+                    'assets/images/galaxyStore.png',
+                    ''),
               ],
             ),
           ),
+          Divider(),
+          routeItem(
+            Text('Privacy Policy'),
+            Routes.privacyPolicy,
+          ),
+          routeItem(
+            Text('Terms of Use'),
+            Routes.terms,
+          ),
         ],
       ),
+    );
+  }
+
+  Widget urlItem(Widget label, String imageAsset, String url) {
+    return ListTile(
+      title: Row(
+        children: [
+          label,
+          Spacer(),
+          Container(
+            height: 30,
+            child: Image.asset(imageAsset),
+          ),
+        ],
+      ),
+      onTap: () => launch(url),
+    );
+  }
+
+  Widget routeItem(Widget label, String route) {
+    return ListTile(
+      title: label,
+      onTap: () {
+        if (Get.currentRoute != route) {
+          Get.toNamed(route);
+        } else {
+          Get.back();
+        }
+      },
     );
   }
 }

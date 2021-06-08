@@ -61,6 +61,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/strings/
     - pubspec.yaml
   fonts:
     - family: Monaco

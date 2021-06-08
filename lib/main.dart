@@ -12,6 +12,7 @@ import 'package:hds_overlay/view/routes.dart';
 import 'package:hds_overlay/view/screens/overlay.dart';
 import 'package:hds_overlay/view/screens/privacy_policy.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
+import 'package:hds_overlay/view/screens/terms.dart';
 import 'package:lifecycle/lifecycle.dart';
 
 import 'controllers/settings_controller.dart';
@@ -67,6 +68,7 @@ class HDS extends StatelessWidget {
         GetPage(name: Routes.overlay, page: () => HDSOverlay()),
         GetPage(name: Routes.settings, page: () => SettingsView()),
         GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicy()),
+        GetPage(name: Routes.terms, page: () => Terms()),
       ],
     );
   }
