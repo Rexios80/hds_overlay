@@ -18,17 +18,14 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 
 You can track development progress [here](https://trello.com/healthdataserver)
 
-### Set up with HDS Cloud (Apple Watch and heart rate only for now)
-1. [Get the TestFlight version of the watch app](https://testflight.apple.com/join/hG4FkmZ4)
- - It's not quite stable yet, but I wanted to get it out there in case it works for anyone.
-2. Download the watch app for your device
-3. Add hds.dev as a browser source in OBS
-4. Input the HDS Cloud ID from the browser source into the HDS Cloud config on the watch
-5. Right click on the browser source in the sources section and click "Interact"
-6. Go into the HDS settings and make the background color transparent
-7. Add a crop filter to the browser source
-8. Click the start button on the watch
-9. It should *just work*
+### Set up with HDS Cloud (Apple Watch only for now)
+1. Download the watch app for your device
+2. Add hds.dev as a browser source in OBS
+3. Input the HDS Cloud ID from the browser source into the overlay ids section on the watch
+4. Hold alt (Windows) or opt (macOS) and drag the edges of the browser source to crop it
+5. Click the start button on the watch
+6. It should *just work*™
+7. To edit the overlay configuration right click on the browser source in the sources list and click `Interact`
 
 ### Set up the old fashioned way
 1. Download the watch app and the desktop app for your platform
@@ -36,14 +33,15 @@ You can track development progress [here](https://trello.com/healthdataserver)
     - ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/firewall-dialog.png)
 3. Add hds.dev as a browser source in OBS
 4. Right click on the browser source in the sources section and click "Interact"
-5. Go into the settings and make the background color transparent and disable HDS Cloud
-6. Make sure the watch and device running the overlay application are on the same network. If the watch is connected to a phone, you just need to make sure the phone is connected to the same network.
-7. Disable HDS Cloud in the settings on the watch
-8. Type the IP address of the machine running the overlay application
+5. Go into the settings and disable HDS Cloud
+6. Hold alt (Windows) or opt (macOS) and drag the edges of the browser source to crop it
+7. Make sure the watch and device running the overlay application are on the same network. If the watch is connected to a phone, you just need to make sure the phone is connected to the same network.
+8. Disable HDS Cloud in the settings on the watch
+9. Type the IP address of the machine running the overlay application
    - The overlay application will list possible IP addresses of your machine on startup. If none of those work, you may have to find the IP address manually.
    - If you need help finding the IP address of your machine, read [this](https://www.tp-link.com/us/support/faq/838/). It probably looks something like this: `192.168.xxx.xxx`
    - If you want to send data to an external server, you will need to input the full websocket URL ex: `ws://hostname:port/other/stuff`
-9. Click the start button on the watch
+10. Click the start button on the watch
 
 ### If you have problems
 Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) before asking for help
