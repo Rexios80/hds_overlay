@@ -36,6 +36,16 @@ class DataWidgetBase extends StatelessWidget {
             text,
           ],
         );
+      } else if (properties.value.vertical) {
+        return Column(
+          children: [
+            Visibility(
+              visible: properties.value.showImage,
+              child: image,
+            ),
+            text
+          ],
+        );
       } else {
         return Row(
           children: [
@@ -47,7 +57,7 @@ class DataWidgetBase extends StatelessWidget {
           ],
         );
       }
-    });
+    },);
   }
 }
 

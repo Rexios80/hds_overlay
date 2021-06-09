@@ -120,22 +120,47 @@ class WidgetEditor extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 5),
-        WidgetEditorTextField(EditorType.imageSize, properties),
-        SizedBox(height: 5),
         Obx(
           () => Visibility(
-            visible: properties.value.dataType.isAnimated(),
-            child: Row(
+            visible: properties.value.showImage,
+            child: Column(
               children: [
-                Text('Animate'),
-                Spacer(),
-                Switch(
-                  value: properties.value.animated,
-                  onChanged: (value) {
-                    properties.value.animated = value;
-                    saveAndRefresh(properties);
-                  },
+                SizedBox(height: 5),
+                WidgetEditorTextField(EditorType.imageSize, properties),
+                SizedBox(height: 5),
+                Obx(
+                  () => Visibility(
+                    visible: properties.value.dataType.isAnimated(),
+                    child: Row(
+                      children: [
+                        Text('Animate'),
+                        Spacer(),
+                        Switch(
+                          value: properties.value.animated,
+                          onChanged: (value) {
+                            properties.value.animated = value;
+                            saveAndRefresh(properties);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    Text('Vertical'),
+                    Spacer(),
+                    Obx(
+                      () => Switch(
+                        value: properties.value.vertical,
+                        onChanged: (enabled) {
+                          properties.value.vertical = enabled;
+                          saveAndRefresh(properties);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

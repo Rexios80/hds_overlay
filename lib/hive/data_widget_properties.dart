@@ -78,28 +78,19 @@ class DataWidgetProperties extends HiveObject {
   bool? _textInsideImage = false;
 
   bool get textInsideImage => _textInsideImage ?? false;
-
-  set textInsideImage(bool value) {
-    _textInsideImage = value;
-  }
+  set textInsideImage(bool value) => _textInsideImage = value;
 
   @HiveField(22)
   String? _dataSource;
 
   String get dataSource => _dataSource ?? DataSource.watch;
-
-  set dataSource(String value) {
-    _dataSource = value;
-  }
+  set dataSource(String value) => _dataSource = value;
 
   @HiveField(23)
   double? _scaleFactor;
 
   double get scaleFactor => _scaleFactor ?? 1;
-
-  set scaleFactor(double value) {
-    _scaleFactor = value;
-  }
+  set scaleFactor(double value) => _scaleFactor = value;
 
   @HiveField(24)
   String? _fontWeight;
@@ -112,9 +103,13 @@ class DataWidgetProperties extends HiveObject {
     )[_fontWeight ?? FontWeight.normal.toString()];
   }
 
-  set fontWeight(FontWeight value) {
-    _fontWeight = value.toString();
-  }
+  set fontWeight(FontWeight value) => _fontWeight = value.toString();
+
+  @HiveField(25)
+  bool? _vertical;
+
+  bool get vertical => _vertical ?? false;
+  set vertical(bool value) => _vertical = value;
 
   DataWidgetProperties();
 
