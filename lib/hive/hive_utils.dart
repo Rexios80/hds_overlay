@@ -125,9 +125,6 @@ class HiveUtils {
             .map((e) => DataWidgetProperties.copy(e.value))
             .toList(),
     );
-
-    _connectionController.logs
-        .add(LogMessage(LogLevel.good, 'Profile saved: $profileName'));
   }
 
   void loadProfile(OverlayProfile profile) async {
@@ -136,8 +133,5 @@ class HiveUtils {
     // We have to copy the objects or they get edited unintentionally
     await _dataWidgetPropertiesBox.addAll(
         profile.widgetProperties.map((e) => DataWidgetProperties.copy(e)));
-
-    _connectionController.logs
-        .add(LogMessage(LogLevel.good, 'Profile loaded: ${profile.name}'));
   }
 }

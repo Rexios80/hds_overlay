@@ -143,6 +143,7 @@ class DataWidgetProperties extends HiveObject {
     this._fontWeight = original._fontWeight;
   }
 
+  // Apparently json only supports Map<String, dynamic>
   Map<String, dynamic> toJson() => {
         'dataType': EnumToString.convertToString(dataType),
         'showImage': showImage,
@@ -163,7 +164,11 @@ class DataWidgetProperties extends HiveObject {
         'unitFontSize': unitFontSize,
         'decimals': decimals,
         'animated': animated,
-        'heartRateRanges': heartRateRanges,
+        'heartRateRanges': Map<String, dynamic>.fromIterable(
+          heartRateRanges.entries,
+          key: (e) => e.key.toString(),
+          value: (e) => e.value,
+        ),
         'heartBeatSound': heartBeatSound,
         'textInsideImage': _textInsideImage,
         'dataSource': _dataSource,
@@ -181,7 +186,7 @@ class DataWidgetProperties extends HiveObject {
         textColor = json['textColor'],
         textPaddingLeft = json['textPaddingLeft'],
         font = json['font'],
-        position = json['position'],
+        position = Tuple2Double.fromJson(json['position']),
         unit = json['unit'],
         style = json['style'],
         textShadow = json['textShadow'],
@@ -192,7 +197,11 @@ class DataWidgetProperties extends HiveObject {
         unitFontSize = json['unitFontSize'],
         decimals = json['decimals'],
         animated = json['animated'],
-        heartRateRanges = json['heartRateRanges'],
+        heartRateRanges = Map.fromIterable(
+          (json['heartRateRanges'] as Map<String, dynamic>).entries,
+          key: (e) => int.parse(e.key),
+          value: (e) => e.value as int,
+        ),
         heartBeatSound = json['heartBeatSound'],
         _textInsideImage = json['textInsideImage'],
         _dataSource = json['dataSource'],

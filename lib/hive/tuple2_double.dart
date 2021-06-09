@@ -15,9 +15,12 @@ class Tuple2Double extends Tuple2<double, double> {
 
   Map<String, dynamic> toJson() => {
         'item1': _item1,
-        'item2': -item2,
+        'item2': _item2,
       };
 
   Tuple2Double.fromJson(Map<String, dynamic> json)
-      : super(json['item1'], json['item2']);
+      : super(json['item1'], json['item2']) {
+    this._item1 = json['item1'];
+    this._item2 = json['item2'];
+  }
 }

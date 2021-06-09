@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
@@ -11,10 +12,9 @@ import 'package:hds_overlay/controllers/overlay_controller.dart';
 import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
+import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
-import 'package:hds_overlay/utils/save_text_file_stub.dart'
-    if (dart.library.js) 'package:hds_overlay/utils/save_text_file.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:tuple/tuple.dart';
 
@@ -119,12 +119,14 @@ class HDSOverlay extends StatelessWidget {
     final actions = kIsWeb
         ? <Widget>[
             IconButton(
-              icon: Icon(Icons.download),
+              icon: Icon(Icons.upload),
               tooltip: 'Export configuration',
-              onPressed: () => saveTextFile(
-                  jsonEncode(
-                      dwc.propertiesMap.values.map((e) => e.value).toList()),
-                  'hds-export.json'),
+              onPressed: () => exportConfig(),
+            ),
+            IconButton(
+              icon: Icon(Icons.download),
+              tooltip: 'Import configuration',
+              onPressed: () => showImportDialog(),
             ),
             Builder(
               builder: (context) => PopupMenuButton(
@@ -235,5 +237,78 @@ class HDSOverlay extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void exportConfig() {
+    Clipboard.setData(
+      ClipboardData(
+        text: jsonEncode(
+          dwc.propertiesMap.values.map((e) => e.value).toList(),
+        ),
+      ),
+    );
+
+    Get.snackbar(
+      'Configuration exported',
+      'The overlay configuration was copied to the clipboard.',
+    );
+  }
+
+  void showImportDialog() {
+    String import = '';
+
+    Get.dialog(
+      Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.all(50),
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Paste an overlay configuration below',
+                  style: Get.textTheme.headline6,
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 10,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Paste it here',
+                  ),
+                  onChanged: (value) => import = value,
+                ),
+                SizedBox(height: 20),
+                TextButton(
+                  onPressed: () => importConfig(import),
+                  child: Text('Import'),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'This will overwrite the current overlay configuration',
+                  style: Get.textTheme.caption,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void importConfig(String import) {
+    final properties = (jsonDecode(import) as List)
+        .map((json) => DataWidgetProperties.fromJson(json))
+        .toList();
+
+    // Create a temporary profile to load
+    final profile = OverlayProfile();
+    profile.widgetProperties = properties;
+
+    overlayController.loadProfile(profile);
+
+    Get.back();
   }
 }
