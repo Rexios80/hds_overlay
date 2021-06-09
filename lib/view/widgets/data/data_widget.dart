@@ -57,7 +57,7 @@ class DataWidgetBase extends StatelessWidget {
           ],
         );
       }
-    },);
+    });
   }
 }
 
@@ -183,15 +183,22 @@ class DataWidgetText extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: 3),
-              Stack(
-                children: [
-                  Text(unitText, style: unitBaseTextStyle),
-                  Visibility(
-                    visible: properties.value.textStroke,
-                    child: Text(unitText, style: unitStrokeTextStyle),
-                  ),
-                ],
+              Visibility(
+                visible: unitText.isNotEmpty,
+                child: Row(
+                  children: [
+                    SizedBox(width: 3),
+                    Stack(
+                      children: [
+                        Text(unitText, style: unitBaseTextStyle),
+                        Visibility(
+                          visible: properties.value.textStroke,
+                          child: Text(unitText, style: unitStrokeTextStyle),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
