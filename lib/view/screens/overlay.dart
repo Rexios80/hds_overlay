@@ -250,7 +250,7 @@ class HDSOverlay extends StatelessWidget {
 
     Get.snackbar(
       'Configuration exported',
-      'The overlay configuration was copied to the clipboard.',
+      'The current overlay configuration was copied to the clipboard.',
     );
   }
 
