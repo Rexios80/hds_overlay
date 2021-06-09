@@ -101,6 +101,21 @@ class DataWidgetProperties extends HiveObject {
     _scaleFactor = value;
   }
 
+  @HiveField(24)
+  String? _fontWeight;
+
+  FontWeight get fontWeight {
+    return Map.fromIterable(
+      FontWeight.values,
+      key: (e) => e.toString(),
+      value: (e) => e,
+    )[_fontWeight ?? FontWeight.normal.toString()];
+  }
+
+  set fontWeight(FontWeight value) {
+    _fontWeight = value.toString();
+  }
+
   DataWidgetProperties();
 
   // Well this is a pain in the ass
@@ -129,5 +144,6 @@ class DataWidgetProperties extends HiveObject {
     this._textInsideImage = original._textInsideImage;
     this._dataSource = original._dataSource;
     this._scaleFactor = original._scaleFactor;
+    this._fontWeight = original._fontWeight;
   }
 }

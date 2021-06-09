@@ -118,7 +118,10 @@ class DataWidgetText extends StatelessWidget {
 
         TextStyle fontStyle;
         try {
-          fontStyle = GoogleFonts.getFont(properties.value.font);
+          fontStyle = GoogleFonts.getFont(
+            properties.value.font,
+            fontWeight: properties.value.fontWeight,
+          );
         } catch (error) {
           // The font failed to load
           fontStyle = TextStyle(fontFamily: 'Monaco');

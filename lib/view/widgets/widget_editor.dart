@@ -162,6 +162,28 @@ class WidgetEditor extends StatelessWidget {
       ],
     );
 
+    final fontWeightSelector = Row(
+      children: [
+        Text('Font weight'),
+        Spacer(),
+        Obx(
+          () => DropdownButton<FontWeight>(
+            value: properties.value.fontWeight,
+            onChanged: (FontWeight? newValue) {
+              properties.value.fontWeight = newValue ?? FontWeight.normal;
+              saveAndRefresh(properties);
+            },
+            items: FontWeight.values
+                .map((e) => DropdownMenuItem<FontWeight>(
+                      value: e,
+                      child: Text(e.toString().substring(12)),
+                    ))
+                .toList(),
+          ),
+        ),
+      ],
+    );
+
     final textEditor = Column(
       children: [
         colorSelector,
@@ -181,6 +203,8 @@ class WidgetEditor extends StatelessWidget {
           'Paste a font name from fonts.google.com',
           style: Theme.of(context).textTheme.caption,
         ),
+        SizedBox(height: 15),
+        fontWeightSelector,
         SizedBox(height: 15),
         WidgetEditorTextField(EditorType.fontSize, properties),
         SizedBox(height: 5),
