@@ -82,7 +82,7 @@ class WidgetEditorTextField extends StatelessWidget {
       case EditorType.imageSize:
         return 'Image size';
       case EditorType.fontSize:
-        return 'Text size';
+        return 'Font size';
       case EditorType.textPaddingLeft:
         return 'Left padding';
       case EditorType.textPaddingTop:

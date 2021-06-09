@@ -118,10 +118,7 @@ class DataWidgetText extends StatelessWidget {
 
         TextStyle fontStyle;
         try {
-          fontStyle = GoogleFonts.getFont(
-            properties.value.font,
-            fontWeight: properties.value.fontWeight,
-          );
+          fontStyle = GoogleFonts.getFont(properties.value.font);
         } catch (error) {
           // The font failed to load
           fontStyle = TextStyle(fontFamily: 'Monaco');
@@ -129,6 +126,7 @@ class DataWidgetText extends StatelessWidget {
 
         final textStyle = fontStyle.copyWith(
           fontSize: properties.value.fontSize,
+          fontWeight: properties.value.fontWeight,
         );
         final baseTextStyle = textStyle.copyWith(
           color: getTextColor(properties, context),
