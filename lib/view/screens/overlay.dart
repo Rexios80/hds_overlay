@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,8 @@ import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
+import 'package:hds_overlay/utils/save_text_file_stub.dart'
+    if (dart.library.js) 'package:hds_overlay/utils/save_text_file.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:tuple/tuple.dart';
 
@@ -114,6 +118,14 @@ class HDSOverlay extends StatelessWidget {
 
     final actions = kIsWeb
         ? <Widget>[
+            IconButton(
+              icon: Icon(Icons.download),
+              tooltip: 'Export configuration',
+              onPressed: () => saveTextFile(
+                  jsonEncode(
+                      dwc.propertiesMap.values.map((e) => e.value).toList()),
+                  'hds-export.json'),
+            ),
             Builder(
               builder: (context) => PopupMenuButton(
                 icon: Icon(Icons.save),
@@ -126,7 +138,6 @@ class HDSOverlay extends StatelessWidget {
               builder: (context) => IconButton(
                 icon: Icon(Icons.add),
                 tooltip: 'Add widget',
-                iconSize: 30,
                 onPressed: () => Scaffold.of(context).openEndDrawer(),
               ),
             ),

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hds_overlay/model/data_source.dart';
@@ -141,4 +142,60 @@ class DataWidgetProperties extends HiveObject {
     this._scaleFactor = original._scaleFactor;
     this._fontWeight = original._fontWeight;
   }
+
+  Map<String, dynamic> toJson() => {
+        'dataType': EnumToString.convertToString(dataType),
+        'showImage': showImage,
+        'image': image,
+        'imageSize': imageSize,
+        'fontSize': fontSize,
+        'textColor': textColor,
+        'textPaddingLeft': textPaddingLeft,
+        'font': font,
+        'position': position,
+        'unit': unit,
+        'style': style,
+        'textShadow': textShadow,
+        'textShadowRadius': textShadowRadius,
+        'textStroke': textStroke,
+        'textStrokeWidth': textStrokeWidth,
+        'textPaddingTop': textPaddingTop,
+        'unitFontSize': unitFontSize,
+        'decimals': decimals,
+        'animated': animated,
+        'heartRateRanges': heartRateRanges,
+        'heartBeatSound': heartBeatSound,
+        'textInsideImage': _textInsideImage,
+        'dataSource': _dataSource,
+        'scaleFactor': _scaleFactor,
+        'fontWeight': _fontWeight,
+      };
+
+  DataWidgetProperties.fromJson(Map<String, dynamic> json)
+      : dataType = EnumToString.fromString(DataType.values, json['dataType']) ??
+            DataType.unknown,
+        showImage = json['showImage'],
+        image = json['image'],
+        imageSize = json['imageSize'],
+        fontSize = json['fontSize'],
+        textColor = json['textColor'],
+        textPaddingLeft = json['textPaddingLeft'],
+        font = json['font'],
+        position = json['position'],
+        unit = json['unit'],
+        style = json['style'],
+        textShadow = json['textShadow'],
+        textShadowRadius = json['textShadowRadius'],
+        textStroke = json['textStroke'],
+        textStrokeWidth = json['textStrokeWidth'],
+        textPaddingTop = json['textPaddingTop'],
+        unitFontSize = json['unitFontSize'],
+        decimals = json['decimals'],
+        animated = json['animated'],
+        heartRateRanges = json['heartRateRanges'],
+        heartBeatSound = json['heartBeatSound'],
+        _textInsideImage = json['textInsideImage'],
+        _dataSource = json['dataSource'],
+        _scaleFactor = json['scaleFactor'],
+        _fontWeight = json['fontWeight'];
 }
