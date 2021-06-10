@@ -30,7 +30,7 @@ class OverlayController extends GetxController {
         if (hovering) {
           _hoverTimer?.cancel();
           _hoverTimer = Timer(
-            Duration(seconds: 5),
+            Duration(seconds: 15),
             () => mouseHovering.value = false,
           );
         }
