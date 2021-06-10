@@ -38,6 +38,7 @@ class HDSOverlay extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final String? urlConfig = Uri.base.queryParameters['config'];
+    print(urlConfig);
     if (urlConfig != null) {
       importConfig(urlConfig);
     }

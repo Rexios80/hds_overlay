@@ -43,6 +43,10 @@ You can track development progress [here](https://trello.com/healthdataserver)
    - If you want to send data to an external server, you will need to input the full websocket URL ex: `ws://hostname:port/other/stuff`
 10. Click the start button on the watch
 
+### Useful things
+1. You can import a config with a url parameter. This is useful if you want to use something like the Streamlabs mobile app in which you cannot interact with the web page. Create a url that looks like this:
+   - `https://hds.dev/#/overlay?config="Put a config exported from an HDS overlay here"`
+
 ### If you have problems
 Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) before asking for help
 - Ask for help in the [support Discord server](https://discord.gg/FayYYcm)
