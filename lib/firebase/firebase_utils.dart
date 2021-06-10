@@ -31,9 +31,6 @@ class FirebaseUtils {
       );
     }
 
-    print('firebaseAppCheck');
-    js.context.callMethod('firebaseAppCheck');
-
     auth = FirebaseAuth.instance;
     if (kDebugMode) {
       auth.useEmulator("http://localhost:9099");
