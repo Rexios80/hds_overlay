@@ -17,6 +17,7 @@ import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
+import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:tuple/tuple.dart';
 
@@ -36,6 +37,34 @@ class HDSOverlay extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appBarSlideController = useAnimationController(
+      duration: const Duration(milliseconds: 250),
+      initialValue: 1.0,
+    );
+
+    final logSlideController = useAnimationController(
+      duration: const Duration(milliseconds: 250),
+      initialValue: 1.0,
+    );
+
+    final Animation<Offset> appBarOffsetAnimation = new Tween<Offset>(
+      begin: Offset(0.0, -70),
+      end: Offset(0.0, 0.0),
+    ).animate(appBarSlideController);
+
+    ever(overlayController.mouseHovering, (bool mouseHovering) {
+      // Only do this on web
+      if (!kIsWeb) return;
+
+      if (mouseHovering) {
+        appBarSlideController.forward();
+        logSlideController.forward();
+      } else {
+        appBarSlideController.reverse();
+        logSlideController.reverse();
+      }
+    });
+
     var profileName = '';
     final profileAdd = [
       PopupMenuItem(
@@ -148,6 +177,43 @@ class HDSOverlay extends HookWidget {
           ]
         : <Widget>[];
 
+    final appBarTitle = LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth < 600) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Health Data Server'),
+              Obx(
+                () => Visibility(
+                  visible: settingsController.settings.value.hdsCloud,
+                  child: Text(
+                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption
+                        ?.copyWith(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Row(
+            children: [
+              Text('Health Data Server'),
+              Spacer(),
+              Visibility(
+                visible: settingsController.settings.value.hdsCloud,
+                child: Obx(() => Text(
+                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
+              ),
+            ],
+          );
+        }
+      },
+    );
+
     return LifecycleWrapper(
       onLifecycleEvent: (LifecycleEvent event) {
         if (event == LifecycleEvent.push) {
@@ -158,103 +224,99 @@ class HDSOverlay extends HookWidget {
       },
       child: MouseRegion(
         onHover: (event) => overlayController.mouseHovering.value = true,
-        child: Obx(
-          () => Scaffold(
-            backgroundColor: kIsWeb ? Colors.transparent : null,
-            appBar: overlayController.mouseHovering.value
-                ? AppBar(
-                    title: LayoutBuilder(
-                      builder:
-                          (BuildContext context, BoxConstraints constraints) {
-                        if (constraints.maxWidth < 600) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Health Data Server'),
-                              Obx(
-                                () => Visibility(
-                                  visible: settingsController
-                                      .settings.value.hdsCloud,
-                                  child: Text(
-                                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .caption
-                                        ?.copyWith(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        } else {
-                          return Row(
-                            children: [
-                              Text('Health Data Server'),
-                              Spacer(),
-                              Visibility(
-                                visible:
-                                    settingsController.settings.value.hdsCloud,
-                                child: Obx(() => Text(
-                                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
-                              ),
-                            ],
-                          );
-                        }
-                      },
-                    ),
+        child: Scaffold(
+          backgroundColor: kIsWeb ? Colors.transparent : null,
+          drawerScrimColor: Colors.transparent,
+          drawer: NavigationDrawer(),
+          endDrawer: kIsWeb ? EndDrawer() : null,
+          onEndDrawerChanged: (open) {
+            if (!open) {
+              // Reset the drawer when it is closed
+              endDrawerController.selectedDataTypeSource.value =
+                  Tuple2(DataType.unknown, DataSource.watch);
+            }
+          },
+          body: Column(
+            children: [
+              AnimatedBuilder(
+                animation: appBarOffsetAnimation,
+                builder: (context, child) => Transform.translate(
+                  offset: appBarOffsetAnimation.value,
+                  child: AppBar(
+                    title: appBarTitle,
                     elevation: 0,
                     actions: actions,
-                  )
-                : null,
-            drawerScrimColor: Colors.transparent,
-            drawer: NavigationDrawer(),
-            endDrawer: kIsWeb ? EndDrawer() : null,
-            onEndDrawerChanged: (open) {
-              if (!open) {
-                // Reset the drawer when it is closed
-                endDrawerController.selectedDataTypeSource.value =
-                    Tuple2(DataType.unknown, DataSource.watch);
-              }
-            },
-            body: Container(
-              color: kIsWeb ? Colors.transparent : Colors.black,
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  if (constraints.maxWidth < 750 && kIsWeb) {
-                    return Column(
-                      children: [
-                        DataView(),
-                        Container(
-                          height: constraints.maxHeight / 2,
-                          child: Obx(
-                            () => Visibility(
-                              visible: overlayController.mouseHovering.value,
-                              child: LogView(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Visibility(
-                          visible: kIsWeb,
-                          child: DataView(),
-                        ),
-                        Obx(
-                          () => Visibility(
-                            visible: overlayController.mouseHovering.value,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  color: kIsWeb ? Colors.transparent : Colors.black,
+                  child: LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      // This is kind of a weird place for this stuff to go but where else should it go
+                      final Animation<Offset> logOffsetAnimation;
+                      if (constraints.maxWidth < 750) {
+                        logOffsetAnimation = new Tween<Offset>(
+                          begin: Offset(0.0, constraints.maxHeight / 2),
+                          end: Offset(0.0, 0.0),
+                        ).animate(appBarSlideController);
+                      } else {
+                        logOffsetAnimation = new Tween<Offset>(
+                          begin: Offset(Themes.sideBarWidth, 0.0),
+                          end: Offset(0.0, 0.0),
+                        ).animate(appBarSlideController);
+                      }
+
+                      Widget buildLogView() {
+                        return AnimatedBuilder(
+                          animation: logOffsetAnimation,
+                          builder: (context, child) => Transform.translate(
+                            offset: logOffsetAnimation.value,
                             child: LogView(),
                           ),
-                        ),
-                      ],
-                    );
-                  }
-                },
+                        );
+                      }
+
+                      if (constraints.maxWidth < 750 && kIsWeb) {
+                        return Column(
+                          children: [
+                            DataView(),
+                            Container(
+                              height: constraints.maxHeight / 2,
+                              child: Obx(
+                                () => Visibility(
+                                  visible:
+                                      overlayController.mouseHovering.value,
+                                  child: buildLogView(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Visibility(
+                              visible: kIsWeb,
+                              child: DataView(),
+                            ),
+                            Obx(
+                              () => Visibility(
+                                visible: overlayController.mouseHovering.value,
+                                child: buildLogView(),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
