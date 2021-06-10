@@ -29,6 +29,9 @@ class FirebaseUtils {
         appId: "1:47929674141:web:0606fd3354256f51860774",
         measurementId: "G-1V10QYSSHG",
       );
+
+      print('firebaseAppCheck');
+      js.context.callMethod('firebaseAppCheck');
     }
 
     auth = FirebaseAuth.instance;
