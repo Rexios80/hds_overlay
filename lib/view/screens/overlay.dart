@@ -37,6 +37,11 @@ class HDSOverlay extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String? urlConfig = Uri.base.queryParameters['config'];
+    if (urlConfig != null) {
+      importConfig(urlConfig);
+    }
+
     final appBarSlideController = useAnimationController(
       duration: const Duration(milliseconds: 250),
       initialValue: 1.0,
