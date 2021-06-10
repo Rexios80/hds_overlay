@@ -45,7 +45,7 @@ You can track development progress [here](https://trello.com/healthdataserver)
 
 ### Useful things
 1. You can import a config with a url parameter. This is useful if you want to use something like the Streamlabs mobile app in which you cannot interact with the web page. Create a url that looks like this:
-   - `https://hds.dev/#/overlay?config="Put a config exported from an HDS overlay here"`
+   - `https://hds.dev/#/overlay?config=Put a config exported from an HDS overlay here`
 
 ### If you have problems
 Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) before asking for help
