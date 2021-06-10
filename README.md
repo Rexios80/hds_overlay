@@ -44,8 +44,12 @@ You can track development progress [here](https://trello.com/healthdataserver)
 10. Click the start button on the watch
 
 ### Useful things
-1. You can import a config with a url parameter. This is useful if you want to use something like the Streamlabs mobile app in which you cannot interact with the web page. Create a url that looks like this:
-   - `https://hds.dev/#/overlay?config=Put a config exported from an HDS overlay here`
+- You can import a config with a url parameter. This is useful if you want to use something like the Streamlabs mobile app in which you cannot interact with the web page.
+   1. Use hds.dev to create the overlay configuration you want
+   2. Click the export button in the top right to copy the configuration to your clipboard
+   3. Use https://www.urlencoder.org to encode the config that you just copied
+   4. Create a url that looks like this: `https://hds.dev/#/overlay?config=Encoded config`
+   5. Use that url as a browser source in your app of choice
 
 ### If you have problems
 Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) before asking for help
