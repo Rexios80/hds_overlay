@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
@@ -23,7 +25,7 @@ import '../widgets/drawers/end_drawer.dart';
 import '../widgets/drawers/navigation_drawer.dart';
 import '../widgets/log_view.dart';
 
-class HDSOverlay extends StatelessWidget {
+class HDSOverlay extends HookWidget {
   final endDrawerController = Get.put(EndDrawerController());
   final DataWidgetController dwc = Get.find();
   final OverlayProfilesController overlayProfilesController = Get.find();
@@ -154,85 +156,105 @@ class HDSOverlay extends StatelessWidget {
           connectionController.stop();
         }
       },
-      child: Scaffold(
-        backgroundColor: kIsWeb ? Colors.transparent : null,
-        appBar: AppBar(
-          title: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              if (constraints.maxWidth < 600) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Health Data Server'),
-                    Obx(
-                      () => Visibility(
-                        visible: settingsController.settings.value.hdsCloud,
-                        child: Text(
-                          'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              ?.copyWith(color: Colors.white),
+      child: MouseRegion(
+        onHover: (event) => overlayController.mouseHovering.value = true,
+        child: Obx(
+          () => Scaffold(
+            backgroundColor: kIsWeb ? Colors.transparent : null,
+            appBar: overlayController.mouseHovering.value
+                ? AppBar(
+                    title: LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        if (constraints.maxWidth < 600) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Health Data Server'),
+                              Obx(
+                                () => Visibility(
+                                  visible: settingsController
+                                      .settings.value.hdsCloud,
+                                  child: Text(
+                                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption
+                                        ?.copyWith(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Row(
+                            children: [
+                              Text('Health Data Server'),
+                              Spacer(),
+                              Visibility(
+                                visible:
+                                    settingsController.settings.value.hdsCloud,
+                                child: Obx(() => Text(
+                                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                    elevation: 0,
+                    actions: actions,
+                  )
+                : null,
+            drawerScrimColor: Colors.transparent,
+            drawer: NavigationDrawer(),
+            endDrawer: kIsWeb ? EndDrawer() : null,
+            onEndDrawerChanged: (open) {
+              if (!open) {
+                // Reset the drawer when it is closed
+                endDrawerController.selectedDataTypeSource.value =
+                    Tuple2(DataType.unknown, DataSource.watch);
+              }
+            },
+            body: Container(
+              color: kIsWeb ? Colors.transparent : Colors.black,
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  if (constraints.maxWidth < 750 && kIsWeb) {
+                    return Column(
+                      children: [
+                        DataView(),
+                        Container(
+                          height: constraints.maxHeight / 2,
+                          child: Obx(
+                            () => Visibility(
+                              visible: overlayController.mouseHovering.value,
+                              child: LogView(),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                );
-              } else {
-                return Row(
-                  children: [
-                    Text('Health Data Server'),
-                    Spacer(),
-                    Visibility(
-                      visible: settingsController.settings.value.hdsCloud,
-                      child: Obx(() => Text(
-                          'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
-                    ),
-                  ],
-                );
-              }
-            },
-          ),
-          elevation: 0,
-          actions: actions,
-        ),
-        drawerScrimColor: Colors.transparent,
-        drawer: NavigationDrawer(),
-        endDrawer: kIsWeb ? EndDrawer() : null,
-        onEndDrawerChanged: (open) {
-          if (!open) {
-            // Reset the drawer when it is closed
-            endDrawerController.selectedDataTypeSource.value =
-                Tuple2(DataType.unknown, DataSource.watch);
-          }
-        },
-        body: Container(
-          color: kIsWeb ? Colors.transparent : Colors.black,
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              if (constraints.maxWidth < 750 && kIsWeb) {
-                return Column(
-                  children: [
-                    DataView(),
-                    Container(
-                      height: constraints.maxHeight / 2,
-                      child: LogView(),
-                    ),
-                  ],
-                );
-              } else {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Visibility(
-                      visible: kIsWeb,
-                      child: DataView(),
-                    ),
-                    LogView(),
-                  ],
-                );
-              }
-            },
+                      ],
+                    );
+                  } else {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Visibility(
+                          visible: kIsWeb,
+                          child: DataView(),
+                        ),
+                        Obx(
+                          () => Visibility(
+                            visible: overlayController.mouseHovering.value,
+                            child: LogView(),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                },
+              ),
+            ),
           ),
         ),
       ),
