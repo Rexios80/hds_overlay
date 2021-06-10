@@ -37,13 +37,25 @@ class HDSOverlay extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(Uri.base);
-    print(Uri.base.queryParameters);
-    final String? urlConfig = Uri.base.queryParameters['config'];
-    print(urlConfig);
-    if (urlConfig != null) {
-      importConfig(urlConfig);
-    }
+    Future.delayed(Duration.zero, () {
+      // For some reason the full url isn't available instantly
+      // Decode percent encoded url
+      final split = Uri.decodeFull(Uri.base.toString()).split('?');
+      if (split.length > 1) {
+        // Why isn't null safe list access working?
+        final parameters = Map.fromIterable(
+          split.last.split('&'),
+          key: (e) => e.split('=')[0],
+          value: (e) => e.split('=')[1],
+        );
+        print('url parameters: $parameters');
+        final urlConfig = parameters['config'];
+        if (urlConfig != null) {
+          print('Importing config from url');
+          importConfig(urlConfig);
+        }
+      }
+    });
 
     final appBarSlideController = useAnimationController(
       duration: const Duration(milliseconds: 250),
@@ -60,9 +72,10 @@ class HDSOverlay extends HookWidget {
       end: Offset(0.0, 0.0),
     ).animate(appBarSlideController);
 
+    final mounted = useIsMounted();
     ever(overlayController.mouseHovering, (bool mouseHovering) {
-      // Only do this on web
-      if (!kIsWeb) return;
+      // Only do this on web and if the widget is mounted
+      if (!kIsWeb || !mounted()) return;
 
       if (mouseHovering) {
         appBarSlideController.forward();
