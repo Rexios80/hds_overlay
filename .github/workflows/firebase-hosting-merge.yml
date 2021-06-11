@@ -18,4 +18,5 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HEALTH_DATA_SERVER }}'
           channelId: live
+          target: 'health-data-server'
           projectId: health-data-server
