@@ -6,7 +6,7 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 - [Web app (for use as a browser source)](https://hds.dev/)
   - If you have an Apple Watch and just want heart rate (more HDS Cloud data is coming soon) all you need is this and the watch app
 - [Apple Watch/iOS/macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
-  - THE WATCHOS APP REQUIRES WATCHOS 7+. The App Store will let you purchase it even if your watch can't run watchOS 7+, so make sure before buying.
+  - THE WATCHOS APP REQUIRES WATCHOS 6+. The App Store will let you purchase it even if your watch can't run watchOS 6+, so make sure before buying.
 - [Samsung watch app [COMING SOON]]()
 - [Android watch app](https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter)
 - [Windows app](https://www.microsoft.com/store/apps/9PHN402J6LVJ)
