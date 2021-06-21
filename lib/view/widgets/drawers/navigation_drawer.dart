@@ -109,7 +109,11 @@ class NavigationDrawer extends StatelessWidget {
           routeItem(
             Text('Credits'),
             Routes.credits,
-          )
+          ),
+          routeItem(
+            Text('Licenses'),
+            Routes.licenses,
+          ),
         ],
       ),
     );

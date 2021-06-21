@@ -71,6 +71,7 @@ class HDS extends StatelessWidget {
         GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicy()),
         GetPage(name: Routes.terms, page: () => Terms()),
         GetPage(name: Routes.credits, page: () => Credits()),
+        GetPage(name: Routes.licenses, page: () => LicensePage()),
       ],
     );
   }
