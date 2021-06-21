@@ -9,6 +9,7 @@ import 'package:hds_overlay/utils/splash_fix_stub.dart'
     if (dart.library.js) 'package:hds_overlay/utils/splash_fix.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/routes.dart';
+import 'package:hds_overlay/view/screens/credits.dart';
 import 'package:hds_overlay/view/screens/overlay.dart';
 import 'package:hds_overlay/view/screens/privacy_policy.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
@@ -69,6 +70,7 @@ class HDS extends StatelessWidget {
         GetPage(name: Routes.settings, page: () => SettingsView()),
         GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicy()),
         GetPage(name: Routes.terms, page: () => Terms()),
+        GetPage(name: Routes.credits, page: () => Credits()),
       ],
     );
   }
