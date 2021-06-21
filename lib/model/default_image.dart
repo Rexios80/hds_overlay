@@ -18,6 +18,12 @@ String getDefaultImage(DataType dataType) {
       return 'assets/images/distanceImage.png';
     case DataType.speed:
       return 'assets/images/speedImage.png';
+    case DataType.oxygenSaturation:
+      return 'assets/images/wind.png';
+    case DataType.bodyMass:
+      return 'assets/images/scale.png';
+    case DataType.bmi:
+      return 'assets/images/scale.png';
     case DataType.unknown:
       print('Tried to load default image for DataType.unknown');
       return 'assets/images/icon.png';

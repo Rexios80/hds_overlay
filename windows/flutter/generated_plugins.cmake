@@ -3,8 +3,6 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  dart_vlc
-  desktop_window
   file_selector_windows
   url_launcher_windows
 )

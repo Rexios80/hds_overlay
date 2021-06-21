@@ -29,6 +29,12 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
         return DataType.distanceTraveled;
       case 8:
         return DataType.speed;
+      case 9:
+        return DataType.oxygenSaturation;
+      case 10:
+        return DataType.bodyMass;
+      case 11:
+        return DataType.bmi;
       case 999:
         return DataType.unknown;
       default:
@@ -62,6 +68,15 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
         break;
       case DataType.speed:
         writer.writeByte(8);
+        break;
+      case DataType.oxygenSaturation:
+        writer.writeByte(9);
+        break;
+      case DataType.bodyMass:
+        writer.writeByte(10);
+        break;
+      case DataType.bmi:
+        writer.writeByte(11);
         break;
       case DataType.unknown:
         writer.writeByte(999);

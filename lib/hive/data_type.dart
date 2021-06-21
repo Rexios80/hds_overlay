@@ -28,13 +28,24 @@ enum DataType {
   @HiveField(8)
   speed,
 
+  @HiveField(9)
+  oxygenSaturation,
+
+  @HiveField(10)
+  bodyMass,
+
+  @HiveField(11)
+  bmi,
+
   @HiveField(999)
   unknown,
 }
 
 extension DataTypeExtension on DataType {
   bool isRounded() {
-    return this == DataType.speed;
+    return this == DataType.speed ||
+        this == DataType.bodyMass ||
+        this == DataType.bmi;
   }
 
   bool isAnimated() {
