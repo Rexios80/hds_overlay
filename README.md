@@ -1,6 +1,8 @@
 # Health Data Server Overlay
 This is a stream overlay that shows heart rate and calorie burn information sent from an Apple Watch, Samsung watch, or Android watch running the Health Data Server app
 
+### [Setup Tutorial Video](https://youtu.be/EyYIhK3kxUA)
+
 ### Links
 
 - [Web app (for use as a browser source)](https://hds.dev/)
