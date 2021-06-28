@@ -18,14 +18,17 @@ class CloudSocketClient extends SocketClient {
   @override
   Future<Uri> createUri() async {
     final token = await firebase.getIdToken();
+    final apiId =
+        (await _ref.child(RtdConstants.apiId).once('value')).snapshot.val();
+    print('API ID: $apiId');
     return Uri.parse(
-      'wss://xcdj6tkeza.execute-api.us-east-1.amazonaws.com/dev?auth=$token&overlayId=$overlayId',
+      'wss://$apiId.execute-api.us-east-1.amazonaws.com/dev?auth=$token&overlayId=$overlayId',
     );
   }
 
   CloudSocketClient() {
     Database db = database();
-    _ref = db.ref(RtdConstants.overlays);
+    _ref = db.ref('/');
   }
 
   @override
@@ -37,9 +40,12 @@ class CloudSocketClient extends SocketClient {
     String overlayId,
   ) async {
     print('Requesting uidSnapshot');
-    final uidSnapshot =
-        (await _ref.child(overlayId).child(RtdConstants.uid).once('value'))
-            .snapshot;
+    final uidSnapshot = (await _ref
+            .child(RtdConstants.overlays)
+            .child(overlayId)
+            .child(RtdConstants.uid)
+            .once('value'))
+        .snapshot;
     print('uidSnapshot received');
     print('HDS Cloud uid: ${uidSnapshot.val()}');
     if (uidSnapshot.exists() && uidSnapshot.val() != _auth.currentUser?.uid) {
