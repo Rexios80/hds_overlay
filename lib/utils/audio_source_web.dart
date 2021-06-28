@@ -5,7 +5,7 @@ import 'package:just_audio/just_audio.dart';
 class WebAudioSource extends StreamAudioSource {
   Uint8List _buffer;
 
-  WebAudioSource(this._buffer) : super("Fuck the developer of this library");
+  WebAudioSource(this._buffer);
 
   @override
   Future<StreamAudioResponse> request([int? start, int? end]) {

@@ -120,8 +120,10 @@ class HeartRateImage extends HookWidget {
     }
   }
 
-  void playBeatSound(Rx<DataWidgetProperties> properties,
-      HeartRateWidgetController hrwc) async {
+  void playBeatSound(
+    Rx<DataWidgetProperties> properties,
+    HeartRateWidgetController hrwc,
+  ) async {
     if (properties.value.heartBeatSound == null || !kIsWeb) return;
 
     hrwc.sounding = true;
