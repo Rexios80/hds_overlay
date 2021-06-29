@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:get/get.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 
 abstract class ConnectionBase {
+  final FirebaseAnalytics _analytics = Get.find();
   // ignore: close_sinks
   StreamController<LogMessage> _logStreamController = StreamController();
   StreamController<DataMessageBase> _messageStreamController =
@@ -31,6 +34,13 @@ abstract class ConnectionBase {
 
     final dataType =
         EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
+
+    // Log which data types have been received for debugging
+    _analytics.logEvent(
+      name: 'data_received',
+      parameters: {'data_type': parts[0]},
+    );
+
     if (dataType != DataType.unknown) {
       _messageStreamController.add(DataMessage(source, dataType, parts[1]));
     } else {

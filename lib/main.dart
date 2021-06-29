@@ -45,19 +45,13 @@ class HDS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAnalytics analytics = FirebaseAnalytics();
+    FirebaseAnalytics analytics = Get.put(FirebaseAnalytics());
 
     hideSplash();
 
     return GetMaterialApp(
-      navigatorObservers: kIsWeb
-          ? [
-              defaultLifecycleObserver,
-              FirebaseAnalyticsObserver(analytics: analytics),
-            ]
-          : [
-              defaultLifecycleObserver,
-            ],
+      navigatorObservers: <NavigatorObserver>[defaultLifecycleObserver] +
+          (kIsWeb ? [FirebaseAnalyticsObserver(analytics: analytics)] : []),
       title: 'Health Data Server',
       theme: Themes.light,
       darkTheme: Themes.dark,
