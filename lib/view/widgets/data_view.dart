@@ -1,19 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/chart_controller.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
+import 'package:hds_overlay/hive/chart_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
+import 'package:hds_overlay/view/widgets/data/chart_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 class DataView extends StatelessWidget {
   final endDrawerController = Get.put(EndDrawerController());
   final DataWidgetController dwc = Get.find();
+  final ChartController cc = Get.find();
   final SettingsController settingsController = Get.find();
   final ConnectionController connectionController = Get.find();
   final _dataViewKey = GlobalKey();
@@ -21,7 +25,14 @@ class DataView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This needs to be in here or the Scaffold can't be found
-    ever(endDrawerController.selectedDataTypeSource,
+    ever(endDrawerController.selectedDataWidgetDataTypeSource,
+        (Tuple2<DataType, String> dataType) {
+      if (dataType.item1 != DataType.unknown) {
+        Scaffold.of(context).openEndDrawer();
+      }
+    });
+
+    ever(endDrawerController.selectedChartDataTypeSource,
         (Tuple2<DataType, String> dataType) {
       if (dataType.item1 != DataType.unknown) {
         Scaffold.of(context).openEndDrawer();
@@ -31,60 +42,28 @@ class DataView extends StatelessWidget {
     final dataWidgets = Obx(
       () {
         return Stack(
-          children: dwc.propertiesMap.values.map((dwp) {
-            return Obx(
-              () {
-                final typeSource =
-                    Tuple2(dwp.value.dataType, dwp.value.dataSource);
-                final DataWidgetProperties properties =
-                    dwc.propertiesMap[typeSource]?.value ??
-                        DataWidgetProperties();
-
-                final dataWidget = Provider.value(
-                  value: typeSource,
-                  builder: (context, _) => dwp.value.dataType.widget,
-                );
-
-                final appBarHeight = AppBar().preferredSize.height;
-
-                return Positioned(
-                  left: properties.position.item1,
-                  top: properties.position.item2,
-                  child: LongPressDraggable(
-                    feedback: Transform.scale(
-                      scale: 1.2,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: dataWidget,
+          children: dwc.propertiesMap.values
+                  .map(
+                    (dwp) => buildWidget(
+                      type: DataWidgetType.data,
+                      typeSource: Tuple2(
+                        dwp.value.dataType,
+                        dwp.value.dataSource,
                       ),
                     ),
-                    childWhenDragging: SizedBox.shrink(),
-                    onDragEnd: (dragDetails) {
-                      final dx = dragDetails.offset.dx;
-                      final dy = dragDetails.offset.dy - appBarHeight;
-                      final maxX =
-                          _dataViewKey.currentContext!.size!.width - 50;
-                      final maxY =
-                          _dataViewKey.currentContext!.size!.height - 50;
-
-                      if (dx < 0 || dy < 0 || dx > maxX || dy > maxY) return;
-
-                      properties.position = Tuple2Double(dx, dy);
-                      properties.save();
-                      dwc.propertiesMap.refresh();
-                    },
-                    child: InkWell(
-                      onTap: () {
-                        endDrawerController.selectedDataTypeSource.value =
-                            Tuple2(dwp.value.dataType, dwp.value.dataSource);
-                      },
-                      child: dataWidget,
+                  )
+                  .toList() +
+              cc.propertiesMap.values
+                  .map(
+                    (cp) => buildWidget(
+                      type: DataWidgetType.data,
+                      typeSource: Tuple2(
+                        cp.value.dataType,
+                        cp.value.dataSource,
+                      ),
                     ),
-                  ),
-                );
-              },
-            );
-          }).toList(),
+                  )
+                  .toList(),
         );
       },
     );
@@ -99,4 +78,93 @@ class DataView extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildWidget({
+    required DataWidgetType type,
+    required Tuple2<DataType, String> typeSource,
+  }) =>
+      Obx(
+        () {
+          final properties;
+          switch (type) {
+            case DataWidgetType.data:
+              properties = dwc.propertiesMap[typeSource]?.value ??
+                  DataWidgetProperties();
+              break;
+            case DataWidgetType.chart:
+              properties =
+                  cc.propertiesMap[typeSource]?.value ?? ChartProperties();
+              break;
+          }
+
+          final dataWidget = Provider.value(
+            value: typeSource,
+            builder: (context, _) {
+              switch (type) {
+                case DataWidgetType.data:
+                  return typeSource.item1.widget;
+                case DataWidgetType.chart:
+                  return ChartWidget();
+              }
+            },
+          );
+
+          final appBarHeight = AppBar().preferredSize.height;
+
+          return Positioned(
+            left: properties.position.item1,
+            top: properties.position.item2,
+            child: LongPressDraggable(
+              feedback: Transform.scale(
+                scale: 1.2,
+                child: Material(
+                  color: Colors.transparent,
+                  child: dataWidget,
+                ),
+              ),
+              childWhenDragging: SizedBox.shrink(),
+              onDragEnd: (dragDetails) {
+                final dx = dragDetails.offset.dx;
+                final dy = dragDetails.offset.dy - appBarHeight;
+                final maxX = _dataViewKey.currentContext!.size!.width - 50;
+                final maxY = _dataViewKey.currentContext!.size!.height - 50;
+
+                if (dx < 0 || dy < 0 || dx > maxX || dy > maxY) return;
+
+                properties.position = Tuple2Double(dx, dy);
+                properties.save();
+
+                switch (type) {
+                  case DataWidgetType.data:
+                    dwc.propertiesMap.refresh();
+                    break;
+                  case DataWidgetType.chart:
+                    cc.propertiesMap.refresh();
+                    break;
+                }
+              },
+              child: InkWell(
+                onTap: () {
+                  switch (type) {
+                    case DataWidgetType.data:
+                      endDrawerController
+                          .selectedDataWidgetDataTypeSource.value = typeSource;
+                      break;
+                    case DataWidgetType.chart:
+                      endDrawerController.selectedChartDataTypeSource.value =
+                          typeSource;
+                      break;
+                  }
+                },
+                child: dataWidget,
+              ),
+            ),
+          );
+        },
+      );
+}
+
+enum DataWidgetType {
+  data,
+  chart,
 }

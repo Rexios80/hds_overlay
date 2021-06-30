@@ -16,7 +16,7 @@ class HeartRateRangeEditor extends StatelessWidget {
     final HeartRateRangeEditorController hrrec =
         HeartRateRangeEditorController();
     final Rx<DataWidgetProperties> properties = dataWidgetController
-            .propertiesMap[endDrawerController.selectedDataTypeSource.value] ??
+            .propertiesMap[endDrawerController.selectedDataWidgetDataTypeSource.value] ??
         DataWidgetProperties().obs;
     return Column(
       children: [

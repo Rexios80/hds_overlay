@@ -22,7 +22,7 @@ class WidgetEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final properties =
-        dwc.propertiesMap[endDrawerController.selectedDataTypeSource.value] ??
+        dwc.propertiesMap[endDrawerController.selectedDataWidgetDataTypeSource.value] ??
             DataWidgetProperties().obs;
 
     final header = Center(
@@ -30,7 +30,7 @@ class WidgetEditor extends StatelessWidget {
         children: [
           Text(
             EnumToString.convertToString(
-              endDrawerController.selectedDataTypeSource.value.item1,
+              endDrawerController.selectedDataWidgetDataTypeSource.value.item1,
               camelCase: true,
             ),
             style: Theme.of(context).textTheme.headline6,

@@ -24,6 +24,7 @@ dependencies:
   uuid: ^3.0.4
   lifecycle: ^0.2.0
   url_launcher: ^6.0.3
+  fl_chart: ^0.36.2
 
   # Firebase
   firebase_core: ^1.1.0

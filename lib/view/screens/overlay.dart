@@ -253,7 +253,7 @@ class HDSOverlay extends HookWidget {
           onEndDrawerChanged: (open) {
             if (!open) {
               // Reset the drawer when it is closed
-              endDrawerController.selectedDataTypeSource.value =
+              endDrawerController.selectedDataWidgetDataTypeSource.value =
                   Tuple2(DataType.unknown, DataSource.watch);
             }
           },
