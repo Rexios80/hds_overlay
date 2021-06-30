@@ -8,6 +8,7 @@ import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
+import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -16,6 +17,7 @@ class DataView extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
   final SettingsController settingsController = Get.find();
   final ConnectionController connectionController = Get.find();
+  final _dataViewKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +40,42 @@ class DataView extends StatelessWidget {
                 final DataWidgetProperties properties =
                     dwc.propertiesMap[typeSource]?.value ??
                         DataWidgetProperties();
+
+                final dataWidget = Provider.value(
+                  value: typeSource,
+                  builder: (context, _) => dwp.value.dataType.widget,
+                );
+
+                final appBarHeight = AppBar().preferredSize.height;
+
                 return Positioned(
                   left: properties.position.item1,
                   top: properties.position.item2,
-                  child: InkWell(
-                    onTap: () {
-                      endDrawerController.selectedDataTypeSource.value =
-                          Tuple2(dwp.value.dataType, dwp.value.dataSource);
+                  child: LongPressDraggable(
+                    feedback: Transform.scale(
+                      scale: 1.2,
+                      child: dataWidget,
+                    ),
+                    childWhenDragging: SizedBox.shrink(),
+                    onDragEnd: (dragDetails) {
+                      final dx = dragDetails.offset.dx;
+                      final dy = dragDetails.offset.dy - appBarHeight;
+                      final maxX = _dataViewKey.currentContext?.size?.width ?? 0;
+                      final maxY =
+                          _dataViewKey.currentContext?.size?.height ?? 0;
+
+                      if (dx < 0 || dy < 0 || dx > maxX || dy > maxY) return;
+
+                      properties.position = Tuple2Double(dx, dy);
+                      properties.save();
+                      dwc.propertiesMap.refresh();
                     },
-                    child: Provider.value(
-                      value: typeSource,
-                      builder: (context, _) => dwp.value.dataType.widget,
+                    child: InkWell(
+                      onTap: () {
+                        endDrawerController.selectedDataTypeSource.value =
+                            Tuple2(dwp.value.dataType, dwp.value.dataSource);
+                      },
+                      child: dataWidget,
                     ),
                   ),
                 );
@@ -59,27 +86,14 @@ class DataView extends StatelessWidget {
       },
     );
 
-    return Builder(builder: (context) {
-      if (kIsWeb) {
-        return Expanded(
-          child: Container(
-              color: Color(
-                settingsController.settings.value.overlayBackgroundColor,
-              ),
-              child: dataWidgets),
-        );
-      } else {
-        return Obx(() => Container(
-              width: settingsController.settings.value.overlayWidth /
-                  Get.pixelRatio,
-              height: settingsController.settings.value.overlayHeight /
-                  Get.pixelRatio,
-              color: Color(
-                settingsController.settings.value.overlayBackgroundColor,
-              ),
-              child: dataWidgets,
-            ));
-      }
-    });
+    return Expanded(
+      key: _dataViewKey,
+      child: Container(
+        color: Color(
+          settingsController.settings.value.overlayBackgroundColor,
+        ),
+        child: dataWidgets,
+      ),
+    );
   }
 }
