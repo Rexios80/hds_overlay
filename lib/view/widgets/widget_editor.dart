@@ -421,6 +421,12 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 10),
         positionEditor,
         SizedBox(height: 10),
+        Text(
+          'Drag and drop also works',
+          textAlign: TextAlign.center,
+          style: Get.textTheme.caption,
+        ),
+        SizedBox(height: 10),
         Divider(),
         SizedBox(height: 10),
         Visibility(
