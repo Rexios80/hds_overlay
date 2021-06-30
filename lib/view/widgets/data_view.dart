@@ -64,9 +64,9 @@ class DataView extends StatelessWidget {
                       final dx = dragDetails.offset.dx;
                       final dy = dragDetails.offset.dy - appBarHeight;
                       final maxX =
-                          _dataViewKey.currentContext?.size?.width ?? 0;
+                          _dataViewKey.currentContext!.size!.width - 50;
                       final maxY =
-                          _dataViewKey.currentContext?.size?.height ?? 0;
+                          _dataViewKey.currentContext!.size!.height - 50;
 
                       if (dx < 0 || dy < 0 || dx > maxX || dy > maxY) return;
 
