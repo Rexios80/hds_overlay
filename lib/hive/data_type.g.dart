@@ -13,6 +13,8 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
   @override
   DataType read(BinaryReader reader) {
     switch (reader.readByte()) {
+      case 255:
+        return DataType.unknown;
       case 12:
         return DataType.text;
       case 0:
@@ -37,16 +39,17 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
         return DataType.bodyMass;
       case 11:
         return DataType.bmi;
-      case 999:
-        return DataType.unknown;
       default:
-        return DataType.text;
+        return DataType.unknown;
     }
   }
 
   @override
   void write(BinaryWriter writer, DataType obj) {
     switch (obj) {
+      case DataType.unknown:
+        writer.writeByte(255);
+        break;
       case DataType.text:
         writer.writeByte(12);
         break;
@@ -82,9 +85,6 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
         break;
       case DataType.bmi:
         writer.writeByte(11);
-        break;
-      case DataType.unknown:
-        writer.writeByte(999);
         break;
     }
   }

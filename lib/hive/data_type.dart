@@ -8,6 +8,9 @@ part 'data_type.g.dart';
 
 @HiveType(typeId: 3)
 enum DataType {
+  @HiveField(255)
+  unknown,
+
   @HiveField(12)
   text,
 
@@ -43,9 +46,6 @@ enum DataType {
 
   @HiveField(11)
   bmi,
-
-  @HiveField(999)
-  unknown,
 }
 
 extension DataTypeExtension on DataType {

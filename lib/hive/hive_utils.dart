@@ -54,6 +54,7 @@ class HiveUtils {
     //   await Hive.deleteBoxFromDisk(_boxDataWidgetProperties);
     //   await Hive.deleteBoxFromDisk(_boxOverlayProfiles);
     //   await Hive.deleteBoxFromDisk(_boxFirebaseConfig);
+    //   await Hive.deleteBoxFromDisk(_boxChartProperties);
     // }
 
     _settingsBox = await Hive.openBox<Settings>(_boxSettings);
@@ -135,6 +136,15 @@ class HiveUtils {
   }
 
   void addChart() {
+    // Don't allow adding more charts before configuring the current one
+    if (_chartPropertiesBox.values.any((e) => e.dataType == DataType.unknown)) {
+      Get.snackbar(
+        'Unable to add chart',
+        'Set up your other charts before adding more',
+      );
+      return;
+    }
+
     _chartPropertiesBox.add(ChartProperties());
   }
 

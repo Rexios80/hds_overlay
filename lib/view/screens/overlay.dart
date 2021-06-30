@@ -190,10 +190,13 @@ class HDSOverlay extends HookWidget {
               ),
             ),
             profileLoad,
-            IconButton(
-              icon: Icon(Icons.add),
-              tooltip: 'Add widget',
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            // For some reason this has to be in a builder or it doesn't work
+            Builder(
+              builder: (context) => IconButton(
+                icon: Icon(Icons.add),
+                tooltip: 'Add widget',
+                onPressed: () => Scaffold.of(context).openEndDrawer(),
+              ),
             ),
             IconButton(
               icon: Icon(Icons.add_chart),
