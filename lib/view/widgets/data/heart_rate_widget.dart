@@ -138,15 +138,17 @@ class HeartRateImage extends HookWidget {
       final startTime = DateTime.now().millisecondsSinceEpoch;
       if (hrwc.currentHeartRate == 0 ||
           hrwc.currentHeartRate < properties.value.heartBeatSoundThreshold) {
+        player.stop();
         await Future.delayed(Duration(milliseconds: 100));
         continue;
+      } else {
+        player.play();
       }
 
       final int millisecondsPerBeat =
           (60 / hrwc.currentHeartRate * 1000).toInt();
 
       player.seek(Duration(seconds: 0));
-      player.play();
 
       final endTime = DateTime.now().millisecondsSinceEpoch;
       final duration = endTime - startTime;
