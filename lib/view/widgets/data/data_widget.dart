@@ -112,12 +112,16 @@ class DataWidgetText extends StatelessWidget {
         final preProcessedValue =
             connectionController.messages[typeSource]?.value;
         final String valueText;
-        if (preProcessedValue == null) {
+        // Allow strict override of the text in children
+        final childText = getText(properties, context);
+        if (childText != null) {
+          valueText = childText;
+        } else if (preProcessedValue == null) {
           valueText = '-';
         } else {
           final scaledValue =
               double.parse(preProcessedValue) * properties.value.scaleFactor;
-          if (typeSource.item1.isRounded()) {
+          if (typeSource.item1.isRounded) {
             valueText = scaledValue.toStringAsFixed(properties.value.decimals);
           } else {
             valueText = scaledValue.toStringAsFixed(0);
@@ -165,11 +169,13 @@ class DataWidgetText extends StatelessWidget {
             strokeTextStyle.copyWith(fontSize: properties.value.unitFontSize);
 
         return Padding(
-          padding: EdgeInsets.only(
-            left: properties.value.textPaddingLeft,
-            right: properties.value.textPaddingLeft,
-            top: properties.value.textPaddingTop,
-          ),
+          padding: typeSource.item1.usesPadding
+              ? EdgeInsets.only(
+                  left: properties.value.textPaddingLeft,
+                  right: properties.value.textPaddingLeft,
+                  top: properties.value.textPaddingTop,
+                )
+              : EdgeInsets.zero,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
@@ -207,8 +213,15 @@ class DataWidgetText extends StatelessWidget {
     );
   }
 
+  String? getText(
+    Rx<DataWidgetProperties> properties,
+    BuildContext context,
+  ) {}
+
   Color getTextColor(
-      Rx<DataWidgetProperties> properties, BuildContext context) {
+    Rx<DataWidgetProperties> properties,
+    BuildContext context,
+  ) {
     return Color(properties.value.textColor);
   }
 }

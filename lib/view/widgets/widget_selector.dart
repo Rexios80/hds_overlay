@@ -6,9 +6,7 @@ import 'package:hds_overlay/controllers/widget_selector_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-
-import 'data/data_widget.dart';
-import 'data/heart_rate_widget.dart';
+import 'package:uuid/uuid.dart';
 
 class WidgetSelector extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
@@ -75,16 +73,17 @@ class WidgetSelector extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       InkWell(
-                        onTap: () =>
-                            wsc.addWidget(dataType, wsc.dataSource.value),
+                        onTap: () {
+                          if (dataType == DataType.text) {
+                            // Generate a random data source to allow infinite text widgets
+                            wsc.addWidget(dataType, Uuid().v4());
+                          } else {
+                            wsc.addWidget(dataType, wsc.dataSource.value);
+                          }
+                        },
                         child: Provider.value(
                             value: Tuple2(dataType, wsc.dataSource.value),
-                            builder: (context, _) {
-                              if (dataType == DataType.heartRate) {
-                                return HeartRateWidget();
-                              }
-                              return DataWidget();
-                            }),
+                            builder: (context, _) => dataType.widget),
                       ),
                       SizedBox(height: 20),
                     ],

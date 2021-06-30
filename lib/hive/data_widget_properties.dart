@@ -112,6 +112,18 @@ class DataWidgetProperties extends HiveObject {
   bool get vertical => _vertical ?? false;
   set vertical(bool value) => _vertical = value;
 
+  @HiveField(26)
+  int? _heartBeatSoundThreshold;
+
+  int get heartBeatSoundThreshold => _heartBeatSoundThreshold ?? 0;
+  set heartBeatSoundThreshold(int value) => _heartBeatSoundThreshold = value;
+
+  @HiveField(27)
+  String? _text;
+
+  String get text => _text ?? 'Text';
+  set text(String value) => _text = value;
+
   DataWidgetProperties();
 
   // Well this is a pain in the ass
@@ -141,6 +153,8 @@ class DataWidgetProperties extends HiveObject {
     this._dataSource = original._dataSource;
     this._scaleFactor = original._scaleFactor;
     this._fontWeight = original._fontWeight;
+    this._heartBeatSoundThreshold = original._heartBeatSoundThreshold;
+    this._text = original._text;
   }
 
   // Apparently json only supports Map<String, dynamic>
@@ -174,6 +188,8 @@ class DataWidgetProperties extends HiveObject {
         'dataSource': _dataSource,
         'scaleFactor': _scaleFactor,
         'fontWeight': _fontWeight,
+        'heartBeatSoundThreshold': _heartBeatSoundThreshold,
+        'text': _text,
       };
 
   DataWidgetProperties.fromJson(Map<String, dynamic> json)
@@ -206,5 +222,7 @@ class DataWidgetProperties extends HiveObject {
         _textInsideImage = json['textInsideImage'],
         _dataSource = json['dataSource'],
         _scaleFactor = json['scaleFactor'],
-        _fontWeight = json['fontWeight'];
+        _fontWeight = json['fontWeight'],
+        _heartBeatSoundThreshold = json['heartBeatSoundThreshold'],
+        _text = json['text'];
 }

@@ -13,6 +13,8 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
   @override
   DataType read(BinaryReader reader) {
     switch (reader.readByte()) {
+      case 12:
+        return DataType.text;
       case 0:
         return DataType.heartRate;
       case 1:
@@ -38,13 +40,16 @@ class DataTypeAdapter extends TypeAdapter<DataType> {
       case 999:
         return DataType.unknown;
       default:
-        return DataType.heartRate;
+        return DataType.text;
     }
   }
 
   @override
   void write(BinaryWriter writer, DataType obj) {
     switch (obj) {
+      case DataType.text:
+        writer.writeByte(12);
+        break;
       case DataType.heartRate:
         writer.writeByte(0);
         break;

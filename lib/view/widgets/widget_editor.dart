@@ -35,9 +35,13 @@ class WidgetEditor extends StatelessWidget {
             ),
             style: Theme.of(context).textTheme.headline6,
           ),
-          Text(
-            'Data source: ${properties.value.dataSource}',
-            style: Theme.of(context).textTheme.caption,
+          SizedBox(height: 5),
+          Visibility(
+            visible: properties.value.dataType != DataType.text,
+            child: Text(
+              'Data source: ${properties.value.dataSource}',
+              style: Theme.of(context).textTheme.caption,
+            ),
           ),
         ],
       ),
@@ -130,7 +134,7 @@ class WidgetEditor extends StatelessWidget {
                 SizedBox(height: 5),
                 Obx(
                   () => Visibility(
-                    visible: properties.value.dataType.isAnimated(),
+                    visible: properties.value.dataType.isAnimated,
                     child: Row(
                       children: [
                         Text('Animate'),
@@ -211,10 +215,19 @@ class WidgetEditor extends StatelessWidget {
 
     final textEditor = Column(
       children: [
+        Visibility(
+          visible: properties.value.dataType == DataType.text,
+          child: Column(
+            children: [
+              WidgetEditorTextField(EditorType.text, properties),
+              SizedBox(height: 10),
+            ],
+          ),
+        ),
         colorSelector,
         SizedBox(height: 5),
         Visibility(
-          visible: properties.value.dataType.isRounded(),
+          visible: properties.value.dataType.isRounded,
           child: Column(
             children: [
               WidgetEditorTextField(EditorType.decimals, properties),
@@ -233,38 +246,46 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 15),
         WidgetEditorTextField(EditorType.fontSize, properties),
         SizedBox(height: 5),
-        WidgetEditorTextField(EditorType.scaleFactor, properties),
-        SizedBox(height: 5),
-        WidgetEditorTextField(EditorType.unit, properties),
-        Obx(
-          () => Visibility(
-            visible: properties.value.unit.isNotEmpty,
-            child: Column(
-              children: [
-                SizedBox(height: 5),
-                WidgetEditorTextField(EditorType.unitFontSize, properties),
-              ],
-            ),
+        Visibility(
+          visible: properties.value.dataType != DataType.text,
+          child: Column(
+            children: [
+              WidgetEditorTextField(EditorType.scaleFactor, properties),
+              SizedBox(height: 5),
+              WidgetEditorTextField(EditorType.unit, properties),
+              Obx(
+                () => Visibility(
+                  visible: properties.value.unit.isNotEmpty,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 5),
+                      WidgetEditorTextField(
+                          EditorType.unitFontSize, properties),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 5),
+              Obx(() => Row(
+                    children: [
+                      Text('Text inside image'),
+                      Spacer(),
+                      Switch(
+                        value: properties.value.textInsideImage,
+                        onChanged: (value) {
+                          properties.value.textInsideImage = value;
+                          saveAndRefresh(properties);
+                        },
+                      ),
+                    ],
+                  )),
+              SizedBox(height: 5),
+              WidgetEditorTextField(EditorType.textPaddingLeft, properties),
+              SizedBox(height: 5),
+              WidgetEditorTextField(EditorType.textPaddingTop, properties),
+            ],
           ),
         ),
-        SizedBox(height: 5),
-        Obx(() => Row(
-              children: [
-                Text('Text inside image'),
-                Spacer(),
-                Switch(
-                  value: properties.value.textInsideImage,
-                  onChanged: (value) {
-                    properties.value.textInsideImage = value;
-                    saveAndRefresh(properties);
-                  },
-                ),
-              ],
-            )),
-        SizedBox(height: 5),
-        WidgetEditorTextField(EditorType.textPaddingLeft, properties),
-        SizedBox(height: 5),
-        WidgetEditorTextField(EditorType.textPaddingTop, properties),
         SizedBox(height: 5),
         Obx(
           () => Row(
@@ -365,6 +386,8 @@ class WidgetEditor extends StatelessWidget {
                     : 'Remove audio file'),
           ),
         ),
+        SizedBox(height: 10),
+        WidgetEditorTextField(EditorType.heartBeatSoundThreshold, properties),
       ],
     );
 
@@ -400,15 +423,22 @@ class WidgetEditor extends StatelessWidget {
         SizedBox(height: 10),
         Divider(),
         SizedBox(height: 10),
-        Text(
-          'Image',
-          style: Theme.of(context).textTheme.subtitle1,
+        Visibility(
+          visible: properties.value.dataType != DataType.text,
+          child: Column(
+            children: [
+              Text(
+                'Image',
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              SizedBox(height: 10),
+              imageEditor,
+              SizedBox(height: 10),
+              Divider(),
+              SizedBox(height: 10),
+            ],
+          ),
         ),
-        SizedBox(height: 10),
-        imageEditor,
-        SizedBox(height: 10),
-        Divider(),
-        SizedBox(height: 10),
         Text(
           'Text',
           style: Theme.of(context).textTheme.subtitle1,

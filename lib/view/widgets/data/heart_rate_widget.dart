@@ -95,7 +95,9 @@ class HeartRateImage extends HookWidget {
   }
 
   void animateImage(
-      AnimationController controller, HeartRateWidgetController hrwc) async {
+    AnimationController controller,
+    HeartRateWidgetController hrwc,
+  ) async {
     hrwc.animating = true;
 
     while (hrwc.animating && hrwc.visible) {
@@ -134,7 +136,8 @@ class HeartRateImage extends HookWidget {
 
     while (hrwc.sounding && hrwc.visible) {
       final startTime = DateTime.now().millisecondsSinceEpoch;
-      if (hrwc.currentHeartRate == 0) {
+      if (hrwc.currentHeartRate == 0 ||
+          hrwc.currentHeartRate < properties.value.heartBeatSoundThreshold) {
         await Future.delayed(Duration(milliseconds: 100));
         continue;
       }
@@ -148,7 +151,8 @@ class HeartRateImage extends HookWidget {
       final endTime = DateTime.now().millisecondsSinceEpoch;
       final duration = endTime - startTime;
       await Future.delayed(
-          Duration(milliseconds: millisecondsPerBeat - duration));
+        Duration(milliseconds: millisecondsPerBeat - duration),
+      );
     }
   }
 }
@@ -156,7 +160,9 @@ class HeartRateImage extends HookWidget {
 class HeartRateText extends DataWidgetText {
   @override
   Color getTextColor(
-      Rx<DataWidgetProperties> properties, BuildContext context) {
+    Rx<DataWidgetProperties> properties,
+    BuildContext context,
+  ) {
     final hrwc = Provider.of<HeartRateWidgetController>(context);
 
     final ranges = properties.value.heartRateRanges.entries.toList();

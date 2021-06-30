@@ -24,6 +24,8 @@ String getDefaultImage(DataType dataType) {
       return 'assets/images/scale.png';
     case DataType.bmi:
       return 'assets/images/scale.png';
+    case DataType.text:
+      return 'assets/images/icon.png';
     case DataType.unknown:
       print('Tried to load default image for DataType.unknown');
       return 'assets/images/icon.png';

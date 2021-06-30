@@ -70,6 +70,10 @@ class WidgetEditorTextField extends StatelessWidget {
         return properties.value.decimals.toString();
       case EditorType.scaleFactor:
         return properties.value.scaleFactor.toString();
+      case EditorType.heartBeatSoundThreshold:
+        return properties.value.heartBeatSoundThreshold.toString();
+      case EditorType.text:
+        return properties.value.text;
     }
   }
 
@@ -101,6 +105,10 @@ class WidgetEditorTextField extends StatelessWidget {
         return 'Decimals';
       case EditorType.scaleFactor:
         return 'Scale factor';
+      case EditorType.heartBeatSoundThreshold:
+        return 'BPM Threshold';
+      case EditorType.text:
+        return 'Text';
     }
   }
 
@@ -151,6 +159,12 @@ class WidgetEditorTextField extends StatelessWidget {
       case EditorType.scaleFactor:
         properties.value.scaleFactor = double.tryParse(value) ?? 1;
         break;
+      case EditorType.heartBeatSoundThreshold:
+        properties.value.heartBeatSoundThreshold = int.tryParse(value) ?? 0;
+        break;
+      case EditorType.text:
+        properties.value.text = value.isEmpty ? 'Text' : value;
+        break;
     }
 
     properties.value.save();
@@ -172,4 +186,6 @@ enum EditorType {
   font,
   decimals,
   scaleFactor,
+  heartBeatSoundThreshold,
+  text,
 }
