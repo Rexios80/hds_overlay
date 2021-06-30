@@ -54,13 +54,17 @@ class DataView extends StatelessWidget {
                   child: LongPressDraggable(
                     feedback: Transform.scale(
                       scale: 1.2,
-                      child: dataWidget,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: dataWidget,
+                      ),
                     ),
                     childWhenDragging: SizedBox.shrink(),
                     onDragEnd: (dragDetails) {
                       final dx = dragDetails.offset.dx;
                       final dy = dragDetails.offset.dy - appBarHeight;
-                      final maxX = _dataViewKey.currentContext?.size?.width ?? 0;
+                      final maxX =
+                          _dataViewKey.currentContext?.size?.width ?? 0;
                       final maxY =
                           _dataViewKey.currentContext?.size?.height ?? 0;
 
