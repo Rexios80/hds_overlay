@@ -56,7 +56,7 @@ class DataView extends StatelessWidget {
               cc.propertiesMap.values
                   .map(
                     (cp) => buildWidget(
-                      type: DataWidgetType.data,
+                      type: DataWidgetType.chart,
                       typeSource: Tuple2(
                         cp.value.dataType,
                         cp.value.dataSource,
@@ -79,6 +79,7 @@ class DataView extends StatelessWidget {
     );
   }
 
+  /// Doing some [dynamic] voodoo here because Hive doesn't like polymorphism
   Widget buildWidget({
     required DataWidgetType type,
     required Tuple2<DataType, String> typeSource,

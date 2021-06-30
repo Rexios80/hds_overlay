@@ -15,6 +15,7 @@ import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
+import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/utils/themes.dart';
@@ -34,6 +35,7 @@ class HDSOverlay extends HookWidget {
   final ConnectionController connectionController = Get.find();
   final FirebaseController firebaseController = Get.find();
   final SettingsController settingsController = Get.find();
+  final HiveUtils _hive = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -188,12 +190,15 @@ class HDSOverlay extends HookWidget {
               ),
             ),
             profileLoad,
-            Builder(
-              builder: (context) => IconButton(
-                icon: Icon(Icons.add),
-                tooltip: 'Add widget',
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
-              ),
+            IconButton(
+              icon: Icon(Icons.add),
+              tooltip: 'Add widget',
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+            IconButton(
+              icon: Icon(Icons.add_chart),
+              tooltip: 'Add chart',
+              onPressed: () => _hive.addChart(),
             ),
           ]
         : <Widget>[];
@@ -254,6 +259,9 @@ class HDSOverlay extends HookWidget {
             if (!open) {
               // Reset the drawer when it is closed
               endDrawerController.selectedDataWidgetDataTypeSource.value =
+                  Tuple2(DataType.unknown, DataSource.watch);
+
+              endDrawerController.selectedChartDataTypeSource.value =
                   Tuple2(DataType.unknown, DataSource.watch);
             }
           },

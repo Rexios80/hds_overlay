@@ -134,6 +134,10 @@ class HiveUtils {
     );
   }
 
+  void addChart() {
+    _chartPropertiesBox.add(ChartProperties());
+  }
+
   void saveProfile(String profileName) {
     if (profileName.isEmpty) return;
     Get.back();
