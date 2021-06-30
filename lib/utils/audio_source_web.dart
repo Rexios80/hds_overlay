@@ -13,7 +13,10 @@ class WebAudioSource extends StreamAudioSource {
       sourceLength: _buffer.length,
       contentLength: _buffer.length,
       offset: 0,
-      stream: Stream.value(_buffer.skip(start ?? 0).take((end ?? _buffer.length) - (start ?? 0)).toList()),
+      stream: Stream.value(_buffer
+          .skip(start ?? 0)
+          .take((end ?? _buffer.length) - (start ?? 0))
+          .toList()),
       contentType: 'audio/mpeg',
     ));
   }
