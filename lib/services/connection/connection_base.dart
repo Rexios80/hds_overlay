@@ -38,7 +38,10 @@ abstract class ConnectionBase {
     // Log which data types have been received for debugging
     _analytics.logEvent(
       name: 'data_received',
-      parameters: {'data_type': parts[0]},
+      parameters: {
+        'data_type': parts[0],
+        'data_source': source,
+      },
     );
 
     if (dataType != DataType.unknown) {

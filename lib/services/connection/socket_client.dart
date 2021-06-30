@@ -9,7 +9,7 @@ import 'cloud_socket_client_stub.dart'
     if (dart.library.js) 'cloud_socket_client.dart';
 
 abstract class SocketClient extends ConnectionBase {
-  late WebSocketChannel _channel;
+  WebSocketChannel? _channel;
   String clientName = '';
   String ip = '';
   String overlayId = '';
@@ -23,7 +23,7 @@ abstract class SocketClient extends ConnectionBase {
     try {
       _channel = WebSocketChannel.connect(await createUri());
       if (this is LocalSocketClient) {
-        _channel.sink.add('clientName:$clientName');
+        _channel?.sink.add('clientName:$clientName');
         log(LogLevel.good, 'Connected to server: $ip');
       } else if (this is CloudSocketClient) {
         log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
@@ -44,23 +44,23 @@ abstract class SocketClient extends ConnectionBase {
   }
 
   void sendMessage(String message) {
-    _channel.sink.add(message);
+    _channel?.sink.add(message);
   }
 
   Future<Uri> createUri();
 
   void _reconnectOnDisconnect() async {
     // This channel is used for sending data on desktop and receiving data on web
-    final channelSubscription = _channel.stream.listen((message) {
+    final channelSubscription = _channel?.stream.listen((message) {
       if (kIsWeb) {
         handleMessage(message, 'watch');
       }
     });
-    channelSubscription.onDone(() {
+    channelSubscription?.onDone(() {
       channelSubscription.cancel();
       _reconnect();
     });
-    channelSubscription.onError((error) {
+    channelSubscription?.onError((error) {
       print(error);
       channelSubscription.cancel();
       _reconnect();
@@ -73,7 +73,7 @@ abstract class SocketClient extends ConnectionBase {
     } else if (this is CloudSocketClient) {
       log(LogLevel.hdsCloud, 'Disconnected from HDS Cloud');
     }
-    _channel.sink.close();
+    _channel?.sink.close();
     _reconnectTimer = Timer(Duration(seconds: 5), () => _connect());
   }
 
@@ -96,7 +96,7 @@ abstract class SocketClient extends ConnectionBase {
   Future<void> stop() {
     _stopped = true;
     _reconnectTimer?.cancel();
-    _channel.sink.close();
+    _channel?.sink.close();
     return Future.value();
   }
 }
