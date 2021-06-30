@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 
 abstract class ConnectionBase {
   final FirebaseAnalytics _analytics = Get.find();
+  final SettingsController _settings = Get.find();
   // ignore: close_sinks
   StreamController<LogMessage> _logStreamController = StreamController();
   StreamController<DataMessageBase> _messageStreamController =
@@ -39,6 +41,7 @@ abstract class ConnectionBase {
     _analytics.logEvent(
       name: 'data_received',
       parameters: {
+        'hds_cloud_enabled': _settings.settings.value.hdsCloud,
         'data_type': parts[0],
         'data_source': source,
       },
