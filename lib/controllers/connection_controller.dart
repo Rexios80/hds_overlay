@@ -19,7 +19,7 @@ import 'package:tuple/tuple.dart';
 class ConnectionController extends GetxController {
   static const _dataClearInterval = 120000; // milliseconds
 
-  final _messages = Map<Tuple2<DataType, String>, DataMessage>().obs;
+  final _messages = RxMap<Tuple2<DataType, String>, DataMessage>();
   final _logs = <LogMessage>[].obs;
   bool _started = false;
 

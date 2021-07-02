@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/chart_controller.dart';
+import 'package:hds_overlay/controllers/chart_widget_controller.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
@@ -17,7 +18,7 @@ import 'package:tuple/tuple.dart';
 class DataView extends StatelessWidget {
   final endDrawerController = Get.put(EndDrawerController());
   final DataWidgetController dwc = Get.find();
-  final ChartController cc = Get.find();
+  final ChartWidgetController cwc = Get.find();
   final SettingsController settingsController = Get.find();
   final ConnectionController connectionController = Get.find();
   final _dataViewKey = GlobalKey();
@@ -53,7 +54,7 @@ class DataView extends StatelessWidget {
                     ),
                   )
                   .toList() +
-              cc.propertiesMap.values
+              cwc.propertiesMap.values
                   .map(
                     (cp) => buildWidget(
                       type: DataWidgetType.chart,
@@ -94,7 +95,7 @@ class DataView extends StatelessWidget {
               break;
             case DataWidgetType.chart:
               properties =
-                  cc.propertiesMap[typeSource]?.value ?? ChartProperties();
+                  cwc.propertiesMap[typeSource]?.value ?? ChartProperties();
               break;
           }
 
@@ -105,7 +106,7 @@ class DataView extends StatelessWidget {
                 case DataWidgetType.data:
                   return typeSource.item1.widget;
                 case DataWidgetType.chart:
-                  return ChartWidget();
+                  return ChartWidget(typeSource);
               }
             },
           );
@@ -140,7 +141,7 @@ class DataView extends StatelessWidget {
                     dwc.propertiesMap.refresh();
                     break;
                   case DataWidgetType.chart:
-                    cc.propertiesMap.refresh();
+                    cwc.propertiesMap.refresh();
                     break;
                 }
               },

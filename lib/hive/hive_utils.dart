@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:hds_overlay/controllers/chart_controller.dart';
+import 'package:hds_overlay/controllers/chart_widget_controller.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
@@ -34,7 +34,7 @@ class HiveUtils {
 
   late final ConnectionController _connectionController;
   late final DataWidgetController _dwc;
-  late final ChartController _chartController;
+  late final ChartWidgetController _cwc;
 
   Future<void> init() async {
     await Hive.initFlutter('Health Data Server');
@@ -91,8 +91,8 @@ class HiveUtils {
     _dwc = Get.put(
         DataWidgetController(createDwpMap(_dataWidgetPropertiesBox).obs));
 
-    _chartController =
-        Get.put(ChartController(createCpMap(_chartPropertiesBox).obs));
+    _cwc =
+        Get.put(ChartWidgetController(createCpMap(_chartPropertiesBox).obs));
 
     final opc = Get.put(
         OverlayProfilesController(_overlayProfilesBox.values.toList().obs));
@@ -103,7 +103,7 @@ class HiveUtils {
     });
 
     _chartPropertiesBox.watch().listen((_) {
-      _chartController.propertiesMap.value = createCpMap(_chartPropertiesBox);
+      _cwc.propertiesMap.value = createCpMap(_chartPropertiesBox);
     });
 
     _overlayProfilesBox.watch().listen((_) {
