@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/chart_controller.dart';
 import 'package:hds_overlay/controllers/chart_widget_controller.dart';
+import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:tuple/tuple.dart';
 import 'package:collection/collection.dart';
@@ -10,18 +11,17 @@ import 'package:collection/collection.dart';
 class ChartWidget extends StatelessWidget {
   final ChartWidgetController cwc = Get.find();
   final ChartController chartController;
+  final Tuple2<DataType, String> typeSource;
 
-  final List<Color> gradientColors = [
-    Colors.red,
-    Colors.green,
-  ];
-
-  ChartWidget(Tuple2<DataType, String> typeSource)
+  ChartWidget(this.typeSource)
       : chartController = ChartController(typeSource: typeSource);
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      final properties =
+          cwc.propertiesMap[typeSource]?.value ?? ChartWidgetProperties();
+
       final spots = chartController.data;
       final maxY = spots.isEmpty
           ? 0
@@ -32,6 +32,11 @@ class ChartWidget extends StatelessWidget {
       final maxX = spots.isEmpty
           ? 0
           : spots.sorted((a, b) => (b.x - a.x).toInt()).first.x;
+
+      final List<Color> gradientColors = [
+        properties.highColor,
+        properties.lowColor,
+      ];
 
       return Container(
         width: 100,

@@ -1,4 +1,5 @@
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/chart_widget_controller.dart';
@@ -6,6 +7,7 @@ import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/widget_editor_controller.dart';
 import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
+import 'package:hds_overlay/view/widgets/color_picker_tile.dart';
 import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
 
 class ChartEditor extends StatelessWidget {
@@ -94,6 +96,23 @@ class ChartEditor extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 10),
+        ColorPickerTile(
+          label: 'Low color',
+          initialColor: properties.value.lowColor,
+          onColorChanged: (color) {
+            properties.value.lowColor = color;
+            saveAndRefresh(properties);
+          },
+        ),
+        SizedBox(height: 10),
+        ColorPickerTile(
+          label: 'High color',
+          initialColor: properties.value.highColor,
+          onColorChanged: (color) {
+            properties.value.highColor = color;
+            saveAndRefresh(properties);
+          },
+        ),
         Divider(),
         SizedBox(height: 10),
         deleteButton,

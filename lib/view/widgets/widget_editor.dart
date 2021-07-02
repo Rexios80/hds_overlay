@@ -11,6 +11,7 @@ import 'package:hds_overlay/controllers/widget_editor_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/default_image.dart';
+import 'package:hds_overlay/view/widgets/color_picker_tile.dart';
 import 'package:hds_overlay/view/widgets/heart_rate_range_editor.dart';
 import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
 
@@ -173,22 +174,13 @@ class WidgetEditor extends StatelessWidget {
       ],
     );
 
-    final colorSelector = ExpansionTile(
-      title: Text('Text color'),
-      children: [
-        ColorPicker(
-          color: Color(properties.value.textColor),
-          // Update the screenPickerColor using the callback.
-          onColorChanged: (Color color) {
-            properties.value.textColor = color.value;
-            saveAndRefresh(properties);
-          },
-          subheading: Text(
-            'Color shade',
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-        ),
-      ],
+    final colorSelector = ColorPickerTile(
+      label: 'Text color',
+      initialColor: Color(properties.value.textColor),
+      onColorChanged: (Color color) {
+        properties.value.textColor = color.value;
+        saveAndRefresh(properties);
+      },
     );
 
     final fontWeightSelector = Row(

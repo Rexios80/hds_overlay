@@ -20,13 +20,15 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
       ..dataType = fields[0] as DataType
       ..dataSource = fields[1] as String
       ..position = fields[2] as Tuple2Double
-      ..valuesToKeep = fields[3] as int;
+      ..valuesToKeep = fields[3] as int
+      .._highColor = fields[4] as int?
+      .._lowColor = fields[5] as int?;
   }
 
   @override
   void write(BinaryWriter writer, ChartWidgetProperties obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.dataType)
       ..writeByte(1)
@@ -34,7 +36,11 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
       ..writeByte(2)
       ..write(obj.position)
       ..writeByte(3)
-      ..write(obj.valuesToKeep);
+      ..write(obj.valuesToKeep)
+      ..writeByte(4)
+      ..write(obj._highColor)
+      ..writeByte(5)
+      ..write(obj._lowColor);
   }
 
   @override
