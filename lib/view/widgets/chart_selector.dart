@@ -60,7 +60,12 @@ class ChartSelector extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                 ] +
-                dataTypes.map((DataType dataType) {
+                dataTypes
+                    .where((e) =>
+                        e != DataType.text &&
+                        e != DataType.bodyMass &&
+                        e != DataType.bmi)
+                    .map((DataType dataType) {
                   final typeSource = Tuple2(dataType, wsc.dataSource.value);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

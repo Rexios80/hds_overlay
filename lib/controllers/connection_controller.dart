@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/chart_widget_controller.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
+import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
@@ -20,10 +23,13 @@ class ConnectionController extends GetxController {
   static const _dataClearInterval = 120000; // milliseconds
 
   final _messages = RxMap<Tuple2<DataType, String>, DataMessage>();
+  final _messageHistory = RxMap<Tuple2<DataType, String>, List<DataMessage>>();
   final _logs = <LogMessage>[].obs;
   bool _started = false;
 
   RxMap<Tuple2<DataType, String>, DataMessage> get messages => _messages;
+  RxMap<Tuple2<DataType, String>, List<DataMessage>> get messageHistory =>
+      _messageHistory;
 
   List<LogMessage> get logs => _logs;
 
@@ -79,6 +85,18 @@ class ConnectionController extends GetxController {
       if (message.dataType == DataType.heartRate) {
         calcMinMaxAvg(int.tryParse(message.value) ?? -1, message.source);
       }
+
+      // Deal with message history for the charts
+      if (_messageHistory[typeSource] == null) {
+        _messageHistory[typeSource] = [];
+      }
+      _messageHistory[typeSource]?.add(message);
+
+      while ((_messageHistory[typeSource]?.length ?? 0) >
+          ChartWidgetProperties.maxValuesToKeep) {
+        _messageHistory[typeSource]?.removeAt(0);
+      }
+      _messageHistory.refresh();
     });
 
     _connection?.logStream.listen((log) {
@@ -112,19 +130,25 @@ class ConnectionController extends GetxController {
   void calcMinMaxAvg(int heartRate, String source) {
     if (heartRate < (hrMins[source] ?? 999)) {
       hrMins[source] = heartRate;
-      _messages[Tuple2(DataType.heartRateMin, source)] =
-          DataMessage(source, DataType.heartRateMin, heartRate.toString());
+      _connection?.handleMessage(
+        '${EnumToString.convertToString(DataType.heartRateMin)}:${heartRate.toString()}',
+        source,
+      );
     }
     if (heartRate > (hrMaxs[source] ?? 0)) {
       hrMaxs[source] = heartRate;
-      _messages[Tuple2(DataType.heartRateMax, source)] =
-          DataMessage(source, DataType.heartRateMax, heartRate.toString());
+      _connection?.handleMessage(
+        '${EnumToString.convertToString(DataType.heartRateMax)}:${heartRate.toString()}',
+        source,
+      );
     }
     hrs[source] = (hrs[source] ?? []) + [heartRate];
     final hrAvg =
         hrs[source]!.reduce((e1, e2) => e1 + e2) / hrs[source]!.length;
-    _messages[Tuple2(DataType.heartRateAverage, source)] =
-        DataMessage(source, DataType.heartRateAverage, hrAvg.toString());
+    _connection?.handleMessage(
+      '${EnumToString.convertToString(DataType.heartRateAverage)}:${hrAvg.toString()}',
+      source,
+    );
   }
 
   void stop() {

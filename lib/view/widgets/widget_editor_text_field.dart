@@ -78,6 +78,8 @@ class WidgetEditorTextField extends StatelessWidget {
         return properties.value.heartBeatSoundThreshold.toString();
       case EditorType.text:
         return properties.value.text;
+      case EditorType.valuesToKeep:
+        return properties.value.valuesToKeep.toString();
     }
   }
 
@@ -113,6 +115,8 @@ class WidgetEditorTextField extends StatelessWidget {
         return 'BPM Threshold';
       case EditorType.text:
         return 'Text';
+      case EditorType.valuesToKeep:
+        return 'Values to keep';
     }
   }
 
@@ -169,6 +173,9 @@ class WidgetEditorTextField extends StatelessWidget {
       case EditorType.text:
         properties.value.text = value.isEmpty ? 'Text' : value;
         break;
+      case EditorType.valuesToKeep:
+        properties.value.valuesToKeep = int.tryParse(value) ?? 20;
+        break;
     }
 
     properties.value.save();
@@ -192,4 +199,5 @@ enum EditorType {
   scaleFactor,
   heartBeatSoundThreshold,
   text,
+  valuesToKeep,
 }
