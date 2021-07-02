@@ -82,7 +82,9 @@ class ConnectionController extends GetxController {
       _messages[typeSource] = message;
       logs.add(LogMessage(LogLevel.data, log));
 
-      if (message.dataType == DataType.heartRate) {
+      // Only calculate hr features on the web overlay
+      // They are useless in the desktop app
+      if (kIsWeb && message.dataType == DataType.heartRate) {
         calcMinMaxAvg(int.tryParse(message.value) ?? -1, message.source);
       }
 
