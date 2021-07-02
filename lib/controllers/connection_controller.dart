@@ -146,7 +146,7 @@ class ConnectionController extends GetxController {
     final hrAvg =
         hrs[source]!.reduce((e1, e2) => e1 + e2) / hrs[source]!.length;
     _connection?.handleMessage(
-      '${EnumToString.convertToString(DataType.heartRateAverage)}:${hrAvg.toString()}',
+      '${EnumToString.convertToString(DataType.heartRateAverage)}:${hrAvg.toStringAsFixed(3)}',
       source,
     );
   }
