@@ -17,7 +17,12 @@ class ChartController extends GetxController {
       (Map<Tuple2<DataType, String>, DataMessage> messages) {
         final message = messages[typeSource];
         if (message != null && !data.any((e) => e.x == message.timestamp)) {
-          data.add(FlSpot(message.timestamp.toDouble(), message.value));
+          data.add(
+            FlSpot(
+              message.timestamp.toDouble(),
+              double.tryParse(message.value) ?? 0,
+            ),
+          );
         }
       },
     );

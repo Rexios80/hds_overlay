@@ -195,13 +195,15 @@ class HDSOverlay extends HookWidget {
               builder: (context) => IconButton(
                 icon: Icon(Icons.add),
                 tooltip: 'Add widget',
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
+                onPressed: () => endDrawerController.widgetSelectionType.value =
+                    DataWidgetType.data,
               ),
             ),
             IconButton(
               icon: Icon(Icons.add_chart),
               tooltip: 'Add chart',
-              onPressed: () => _hive.addChart(),
+              onPressed: () => endDrawerController.widgetSelectionType.value =
+                  DataWidgetType.chart,
             ),
           ]
         : <Widget>[];
@@ -261,11 +263,9 @@ class HDSOverlay extends HookWidget {
           onEndDrawerChanged: (open) {
             if (!open) {
               // Reset the drawer when it is closed
-              endDrawerController.selectedDataWidgetDataTypeSource.value =
-                  Tuple2(DataType.unknown, DataSource.watch);
-
-              endDrawerController.selectedChartDataTypeSource.value =
-                  Tuple2(DataType.unknown, DataSource.watch);
+              endDrawerController.selectedDataWidgetDataTypeSource.value = null;
+              endDrawerController.selectedChartDataTypeSource.value = null;
+              endDrawerController.widgetSelectionType.value = null;
             }
           },
           body: Column(

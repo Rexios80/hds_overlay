@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/chart_controller.dart';
 import 'package:hds_overlay/controllers/chart_widget_controller.dart';
-import 'package:hds_overlay/hive/chart_properties.dart';
+import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -25,7 +25,7 @@ class ChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final typeSource = Provider.of<Tuple2<DataType, String>>(context);
     final properties =
-        cwc.propertiesMap[typeSource]?.value ?? ChartProperties();
+        cwc.propertiesMap[typeSource]?.value ?? ChartWidgetProperties();
 
     return Obx(
       () => Container(
@@ -43,7 +43,7 @@ class ChartWidget extends StatelessWidget {
     );
   }
 
-  LineChartData data(ChartProperties properties, List<FlSpot> spots) {
+  LineChartData data(ChartWidgetProperties properties, List<FlSpot> spots) {
     final maxY =
         spots.isEmpty ? 0 : spots.sorted((a, b) => (b.y - a.y).toInt()).first.y;
     final minX =
@@ -69,26 +69,10 @@ class ChartWidget extends StatelessWidget {
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff68737d),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          getTitles: (value) => '',
-          margin: 8,
+          showTitles: false,
         ),
         leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff67727d),
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-          ),
-          getTitles: (value) => '',
-          reservedSize: 28,
-          margin: 12,
+          showTitles: false,
         ),
       ),
       borderData: FlBorderData(

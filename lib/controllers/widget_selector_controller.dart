@@ -11,4 +11,8 @@ class WidgetSelectorController extends GetxController {
   void addWidget(DataType dataType, String dataSource) {
     hive.addWidget(dataType, dataSource);
   }
+
+  void addChart(DataType dataType, String dataSource) {
+    hive.addChart(dataType, dataSource);
+  }
 }

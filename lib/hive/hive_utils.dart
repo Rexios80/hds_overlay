@@ -7,7 +7,6 @@ import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
-import 'package:hds_overlay/hive/chart_properties.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/firebase_config.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
@@ -17,6 +16,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tuple/tuple.dart';
 
+import 'chart_widget_properties.dart';
 import 'data_type.dart';
 
 class HiveUtils {
@@ -30,7 +30,7 @@ class HiveUtils {
   late final Box<DataWidgetProperties> _dataWidgetPropertiesBox;
   late final Box<OverlayProfile> _overlayProfilesBox;
   late final Box<FirebaseConfig> _firebaseConfigBox;
-  late final Box<ChartProperties> _chartPropertiesBox;
+  late final Box<ChartWidgetProperties> _chartPropertiesBox;
 
   late final ConnectionController _connectionController;
   late final DataWidgetController _dwc;
@@ -45,7 +45,7 @@ class HiveUtils {
     Hive.registerAdapter(SettingsAdapter());
     Hive.registerAdapter(OverlayProfileAdapter());
     Hive.registerAdapter(FirebaseConfigAdapter());
-    Hive.registerAdapter(ChartPropertiesAdapter());
+    Hive.registerAdapter(ChartWidgetPropertiesAdapter());
 
     // Delete the boxes to prevent crashes while developing
     // if (kDebugMode) {
@@ -64,7 +64,7 @@ class HiveUtils {
         await Hive.openBox<OverlayProfile>(_boxOverlayProfiles);
     _firebaseConfigBox = await Hive.openBox<FirebaseConfig>(_boxFirebaseConfig);
     _chartPropertiesBox =
-        await Hive.openBox<ChartProperties>(_boxChartProperties);
+        await Hive.openBox<ChartWidgetProperties>(_boxChartProperties);
 
     if (_settingsBox.values.isEmpty) {
       await _settingsBox.add(Settings());
@@ -91,8 +91,7 @@ class HiveUtils {
     _dwc = Get.put(
         DataWidgetController(createDwpMap(_dataWidgetPropertiesBox).obs));
 
-    _cwc =
-        Get.put(ChartWidgetController(createCpMap(_chartPropertiesBox).obs));
+    _cwc = Get.put(ChartWidgetController(createCpMap(_chartPropertiesBox).obs));
 
     final opc = Get.put(
         OverlayProfilesController(_overlayProfilesBox.values.toList().obs));
@@ -120,9 +119,9 @@ class HiveUtils {
     return map;
   }
 
-  Map<Tuple2<DataType, String>, Rx<ChartProperties>> createCpMap(
-      Box<ChartProperties> cpBox) {
-    final map = Map<Tuple2<DataType, String>, Rx<ChartProperties>>();
+  Map<Tuple2<DataType, String>, Rx<ChartWidgetProperties>> createCpMap(
+      Box<ChartWidgetProperties> cpBox) {
+    final map = Map<Tuple2<DataType, String>, Rx<ChartWidgetProperties>>();
     cpBox.values.forEach((e) => map[Tuple2(e.dataType, e.dataSource)] = e.obs);
     return map;
   }
@@ -135,17 +134,12 @@ class HiveUtils {
     );
   }
 
-  void addChart() {
-    // Don't allow adding more charts before configuring the current one
-    if (_chartPropertiesBox.values.any((e) => e.dataType == DataType.unknown)) {
-      Get.snackbar(
-        'Unable to add chart',
-        'Set up your other charts before adding more',
-      );
-      return;
-    }
-
-    _chartPropertiesBox.add(ChartProperties());
+  void addChart(DataType dataType, String dataSource) {
+    _chartPropertiesBox.add(
+      ChartWidgetProperties()
+        ..dataType = dataType
+        ..dataSource = dataSource,
+    );
   }
 
   void saveProfile(String profileName) {

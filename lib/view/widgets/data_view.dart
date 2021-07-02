@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hds_overlay/controllers/chart_controller.dart';
 import 'package:hds_overlay/controllers/chart_widget_controller.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
-import 'package:hds_overlay/hive/chart_properties.dart';
+import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
@@ -26,19 +25,32 @@ class DataView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This needs to be in here or the Scaffold can't be found
-    ever(endDrawerController.selectedDataWidgetDataTypeSource,
-        (Tuple2<DataType, String> dataType) {
-      if (dataType.item1 != DataType.unknown) {
-        Scaffold.of(context).openEndDrawer();
-      }
-    });
+    ever(
+      endDrawerController.selectedDataWidgetDataTypeSource,
+      (Tuple2<DataType, String>? dataType) {
+        if (dataType != null) {
+          Scaffold.of(context).openEndDrawer();
+        }
+      },
+    );
 
-    ever(endDrawerController.selectedChartDataTypeSource,
-        (Tuple2<DataType, String> dataType) {
-      if (dataType.item1 != DataType.unknown) {
-        Scaffold.of(context).openEndDrawer();
-      }
-    });
+    ever(
+      endDrawerController.selectedChartDataTypeSource,
+      (Tuple2<DataType, String>? dataType) {
+        if (dataType != null) {
+          Scaffold.of(context).openEndDrawer();
+        }
+      },
+    );
+
+    ever(
+      endDrawerController.widgetSelectionType,
+      (DataWidgetType? selectionType) {
+        if (selectionType != null) {
+          Scaffold.of(context).openEndDrawer();
+        }
+      },
+    );
 
     final dataWidgets = Obx(
       () {
@@ -94,8 +106,8 @@ class DataView extends StatelessWidget {
                   DataWidgetProperties();
               break;
             case DataWidgetType.chart:
-              properties =
-                  cwc.propertiesMap[typeSource]?.value ?? ChartProperties();
+              properties = cwc.propertiesMap[typeSource]?.value ??
+                  ChartWidgetProperties();
               break;
           }
 

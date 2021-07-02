@@ -3,10 +3,10 @@ import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hive/hive.dart';
 
-part 'chart_properties.g.dart';
+part 'chart_widget_properties.g.dart';
 
 @HiveType(typeId: 7)
-class ChartProperties extends HiveObject {
+class ChartWidgetProperties extends HiveObject {
   @HiveField(0)
   DataType dataType = DataType.unknown;
 

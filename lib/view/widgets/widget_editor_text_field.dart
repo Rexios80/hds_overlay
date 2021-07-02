@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
-import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
+import 'package:hds_overlay/view/widgets/data_view.dart';
 
 class WidgetEditorTextField extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
 
-  final EditorType type;
-  final Rx<DataWidgetProperties> properties;
+  final EditorType editorType;
+  final DataWidgetType widgetType;
+  final Rx<dynamic> properties;
   final bool spacer;
 
-  WidgetEditorTextField(this.type, this.properties,
-      {Key? key, this.spacer = true})
-      : super(key: key);
+  WidgetEditorTextField(
+    this.editorType,
+    this.properties, {
+    this.widgetType = DataWidgetType.data,
+    this.spacer = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class WidgetEditorTextField extends StatelessWidget {
   }
 
   String get text {
-    switch (type) {
+    switch (editorType) {
       case EditorType.positionX:
         return properties.value.position.item1.toStringAsFixed(0);
       case EditorType.positionY:
@@ -78,7 +82,7 @@ class WidgetEditorTextField extends StatelessWidget {
   }
 
   String get label {
-    switch (type) {
+    switch (editorType) {
       case EditorType.positionX:
         return 'X  ';
       case EditorType.positionY:
@@ -113,7 +117,7 @@ class WidgetEditorTextField extends StatelessWidget {
   }
 
   void saveAndRefresh(String value) {
-    switch (type) {
+    switch (editorType) {
       case EditorType.positionX:
         properties.value.position = Tuple2Double(
           double.tryParse(value) ?? 0.0,
