@@ -73,7 +73,16 @@ class CloudSocketClient extends SocketClient {
   }
 
   @override
-  void handleMessage(dynamic message, String source) {
+  void handleMessage(
+    dynamic message,
+    String source, {
+    bool localMessage = false,
+  }) {
+    if (localMessage) {
+      super.handleMessage(message, source);
+      return;
+    }
+
     final json = jsonDecode(message);
 
     print(json.toString());

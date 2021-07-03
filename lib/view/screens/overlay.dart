@@ -13,14 +13,10 @@ import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/overlay_controller.dart';
 import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
-import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
-import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
-import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
-import 'package:tuple/tuple.dart';
 
 import '../widgets/data_view.dart';
 import '../widgets/drawers/end_drawer.dart';
@@ -35,7 +31,6 @@ class HDSOverlay extends HookWidget {
   final ConnectionController connectionController = Get.find();
   final FirebaseController firebaseController = Get.find();
   final SettingsController settingsController = Get.find();
-  final HiveUtils _hive = Get.find();
 
   @override
   Widget build(BuildContext context) {

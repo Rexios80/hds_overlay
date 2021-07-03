@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:hds_overlay/controllers/chart_widget_controller.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/chart_widget_properties.dart';
@@ -135,6 +134,7 @@ class ConnectionController extends GetxController {
       _connection?.handleMessage(
         '${EnumToString.convertToString(DataType.heartRateMin)}:${heartRate.toString()}',
         source,
+        localMessage: true,
       );
     }
     if (heartRate > (hrMaxs[source] ?? 0)) {
@@ -142,6 +142,7 @@ class ConnectionController extends GetxController {
       _connection?.handleMessage(
         '${EnumToString.convertToString(DataType.heartRateMax)}:${heartRate.toString()}',
         source,
+        localMessage: true,
       );
     }
     hrs[source] = (hrs[source] ?? []) + [heartRate];
@@ -150,6 +151,7 @@ class ConnectionController extends GetxController {
     _connection?.handleMessage(
       '${EnumToString.convertToString(DataType.heartRateAverage)}:${hrAvg.toStringAsFixed(3)}',
       source,
+      localMessage: true,
     );
   }
 

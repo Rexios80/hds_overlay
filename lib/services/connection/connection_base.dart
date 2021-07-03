@@ -30,7 +30,11 @@ abstract class ConnectionBase {
 
   Future<void> stop();
 
-  void handleMessage(dynamic message, String source) {
+  void handleMessage(
+    dynamic message,
+    String source, {
+    bool localMessage = false,
+  }) {
     print(message);
     final parts = message.split(':');
 

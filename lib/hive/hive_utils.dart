@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/chart_widget_controller.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
@@ -33,7 +32,6 @@ class HiveUtils {
   late final Box<FirebaseConfig> _firebaseConfigBox;
   late final Box<ChartWidgetProperties> _chartPropertiesBox;
 
-  late final ConnectionController _connectionController;
   late final DataWidgetController _dwc;
   late final ChartWidgetController _cwc;
 
@@ -87,7 +85,7 @@ class HiveUtils {
     Get.put(SettingsController(_settingsBox.getAt(0)!.obs));
     Get.put(FirebaseController(_firebaseConfigBox.getAt(0)!.obs));
 
-    _connectionController = Get.put(ConnectionController());
+    Get.put(ConnectionController());
 
     _dwc = Get.put(
         DataWidgetController(createDwpMap(_dataWidgetPropertiesBox).obs));
