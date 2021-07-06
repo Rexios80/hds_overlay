@@ -32,6 +32,8 @@ class ChartController extends GetxController {
 
       data.removeWhere((e) => e.x < timeRangeStart.value);
     });
+
+    getTimeRangeStart();
   }
 
   void getTimeRangeStart() {
