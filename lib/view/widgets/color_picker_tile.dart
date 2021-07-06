@@ -33,7 +33,7 @@ class ColorPickerTile extends StatelessWidget {
         ),
         children: [
           ColorPicker(
-            color: initialColor,
+            color: color.value,
             onColorChanged: (newColor) {
               color.value = newColor;
               onColorChanged(newColor);
