@@ -174,7 +174,7 @@ class WidgetEditorTextField extends StatelessWidget {
         properties.value.text = value.isEmpty ? 'Text' : value;
         break;
       case EditorType.valuesToKeep:
-        properties.value.rangeSeconds = int.tryParse(value) ?? 20;
+        properties.value.rangeSeconds = int.tryParse(value) ?? 300;
         break;
     }
 
