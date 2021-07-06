@@ -170,7 +170,7 @@ class HDSOverlay extends HookWidget {
             IconButton(
               icon: Icon(Icons.upload),
               tooltip: 'Export configuration',
-              onPressed: () => exportConfig(),
+              onPressed: () => showExportDialog(),
             ),
             IconButton(
               icon: Icon(Icons.download),
@@ -350,18 +350,52 @@ class HDSOverlay extends HookWidget {
     );
   }
 
-  void exportConfig() {
-    Clipboard.setData(
-      ClipboardData(
-        text: jsonEncode(
-          dwc.propertiesMap.values.map((e) => e.value).toList(),
-        ),
+  void showExportDialog() {
+    final tec = TextEditingController(
+      text: jsonEncode(
+        dwc.propertiesMap.values.map((e) => e.value).toList(),
       ),
     );
 
-    Get.snackbar(
-      'Configuration exported',
-      'The current overlay configuration was copied to the clipboard',
+    tec.selection = TextSelection(
+      baseOffset: 0,
+      extentOffset: tec.text.length,
+    );
+
+    Get.dialog(
+      Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.all(50),
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Copy the below config and put it somewhere safe',
+                  style: Get.textTheme.headline6,
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 10,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  readOnly: true,
+                  controller: tec,
+                  autofocus: true,
+                ),
+                SizedBox(height: 20),
+                TextButton(
+                  onPressed: () => Get.back(),
+                  child: Text('Close'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
