@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/chart_widget_controller.dart';
@@ -11,6 +13,7 @@ class ChartController extends GetxController {
   final ChartWidgetController cwc = Get.find();
   final ConnectionController _connectionController = Get.find();
   final Tuple2<DataType, String> typeSource;
+  final RxInt timeRangeStart = RxInt(0);
 
   final RxList<FlSpot> data = RxList();
 
@@ -22,6 +25,22 @@ class ChartController extends GetxController {
     );
 
     processMessageHistory(_connectionController.messageHistory);
+
+    // 60 fps
+    Timer.periodic(Duration(milliseconds: 16), (timer) {
+      getTimeRangeStart();
+
+      data.removeWhere((e) => e.x < timeRangeStart.value);
+    });
+  }
+
+  void getTimeRangeStart() {
+    final properties =
+        cwc.propertiesMap[typeSource]?.value ?? ChartWidgetProperties();
+
+    timeRangeStart.value = DateTime.now()
+        .subtract(Duration(seconds: properties.rangeSeconds))
+        .millisecondsSinceEpoch;
   }
 
   void processMessageHistory(
@@ -32,12 +51,8 @@ class ChartController extends GetxController {
       final properties =
           cwc.propertiesMap[typeSource]?.value ?? ChartWidgetProperties();
 
-      var start = messages.length - properties.valuesToKeep;
-      if (start < 0) {
-        start = 0;
-      }
       data.value = messages
-          .getRange(start, messages.length)
+          .where((e) => e.timestamp >= timeRangeStart.value)
           .map(
             (message) => FlSpot(
               message.timestamp.toDouble(),

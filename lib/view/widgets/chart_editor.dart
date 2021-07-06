@@ -88,12 +88,6 @@ class ChartEditor extends StatelessWidget {
         Divider(),
         SizedBox(height: 10),
         WidgetEditorTextField(EditorType.valuesToKeep, properties),
-        SizedBox(height: 5),
-        Text(
-          'Max 100',
-          style: Get.textTheme.caption,
-          textAlign: TextAlign.center,
-        ),
         SizedBox(height: 10),
         ColorPickerTile(
           label: 'Low color',

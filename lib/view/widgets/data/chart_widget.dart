@@ -26,12 +26,6 @@ class ChartWidget extends StatelessWidget {
       final maxY = spots.isEmpty
           ? 0
           : spots.sorted((a, b) => (b.y - a.y).toInt()).first.y;
-      final minX = spots.isEmpty
-          ? 0
-          : spots.sorted((a, b) => (a.x - b.x).toInt()).first.x;
-      final maxX = spots.isEmpty
-          ? 0
-          : spots.sorted((a, b) => (b.x - a.x).toInt()).first.x;
 
       final List<Color> gradientColors = [
         properties.highColor,
@@ -63,8 +57,8 @@ class ChartWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              minX: minX.toDouble(),
-              maxX: maxX.toDouble(),
+              minX: chartController.timeRangeStart.value.toDouble(),
+              maxX: DateTime.now().millisecondsSinceEpoch.toDouble(),
               minY: 0,
               maxY: (spots.isEmpty ? 0 : maxY).toDouble(),
               lineBarsData: [

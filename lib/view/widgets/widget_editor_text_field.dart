@@ -79,7 +79,7 @@ class WidgetEditorTextField extends StatelessWidget {
       case EditorType.text:
         return properties.value.text;
       case EditorType.valuesToKeep:
-        return properties.value.valuesToKeep.toString();
+        return properties.value.rangeSeconds.toString();
     }
   }
 
@@ -116,7 +116,7 @@ class WidgetEditorTextField extends StatelessWidget {
       case EditorType.text:
         return 'Text';
       case EditorType.valuesToKeep:
-        return 'Values to keep';
+        return 'Time range (seconds)';
     }
   }
 
@@ -174,7 +174,7 @@ class WidgetEditorTextField extends StatelessWidget {
         properties.value.text = value.isEmpty ? 'Text' : value;
         break;
       case EditorType.valuesToKeep:
-        properties.value.valuesToKeep = int.tryParse(value) ?? 20;
+        properties.value.rangeSeconds = int.tryParse(value) ?? 20;
         break;
     }
 

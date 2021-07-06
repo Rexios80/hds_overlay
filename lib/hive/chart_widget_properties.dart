@@ -8,7 +8,7 @@ part 'chart_widget_properties.g.dart';
 
 @HiveType(typeId: 7)
 class ChartWidgetProperties extends HiveObject {
-  static const maxValuesToKeep = 100;
+  static const maxValuesToKeep = 500;
 
   @HiveField(0)
   DataType dataType = DataType.unknown;
@@ -20,7 +20,7 @@ class ChartWidgetProperties extends HiveObject {
   Tuple2Double position = Tuple2Double(275, 150);
 
   @HiveField(3)
-  int valuesToKeep = 20;
+  int rangeSeconds = 300;
 
   @HiveField(4)
   int? _highColor;
