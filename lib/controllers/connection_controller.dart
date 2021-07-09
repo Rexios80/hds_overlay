@@ -41,13 +41,16 @@ class ConnectionController extends GetxController {
   final hrs = <String, List<int>>{};
 
   ConnectionController() {
+    // Perioodically clear data if it has not been received in a while
     Timer.periodic(Duration(seconds: 5), (_) {
+      final keysToRemove = <Tuple2<DataType, String>>[];
       _messages.forEach((key, value) {
         if (DateTime.now().millisecondsSinceEpoch - value.timestamp >
             _dataClearInterval) {
-          _messages.remove(key);
+          keysToRemove.add(key);
         }
       });
+      keysToRemove.forEach((e) => _messages.remove(e));
     });
   }
 
