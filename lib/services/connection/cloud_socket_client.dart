@@ -79,7 +79,7 @@ class CloudSocketClient extends SocketClient {
     bool localMessage = false,
   }) {
     if (localMessage) {
-      super.handleMessage(message, source);
+      super.handleMessage(message, source, localMessage: true);
       return;
     }
 

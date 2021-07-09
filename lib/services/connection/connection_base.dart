@@ -41,15 +41,17 @@ abstract class ConnectionBase {
     final dataType =
         EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
 
-    // Log which data types have been received for debugging
-    _analytics.logEvent(
-      name: 'data_received',
-      parameters: {
-        'hds_cloud_enabled': _settings.settings.value.hdsCloud,
-        'data_type': parts[0],
-        'data_source': source,
-      },
-    );
+    if (!localMessage) {
+      // Log which data types have been received for debugging
+      _analytics.logEvent(
+        name: 'data_received',
+        parameters: {
+          'hds_cloud_enabled': _settings.settings.value.hdsCloud,
+          'data_type': parts[0],
+          'data_source': source,
+        },
+      );
+    }
 
     if (dataType != DataType.unknown) {
       _messageStreamController.add(DataMessage(source, dataType, parts[1]));
