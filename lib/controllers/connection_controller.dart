@@ -52,7 +52,7 @@ class ConnectionController extends GetxController {
         logs.add(
           LogMessage(
             LogLevel.warn,
-            '${EnumToString.convertToString(e.item1, camelCase: true)}: ' +
+            '(${e.item2}) ${EnumToString.convertToString(e.item1, camelCase: true)}: ' +
                 'Data cleared after ${_settingsController.settings.value.dataClearInterval} seconds',
           ),
         );
