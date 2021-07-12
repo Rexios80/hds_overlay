@@ -59,6 +59,8 @@ class SettingsTextField extends StatelessWidget {
         return settings.port.toString();
       case EditorType.serverIp:
         return settings.serverIp;
+      case EditorType.dataClearInterval:
+        return settings.dataClearInterval.toString();
     }
   }
 
@@ -70,6 +72,8 @@ class SettingsTextField extends StatelessWidget {
         return 'WebSocket port';
       case EditorType.serverIp:
         return 'Server IP address';
+      case EditorType.dataClearInterval:
+        return 'Data clear interval (seconds)';
     }
   }
 
@@ -93,6 +97,9 @@ class SettingsTextField extends StatelessWidget {
       case EditorType.serverIp:
         settings.serverIp = value;
         break;
+      case EditorType.dataClearInterval:
+        settings.dataClearInterval = int.tryParse(value) ?? 120;
+        break;
     }
 
     settings.save();
@@ -103,4 +110,5 @@ enum EditorType {
   clientName,
   port,
   serverIp,
+  dataClearInterval,
 }

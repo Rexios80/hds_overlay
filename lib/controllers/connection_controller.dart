@@ -19,8 +19,6 @@ import 'package:hds_overlay/services/connection/socket_server_stub.dart'
 import 'package:tuple/tuple.dart';
 
 class ConnectionController extends GetxController {
-  static const _dataClearInterval = 120000; // milliseconds
-
   final _messages = RxMap<Tuple2<DataType, String>, DataMessage>();
   final _messageHistory = RxMap<Tuple2<DataType, String>, List<DataMessage>>();
   final _logs = <LogMessage>[].obs;
@@ -46,11 +44,20 @@ class ConnectionController extends GetxController {
       final keysToRemove = <Tuple2<DataType, String>>[];
       _messages.forEach((key, value) {
         if (DateTime.now().millisecondsSinceEpoch - value.timestamp >
-            _dataClearInterval) {
+            (_settingsController.settings.value.dataClearInterval * 1000)) {
           keysToRemove.add(key);
         }
       });
-      keysToRemove.forEach((e) => _messages.remove(e));
+      keysToRemove.forEach((e) {
+        logs.add(
+          LogMessage(
+            LogLevel.warn,
+            '${EnumToString.convertToString(e.item1, camelCase: true)}: ' +
+                'Data cleared after ${_settingsController.settings.value.dataClearInterval} seconds',
+          ),
+        );
+        _messages.remove(e);
+      });
     });
   }
 

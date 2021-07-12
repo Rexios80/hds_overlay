@@ -197,15 +197,13 @@ class SettingsView extends StatelessWidget {
                     children: [
                       Divider(),
                       hdsCloudToggle,
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: kIsWeb,
-                  child: Column(
-                    children: [
                       Divider(),
                       backgroundColorPicker,
+                      Divider(),
+                      SettingsTextField(
+                        EditorType.dataClearInterval,
+                        settingsController.settings.value,
+                      ),
                     ],
                   ),
                 ),
@@ -215,8 +213,10 @@ class SettingsView extends StatelessWidget {
                   child: Column(
                     children: [
                       Divider(),
-                      SettingsTextField(EditorType.serverIp,
-                          settingsController.settings.value),
+                      SettingsTextField(
+                        EditorType.serverIp,
+                        settingsController.settings.value,
+                      ),
                       Divider(),
                       SettingsTextField(
                         EditorType.port,
@@ -234,8 +234,10 @@ class SettingsView extends StatelessWidget {
                         child: Column(
                           children: [
                             Divider(),
-                            SettingsTextField(EditorType.clientName,
-                                settingsController.settings.value),
+                            SettingsTextField(
+                              EditorType.clientName,
+                              settingsController.settings.value,
+                            ),
                             Divider(),
                             serverIpsEditor,
                           ],
