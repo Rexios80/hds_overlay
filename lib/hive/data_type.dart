@@ -62,6 +62,7 @@ extension DataTypeExtension on DataType {
 
   bool get isRounded =>
       this == DataType.speed ||
+      this == DataType.distanceTraveled ||
       this == DataType.bodyMass ||
       this == DataType.bmi;
 
