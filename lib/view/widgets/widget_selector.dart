@@ -64,12 +64,21 @@ class WidgetSelector extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        EnumToString.convertToString(dataType, camelCase: true),
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            ?.copyWith(color: Colors.white),
+                      Builder(
+                        builder: (context) {
+                          var text = EnumToString.convertToString(dataType,
+                              camelCase: true);
+                          if (dataType.defaultUnit.isNotEmpty) {
+                            text += ' (${dataType.defaultUnit})';
+                          }
+                          return Text(
+                            text,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                ?.copyWith(color: Colors.white),
+                          );
+                        },
                       ),
                       SizedBox(height: 5),
                       InkWell(
