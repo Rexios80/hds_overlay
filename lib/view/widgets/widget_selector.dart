@@ -66,8 +66,10 @@ class WidgetSelector extends StatelessWidget {
                     children: [
                       Builder(
                         builder: (context) {
-                          var text = EnumToString.convertToString(dataType,
-                              camelCase: true);
+                          var text = EnumToString.convertToString(
+                            dataType,
+                            camelCase: true,
+                          );
                           if (dataType.defaultUnit.isNotEmpty) {
                             text += ' (${dataType.defaultUnit})';
                           }
