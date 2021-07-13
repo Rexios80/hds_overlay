@@ -25,13 +25,14 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       .._clientName = fields[5] as String?
       .._serverIps = (fields[6] as List?)?.cast<String>()
       .._serverIp = fields[7] as String?
-      .._hdsCloud = fields[8] as bool?;
+      .._hdsCloud = fields[8] as bool?
+      .._dataClearInterval = fields[9] as int?;
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.port)
       ..writeByte(1)
@@ -49,7 +50,9 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       ..writeByte(7)
       ..write(obj._serverIp)
       ..writeByte(8)
-      ..write(obj._hdsCloud);
+      ..write(obj._hdsCloud)
+      ..writeByte(9)
+      ..write(obj._dataClearInterval);
   }
 
   @override
