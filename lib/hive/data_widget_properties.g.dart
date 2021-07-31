@@ -176,8 +176,10 @@ DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) {
     ..text = json['text'] as String
     ..colorImage = json['colorImage'] as bool
     ..useGradient = json['useGradient'] as bool
-    ..highColor = const ColorConverter().fromJson(json['highColor'] as int)
-    ..lowColor = const ColorConverter().fromJson(json['lowColor'] as int)
+    ..gradientHighColor =
+        const ColorConverter().fromJson(json['gradientHighColor'] as int)
+    ..gradientLowColor =
+        const ColorConverter().fromJson(json['gradientLowColor'] as int)
     ..imageColor = const ColorConverter().fromJson(json['imageColor'] as int);
 }
 
@@ -216,8 +218,10 @@ Map<String, dynamic> _$DataWidgetPropertiesToJson(
       'text': instance.text,
       'colorImage': instance.colorImage,
       'useGradient': instance.useGradient,
-      'highColor': const ColorConverter().toJson(instance.highColor),
-      'lowColor': const ColorConverter().toJson(instance.lowColor),
+      'gradientHighColor':
+          const ColorConverter().toJson(instance.gradientHighColor),
+      'gradientLowColor':
+          const ColorConverter().toJson(instance.gradientLowColor),
       'imageColor': const ColorConverter().toJson(instance.imageColor),
     };
 

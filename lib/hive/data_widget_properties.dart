@@ -147,14 +147,14 @@ class DataWidgetProperties extends HiveObject {
   @HiveField(30)
   int? _gradientHighColor;
 
-  Color get highColor => Color(_gradientHighColor ?? Colors.red.value);
-  set highColor(Color color) => _gradientHighColor = color.value;
+  Color get gradientHighColor => Color(_gradientHighColor ?? Colors.red.value);
+  set gradientHighColor(Color color) => _gradientHighColor = color.value;
 
   @HiveField(31)
   int? _gradientLowColor;
 
-  Color get lowColor => Color(_gradientLowColor ?? Colors.green.value);
-  set lowColor(Color color) => _gradientLowColor = color.value;
+  Color get gradientLowColor => Color(_gradientLowColor ?? Colors.green.value);
+  set gradientLowColor(Color color) => _gradientLowColor = color.value;
 
   @HiveField(32)
   int? _imageColor;

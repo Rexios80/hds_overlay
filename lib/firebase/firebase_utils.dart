@@ -6,7 +6,7 @@ import 'package:hds_overlay/controllers/connection_controller.dart';
 
 class FirebaseUtils {
   final ConnectionController connectionController = Get.find();
-  late final auth;
+  late final FirebaseAuth auth;
 
   void init() {
     if (apps.isEmpty) {

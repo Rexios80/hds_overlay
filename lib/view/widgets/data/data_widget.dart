@@ -13,8 +13,8 @@ import 'package:tuple/tuple.dart';
 
 class DataWidgetBase extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
-  late final Widget image;
-  late final Widget text;
+  final Widget image;
+  final Widget text;
 
   DataWidgetBase.withWidgets(this.image, this.text);
 

@@ -38,8 +38,13 @@ class HeartRateImageAnimated extends HookWidget {
     final hrwc = Provider.of<HeartRateWidgetController>(context);
     final typeSource = Provider.of<Tuple2<DataType, String>>(context);
 
-    final controller = useAnimationController(initialValue: 1.0);
-    useAnimation(controller);
+    final imageSizeAnimationController =
+        useAnimationController(initialValue: 1.0);
+    useAnimation(imageSizeAnimationController);
+
+    // TODO: Make this do something
+    final colorAnimationController = useAnimationController();
+    useAnimation(colorAnimationController);
 
     final properties =
         dwc.propertiesMap[typeSource] ?? DataWidgetProperties().obs;
@@ -52,7 +57,7 @@ class HeartRateImageAnimated extends HookWidget {
 
     ever(properties, (_) {
       if (properties.value.animated && !hrwc.animating) {
-        animateImage(controller, hrwc);
+        animateImage(imageSizeAnimationController, hrwc);
       }
       hrwc.animating = properties.value.animated;
 
@@ -63,7 +68,7 @@ class HeartRateImageAnimated extends HookWidget {
     });
 
     if (properties.value.animated && !hrwc.animating) {
-      animateImage(controller, hrwc);
+      animateImage(imageSizeAnimationController, hrwc);
     }
 
     if (properties.value.heartBeatSound != null && !hrwc.sounding) {
@@ -84,8 +89,10 @@ class HeartRateImageAnimated extends HookWidget {
             width: properties.value.imageSize,
             child: Center(
               child: SizedBox(
-                height: properties.value.imageSize * controller.value,
-                width: properties.value.imageSize * controller.value,
+                height: properties.value.imageSize *
+                    imageSizeAnimationController.value,
+                width: properties.value.imageSize *
+                    imageSizeAnimationController.value,
                 child: HeartRateImage(square: true),
               ),
             ),
@@ -167,14 +174,15 @@ class HeartRateImage extends DataWidgetImage {
   Color? getImageColor(
     Rx<DataWidgetProperties> properties,
     BuildContext context,
-  ) =>
-      properties.value.colorImage
-          ? _createRangeColor(
-              properties,
-              context,
-              fallback: properties.value.imageColor,
-            )
-          : null;
+  ) {
+    final hrwc = Provider.of<HeartRateWidgetController>(context);
+    return properties.value.colorImage
+        ? hrwc.createRangeColor(
+            properties,
+            fallback: properties.value.imageColor,
+          )
+        : null;
+  }
 }
 
 class HeartRateText extends DataWidgetText {
@@ -182,27 +190,11 @@ class HeartRateText extends DataWidgetText {
   Color getTextColor(
     Rx<DataWidgetProperties> properties,
     BuildContext context,
-  ) =>
-      _createRangeColor(
-        properties,
-        context,
-        fallback: Color(properties.value.textColor),
-      );
-}
-
-Color _createRangeColor(
-  Rx<DataWidgetProperties> properties,
-  BuildContext context, {
-  required Color fallback,
-}) {
-  final hrwc = Provider.of<HeartRateWidgetController>(context);
-
-  final ranges = properties.value.heartRateRanges.entries.toList();
-  ranges.sort((a, b) => a.key.compareTo(b.key));
-  return Color(
-    ranges.reversed
-        .firstWhere((e) => hrwc.currentHeartRate >= e.key,
-            orElse: () => MapEntry(0, fallback.value))
-        .value,
-  );
+  ) {
+    final hrwc = Provider.of<HeartRateWidgetController>(context);
+    return hrwc.createRangeColor(
+      properties,
+      fallback: Color(properties.value.textColor),
+    );
+  }
 }

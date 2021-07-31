@@ -416,12 +416,57 @@ class WidgetEditor extends StatelessWidget {
       ],
     );
 
+    final gradientEditor = Column(
+      children: [
+        Obx(
+          () => ColorPickerTile(
+            label: 'Low color',
+            initialColor: properties.value.gradientLowColor,
+            onColorChanged: (color) {
+              properties.value.gradientLowColor = color;
+              saveAndRefresh(properties);
+            },
+          ),
+        ),
+        SizedBox(height: 10),
+        Obx(
+          () => ColorPickerTile(
+            label: 'High color',
+            initialColor: properties.value.gradientHighColor,
+            onColorChanged: (color) {
+              properties.value.gradientHighColor = color;
+              saveAndRefresh(properties);
+            },
+          ),
+        ),
+      ],
+    );
+
     final heartRateEditor = Visibility(
       visible: properties.value.dataType == DataType.heartRate,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HeartRateRangeEditor(),
+          Row(
+            children: [
+              Text('Gradient'),
+              Spacer(),
+              Obx(
+                () => Switch(
+                  value: properties.value.useGradient,
+                  onChanged: (enabled) {
+                    properties.value.useGradient = enabled;
+                    saveAndRefresh(properties);
+                  },
+                ),
+              ),
+            ],
+          ),
+          Obx(
+            () => properties.value.useGradient
+                ? gradientEditor
+                : HeartRateRangeEditor(),
+          ),
           Divider(),
           SizedBox(height: 10),
           Visibility(

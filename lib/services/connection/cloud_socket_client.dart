@@ -11,7 +11,7 @@ import 'package:hds_overlay/services/connection/socket_client.dart';
 
 class CloudSocketClient extends SocketClient {
   final FirebaseUtils firebase = Get.find();
-  late final DatabaseReference _ref;
+  final DatabaseReference _ref;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseController _firebaseController = Get.find();
 
@@ -26,10 +26,7 @@ class CloudSocketClient extends SocketClient {
     );
   }
 
-  CloudSocketClient() {
-    Database db = database();
-    _ref = db.ref('/');
-  }
+  CloudSocketClient() : _ref = database().ref('/');
 
   @override
   Future<void> start(
