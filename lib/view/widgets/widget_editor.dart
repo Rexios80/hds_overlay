@@ -166,6 +166,40 @@ class WidgetEditor extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    Text('Color'),
+                    Spacer(),
+                    Obx(
+                      () => Switch(
+                        value: properties.value.colorImage,
+                        onChanged: (enabled) {
+                          properties.value.colorImage = enabled;
+                          saveAndRefresh(properties);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Obx(
+                  () => Visibility(
+                    visible: properties.value.colorImage,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 5),
+                        ColorPickerTile(
+                          label: 'Image color',
+                          initialColor: properties.value.imageColor,
+                          onColorChanged: (Color color) {
+                            properties.value.imageColor = color;
+                            saveAndRefresh(properties);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -173,7 +207,7 @@ class WidgetEditor extends StatelessWidget {
       ],
     );
 
-    final colorSelector = ColorPickerTile(
+    final textColorSelector = ColorPickerTile(
       label: 'Text color',
       initialColor: Color(properties.value.textColor),
       onColorChanged: (Color color) {
@@ -215,7 +249,7 @@ class WidgetEditor extends StatelessWidget {
             ],
           ),
         ),
-        colorSelector,
+        textColorSelector,
         SizedBox(height: 5),
         Visibility(
           visible: properties.value.dataType.isRounded,
