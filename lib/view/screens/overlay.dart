@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/controllers/chart_widget_controller.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
 import 'package:hds_overlay/controllers/end_drawer_controller.dart';
@@ -13,7 +14,6 @@ import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/overlay_controller.dart';
 import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
-import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
@@ -26,6 +26,7 @@ import '../widgets/log_view.dart';
 class HDSOverlay extends HookWidget {
   final endDrawerController = Get.put(EndDrawerController());
   final DataWidgetController dwc = Get.find();
+  final ChartWidgetController cwc = Get.find();
   final OverlayProfilesController overlayProfilesController = Get.find();
   final overlayController = Get.put(OverlayController());
   final ConnectionController connectionController = Get.find();
@@ -353,7 +354,12 @@ class HDSOverlay extends HookWidget {
   void showExportDialog() {
     final tec = TextEditingController(
       text: jsonEncode(
-        dwc.propertiesMap.values.map((e) => e.value).toList(),
+        OverlayProfile()
+          ..name = 'export'
+          ..dataWidgetProperties =
+              dwc.propertiesMap.values.map((e) => e.value).toList()
+          ..chartWidgetProperties =
+              cwc.propertiesMap.values.map((e) => e.value).toList(),
       ),
     );
 
@@ -444,14 +450,8 @@ class HDSOverlay extends HookWidget {
   }
 
   void importConfig(String import) {
-    final properties = (jsonDecode(import) as List)
-        .map((json) => DataWidgetProperties.fromJson(json))
-        .toList();
-
     // Create a temporary profile to load
-    final profile = OverlayProfile();
-    profile.widgetProperties = properties;
-
+    final profile = OverlayProfile.fromJson(jsonDecode(import));
     overlayController.loadProfile(profile);
 
     Get.back();

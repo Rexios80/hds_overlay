@@ -132,7 +132,6 @@ class DataWidgetProperties extends HiveObject {
 
   DataWidgetProperties();
 
-  // Well this is a pain in the ass
   DataWidgetProperties copy() {
     return DataWidgetProperties.fromJson(jsonDecode(jsonEncode(this)));
   }

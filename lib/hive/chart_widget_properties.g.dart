@@ -53,3 +53,71 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ChartWidgetProperties _$ChartWidgetPropertiesFromJson(
+    Map<String, dynamic> json) {
+  return ChartWidgetProperties()
+    ..dataType = _$enumDecode(_$DataTypeEnumMap, json['dataType'])
+    ..dataSource = json['dataSource'] as String
+    ..position = Tuple2Double.fromJson(json['position'] as Map<String, dynamic>)
+    ..rangeSeconds = json['rangeSeconds'] as int
+    ..highColor = const ColorConverter().fromJson(json['highColor'] as int)
+    ..lowColor = const ColorConverter().fromJson(json['lowColor'] as int);
+}
+
+Map<String, dynamic> _$ChartWidgetPropertiesToJson(
+        ChartWidgetProperties instance) =>
+    <String, dynamic>{
+      'dataType': _$DataTypeEnumMap[instance.dataType],
+      'dataSource': instance.dataSource,
+      'position': instance.position,
+      'rangeSeconds': instance.rangeSeconds,
+      'highColor': const ColorConverter().toJson(instance.highColor),
+      'lowColor': const ColorConverter().toJson(instance.lowColor),
+    };
+
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+const _$DataTypeEnumMap = {
+  DataType.unknown: 'unknown',
+  DataType.text: 'text',
+  DataType.heartRate: 'heartRate',
+  DataType.heartRateMin: 'heartRateMin',
+  DataType.heartRateMax: 'heartRateMax',
+  DataType.heartRateAverage: 'heartRateAverage',
+  DataType.calories: 'calories',
+  DataType.stepCount: 'stepCount',
+  DataType.distanceTraveled: 'distanceTraveled',
+  DataType.speed: 'speed',
+  DataType.oxygenSaturation: 'oxygenSaturation',
+  DataType.bodyMass: 'bodyMass',
+  DataType.bmi: 'bmi',
+};

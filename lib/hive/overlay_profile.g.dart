@@ -18,17 +18,21 @@ class OverlayProfileAdapter extends TypeAdapter<OverlayProfile> {
     };
     return OverlayProfile()
       ..name = fields[0] as String
-      ..widgetProperties = (fields[1] as List).cast<DataWidgetProperties>();
+      ..dataWidgetProperties = (fields[1] as List).cast<DataWidgetProperties>()
+      .._chartWidgetProperties =
+          (fields[2] as List?)?.cast<ChartWidgetProperties>();
   }
 
   @override
   void write(BinaryWriter writer, OverlayProfile obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.widgetProperties);
+      ..write(obj.dataWidgetProperties)
+      ..writeByte(2)
+      ..write(obj._chartWidgetProperties);
   }
 
   @override
@@ -41,3 +45,25 @@ class OverlayProfileAdapter extends TypeAdapter<OverlayProfile> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+OverlayProfile _$OverlayProfileFromJson(Map<String, dynamic> json) {
+  return OverlayProfile()
+    ..name = json['name'] as String
+    ..dataWidgetProperties = (json['dataWidgetProperties'] as List<dynamic>)
+        .map((e) => DataWidgetProperties.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..chartWidgetProperties = (json['chartWidgetProperties'] as List<dynamic>)
+        .map((e) => ChartWidgetProperties.fromJson(e as Map<String, dynamic>))
+        .toList();
+}
+
+Map<String, dynamic> _$OverlayProfileToJson(OverlayProfile instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'dataWidgetProperties': instance.dataWidgetProperties,
+      'chartWidgetProperties': instance.chartWidgetProperties,
+    };

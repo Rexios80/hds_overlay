@@ -149,8 +149,10 @@ class HiveUtils {
     _overlayProfilesBox.add(
       OverlayProfile()
         ..name = profileName
-        ..widgetProperties =
-            _dwc.propertiesMap.values.map((e) => e.value.copy()).toList(),
+        ..dataWidgetProperties =
+            _dwc.propertiesMap.values.map((e) => e.value.copy()).toList()
+        ..chartWidgetProperties =
+            _cwc.propertiesMap.values.map((e) => e.value.copy()).toList(),
     );
   }
 
@@ -159,6 +161,8 @@ class HiveUtils {
     await _dataWidgetPropertiesBox.clear();
     // We have to copy the objects or they get edited unintentionally
     await _dataWidgetPropertiesBox
-        .addAll(profile.widgetProperties.map((e) => e.copy()));
+        .addAll(profile.dataWidgetProperties.map((e) => e.copy()));
+    await _chartPropertiesBox
+        .addAll(profile.chartWidgetProperties.map((e) => e.copy()));
   }
 }
