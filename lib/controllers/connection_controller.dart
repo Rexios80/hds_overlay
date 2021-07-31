@@ -43,9 +43,31 @@ class ConnectionController extends GetxController {
     Timer.periodic(Duration(seconds: 5), (_) {
       final keysToRemove = <Tuple2<DataType, String>>[];
       _messages.forEach((key, value) {
+        if (key.item1 == DataType.heartRateAverage ||
+            key.item1 == DataType.heartRateMin ||
+            key.item1 == DataType.heartRateMax) {
+          // Don't clear these on their own
+          return;
+        }
+
         if (DateTime.now().millisecondsSinceEpoch - value.timestamp >
             (_settingsController.settings.value.dataClearInterval * 1000)) {
           keysToRemove.add(key);
+
+          if (key.item1 == DataType.heartRate) {
+            // Clear min/max/avg with heart rate
+            keysToRemove.addAll(_messages.keys.where((e) =>
+                // Make sure the messages are from the same source
+                e.item2 == key.item2 &&
+                (e.item1 == DataType.heartRateAverage ||
+                    e.item1 == DataType.heartRateMin ||
+                    e.item1 == DataType.heartRateMax)));
+
+            // Reset stats
+            hrs.remove(key.item2);
+            hrMins.remove(key.item2);
+            hrMaxs.remove(key.item2);
+          }
         }
       });
       keysToRemove.forEach((e) {
@@ -169,7 +191,6 @@ class ConnectionController extends GetxController {
     if (!_started) return;
     _started = false;
     hrMins.clear();
-
     hrMaxs.clear();
     hrs.clear();
     _connection?.stop();
