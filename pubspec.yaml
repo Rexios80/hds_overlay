@@ -25,6 +25,7 @@ dependencies:
   lifecycle: ^0.2.0
   url_launcher: ^6.0.3
   fl_chart: ^0.36.2
+  json_annotation: ^4.0.0
 
   # Firebase
   firebase_core: ^1.1.0
@@ -57,6 +58,7 @@ dev_dependencies:
   hive_generator: ^1.1.0
   build_runner: ^2.0.1
   flutter_native_splash: ^1.1.8+4
+  json_serializable: ^4.0.0
 
 flutter:
   uses-material-design: true

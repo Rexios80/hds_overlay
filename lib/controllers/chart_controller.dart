@@ -49,10 +49,6 @@ class ChartController extends GetxController {
       Map<Tuple2<DataType, String>, List<DataMessage>> history) {
     final messages = history[typeSource];
     if (messages != null) {
-      // Get the properties every time in case it changes
-      final properties =
-          cwc.propertiesMap[typeSource]?.value ?? ChartWidgetProperties();
-
       data.value = messages
           .where((e) => e.timestamp >= timeRangeStart.value)
           .map(

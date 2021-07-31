@@ -27,9 +27,9 @@ class Tuple2DoubleAdapter extends TypeAdapter<Tuple2Double> {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj._item1)
+      ..write(obj.item1)
       ..writeByte(1)
-      ..write(obj._item2);
+      ..write(obj.item2);
   }
 
   @override
@@ -42,3 +42,20 @@ class Tuple2DoubleAdapter extends TypeAdapter<Tuple2Double> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Tuple2Double _$Tuple2DoubleFromJson(Map<String, dynamic> json) {
+  return Tuple2Double(
+    (json['item1'] as num).toDouble(),
+    (json['item2'] as num).toDouble(),
+  );
+}
+
+Map<String, dynamic> _$Tuple2DoubleToJson(Tuple2Double instance) =>
+    <String, dynamic>{
+      'item1': instance.item1,
+      'item2': instance.item2,
+    };
