@@ -44,13 +44,18 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       .._fontWeight = fields[24] as String?
       .._vertical = fields[25] as bool?
       .._heartBeatSoundThreshold = fields[26] as int?
-      .._text = fields[27] as String?;
+      .._text = fields[27] as String?
+      .._colorImage = fields[28] as bool?
+      .._useGradient = fields[29] as bool?
+      .._gradientHighColor = fields[30] as int?
+      .._gradientLowColor = fields[31] as int?
+      .._imageColor = fields[32] as int?;
   }
 
   @override
   void write(BinaryWriter writer, DataWidgetProperties obj) {
     writer
-      ..writeByte(28)
+      ..writeByte(33)
       ..writeByte(0)
       ..write(obj.dataType)
       ..writeByte(1)
@@ -106,7 +111,17 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..writeByte(26)
       ..write(obj._heartBeatSoundThreshold)
       ..writeByte(27)
-      ..write(obj._text);
+      ..write(obj._text)
+      ..writeByte(28)
+      ..write(obj._colorImage)
+      ..writeByte(29)
+      ..write(obj._useGradient)
+      ..writeByte(30)
+      ..write(obj._gradientHighColor)
+      ..writeByte(31)
+      ..write(obj._gradientLowColor)
+      ..writeByte(32)
+      ..write(obj._imageColor);
   }
 
   @override
@@ -158,7 +173,12 @@ DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) {
         const FontWeightConverter().fromJson(json['fontWeight'] as String)
     ..vertical = json['vertical'] as bool
     ..heartBeatSoundThreshold = json['heartBeatSoundThreshold'] as int
-    ..text = json['text'] as String;
+    ..text = json['text'] as String
+    ..colorImage = json['colorImage'] as bool
+    ..useGradient = json['useGradient'] as bool
+    ..highColor = const ColorConverter().fromJson(json['highColor'] as int)
+    ..lowColor = const ColorConverter().fromJson(json['lowColor'] as int)
+    ..imageColor = const ColorConverter().fromJson(json['imageColor'] as int);
 }
 
 Map<String, dynamic> _$DataWidgetPropertiesToJson(
@@ -194,6 +214,11 @@ Map<String, dynamic> _$DataWidgetPropertiesToJson(
       'vertical': instance.vertical,
       'heartBeatSoundThreshold': instance.heartBeatSoundThreshold,
       'text': instance.text,
+      'colorImage': instance.colorImage,
+      'useGradient': instance.useGradient,
+      'highColor': const ColorConverter().toJson(instance.highColor),
+      'lowColor': const ColorConverter().toJson(instance.lowColor),
+      'imageColor': const ColorConverter().toJson(instance.imageColor),
     };
 
 K _$enumDecode<K, V>(

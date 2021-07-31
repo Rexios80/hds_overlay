@@ -68,8 +68,7 @@ class DataWidget extends DataWidgetBase {
 class DataWidgetImage extends StatelessWidget {
   final bool square;
 
-  DataWidgetImage({Key? key, this.square = false}) : super(key: key);
-
+  DataWidgetImage({this.square = false});
   final DataWidgetController dwc = Get.find();
 
   @override
@@ -87,14 +86,26 @@ class DataWidgetImage extends StatelessWidget {
         width: square ? imageSize : null,
         child: Builder(builder: (context) {
           if (image == null) {
-            return Image.asset(getDefaultImage(typeSource.item1));
+            return Image.asset(
+              getDefaultImage(typeSource.item1),
+              color: getImageColor(properties, context),
+            );
           } else {
-            return Image.memory(image);
+            return Image.memory(
+              image,
+              color: getImageColor(properties, context),
+            );
           }
         }),
       );
     });
   }
+
+  Color? getImageColor(
+    Rx<DataWidgetProperties> properties,
+    BuildContext context,
+  ) =>
+      properties.value.colorImage ? properties.value.imageColor : null;
 }
 
 class DataWidgetText extends StatelessWidget {

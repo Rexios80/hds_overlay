@@ -17,7 +17,8 @@ import 'package:tuple/tuple.dart';
 import 'data_widget.dart';
 
 class HeartRateWidget extends DataWidgetBase {
-  HeartRateWidget() : super.withWidgets(HeartRateImage(), HeartRateText());
+  HeartRateWidget()
+      : super.withWidgets(HeartRateImageAnimated(), HeartRateText());
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class HeartRateWidget extends DataWidgetBase {
   }
 }
 
-class HeartRateImage extends HookWidget {
+class HeartRateImageAnimated extends HookWidget {
   final DataWidgetController dwc = Get.find();
   final ConnectionController connectionController = Get.find();
 
@@ -85,7 +86,7 @@ class HeartRateImage extends HookWidget {
               child: SizedBox(
                 height: properties.value.imageSize * controller.value,
                 width: properties.value.imageSize * controller.value,
-                child: DataWidgetImage(square: true),
+                child: HeartRateImage(square: true),
               ),
             ),
           ),
@@ -159,21 +160,49 @@ class HeartRateImage extends HookWidget {
   }
 }
 
+class HeartRateImage extends DataWidgetImage {
+  HeartRateImage({bool square = false}) : super(square: square);
+
+  @override
+  Color? getImageColor(
+    Rx<DataWidgetProperties> properties,
+    BuildContext context,
+  ) =>
+      properties.value.colorImage
+          ? _createRangeColor(
+              properties,
+              context,
+              fallback: properties.value.imageColor,
+            )
+          : null;
+}
+
 class HeartRateText extends DataWidgetText {
   @override
   Color getTextColor(
     Rx<DataWidgetProperties> properties,
     BuildContext context,
-  ) {
-    final hrwc = Provider.of<HeartRateWidgetController>(context);
+  ) =>
+      _createRangeColor(
+        properties,
+        context,
+        fallback: Color(properties.value.textColor),
+      );
+}
 
-    final ranges = properties.value.heartRateRanges.entries.toList();
-    ranges.sort((a, b) => a.key.compareTo(b.key));
-    return Color(
-      ranges.reversed
-          .firstWhere((e) => hrwc.currentHeartRate >= e.key,
-              orElse: () => MapEntry(0, properties.value.textColor))
-          .value,
-    );
-  }
+Color _createRangeColor(
+  Rx<DataWidgetProperties> properties,
+  BuildContext context, {
+  required Color fallback,
+}) {
+  final hrwc = Provider.of<HeartRateWidgetController>(context);
+
+  final ranges = properties.value.heartRateRanges.entries.toList();
+  ranges.sort((a, b) => a.key.compareTo(b.key));
+  return Color(
+    ranges.reversed
+        .firstWhere((e) => hrwc.currentHeartRate >= e.key,
+            orElse: () => MapEntry(0, fallback.value))
+        .value,
+  );
 }

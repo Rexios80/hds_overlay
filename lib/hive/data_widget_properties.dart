@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:hds_overlay/hive/json_converters.dart/color_converter.dart';
 import 'package:hds_overlay/hive/json_converters.dart/font_weight_converter.dart';
 import 'package:hds_overlay/hive/json_converters.dart/uint8_list_converter.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
@@ -15,6 +16,7 @@ part 'data_widget_properties.g.dart';
 
 @HiveType(typeId: 0)
 @JsonSerializable(anyMap: true)
+@ColorConverter()
 class DataWidgetProperties extends HiveObject {
   @HiveField(0)
   DataType dataType = DataType.unknown;
@@ -129,6 +131,36 @@ class DataWidgetProperties extends HiveObject {
 
   String get text => _text ?? 'Text';
   set text(String value) => _text = value;
+
+  @HiveField(28)
+  bool? _colorImage;
+
+  bool get colorImage => _colorImage ?? false;
+  set colorImage(bool value) => _colorImage = value;
+
+  @HiveField(29)
+  bool? _useGradient;
+
+  bool get useGradient => _useGradient ?? false;
+  set useGradient(bool value) => _useGradient = value;
+
+  @HiveField(30)
+  int? _gradientHighColor;
+
+  Color get highColor => Color(_gradientHighColor ?? Colors.red.value);
+  set highColor(Color color) => _gradientHighColor = color.value;
+
+  @HiveField(31)
+  int? _gradientLowColor;
+
+  Color get lowColor => Color(_gradientLowColor ?? Colors.green.value);
+  set lowColor(Color color) => _gradientLowColor = color.value;
+
+  @HiveField(32)
+  int? _imageColor;
+
+  Color get imageColor => Color(_imageColor ?? textColor);
+  set imageColor(Color value) => _imageColor = value.value;
 
   DataWidgetProperties();
 
