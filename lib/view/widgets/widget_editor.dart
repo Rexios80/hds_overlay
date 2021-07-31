@@ -445,7 +445,6 @@ class WidgetEditor extends StatelessWidget {
     final heartRateEditor = Visibility(
       visible: properties.value.dataType == DataType.heartRate,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -467,6 +466,12 @@ class WidgetEditor extends StatelessWidget {
                 ? gradientEditor
                 : HeartRateRangeEditor(),
           ),
+          SizedBox(height: 20),
+          Text(
+            'These options override text and image colors',
+            style: Get.textTheme.caption,
+          ),
+          SizedBox(height: 10),
           Divider(),
           SizedBox(height: 10),
           Visibility(
