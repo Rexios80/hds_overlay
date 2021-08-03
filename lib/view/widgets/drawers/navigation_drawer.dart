@@ -81,19 +81,6 @@ class NavigationDrawer extends StatelessWidget {
                   'assets/images/googlePlay.png',
                   _androidUrl,
                 ),
-                urlItem(
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Samsung watch app'),
-                        Text(
-                          'Coming soon',
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                      ],
-                    ),
-                    'assets/images/galaxyStore.png',
-                    ''),
               ],
             ),
           ),
