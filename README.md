@@ -6,9 +6,9 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 ### Links
 
 - [Web app (for use as a browser source)](https://hds.dev/)
-  - If you have an Apple Watch all you need is this and the watch app
+  - If you use HDS Cloud all you need is this and the watch app
 - [Apple Watch/iOS/macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
-  - THE WATCHOS APP REQUIRES WATCHOS 6+. The App Store will let you purchase it even if your watch can't run watchOS 6+, so make sure before buying.
+  - THE WATCHOS APP REQUIRES WATCHOS 6.2+. The App Store will let you purchase it even if your watch can't run watchOS 6.2+, so make sure before buying.
 - [Android watch app](https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter)
 - [Windows app](https://www.microsoft.com/store/apps/9PHN402J6LVJ)
 - [Windows/macOS/linux executables](https://github.com/Rexios80/Health-Data-Server-Overlay/releases)
@@ -19,7 +19,7 @@ This is a stream overlay that shows heart rate and calorie burn information sent
 
 You can track development progress [here](https://trello.com/healthdataserver)
 
-### Set up with HDS Cloud (Apple Watch only for now)
+### Set up with HDS Cloud
 1. Download the watch app for your device
 2. Add hds.dev as a browser source in OBS
 3. Input the HDS Cloud ID from the browser source into the overlay ids section on the watch
