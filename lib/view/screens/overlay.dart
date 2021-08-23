@@ -55,12 +55,7 @@ class HDSOverlay extends HookWidget {
       }
     });
 
-    final appBarSlideController = useAnimationController(
-      duration: const Duration(milliseconds: 250),
-      initialValue: 1.0,
-    );
-
-    final logSlideController = useAnimationController(
+    final peripherySlideAnimationController = useAnimationController(
       duration: const Duration(milliseconds: 250),
       initialValue: 1.0,
     );
@@ -68,7 +63,7 @@ class HDSOverlay extends HookWidget {
     final Animation<Offset> appBarOffsetAnimation = new Tween<Offset>(
       begin: Offset(0.0, -70),
       end: Offset(0.0, 0.0),
-    ).animate(appBarSlideController);
+    ).animate(peripherySlideAnimationController);
 
     final mounted = useIsMounted();
     ever(overlayController.mouseHovering, (bool mouseHovering) {
@@ -76,11 +71,9 @@ class HDSOverlay extends HookWidget {
       if (!kIsWeb || !mounted()) return;
 
       if (mouseHovering) {
-        appBarSlideController.forward();
-        logSlideController.forward();
+        peripherySlideAnimationController.forward();
       } else {
-        appBarSlideController.reverse();
-        logSlideController.reverse();
+        peripherySlideAnimationController.reverse();
       }
     });
 
@@ -252,7 +245,9 @@ class HDSOverlay extends HookWidget {
       child: MouseRegion(
         onHover: (event) => overlayController.mouseHovering.value = true,
         child: Scaffold(
-          backgroundColor: kIsWeb ? Colors.transparent : null,
+          backgroundColor: kIsWeb
+              ? Color(settingsController.settings.value.overlayBackgroundColor)
+              : null,
           drawerScrimColor: Colors.transparent,
           drawer: NavigationDrawer(),
           endDrawer: kIsWeb ? EndDrawer() : null,
@@ -272,7 +267,6 @@ class HDSOverlay extends HookWidget {
                   offset: appBarOffsetAnimation.value,
                   child: AppBar(
                     title: appBarTitle,
-                    elevation: 0,
                     actions: actions,
                   ),
                 ),
@@ -289,12 +283,12 @@ class HDSOverlay extends HookWidget {
                         logOffsetAnimation = new Tween<Offset>(
                           begin: Offset(0.0, constraints.maxHeight / 2),
                           end: Offset(0.0, 0.0),
-                        ).animate(appBarSlideController);
+                        ).animate(peripherySlideAnimationController);
                       } else {
                         logOffsetAnimation = new Tween<Offset>(
                           begin: Offset(Themes.sideBarWidth, 0.0),
                           end: Offset(0.0, 0.0),
-                        ).animate(appBarSlideController);
+                        ).animate(peripherySlideAnimationController);
                       }
 
                       Widget buildLogView() {

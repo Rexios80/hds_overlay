@@ -83,12 +83,7 @@ class DataView extends StatelessWidget {
 
     return Expanded(
       key: _dataViewKey,
-      child: Container(
-        color: Color(
-          settingsController.settings.value.overlayBackgroundColor,
-        ),
-        child: dataWidgets,
-      ),
+      child: dataWidgets,
     );
   }
 
