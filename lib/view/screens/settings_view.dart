@@ -342,7 +342,7 @@ class SettingsView extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Pick a background color to chroma key'),
+          title: const Text('Pick a background color'),
           content: dialogOptions,
         );
       },
