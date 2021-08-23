@@ -186,11 +186,16 @@ class WidgetEditorTextField extends StatelessWidget {
         properties.value.rangeSeconds = int.tryParse(value) ?? 300;
         break;
       case EditorType.gradientLowValue:
-        // TODO: Enforce that gradient low/high must be lower/higher than each other
-        properties.value.gradientLowValue = int.tryParse(value) ?? 40;
+        final unvalidatedValue = int.tryParse(value) ?? 40;
+        // These values cannot be equal or the widget breaks
+        if (properties.value.gradientHighValue == unvalidatedValue) return;
+        properties.value.gradientLowValue = unvalidatedValue;
         break;
       case EditorType.gradientHighValue:
-        properties.value.gradientHighValue = int.tryParse(value) ?? 220;
+        final unvalidatedValue = int.tryParse(value) ?? 220;
+        // These values cannot be equal or the widget breaks
+        if (properties.value.gradientLowValue == unvalidatedValue) return;
+        properties.value.gradientHighValue = unvalidatedValue;
         break;
     }
 
