@@ -162,6 +162,18 @@ class DataWidgetProperties extends HiveObject {
   Color get imageColor => Color(_imageColor ?? textColor);
   set imageColor(Color value) => _imageColor = value.value;
 
+  @HiveField(33)
+  int? _gradientLowValue;
+
+  int get gradientLowValue => _gradientLowValue ?? 40;
+  set gradientLowValue(int value) => _gradientLowValue = value;
+
+  @HiveField(34)
+  int? _gradientHighValue;
+
+  int get gradientHighValue => _gradientHighValue ?? 220;
+  set gradientHighValue(int value) => _gradientHighValue = value;
+
   DataWidgetProperties();
 
   DataWidgetProperties copy() {

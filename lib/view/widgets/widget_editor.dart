@@ -418,6 +418,9 @@ class WidgetEditor extends StatelessWidget {
 
     final gradientEditor = Column(
       children: [
+        SizedBox(height: 10),
+        WidgetEditorTextField(EditorType.gradientLowValue, properties),
+        SizedBox(height: 10),
         Obx(
           () => ColorPickerTile(
             label: 'Low color',
@@ -428,6 +431,8 @@ class WidgetEditor extends StatelessWidget {
             },
           ),
         ),
+        SizedBox(height: 10),
+        WidgetEditorTextField(EditorType.gradientHighValue, properties),
         SizedBox(height: 10),
         Obx(
           () => ColorPickerTile(

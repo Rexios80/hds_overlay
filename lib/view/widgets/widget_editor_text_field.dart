@@ -80,6 +80,10 @@ class WidgetEditorTextField extends StatelessWidget {
         return properties.value.text;
       case EditorType.valuesToKeep:
         return properties.value.rangeSeconds.toString();
+      case EditorType.gradientLowValue:
+        return properties.value.gradientLowValue.toString();
+      case EditorType.gradientHighValue:
+        return properties.value.gradientHighValue.toString();
     }
   }
 
@@ -117,9 +121,14 @@ class WidgetEditorTextField extends StatelessWidget {
         return 'Text';
       case EditorType.valuesToKeep:
         return 'Time range (seconds)';
+      case EditorType.gradientLowValue:
+        return 'Low value';
+      case EditorType.gradientHighValue:
+        return 'High value';
     }
   }
 
+  // TODO: Set up a class for default values maybe?
   void saveAndRefresh(String value) {
     switch (editorType) {
       case EditorType.positionX:
@@ -176,6 +185,13 @@ class WidgetEditorTextField extends StatelessWidget {
       case EditorType.valuesToKeep:
         properties.value.rangeSeconds = int.tryParse(value) ?? 300;
         break;
+      case EditorType.gradientLowValue:
+        // TODO: Enforce that gradient low/high must be lower/higher than each other
+        properties.value.gradientLowValue = int.tryParse(value) ?? 40;
+        break;
+      case EditorType.gradientHighValue:
+        properties.value.gradientHighValue = int.tryParse(value) ?? 220;
+        break;
     }
 
     properties.value.save();
@@ -200,4 +216,6 @@ enum EditorType {
   heartBeatSoundThreshold,
   text,
   valuesToKeep,
+  gradientLowValue,
+  gradientHighValue,
 }

@@ -13,7 +13,9 @@ class HeartRateWidgetController {
     required Color fallback,
   }) {
     if (properties.value.useGradient) {
-      final lerpValue = currentHeartRate / 220;
+      final lerpValue = (currentHeartRate - properties.value.gradientLowValue) /
+          (properties.value.gradientHighValue -
+              properties.value.gradientLowValue);
       return HSVColor.lerp(
             HSVColor.fromColor(properties.value.gradientLowColor),
             HSVColor.fromColor(properties.value.gradientHighColor),

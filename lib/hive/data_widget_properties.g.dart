@@ -49,13 +49,15 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       .._useGradient = fields[29] as bool?
       .._gradientHighColor = fields[30] as int?
       .._gradientLowColor = fields[31] as int?
-      .._imageColor = fields[32] as int?;
+      .._imageColor = fields[32] as int?
+      .._gradientLowValue = fields[33] as int?
+      .._gradientHighValue = fields[34] as int?;
   }
 
   @override
   void write(BinaryWriter writer, DataWidgetProperties obj) {
     writer
-      ..writeByte(33)
+      ..writeByte(35)
       ..writeByte(0)
       ..write(obj.dataType)
       ..writeByte(1)
@@ -121,7 +123,11 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..writeByte(31)
       ..write(obj._gradientLowColor)
       ..writeByte(32)
-      ..write(obj._imageColor);
+      ..write(obj._imageColor)
+      ..writeByte(33)
+      ..write(obj._gradientLowValue)
+      ..writeByte(34)
+      ..write(obj._gradientHighValue);
   }
 
   @override
@@ -180,7 +186,9 @@ DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) {
         const ColorConverter().fromJson(json['gradientHighColor'] as int)
     ..gradientLowColor =
         const ColorConverter().fromJson(json['gradientLowColor'] as int)
-    ..imageColor = const ColorConverter().fromJson(json['imageColor'] as int);
+    ..imageColor = const ColorConverter().fromJson(json['imageColor'] as int)
+    ..gradientLowValue = json['gradientLowValue'] as int
+    ..gradientHighValue = json['gradientHighValue'] as int;
 }
 
 Map<String, dynamic> _$DataWidgetPropertiesToJson(
@@ -223,6 +231,8 @@ Map<String, dynamic> _$DataWidgetPropertiesToJson(
       'gradientLowColor':
           const ColorConverter().toJson(instance.gradientLowColor),
       'imageColor': const ColorConverter().toJson(instance.imageColor),
+      'gradientLowValue': instance.gradientLowValue,
+      'gradientHighValue': instance.gradientHighValue,
     };
 
 K _$enumDecode<K, V>(
