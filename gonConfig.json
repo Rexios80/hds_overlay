@@ -3,7 +3,8 @@
     "bundle_id" : "com.rexios.hdsOverlay",
     "apple_id": {
         "username" : "rexios80@me.com",
-        "password":  "@env:NOTARIZATION_PASSWORD"
+        "password":  "@env:NOTARIZATION_PASSWORD",
+        "provider": "69a6de93-1675-47e3-e053-5b8c7c11a4d1"
     },
     "sign" :{
         "application_identity" : "DDD19FCE40E12279C1A4F4018D3614848B9CF287"
