@@ -31,6 +31,7 @@ You can track development progress [here](https://trello.com/healthdataserver)
 7. To edit the overlay configuration right click on the browser source in the sources list and click `Interact`
 
 ### Set up the old fashioned way
+**Heart rate is free forever with HDS Cloud. Unless you need more data than just heart rate and don't want to pay the subscription or do not have internet access this section is not for you.**
 1. Download the watch app and the desktop app for your platform
 2. For the Windows Firewall prompt, make sure to check both the boxes and then click "Allow access"
     - ![Firewall Dialog](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/firewall-dialog.png)
