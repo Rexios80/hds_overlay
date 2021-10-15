@@ -23,7 +23,7 @@ dependencies:
   lifecycle: ^0.3.4
   url_launcher: ^6.0.3
   fl_chart: ^0.40.2
-  json_annotation: ^4.0.0
+  json_annotation: ^4.3.0
 
   # Firebase
   firebase_core: ^1.1.0
