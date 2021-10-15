@@ -8,8 +8,10 @@ import 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/firebase/rtd_constants.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/services/connection/socket_client.dart';
+import 'package:logger/logger.dart';
 
 class CloudSocketClient extends SocketClient {
+  final _logger = Get.find<Logger>();
   final FirebaseUtils firebase = Get.find();
   final DatabaseReference _ref;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -20,7 +22,7 @@ class CloudSocketClient extends SocketClient {
     final token = await firebase.getIdToken();
     final apiId =
         (await _ref.child(RtdConstants.apiId).once('value')).snapshot.val();
-    print('API ID: $apiId');
+     _logger.d('API ID: $apiId');
     return Uri.parse(
       'wss://$apiId.execute-api.us-east-1.amazonaws.com/dev?auth=$token&overlayId=$overlayId',
     );
@@ -36,15 +38,15 @@ class CloudSocketClient extends SocketClient {
     List<String> serverIps,
     String overlayId,
   ) async {
-    print('Requesting uidSnapshot');
+     _logger.d('Requesting uidSnapshot');
     final uidSnapshot = (await _ref
             .child(RtdConstants.overlays)
             .child(overlayId)
             .child(RtdConstants.uid)
             .once('value'))
         .snapshot;
-    print('uidSnapshot received');
-    print('HDS Cloud uid: ${uidSnapshot.val()}');
+     _logger.d('uidSnapshot received');
+     _logger.d('HDS Cloud uid: ${uidSnapshot.val()}');
     if (uidSnapshot.exists() && uidSnapshot.val() != _auth.currentUser?.uid) {
       log(LogLevel.error, 'HDS Cloud ID collision detected');
       log(LogLevel.error, 'Regenerating HDS Cloud ID...');
@@ -61,8 +63,8 @@ class CloudSocketClient extends SocketClient {
       await uidSnapshot.ref.set(_auth.currentUser?.uid).then((_) {
         log(LogLevel.hdsCloud, 'Registered with HDS Cloud');
       }).onError((error, stackTrace) {
-        print(error);
-        print(stackTrace);
+        _logger.e(error);
+        _logger.d(stackTrace);
         log(LogLevel.error, 'Unable to register with HDS Cloud');
       });
     }
@@ -82,7 +84,7 @@ class CloudSocketClient extends SocketClient {
 
     final json = jsonDecode(message);
 
-    print(json.toString());
+     _logger.d(json.toString());
     super.handleMessage(
       '${json['dataType']}:${json['value']}',
       json['clientName'],

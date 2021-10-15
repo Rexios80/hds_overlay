@@ -15,12 +15,15 @@ import 'package:hds_overlay/view/screens/privacy_policy.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
 import 'package:hds_overlay/view/screens/terms.dart';
 import 'package:lifecycle/lifecycle.dart';
+import 'package:logger/logger.dart';
 
 import 'controllers/settings_controller.dart';
 import 'hive/hive_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Get.put(Logger());
 
   final hive = Get.put(HiveUtils());
   await hive.init();

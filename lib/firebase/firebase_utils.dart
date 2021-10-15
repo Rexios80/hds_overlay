@@ -3,8 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
+import 'package:logger/logger.dart';
 
 class FirebaseUtils {
+  final _logger = Get.find<Logger>();
+
   final ConnectionController connectionController = Get.find();
   late final FirebaseAuth auth;
 
@@ -35,13 +38,13 @@ class FirebaseUtils {
   }
 
   Future<void> signIn() async {
-    print('Starting Firebase authorization');
+    _logger.d('Starting Firebase authorization');
     if (auth.currentUser == null) {
-      print('Not authenticated, signing in');
+       _logger.d('Not authenticated, signing in');
       await auth.signInAnonymously();
-      print('User is authenticated as: ${auth.currentUser?.uid}');
+       _logger.d('User is authenticated as: ${auth.currentUser?.uid}');
     } else {
-      print('User is already authenticated');
+       _logger.d('User is already authenticated');
     }
   }
 

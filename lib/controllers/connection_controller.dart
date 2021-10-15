@@ -16,9 +16,12 @@ import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:hds_overlay/services/connection/socket_client.dart';
 import 'package:hds_overlay/services/connection/socket_server_stub.dart'
     if (dart.library.io) 'package:hds_overlay/services/connection/socket_server.dart';
+import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
 class ConnectionController extends GetxController {
+  final _logger = Get.find<Logger>();
+
   final _messages = RxMap<Tuple2<DataType, String>, DataMessage>();
   final _messageHistory = RxMap<Tuple2<DataType, String>, List<DataMessage>>();
   final _logs = <LogMessage>[].obs;
@@ -137,7 +140,7 @@ class ConnectionController extends GetxController {
     });
 
     _connection?.logStream.listen((log) {
-      print(log.message);
+      _logger.d(log.message);
       logs.add(log);
     });
 

@@ -1,14 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
+import 'package:logger/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'cloud_socket_client_stub.dart'
     if (dart.library.js) 'cloud_socket_client.dart';
 
 abstract class SocketClient extends ConnectionBase {
+  final _logger = Get.find<Logger>();
+
   WebSocketChannel? _channel;
   String clientName = '';
   String ip = '';
@@ -32,7 +36,7 @@ abstract class SocketClient extends ConnectionBase {
       _reconnectOnDisconnect();
       return Future.value(_channel);
     } catch (e) {
-      print(e.toString());
+      _logger.e(e);
       if (this is LocalSocketClient) {
         log(LogLevel.error, 'Unable to connect to server: $ip');
       } else if (this is CloudSocketClient) {
@@ -61,7 +65,7 @@ abstract class SocketClient extends ConnectionBase {
       _reconnect();
     });
     channelSubscription?.onError((error) {
-      print(error);
+       _logger.e(error);
       channelSubscription.cancel();
       _reconnect();
     });

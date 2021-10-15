@@ -1,15 +1,19 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:get/get.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:hds_overlay/services/connection/socket_client.dart';
+import 'package:logger/logger.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SocketServer extends ConnectionBase {
+  final _logger = Get.find<Logger>();
+
   HttpServer? _server;
 
   final Map<WebSocketChannel, String> _clients = {};
@@ -93,7 +97,7 @@ class SocketServer extends ConnectionBase {
   }
 
   void _handleMessage(WebSocketChannel client, dynamic message) {
-    print(message);
+    _logger.d(message);
     final parts = message.split(':');
 
     if (parts[0] == 'clientName') {

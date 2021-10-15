@@ -24,6 +24,7 @@ dependencies:
   url_launcher: ^6.0.3
   fl_chart: ^0.40.2
   json_annotation: ^4.3.0
+  logger: ^1.1.0
 
   # Firebase
   firebase_core: ^1.1.0

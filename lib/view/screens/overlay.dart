@@ -17,6 +17,7 @@ import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
+import 'package:logger/logger.dart';
 
 import '../widgets/data_view.dart';
 import '../widgets/drawers/end_drawer.dart';
@@ -24,6 +25,7 @@ import '../widgets/drawers/navigation_drawer.dart';
 import '../widgets/log_view.dart';
 
 class HDSOverlay extends HookWidget {
+  final _logger = Get.find<Logger>();
   final endDrawerController = Get.put(EndDrawerController());
   final DataWidgetController dwc = Get.find();
   final ChartWidgetController cwc = Get.find();
@@ -46,10 +48,10 @@ class HDSOverlay extends HookWidget {
         final parameters = {
           for (var e in split.last.split('&')) e.split('=')[0]: e.split('=')[1]
         };
-        print('url parameters: $parameters');
+         _logger.d('url parameters: $parameters');
         final urlConfig = parameters['config'];
         if (urlConfig != null) {
-          print('Importing config from url');
+           _logger.d('Importing config from url');
           importConfig(urlConfig);
         }
       }
