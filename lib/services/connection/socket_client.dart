@@ -17,8 +17,8 @@ abstract class SocketClient extends ConnectionBase {
 
   bool _stopped = true;
 
-  Future<WebSocketChannel> _connect() async {
-    if (_stopped) return Future.value();
+  Future<WebSocketChannel?> _connect() async {
+    if (_stopped) return null;
 
     try {
       _channel = WebSocketChannel.connect(await createUri());

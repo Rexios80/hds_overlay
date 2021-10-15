@@ -30,7 +30,7 @@ class FirebaseUtils {
 
     auth = FirebaseAuth.instance;
     if (kDebugMode) {
-      auth.useEmulator("http://localhost:9099");
+      auth.useAuthEmulator('localhost', 9099);
     }
   }
 
