@@ -7,7 +7,8 @@ class SettingsTextField extends StatelessWidget {
   final EditorType type;
   final bool spacer;
 
-  SettingsTextField(this.type, this.settings, {Key? key, this.spacer = true})
+  const SettingsTextField(this.type, this.settings,
+      {Key? key, this.spacer = true})
       : super(key: key);
 
   @override
@@ -25,7 +26,7 @@ class SettingsTextField extends StatelessWidget {
               ] +
               (caption.isNotEmpty
                   ? [
-                      SizedBox(height: 3),
+                      const SizedBox(height: 3),
                       Text(
                         caption,
                         style: Theme.of(context).textTheme.caption,
@@ -35,13 +36,13 @@ class SettingsTextField extends StatelessWidget {
         ),
         Visibility(
           visible: spacer,
-          child: Spacer(),
+          child: const Spacer(),
         ),
-        Container(
+        SizedBox(
           width: 200,
           child: TextField(
             controller: controller,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
             ),
             onChanged: save,

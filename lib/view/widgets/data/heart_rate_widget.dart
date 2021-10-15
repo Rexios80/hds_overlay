@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -17,8 +19,8 @@ import 'package:tuple/tuple.dart';
 import 'data_widget.dart';
 
 class HeartRateWidget extends DataWidgetBase {
-  HeartRateWidget()
-      : super.withWidgets(HeartRateImageAnimated(), HeartRateText());
+  HeartRateWidget({Key? key})
+      : super.withWidgets(HeartRateImageAnimated(), HeartRateText(), key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,8 @@ class HeartRateWidget extends DataWidgetBase {
 class HeartRateImageAnimated extends HookWidget {
   final DataWidgetController dwc = Get.find();
   final ConnectionController connectionController = Get.find();
+
+  HeartRateImageAnimated({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +114,7 @@ class HeartRateImageAnimated extends HookWidget {
 
     while (hrwc.animating && hrwc.visible) {
       if (hrwc.currentHeartRate == 0) {
-        await Future.delayed(Duration(milliseconds: 100));
+        await Future.delayed(const Duration(milliseconds: 100));
         continue;
       }
       final int millisecondsPerBeat =
@@ -140,23 +144,23 @@ class HeartRateImageAnimated extends HookWidget {
 
     final soundBytes = properties.value.heartBeatSound!;
     final player = AudioPlayer();
-    player.setAudioSource(WebAudioSource(soundBytes));
+    unawaited(player.setAudioSource(WebAudioSource(soundBytes)));
 
     while (hrwc.sounding && hrwc.visible) {
       final startTime = DateTime.now().millisecondsSinceEpoch;
       if (hrwc.currentHeartRate == 0 ||
           hrwc.currentHeartRate < properties.value.heartBeatSoundThreshold) {
-        player.stop();
-        await Future.delayed(Duration(milliseconds: 100));
+        unawaited(player.stop());
+        await Future.delayed(const Duration(milliseconds: 100));
         continue;
       } else {
-        player.play();
+        unawaited(player.play());
       }
 
       final int millisecondsPerBeat =
           (60 / hrwc.currentHeartRate * 1000).toInt();
 
-      player.seek(Duration(seconds: 0));
+      unawaited(player.seek(const Duration(seconds: 0)));
 
       final endTime = DateTime.now().millisecondsSinceEpoch;
       final duration = endTime - startTime;
@@ -168,7 +172,8 @@ class HeartRateImageAnimated extends HookWidget {
 }
 
 class HeartRateImage extends DataWidgetImage {
-  HeartRateImage({bool square = false}) : super(square: square);
+  HeartRateImage({Key? key, bool square = false})
+      : super(key: key, square: square);
 
   @override
   Color? getImageColor(
@@ -186,6 +191,8 @@ class HeartRateImage extends DataWidgetImage {
 }
 
 class HeartRateText extends DataWidgetText {
+  HeartRateText({Key? key}) : super(key: key);
+
   @override
   Color getTextColor(
     Rx<DataWidgetProperties> properties,

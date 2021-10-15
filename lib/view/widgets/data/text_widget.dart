@@ -4,14 +4,17 @@ import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/view/widgets/data/data_widget.dart';
 
 class TextWidget extends DataWidgetBase {
-  TextWidget()
+  TextWidget({Key? key})
       : super.withWidgets(
-          SizedBox.shrink(),
+          const SizedBox.shrink(),
           TextWidgetText(),
+          key: key,
         );
 }
 
 class TextWidgetText extends DataWidgetText {
+  TextWidgetText({Key? key}) : super(key: key);
+
   @override
   String? getText(
     Rx<DataWidgetProperties> properties,

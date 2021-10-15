@@ -12,5 +12,5 @@ class Themes {
     primarySwatch: createMaterialColor(AppColors.accent),
   );
 
-  static final sideBarWidth = 304.0;
+  static const sideBarWidth = 304.0;
 }

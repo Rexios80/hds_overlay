@@ -15,9 +15,10 @@ class WidgetEditorTextField extends StatelessWidget {
   WidgetEditorTextField(
     this.editorType,
     this.properties, {
+    Key? key,
     this.widgetType = DataWidgetType.data,
     this.spacer = true,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +31,13 @@ class WidgetEditorTextField extends StatelessWidget {
         Text(label),
         Visibility(
           visible: spacer,
-          child: Spacer(),
+          child: const Spacer(),
         ),
-        Container(
+        SizedBox(
           width: 100,
           child: TextField(
             controller: controller,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
             ),
             onChanged: saveAndRefresh,

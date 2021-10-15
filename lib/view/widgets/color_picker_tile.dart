@@ -11,7 +11,8 @@ class ColorPickerTile extends StatelessWidget {
     required this.label,
     required this.initialColor,
     required this.onColorChanged,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +21,12 @@ class ColorPickerTile extends StatelessWidget {
         title: Row(
           children: [
             Text(label),
-            Spacer(),
-            Container(
+            const Spacer(),
+            SizedBox(
               width: 20,
               height: 20,
               child: Card(
-                margin: EdgeInsets.all(0),
+                margin: const EdgeInsets.all(0),
                 color: color.value,
               ),
             ),

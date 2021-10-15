@@ -11,6 +11,8 @@ class HeartRateRangeEditor extends StatelessWidget {
   final DataWidgetController dataWidgetController = Get.find();
   final EndDrawerController endDrawerController = Get.find();
 
+  HeartRateRangeEditor({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final HeartRateRangeEditorController hrrec =
@@ -27,9 +29,9 @@ class HeartRateRangeEditor extends StatelessWidget {
               'Heart rate ranges',
               style: Theme.of(context).textTheme.subtitle1,
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
               onPressed: () {
                 properties.value.heartRateRanges[0] = Colors.red.value;
                 saveAndRefresh(properties);
@@ -57,11 +59,11 @@ class HeartRateRangeEditor extends StatelessWidget {
 
                     return Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 100,
                           child: TextField(
                             controller: tec,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                             ),
                             onChanged: (value) {
@@ -81,7 +83,7 @@ class HeartRateRangeEditor extends StatelessWidget {
                               // The user deleted the range. This prevents issues if they add the same range back.
                               hrrec.expandedRanges.remove(range.key);
                             }
-                            hrrec.expandedItemText = Tuple2(-1, '');
+                            hrrec.expandedItemText = const Tuple2(-1, '');
                             saveAndRefresh(properties);
                           },
                           child: Text(canSave ? 'Save' : 'Delete'),
@@ -92,12 +94,12 @@ class HeartRateRangeEditor extends StatelessWidget {
                     return Row(
                       children: [
                         Text(range.key.toString()),
-                        Spacer(),
-                        Container(
+                        const Spacer(),
+                        SizedBox(
                           width: 20,
                           height: 20,
                           child: Card(
-                            margin: EdgeInsets.all(0),
+                            margin: const EdgeInsets.all(0),
                             color: Color(range.value),
                           ),
                         ),

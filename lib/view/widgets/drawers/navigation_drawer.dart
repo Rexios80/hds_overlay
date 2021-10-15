@@ -8,12 +8,14 @@ import 'package:yaml/yaml.dart';
 import '../../routes.dart';
 
 class NavigationDrawer extends StatelessWidget {
-  final _githubUrl = 'https://git.io/J3NOR';
-  final _discordUrl = 'https://discord.gg/FayYYcm';
-  final _iosUrl =
+  static const _githubUrl = 'https://git.io/J3NOR';
+  static const _discordUrl = 'https://discord.gg/FayYYcm';
+  static const _iosUrl =
       'https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=hds.dev&mt=8';
-  final _androidUrl =
+  static const _androidUrl =
       'https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter';
+
+  const NavigationDrawer({Key? key}) : super(key: key);
 
   // final _samsungUrl ='https://git.io/J3NOR';
 
@@ -25,20 +27,20 @@ class NavigationDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           FutureBuilder(
-            future: rootBundle.loadString("pubspec.yaml"),
+            future: rootBundle.loadString('pubspec.yaml'),
             builder: (context, snapshot) {
-              String version = "Unknown";
+              String version = 'Unknown';
               if (snapshot.hasData) {
                 var yaml = loadYaml(snapshot.data as String);
-                version = yaml["version"];
+                version = yaml['version'];
               }
 
               return DrawerHeader(
                 child: Text(
                   version,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/icon.png')),
                   color: Colors.grey,
@@ -47,23 +49,23 @@ class NavigationDrawer extends StatelessWidget {
             },
           ),
           routeItem(
-            Text(kIsWeb ? 'Overlay' : 'Console'),
+            const Text(kIsWeb ? 'Overlay' : 'Console'),
             Routes.overlay,
           ),
           routeItem(
-            Text('Settings'),
+            const Text('Settings'),
             Routes.settings,
           ),
-          Divider(),
+          const Divider(),
           urlItem(
-            Text('Setup instructions'),
+            const Text('Setup instructions'),
             Get.isDarkMode
                 ? 'assets/images/githubDark.png'
                 : 'assets/images/githubLight.png',
             _githubUrl,
           ),
           urlItem(
-            Text('Discord server'),
+            const Text('Discord server'),
             'assets/images/discord.png',
             _discordUrl,
           ),
@@ -72,33 +74,33 @@ class NavigationDrawer extends StatelessWidget {
             child: Column(
               children: [
                 urlItem(
-                  Text('Apple Watch app'),
+                  const Text('Apple Watch app'),
                   'assets/images/appStore.png',
                   _iosUrl,
                 ),
                 urlItem(
-                  Text('Android watch app'),
+                  const Text('Android watch app'),
                   'assets/images/googlePlay.png',
                   _androidUrl,
                 ),
               ],
             ),
           ),
-          Divider(),
+          const Divider(),
           routeItem(
-            Text('Privacy Policy'),
+            const Text('Privacy Policy'),
             Routes.privacyPolicy,
           ),
           routeItem(
-            Text('Terms of Use'),
+            const Text('Terms of Use'),
             Routes.terms,
           ),
           routeItem(
-            Text('Credits'),
+            const Text('Credits'),
             Routes.credits,
           ),
           routeItem(
-            Text('Licenses'),
+            const Text('Licenses'),
             Routes.licenses,
           ),
         ],
@@ -111,8 +113,8 @@ class NavigationDrawer extends StatelessWidget {
       title: Row(
         children: [
           label,
-          Spacer(),
-          Container(
+          const Spacer(),
+          SizedBox(
             height: 30,
             child: Image.asset(imageAsset),
           ),

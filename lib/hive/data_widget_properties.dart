@@ -77,7 +77,7 @@ class DataWidgetProperties extends HiveObject {
   bool animated = true;
 
   @HiveField(19)
-  Map<int, int> heartRateRanges = Map();
+  Map<int, int> heartRateRanges = {};
 
   @HiveField(20)
   @Uint8ListConverter()

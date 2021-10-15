@@ -27,7 +27,7 @@ class ChartController extends GetxController {
     processMessageHistory(_connectionController.messageHistory);
 
     // 60 fps
-    Timer.periodic(Duration(milliseconds: 16), (timer) {
+    Timer.periodic(const Duration(milliseconds: 16), (timer) {
       getTimeRangeStart();
 
       data.removeWhere((e) => e.x < timeRangeStart.value);

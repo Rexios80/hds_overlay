@@ -40,7 +40,7 @@ class ConnectionController extends GetxController {
 
   ConnectionController() {
     // Perioodically clear data if it has not been received in a while
-    Timer.periodic(Duration(seconds: 5), (_) {
+    Timer.periodic(const Duration(seconds: 5), (_) {
       final keysToRemove = <Tuple2<DataType, String>>[];
       _messages.forEach((key, value) {
         if (key.item1 == DataType.heartRateAverage ||
@@ -74,8 +74,8 @@ class ConnectionController extends GetxController {
         logs.add(
           LogMessage(
             LogLevel.warn,
-            '(${e.item2}) ${EnumToString.convertToString(e.item1, camelCase: true)}: ' +
-                'Data cleared after ${_settingsController.settings.value.dataClearInterval} seconds',
+            '(${e.item2}) ${EnumToString.convertToString(e.item1, camelCase: true)}: '
+            'Data cleared after ${_settingsController.settings.value.dataClearInterval} seconds',
           ),
         );
         _messages.remove(e);
@@ -140,7 +140,7 @@ class ConnectionController extends GetxController {
     // If the log is modified here the view will be in a bad state
     if (!_settingsController.settings.value.hdsCloud) {
       Future.delayed(
-        Duration(milliseconds: 500),
+        const Duration(milliseconds: 500),
         () => logs.add(
           LogMessage(
             LogLevel.info,

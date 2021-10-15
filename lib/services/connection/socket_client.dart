@@ -38,7 +38,7 @@ abstract class SocketClient extends ConnectionBase {
       } else if (this is CloudSocketClient) {
         log(LogLevel.error, 'Unable to connect to HDS Cloud');
       }
-      Future.delayed(Duration(seconds: 10), () => _connect());
+      Future.delayed(const Duration(seconds: 10), () => _connect());
       return Future.error('Unable to connect to server: $ip');
     }
   }
@@ -74,7 +74,7 @@ abstract class SocketClient extends ConnectionBase {
       log(LogLevel.hdsCloud, 'Disconnected from HDS Cloud');
     }
     _channel?.sink.close();
-    _reconnectTimer = Timer(Duration(seconds: 5), () => _connect());
+    _reconnectTimer = Timer(const Duration(seconds: 5), () => _connect());
   }
 
   @override
@@ -106,7 +106,7 @@ class LocalSocketClient extends SocketClient {
   Future<Uri> createUri() {
     Uri uri;
     if (ip.startsWith('ws')) {
-      uri = Uri.parse('$ip');
+      uri = Uri.parse(ip);
     } else {
       uri = Uri.parse('ws://$ip');
     }

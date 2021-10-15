@@ -3,5 +3,5 @@ import 'package:tuple/tuple.dart';
 
 class HeartRateRangeEditorController extends GetxController {
   RxList expandedRanges = <int>[].obs;
-  Tuple2<int, String> expandedItemText = Tuple2(-1, 'item2');
+  Tuple2<int, String> expandedItemText = const Tuple2(-1, 'item2');
 }

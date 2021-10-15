@@ -12,8 +12,8 @@ abstract class ConnectionBase {
   final FirebaseAnalytics _analytics = Get.find();
   final SettingsController _settings = Get.find();
   // ignore: close_sinks
-  StreamController<LogMessage> _logStreamController = StreamController();
-  StreamController<DataMessageBase> _messageStreamController =
+  final StreamController<LogMessage> _logStreamController = StreamController();
+  final StreamController<DataMessageBase> _messageStreamController =
       StreamController();
 
   Stream<LogMessage> get logStream => _logStreamController.stream;

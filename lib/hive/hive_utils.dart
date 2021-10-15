@@ -113,14 +113,14 @@ class HiveUtils {
 
   Map<Tuple2<DataType, String>, Rx<DataWidgetProperties>> createDwpMap(
       Box<DataWidgetProperties> dwpBox) {
-    final map = Map<Tuple2<DataType, String>, Rx<DataWidgetProperties>>();
+    final map = <Tuple2<DataType, String>, Rx<DataWidgetProperties>>{};
     dwpBox.values.forEach((e) => map[Tuple2(e.dataType, e.dataSource)] = e.obs);
     return map;
   }
 
   Map<Tuple2<DataType, String>, Rx<ChartWidgetProperties>> createCpMap(
       Box<ChartWidgetProperties> cpBox) {
-    final map = Map<Tuple2<DataType, String>, Rx<ChartWidgetProperties>>();
+    final map = <Tuple2<DataType, String>, Rx<ChartWidgetProperties>>{};
     cpBox.values.forEach((e) => map[Tuple2(e.dataType, e.dataSource)] = e.obs);
     return map;
   }

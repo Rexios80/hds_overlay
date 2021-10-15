@@ -43,6 +43,8 @@ void main() async {
 class HDS extends StatelessWidget {
   final SettingsController settingsController = Get.find();
 
+  HDS({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     FirebaseAnalytics analytics = Get.put(FirebaseAnalytics());
@@ -65,7 +67,7 @@ class HDS extends StatelessWidget {
         GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicy()),
         GetPage(name: Routes.terms, page: () => Terms()),
         GetPage(name: Routes.credits, page: () => Credits()),
-        GetPage(name: Routes.licenses, page: () => LicensePage()),
+        GetPage(name: Routes.licenses, page: () => const LicensePage()),
       ],
     );
   }

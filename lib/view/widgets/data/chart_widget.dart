@@ -13,8 +13,9 @@ class ChartWidget extends StatelessWidget {
   final ChartController chartController;
   final Tuple2<DataType, String> typeSource;
 
-  ChartWidget(this.typeSource)
-      : chartController = ChartController(typeSource: typeSource);
+  ChartWidget(this.typeSource, {Key? key})
+      : chartController = ChartController(typeSource: typeSource),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class ChartWidget extends StatelessWidget {
         properties.lowColor,
       ];
 
-      return Container(
+      return SizedBox(
         width: 100,
         height: 50,
         child: AbsorbPointer(
@@ -46,13 +47,13 @@ class ChartWidget extends StatelessWidget {
               ),
               borderData: FlBorderData(
                 show: true,
-                border: Border(
+                border: const Border(
                   left: BorderSide(
-                    color: const Color(0xff37434d),
+                    color: Color(0xff37434d),
                     width: 1,
                   ),
                   bottom: BorderSide(
-                    color: const Color(0xff37434d),
+                    color: Color(0xff37434d),
                     width: 1,
                   ),
                 ),

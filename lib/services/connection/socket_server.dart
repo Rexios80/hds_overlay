@@ -12,7 +12,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class SocketServer extends ConnectionBase {
   HttpServer? _server;
 
-  final Map<WebSocketChannel, String> _clients = Map();
+  final Map<WebSocketChannel, String> _clients = {};
   final List<LocalSocketClient> _servers = [];
 
   SocketServer() {
@@ -46,7 +46,7 @@ class SocketServer extends ConnectionBase {
           _clients.remove(webSocket);
         });
       },
-      pingInterval: Duration(seconds: 15),
+      pingInterval: const Duration(seconds: 15),
     );
 
     try {

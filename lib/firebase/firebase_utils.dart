@@ -10,21 +10,21 @@ class FirebaseUtils {
 
   void init() {
     if (apps.isEmpty) {
-      final dbUrl;
+      final String dbUrl;
       if (kDebugMode) {
         dbUrl = 'http://localhost:9000/?ns=health-data-server-default-rtdb';
       } else {
         dbUrl = 'https://health-data-server-default-rtdb.firebaseio.com';
       }
       initializeApp(
-        apiKey: "AIzaSyCbbBPvlWvmOvI6Is8PYXNpJ78N03AYcyU",
-        authDomain: "health-data-server.firebaseapp.com",
+        apiKey: 'AIzaSyCbbBPvlWvmOvI6Is8PYXNpJ78N03AYcyU',
+        authDomain: 'health-data-server.firebaseapp.com',
         databaseURL: dbUrl,
-        projectId: "health-data-server",
-        storageBucket: "health-data-server.appspot.com",
-        messagingSenderId: "47929674141",
-        appId: "1:47929674141:web:0606fd3354256f51860774",
-        measurementId: "G-1V10QYSSHG",
+        projectId: 'health-data-server',
+        storageBucket: 'health-data-server.appspot.com',
+        messagingSenderId: '47929674141',
+        appId: '1:47929674141:web:0606fd3354256f51860774',
+        measurementId: 'G-1V10QYSSHG',
       );
     }
 

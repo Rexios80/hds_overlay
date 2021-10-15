@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tuple/tuple.dart';
@@ -7,9 +9,11 @@ part 'tuple2_double.g.dart';
 @HiveType(typeId: 4)
 @JsonSerializable()
 class Tuple2Double extends Tuple2<double, double> {
+  @override
   @HiveField(0)
   final double item1;
 
+  @override
   @HiveField(1)
   final double item2;
 

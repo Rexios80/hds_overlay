@@ -12,6 +12,8 @@ class ChartSelector extends StatelessWidget {
   final ChartWidgetController cwc = Get.find();
   final WidgetSelectorController wsc = WidgetSelectorController();
 
+  ChartSelector({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -22,8 +24,8 @@ class ChartSelector extends StatelessWidget {
       if (wsc.dataSource.isEmpty) {
         dataTypes.clear();
       } else {
-        dataTypes.removeWhere(
-            (e) => usedDataTypeSources.contains(Tuple2(e, wsc.dataSource)));
+        dataTypes.removeWhere((e) =>
+            usedDataTypeSources.contains(Tuple2(e, wsc.dataSource.value)));
         dataTypes.remove(DataType.unknown);
       }
 
@@ -31,24 +33,24 @@ class ChartSelector extends StatelessWidget {
       tec.selection = TextSelection.collapsed(offset: tec.text.length);
 
       return Container(
-        decoration: BoxDecoration(color: Colors.black),
+        decoration: const BoxDecoration(color: Colors.black),
         child: ListView(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             children: <Widget>[
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Data source',
                         style: TextStyle(color: Colors.white),
                       ),
-                      Spacer(),
-                      Container(
+                      const Spacer(),
+                      SizedBox(
                         width: 100,
                         child: TextField(
                           controller: tec,
                           onChanged: (value) => wsc.dataSource.value = value,
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
@@ -58,7 +60,7 @@ class ChartSelector extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ] +
                 dataTypes
                     .where((e) =>
@@ -77,7 +79,7 @@ class ChartSelector extends StatelessWidget {
                             .subtitle1
                             ?.copyWith(color: Colors.white),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       InkWell(
                         onTap: () =>
                             wsc.addChart(dataType, wsc.dataSource.value),
@@ -85,7 +87,7 @@ class ChartSelector extends StatelessWidget {
                             value: typeSource,
                             builder: (context, _) => ChartWidget(typeSource)),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                     ],
                   );
                 }).toList()),

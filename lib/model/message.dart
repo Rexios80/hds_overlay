@@ -31,6 +31,7 @@ abstract class DataMessageBase extends MessageBase {
 class DataMessage extends DataMessageBase {
   final DataType dataType;
 
+  @override
   String get name {
     return EnumToString.convertToString(dataType, camelCase: true);
   }
@@ -42,6 +43,7 @@ class DataMessage extends DataMessageBase {
 class UnknownDataMessage extends DataMessageBase {
   final String _name;
 
+  @override
   String get name {
     return 'Unknown data type $_name';
   }
