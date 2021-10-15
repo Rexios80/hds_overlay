@@ -105,11 +105,9 @@ class DataWidgetProperties extends HiveObject {
   String? _fontWeight;
 
   @FontWeightConverter()
-  FontWeight get fontWeight => Map.fromIterable(
-        FontWeight.values,
-        key: (e) => e.toString(),
-        value: (e) => e,
-      )[_fontWeight ?? FontWeight.normal.toString()];
+  FontWeight get fontWeight => {
+        for (var e in FontWeight.values) e.toString(): e
+      }[_fontWeight ?? FontWeight.normal.toString()]!;
 
   @FontWeightConverter()
   set fontWeight(FontWeight value) => _fontWeight = value.toString();

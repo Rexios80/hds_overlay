@@ -7,9 +7,12 @@ class SettingsTextField extends StatelessWidget {
   final EditorType type;
   final bool spacer;
 
-  const SettingsTextField(this.type, this.settings,
-      {Key? key, this.spacer = true})
-      : super(key: key);
+  const SettingsTextField(
+    this.type,
+    this.settings, {
+    Key? key,
+    this.spacer = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -64,9 +64,9 @@ class HDS extends StatelessWidget {
       getPages: [
         GetPage(name: Routes.overlay, page: () => HDSOverlay()),
         GetPage(name: Routes.settings, page: () => SettingsView()),
-        GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicy()),
-        GetPage(name: Routes.terms, page: () => Terms()),
-        GetPage(name: Routes.credits, page: () => Credits()),
+        GetPage(name: Routes.privacyPolicy, page: () => const PrivacyPolicy()),
+        GetPage(name: Routes.terms, page: () => const Terms()),
+        GetPage(name: Routes.credits, page: () => const Credits()),
         GetPage(name: Routes.licenses, page: () => const LicensePage()),
       ],
     );

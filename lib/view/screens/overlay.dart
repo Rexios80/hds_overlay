@@ -43,11 +43,9 @@ class HDSOverlay extends HookWidget {
       final split = Uri.decodeFull(Uri.base.toString()).split('?');
       if (split.length > 1) {
         // Why isn't null safe list access working?
-        final parameters = Map.fromIterable(
-          split.last.split('&'),
-          key: (e) => e.split('=')[0],
-          value: (e) => e.split('=')[1],
-        );
+        final parameters = {
+          for (var e in split.last.split('&')) e.split('=')[0]: e.split('=')[1]
+        };
         print('url parameters: $parameters');
         final urlConfig = parameters['config'];
         if (urlConfig != null) {
@@ -144,10 +142,11 @@ class HDSOverlay extends HookWidget {
                                       .profileDeleteButtonPressedMap[profile] =
                                   true;
                               Future.delayed(
-                                  const Duration(seconds: 1),
-                                  () => overlayController
-                                      .profileDeleteButtonPressedMap
-                                      .remove(profile));
+                                const Duration(seconds: 1),
+                                () => overlayController
+                                    .profileDeleteButtonPressedMap
+                                    .remove(profile),
+                              );
                             }
                           },
                         ),
@@ -227,8 +226,11 @@ class HDSOverlay extends HookWidget {
               const Spacer(),
               Visibility(
                 visible: settingsController.settings.value.hdsCloud,
-                child: Obx(() => Text(
-                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
+                child: Obx(
+                  () => Text(
+                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
+                  ),
+                ),
               ),
             ],
           );

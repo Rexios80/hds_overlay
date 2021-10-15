@@ -46,7 +46,8 @@ class ChartController extends GetxController {
   }
 
   void processMessageHistory(
-      Map<Tuple2<DataType, String>, List<DataMessage>> history) {
+    Map<Tuple2<DataType, String>, List<DataMessage>> history,
+  ) {
     final messages = history[typeSource];
     if (messages != null) {
       data.value = messages

@@ -1,5 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude: [build/**, "**/*.g.dart"]
+
 linter:
   rules:
     prefer_single_quotes: true

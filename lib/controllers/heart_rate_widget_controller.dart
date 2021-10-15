@@ -27,8 +27,10 @@ class HeartRateWidgetController {
       ranges.sort((a, b) => a.key.compareTo(b.key));
       return Color(
         ranges.reversed
-            .firstWhere((e) => currentHeartRate >= e.key,
-                orElse: () => MapEntry(0, fallback.value))
+            .firstWhere(
+              (e) => currentHeartRate >= e.key,
+              orElse: () => MapEntry(0, fallback.value),
+            )
             .value,
       );
     }

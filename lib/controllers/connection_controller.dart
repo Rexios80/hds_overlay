@@ -56,12 +56,16 @@ class ConnectionController extends GetxController {
 
           if (key.item1 == DataType.heartRate) {
             // Clear min/max/avg with heart rate
-            keysToRemove.addAll(_messages.keys.where((e) =>
-                // Make sure the messages are from the same source
-                e.item2 == key.item2 &&
-                (e.item1 == DataType.heartRateAverage ||
-                    e.item1 == DataType.heartRateMin ||
-                    e.item1 == DataType.heartRateMax)));
+            keysToRemove.addAll(
+              _messages.keys.where(
+                (e) =>
+                    // Make sure the messages are from the same source
+                    e.item2 == key.item2 &&
+                    (e.item1 == DataType.heartRateAverage ||
+                        e.item1 == DataType.heartRateMin ||
+                        e.item1 == DataType.heartRateMax),
+              ),
+            );
 
             // Reset stats
             hrs.remove(key.item2);
@@ -70,7 +74,7 @@ class ConnectionController extends GetxController {
           }
         }
       });
-      keysToRemove.forEach((e) {
+      for (var e in keysToRemove) {
         logs.add(
           LogMessage(
             LogLevel.warn,
@@ -79,7 +83,7 @@ class ConnectionController extends GetxController {
           ),
         );
         _messages.remove(e);
-      });
+      }
     });
   }
 

@@ -85,19 +85,21 @@ class DataWidgetImage extends StatelessWidget {
       return SizedBox(
         height: imageSize,
         width: square ? imageSize : null,
-        child: Builder(builder: (context) {
-          if (image == null) {
-            return Image.asset(
-              getDefaultImage(typeSource.item1),
-              color: getImageColor(properties, context),
-            );
-          } else {
-            return Image.memory(
-              image,
-              color: getImageColor(properties, context),
-            );
-          }
-        }),
+        child: Builder(
+          builder: (context) {
+            if (image == null) {
+              return Image.asset(
+                getDefaultImage(typeSource.item1),
+                color: getImageColor(properties, context),
+              );
+            } else {
+              return Image.memory(
+                image,
+                color: getImageColor(properties, context),
+              );
+            }
+          },
+        ),
       );
     });
   }

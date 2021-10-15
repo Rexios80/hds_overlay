@@ -24,8 +24,9 @@ class ChartSelector extends StatelessWidget {
       if (wsc.dataSource.isEmpty) {
         dataTypes.clear();
       } else {
-        dataTypes.removeWhere((e) =>
-            usedDataTypeSources.contains(Tuple2(e, wsc.dataSource.value)));
+        dataTypes.removeWhere(
+          (e) => usedDataTypeSources.contains(Tuple2(e, wsc.dataSource.value)),
+        );
         dataTypes.remove(DataType.unknown);
       }
 
@@ -35,62 +36,65 @@ class ChartSelector extends StatelessWidget {
       return Container(
         decoration: const BoxDecoration(color: Colors.black),
         child: ListView(
-            padding: const EdgeInsets.all(10),
-            children: <Widget>[
-                  Row(
-                    children: [
-                      const Text(
-                        'Data source',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      const Spacer(),
-                      SizedBox(
-                        width: 100,
-                        child: TextField(
-                          controller: tec,
-                          onChanged: (value) => wsc.dataSource.value = value,
-                          style: const TextStyle(color: Colors.white),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
+          padding: const EdgeInsets.all(10),
+          children: <Widget>[
+                Row(
+                  children: [
+                    const Text(
+                      'Data source',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                      width: 100,
+                      child: TextField(
+                        controller: tec,
+                        onChanged: (value) => wsc.dataSource.value = value,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                ] +
-                dataTypes
-                    .where((e) =>
-                        e != DataType.text &&
-                        e != DataType.bodyMass &&
-                        e != DataType.bmi)
-                    .map((DataType dataType) {
-                  final typeSource = Tuple2(dataType, wsc.dataSource.value);
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        EnumToString.convertToString(dataType, camelCase: true),
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            ?.copyWith(color: Colors.white),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+              ] +
+              dataTypes
+                  .where(
+                (e) =>
+                    e != DataType.text &&
+                    e != DataType.bodyMass &&
+                    e != DataType.bmi,
+              )
+                  .map((DataType dataType) {
+                final typeSource = Tuple2(dataType, wsc.dataSource.value);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      EnumToString.convertToString(dataType, camelCase: true),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(height: 5),
+                    InkWell(
+                      onTap: () => wsc.addChart(dataType, wsc.dataSource.value),
+                      child: Provider.value(
+                        value: typeSource,
+                        builder: (context, _) => ChartWidget(typeSource),
                       ),
-                      const SizedBox(height: 5),
-                      InkWell(
-                        onTap: () =>
-                            wsc.addChart(dataType, wsc.dataSource.value),
-                        child: Provider.value(
-                            value: typeSource,
-                            builder: (context, _) => ChartWidget(typeSource)),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  );
-                }).toList()),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                );
+              }).toList(),
+        ),
       );
     });
   }

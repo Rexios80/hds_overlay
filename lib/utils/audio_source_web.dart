@@ -9,15 +9,19 @@ class WebAudioSource extends StreamAudioSource {
 
   @override
   Future<StreamAudioResponse> request([int? start, int? end]) {
-    return Future.value(StreamAudioResponse(
-      sourceLength: _buffer.length,
-      contentLength: _buffer.length,
-      offset: 0,
-      stream: Stream.value(_buffer
-          .skip(start ?? 0)
-          .take((end ?? _buffer.length) - (start ?? 0))
-          .toList()),
-      contentType: 'audio/mpeg',
-    ));
+    return Future.value(
+      StreamAudioResponse(
+        sourceLength: _buffer.length,
+        contentLength: _buffer.length,
+        offset: 0,
+        stream: Stream.value(
+          _buffer
+              .skip(start ?? 0)
+              .take((end ?? _buffer.length) - (start ?? 0))
+              .toList(),
+        ),
+        contentType: 'audio/mpeg',
+      ),
+    );
   }
 }

@@ -88,12 +88,14 @@ class HiveUtils {
     Get.put(ConnectionController());
 
     _dwc = Get.put(
-        DataWidgetController(createDwpMap(_dataWidgetPropertiesBox).obs));
+      DataWidgetController(createDwpMap(_dataWidgetPropertiesBox).obs),
+    );
 
     _cwc = Get.put(ChartWidgetController(createCpMap(_chartPropertiesBox).obs));
 
     final opc = Get.put(
-        OverlayProfilesController(_overlayProfilesBox.values.toList().obs));
+      OverlayProfilesController(_overlayProfilesBox.values.toList().obs),
+    );
 
     // Refresh when properties are added or removed
     _dataWidgetPropertiesBox.watch().listen((_) {
@@ -112,16 +114,22 @@ class HiveUtils {
   }
 
   Map<Tuple2<DataType, String>, Rx<DataWidgetProperties>> createDwpMap(
-      Box<DataWidgetProperties> dwpBox) {
+    Box<DataWidgetProperties> dwpBox,
+  ) {
     final map = <Tuple2<DataType, String>, Rx<DataWidgetProperties>>{};
-    dwpBox.values.forEach((e) => map[Tuple2(e.dataType, e.dataSource)] = e.obs);
+    for (var e in dwpBox.values) {
+      map[Tuple2(e.dataType, e.dataSource)] = e.obs;
+    }
     return map;
   }
 
   Map<Tuple2<DataType, String>, Rx<ChartWidgetProperties>> createCpMap(
-      Box<ChartWidgetProperties> cpBox) {
+    Box<ChartWidgetProperties> cpBox,
+  ) {
     final map = <Tuple2<DataType, String>, Rx<ChartWidgetProperties>>{};
-    cpBox.values.forEach((e) => map[Tuple2(e.dataType, e.dataSource)] = e.obs);
+    for (var e in cpBox.values) {
+      map[Tuple2(e.dataType, e.dataSource)] = e.obs;
+    }
     return map;
   }
 

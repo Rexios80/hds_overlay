@@ -90,39 +90,48 @@ class WidgetEditor extends StatelessWidget {
                       }
                     },
                     child: Text(
-                        wec.removeImageTapped.value ? 'Really?' : 'Remove'),
+                      wec.removeImageTapped.value ? 'Really?' : 'Remove',
+                    ),
                   ),
                 ),
               ),
             ),
             Obx(
               () => Visibility(
-                  visible: properties.value.showImage,
-                  replacement: const SizedBox(width: 0, height: 48),
-                  child: InkWell(
-                    onTap: () => selectImageFile(properties),
-                    child: Card(
-                      margin: const EdgeInsets.only(
-                          left: 10, right: 10, top: 4, bottom: 4),
-                      elevation: 8,
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: SizedBox(
-                          width: 30,
-                          height: 30,
-                          child: Builder(builder: (context) {
+                visible: properties.value.showImage,
+                replacement: const SizedBox(width: 0, height: 48),
+                child: InkWell(
+                  onTap: () => selectImageFile(properties),
+                  child: Card(
+                    margin: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                      top: 4,
+                      bottom: 4,
+                    ),
+                    elevation: 8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: Builder(
+                          builder: (context) {
                             final image = properties.value.image;
                             if (image == null) {
                               return Image.asset(
-                                  getDefaultImage(properties.value.dataType));
+                                getDefaultImage(properties.value.dataType),
+                              );
                             } else {
                               return Image.memory(image);
                             }
-                          }),
+                          },
                         ),
                       ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -230,10 +239,12 @@ class WidgetEditor extends StatelessWidget {
               saveAndRefresh(properties);
             },
             items: FontWeight.values
-                .map((e) => DropdownMenuItem<FontWeight>(
-                      value: e,
-                      child: Text(e.toString().substring(12)),
-                    ))
+                .map(
+                  (e) => DropdownMenuItem<FontWeight>(
+                    value: e,
+                    child: Text(e.toString().substring(12)),
+                  ),
+                )
                 .toList(),
           ),
         ),
@@ -287,25 +298,29 @@ class WidgetEditor extends StatelessWidget {
                     children: [
                       const SizedBox(height: 5),
                       WidgetEditorTextField(
-                          EditorType.unitFontSize, properties),
+                        EditorType.unitFontSize,
+                        properties,
+                      ),
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 5),
-              Obx(() => Row(
-                    children: [
-                      const Text('Text inside image'),
-                      const Spacer(),
-                      Switch(
-                        value: properties.value.textInsideImage,
-                        onChanged: (value) {
-                          properties.value.textInsideImage = value;
-                          saveAndRefresh(properties);
-                        },
-                      ),
-                    ],
-                  )),
+              Obx(
+                () => Row(
+                  children: [
+                    const Text('Text inside image'),
+                    const Spacer(),
+                    Switch(
+                      value: properties.value.textInsideImage,
+                      onChanged: (value) {
+                        properties.value.textInsideImage = value;
+                        saveAndRefresh(properties);
+                      },
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(height: 5),
               WidgetEditorTextField(EditorType.textPaddingLeft, properties),
               const SizedBox(height: 5),
@@ -406,11 +421,13 @@ class WidgetEditor extends StatelessWidget {
             }
           },
           child: Obx(
-            () => Text(properties.value.heartBeatSound == null
-                ? 'Select audio file'
-                : wec.removeSoundTapped.value
-                    ? 'Really?'
-                    : 'Remove audio file'),
+            () => Text(
+              properties.value.heartBeatSound == null
+                  ? 'Select audio file'
+                  : wec.removeSoundTapped.value
+                      ? 'Really?'
+                      : 'Remove audio file',
+            ),
           ),
         ),
         const SizedBox(height: 10),

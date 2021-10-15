@@ -42,7 +42,8 @@ class NavigationDrawer extends StatelessWidget {
                 ),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('assets/images/icon.png')),
+                    image: AssetImage('assets/images/icon.png'),
+                  ),
                   color: Colors.grey,
                 ),
               );

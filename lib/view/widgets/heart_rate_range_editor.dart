@@ -45,68 +45,73 @@ class HeartRateRangeEditor extends StatelessWidget {
           return Column(
             children: ranges.map((range) {
               return ExpansionTile(
-                title: Builder(builder: (context) {
-                  if (hrrec.expandedRanges.contains(range.key)) {
-                    final tec = TextEditingController(
+                title: Builder(
+                  builder: (context) {
+                    if (hrrec.expandedRanges.contains(range.key)) {
+                      final tec = TextEditingController(
                         text: hrrec.expandedItemText.item1 == range.key
                             ? hrrec.expandedItemText.item2
-                            : range.key.toString());
-                    tec.selection =
-                        TextSelection.collapsed(offset: tec.text.length);
-                    final canSave = !properties.value.heartRateRanges
-                            .containsKey(int.tryParse(tec.text) ?? -1) &&
-                        int.tryParse(tec.text) != null;
+                            : range.key.toString(),
+                      );
+                      tec.selection =
+                          TextSelection.collapsed(offset: tec.text.length);
+                      final canSave = !properties.value.heartRateRanges
+                              .containsKey(int.tryParse(tec.text) ?? -1) &&
+                          int.tryParse(tec.text) != null;
 
-                    return Row(
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          child: TextField(
-                            controller: tec,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
+                      return Row(
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            child: TextField(
+                              controller: tec,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                              ),
+                              onChanged: (value) {
+                                hrrec.expandedItemText =
+                                    Tuple2(range.key, value);
+                                hrrec.expandedRanges.refresh();
+                              },
                             ),
-                            onChanged: (value) {
-                              hrrec.expandedItemText = Tuple2(range.key, value);
-                              hrrec.expandedRanges.refresh();
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              properties.value.heartRateRanges
+                                  .remove(range.key);
+                              if (canSave) {
+                                properties.value
+                                        .heartRateRanges[int.parse(tec.text)] =
+                                    range.value;
+                              } else {
+                                // The user deleted the range. This prevents issues if they add the same range back.
+                                hrrec.expandedRanges.remove(range.key);
+                              }
+                              hrrec.expandedItemText = const Tuple2(-1, '');
+                              saveAndRefresh(properties);
                             },
+                            child: Text(canSave ? 'Save' : 'Delete'),
                           ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            properties.value.heartRateRanges.remove(range.key);
-                            if (canSave) {
-                              properties.value
-                                      .heartRateRanges[int.parse(tec.text)] =
-                                  range.value;
-                            } else {
-                              // The user deleted the range. This prevents issues if they add the same range back.
-                              hrrec.expandedRanges.remove(range.key);
-                            }
-                            hrrec.expandedItemText = const Tuple2(-1, '');
-                            saveAndRefresh(properties);
-                          },
-                          child: Text(canSave ? 'Save' : 'Delete'),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Row(
-                      children: [
-                        Text(range.key.toString()),
-                        const Spacer(),
-                        SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Card(
-                            margin: const EdgeInsets.all(0),
-                            color: Color(range.value),
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        children: [
+                          Text(range.key.toString()),
+                          const Spacer(),
+                          SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: Card(
+                              margin: const EdgeInsets.all(0),
+                              color: Color(range.value),
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  }
-                }),
+                        ],
+                      );
+                    }
+                  },
+                ),
                 onExpansionChanged: (expanded) {
                   if (expanded) {
                     hrrec.expandedRanges.add(range.key);

@@ -38,7 +38,8 @@ class SettingsView extends StatelessWidget {
                   onChanged: (value) {
                     settingsController.settings.value.darkMode = value;
                     Get.changeThemeMode(
-                        value ? ThemeMode.dark : ThemeMode.light);
+                      value ? ThemeMode.dark : ThemeMode.light,
+                    );
                     refreshAndSave();
                   },
                 ),
@@ -112,46 +113,48 @@ class SettingsView extends StatelessWidget {
                     settingsController.settings.value.serverIps.length,
                     (i) => i,
                   )
-                      .map((index) => [
-                            const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 300,
-                                  child: TextField(
-                                    controller: TextEditingController(
-                                      text: settingsController
-                                          .settings.value.serverIps[index],
-                                    ),
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                    ),
-                                    onChanged: (value) {
-                                      final serverIps = settingsController
-                                          .settings.value.serverIps;
-                                      serverIps[index] = value;
-                                      settingsController
-                                          .settings.value.serverIps = serverIps;
-                                      settingsController.settings.value.save();
-                                    },
+                      .map(
+                        (index) => [
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 300,
+                                child: TextField(
+                                  controller: TextEditingController(
+                                    text: settingsController
+                                        .settings.value.serverIps[index],
                                   ),
-                                ),
-                                const Spacer(),
-                                TextButton(
-                                  onPressed: () {
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  onChanged: (value) {
                                     final serverIps = settingsController
                                         .settings.value.serverIps;
-                                    serverIps.removeAt(index);
+                                    serverIps[index] = value;
                                     settingsController
                                         .settings.value.serverIps = serverIps;
-                                    refreshAndSave();
+                                    settingsController.settings.value.save();
                                   },
-                                  child: const Text('DELETE'),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                          ])
+                                ),
+                              ),
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () {
+                                  final serverIps = settingsController
+                                      .settings.value.serverIps;
+                                  serverIps.removeAt(index);
+                                  settingsController.settings.value.serverIps =
+                                      serverIps;
+                                  refreshAndSave();
+                                },
+                                child: const Text('DELETE'),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                        ],
+                      )
                       .toList();
 
                   final List<Widget> widgetList;
@@ -176,14 +179,15 @@ class SettingsView extends StatelessWidget {
               const Spacer(),
               Obx(
                 () => Switch(
-                    value: settingsController.settings.value.hdsCloud,
-                    onChanged: (value) {
-                      settingsController.settings.value.hdsCloud = value;
-                      if (value) {
-                        firebase.signIn();
-                      }
-                      refreshAndSave();
-                    }),
+                  value: settingsController.settings.value.hdsCloud,
+                  onChanged: (value) {
+                    settingsController.settings.value.hdsCloud = value;
+                    if (value) {
+                      firebase.signIn();
+                    }
+                    refreshAndSave();
+                  },
+                ),
               ),
             ],
           );
@@ -260,9 +264,14 @@ class SettingsView extends StatelessWidget {
                 return Card(
                   elevation: 8,
                   margin: const EdgeInsets.only(
-                      left: 100, right: 100, top: 20, bottom: 20),
+                    left: 100,
+                    right: 100,
+                    top: 20,
+                    bottom: 20,
+                  ),
                   shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
                   child: settingsView,
                 );
               }
@@ -288,7 +297,10 @@ class SettingsView extends StatelessWidget {
   }
 
   Widget colorCircleWithSave(
-      BuildContext context, Settings settings, Color color) {
+    BuildContext context,
+    Settings settings,
+    Color color,
+  ) {
     return colorCircle(color, () {
       settings.overlayBackgroundColor = color.value;
       refreshAndSave();

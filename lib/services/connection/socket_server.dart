@@ -18,12 +18,12 @@ class SocketServer extends ConnectionBase {
   SocketServer() {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
       var ipLog = 'Possible IP addresses of this machine:';
-      interfaces.forEach((interface) {
+      for (var interface in interfaces) {
         ipLog += '\n    - ${interface.name}';
-        interface.addresses.forEach((address) {
+        for (var address in interface.addresses) {
           ipLog += '\n        - ${address.address}';
-        });
-      });
+        }
+      }
       log(LogLevel.info, ipLog);
     });
   }
@@ -41,8 +41,10 @@ class SocketServer extends ConnectionBase {
         webSocket.stream
             .listen((message) => _handleMessage(webSocket, message))
             .onDone(() {
-          log(LogLevel.warn,
-              'Client disconnected: ${_clients[webSocket] ?? DataSource.unknown}');
+          log(
+            LogLevel.warn,
+            'Client disconnected: ${_clients[webSocket] ?? DataSource.unknown}',
+          );
           _clients.remove(webSocket);
         });
       },
@@ -59,18 +61,20 @@ class SocketServer extends ConnectionBase {
 
     // Set up server connections
     // TODO: Wtf is this shit
-    serverIps.forEach((ip) {
+    for (var ip in serverIps) {
       final client = LocalSocketClient();
       final ipPort = ip.split(':');
-      client.start(
-        ipPort[0],
-        int.parse(ipPort[1]),
-        clientName,
-        serverIps,
-        overlayId,
+      unawaited(
+        client.start(
+          ipPort[0],
+          int.parse(ipPort[1]),
+          clientName,
+          serverIps,
+          overlayId,
+        ),
       );
       _servers.add(client);
-    });
+    }
 
     return Future.value();
   }
@@ -80,7 +84,9 @@ class SocketServer extends ConnectionBase {
     log(LogLevel.warn, 'Server stopped');
 
     // Close connection to all servers
-    _servers.forEach((server) => server.stop());
+    for (var server in _servers) {
+      unawaited(server.stop());
+    }
     _servers.clear();
 
     return _server?.close();
@@ -111,9 +117,13 @@ class SocketServer extends ConnectionBase {
     final externalClients = _clients.entries
         .toList()
         .where((e) => e.value != DataSource.watch && e.value != source);
-    externalClients.forEach((e) => e.key.sink.add(message));
+    for (var e in externalClients) {
+      e.key.sink.add(message);
+    }
 
     // Broadcast to all servers
-    _servers.forEach((e) => e.sendMessage(message));
+    for (var e in _servers) {
+      e.sendMessage(message);
+    }
   }
 }
