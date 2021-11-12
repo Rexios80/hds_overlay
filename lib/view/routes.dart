@@ -5,4 +5,6 @@ class Routes {
   static const terms = '/terms';
   static const credits = '/credits';
   static const licenses = '/licenses';
+
+  Routes._();
 }

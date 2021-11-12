@@ -5,6 +5,8 @@ class AppColors {
   static const chromaGreen = Color(0xff00b140);
   static const chromaBlue = Color(0xff0047bb);
   static const chromaMagenta = Color(0xffff00ff);
+
+  AppColors._();
 }
 
 MaterialColor createMaterialColor(Color color) {

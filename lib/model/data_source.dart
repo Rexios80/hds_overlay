@@ -3,4 +3,6 @@ class DataSource {
   static const browser = 'browser';
   static const hdsCloud = 'HDS Cloud';
   static const unknown = 'unknown';
+
+  DataSource._();
 }
