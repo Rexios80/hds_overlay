@@ -5,6 +5,6 @@ analyzer:
 
 linter:
   rules:
-    prefer_single_quotes: true
-    unawaited_futures: true
-    require_trailing_commas: true
+    - prefer_single_quotes
+    - unawaited_futures
+    - require_trailing_commas
