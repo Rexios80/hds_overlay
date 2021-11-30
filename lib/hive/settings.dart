@@ -8,9 +8,9 @@ part 'settings.g.dart';
 
 @HiveType(typeId: 1)
 class Settings extends HiveObject {
-  static final defaultPort = 3476;
+  static const defaultPort = 3476;
   static final defaultOverlayBackgroundColor = Colors.transparent.value;
-  static final defaultDarkMode = false;
+  static const defaultDarkMode = false;
 
   @HiveField(0)
   int port = defaultPort;
@@ -37,7 +37,7 @@ class Settings extends HiveObject {
   String? _clientName;
 
   String get clientName =>
-      kIsWeb ? DataSource.browser : _clientName ?? 'HDS-${Uuid().v4()}';
+      kIsWeb ? DataSource.browser : _clientName ?? 'HDS-${const Uuid().v4()}';
 
   set clientName(String value) => _clientName = value;
 

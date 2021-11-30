@@ -15,7 +15,8 @@ class DataWidgetBase extends StatelessWidget {
   final Widget image;
   final Widget text;
 
-  DataWidgetBase.withWidgets(this.image, this.text);
+  DataWidgetBase.withWidgets(this.image, this.text, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +62,14 @@ class DataWidgetBase extends StatelessWidget {
 }
 
 class DataWidget extends DataWidgetBase {
-  DataWidget() : super.withWidgets(DataWidgetImage(), DataWidgetText());
+  DataWidget({Key? key})
+      : super.withWidgets(DataWidgetImage(), DataWidgetText(), key: key);
 }
 
 class DataWidgetImage extends StatelessWidget {
   final bool square;
 
-  DataWidgetImage({this.square = false});
+  DataWidgetImage({Key? key, this.square = false}) : super(key: key);
   final DataWidgetController dwc = Get.find();
 
   @override
@@ -80,22 +82,24 @@ class DataWidgetImage extends StatelessWidget {
       final image = properties.value.image;
       final imageSize = properties.value.imageSize;
 
-      return Container(
+      return SizedBox(
         height: imageSize,
         width: square ? imageSize : null,
-        child: Builder(builder: (context) {
-          if (image == null) {
-            return Image.asset(
-              getDefaultImage(typeSource.item1),
-              color: getImageColor(properties, context),
-            );
-          } else {
-            return Image.memory(
-              image,
-              color: getImageColor(properties, context),
-            );
-          }
-        }),
+        child: Builder(
+          builder: (context) {
+            if (image == null) {
+              return Image.asset(
+                getDefaultImage(typeSource.item1),
+                color: getImageColor(properties, context),
+              );
+            } else {
+              return Image.memory(
+                image,
+                color: getImageColor(properties, context),
+              );
+            }
+          },
+        ),
       );
     });
   }
@@ -110,6 +114,8 @@ class DataWidgetImage extends StatelessWidget {
 class DataWidgetText extends StatelessWidget {
   final ConnectionController connectionController = Get.find();
   final DataWidgetController dwc = Get.find();
+
+  DataWidgetText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +151,7 @@ class DataWidgetText extends StatelessWidget {
           fontStyle = GoogleFonts.getFont(properties.value.font);
         } catch (error) {
           // The font failed to load
-          fontStyle = TextStyle(fontFamily: 'Monaco');
+          fontStyle = const TextStyle(fontFamily: 'Monaco');
         }
 
         final textStyle = fontStyle.copyWith(
@@ -159,7 +165,7 @@ class DataWidgetText extends StatelessWidget {
               return [
                 Shadow(
                   blurRadius: properties.value.textShadowRadius,
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: const Color.fromARGB(255, 0, 0, 0),
                 )
               ];
             }
@@ -203,7 +209,7 @@ class DataWidgetText extends StatelessWidget {
                 visible: unitText.isNotEmpty,
                 child: Row(
                   children: [
-                    SizedBox(width: 3),
+                    const SizedBox(width: 3),
                     Stack(
                       children: [
                         Text(unitText, style: unitBaseTextStyle),

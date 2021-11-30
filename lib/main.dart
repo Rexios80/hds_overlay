@@ -15,12 +15,15 @@ import 'package:hds_overlay/view/screens/privacy_policy.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
 import 'package:hds_overlay/view/screens/terms.dart';
 import 'package:lifecycle/lifecycle.dart';
+import 'package:logger/logger.dart';
 
-import 'controllers/settings_controller.dart';
-import 'hive/hive_utils.dart';
+import 'package:hds_overlay/controllers/settings_controller.dart';
+import 'package:hds_overlay/hive/hive_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Get.put(Logger());
 
   final hive = Get.put(HiveUtils());
   await hive.init();
@@ -43,6 +46,8 @@ void main() async {
 class HDS extends StatelessWidget {
   final SettingsController settingsController = Get.find();
 
+  HDS({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     FirebaseAnalytics analytics = Get.put(FirebaseAnalytics());
@@ -62,10 +67,10 @@ class HDS extends StatelessWidget {
       getPages: [
         GetPage(name: Routes.overlay, page: () => HDSOverlay()),
         GetPage(name: Routes.settings, page: () => SettingsView()),
-        GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicy()),
-        GetPage(name: Routes.terms, page: () => Terms()),
-        GetPage(name: Routes.credits, page: () => Credits()),
-        GetPage(name: Routes.licenses, page: () => LicensePage()),
+        GetPage(name: Routes.privacyPolicy, page: () => const PrivacyPolicy()),
+        GetPage(name: Routes.terms, page: () => const Terms()),
+        GetPage(name: Routes.credits, page: () => const Credits()),
+        GetPage(name: Routes.licenses, page: () => const LicensePage()),
       ],
     );
   }

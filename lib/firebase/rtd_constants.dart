@@ -1,5 +1,7 @@
 class RtdConstants {
-  static final overlays = 'overlays';
-  static final uid = 'uid';
-  static final apiId = 'apiId';
+  static const overlays = 'overlays';
+  static const uid = 'uid';
+  static const apiId = 'apiId';
+
+  RtdConstants._();
 }

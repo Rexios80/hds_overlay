@@ -14,6 +14,8 @@ class ChartEditor extends StatelessWidget {
   final ChartWidgetController cwc = Get.find();
   final WidgetEditorController wec = Get.put(WidgetEditorController());
 
+  ChartEditor({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final properties = cwc.propertiesMap[
@@ -30,7 +32,7 @@ class ChartEditor extends StatelessWidget {
             ),
             style: Theme.of(context).textTheme.headline6,
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Visibility(
             visible: properties.value.dataType != DataType.text,
             child: Text(
@@ -51,7 +53,7 @@ class ChartEditor extends StatelessWidget {
             Get.back();
           } else {
             wec.deleteTapped.value = true;
-            Future.delayed(Duration(seconds: 1))
+            Future.delayed(const Duration(seconds: 1))
                 .then((_) => wec.deleteTapped.value = false);
           }
         },
@@ -62,33 +64,33 @@ class ChartEditor extends StatelessWidget {
     final positionEditor = Row(
       children: [
         WidgetEditorTextField(EditorType.positionX, properties, spacer: false),
-        Spacer(),
+        const Spacer(),
         WidgetEditorTextField(EditorType.positionY, properties, spacer: false),
       ],
     );
 
     return ListView(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       children: [
         header,
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Text(
           'Position',
           style: Theme.of(context).textTheme.subtitle1,
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         positionEditor,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           'Drag and drop also works',
           textAlign: TextAlign.center,
           style: Get.textTheme.caption,
         ),
-        SizedBox(height: 10),
-        Divider(),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
+        const Divider(),
+        const SizedBox(height: 10),
         WidgetEditorTextField(EditorType.valuesToKeep, properties),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         ColorPickerTile(
           label: 'Low color',
           initialColor: properties.value.lowColor,
@@ -97,7 +99,7 @@ class ChartEditor extends StatelessWidget {
             saveAndRefresh(properties);
           },
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         ColorPickerTile(
           label: 'High color',
           initialColor: properties.value.highColor,
@@ -106,10 +108,10 @@ class ChartEditor extends StatelessWidget {
             saveAndRefresh(properties);
           },
         ),
-        Divider(),
-        SizedBox(height: 10),
+        const Divider(),
+        const SizedBox(height: 10),
         deleteButton,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }

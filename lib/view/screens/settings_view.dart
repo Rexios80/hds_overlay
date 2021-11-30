@@ -14,29 +14,32 @@ class SettingsView extends StatelessWidget {
   final SettingsController settingsController = Get.find();
   final FirebaseUtils firebase = Get.find();
 
+  SettingsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Settings',
           style: TextStyle(color: Colors.white),
         ),
       ),
-      drawer: NavigationDrawer(),
+      drawer: const NavigationDrawer(),
       body: Builder(
         builder: (context) {
           final darkModeToggle = Row(
             children: [
-              Text('Dark mode'),
-              Spacer(),
+              const Text('Dark mode'),
+              const Spacer(),
               Obx(
                 () => Switch(
                   value: settingsController.settings.value.darkMode,
                   onChanged: (value) {
                     settingsController.settings.value.darkMode = value;
                     Get.changeThemeMode(
-                        value ? ThemeMode.dark : ThemeMode.light);
+                      value ? ThemeMode.dark : ThemeMode.light,
+                    );
                     refreshAndSave();
                   },
                 ),
@@ -46,8 +49,8 @@ class SettingsView extends StatelessWidget {
 
           final backgroundColorPicker = Row(
             children: [
-              Text('Overlay background color'),
-              Spacer(),
+              const Text('Overlay background color'),
+              const Spacer(),
               Obx(() {
                 final color = Color(
                   settingsController.settings.value.overlayBackgroundColor,
@@ -82,17 +85,17 @@ class SettingsView extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Send data to these IPs'),
-                      SizedBox(height: 3),
+                      const Text('Send data to these IPs'),
+                      const SizedBox(height: 3),
                       Text(
                         'Allow other HDS overlays to show your data',
                         style: Theme.of(context).textTheme.caption,
                       ),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   IconButton(
-                    icon: Icon(Icons.add),
+                    icon: const Icon(Icons.add),
                     onPressed: () {
                       settingsController.settings.value.serverIps =
                           settingsController.settings.value.serverIps +
@@ -110,46 +113,48 @@ class SettingsView extends StatelessWidget {
                     settingsController.settings.value.serverIps.length,
                     (i) => i,
                   )
-                      .map((index) => [
-                            SizedBox(height: 5),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 300,
-                                  child: TextField(
-                                    controller: TextEditingController(
-                                      text: settingsController
-                                          .settings.value.serverIps[index],
-                                    ),
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                    ),
-                                    onChanged: (value) {
-                                      final serverIps = settingsController
-                                          .settings.value.serverIps;
-                                      serverIps[index] = value;
-                                      settingsController
-                                          .settings.value.serverIps = serverIps;
-                                      settingsController.settings.value.save();
-                                    },
+                      .map(
+                        (index) => [
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 300,
+                                child: TextField(
+                                  controller: TextEditingController(
+                                    text: settingsController
+                                        .settings.value.serverIps[index],
                                   ),
-                                ),
-                                Spacer(),
-                                TextButton(
-                                  onPressed: () {
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  onChanged: (value) {
                                     final serverIps = settingsController
                                         .settings.value.serverIps;
-                                    serverIps.removeAt(index);
+                                    serverIps[index] = value;
                                     settingsController
                                         .settings.value.serverIps = serverIps;
-                                    refreshAndSave();
+                                    settingsController.settings.value.save();
                                   },
-                                  child: Text('DELETE'),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 5),
-                          ])
+                                ),
+                              ),
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () {
+                                  final serverIps = settingsController
+                                      .settings.value.serverIps;
+                                  serverIps.removeAt(index);
+                                  settingsController.settings.value.serverIps =
+                                      serverIps;
+                                  refreshAndSave();
+                                },
+                                child: const Text('DELETE'),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                        ],
+                      )
                       .toList();
 
                   final List<Widget> widgetList;
@@ -170,36 +175,37 @@ class SettingsView extends StatelessWidget {
 
           final hdsCloudToggle = Row(
             children: [
-              Text('HDS Cloud'),
-              Spacer(),
+              const Text('HDS Cloud'),
+              const Spacer(),
               Obx(
                 () => Switch(
-                    value: settingsController.settings.value.hdsCloud,
-                    onChanged: (value) {
-                      settingsController.settings.value.hdsCloud = value;
-                      if (value) {
-                        firebase.signIn();
-                      }
-                      refreshAndSave();
-                    }),
+                  value: settingsController.settings.value.hdsCloud,
+                  onChanged: (value) {
+                    settingsController.settings.value.hdsCloud = value;
+                    if (value) {
+                      firebase.signIn();
+                    }
+                    refreshAndSave();
+                  },
+                ),
               ),
             ],
           );
 
           final settingsView = Obx(
             () => ListView(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               children: [
                 darkModeToggle,
                 Visibility(
                   visible: kIsWeb,
                   child: Column(
                     children: [
-                      Divider(),
+                      const Divider(),
                       hdsCloudToggle,
-                      Divider(),
+                      const Divider(),
                       backgroundColorPicker,
-                      Divider(),
+                      const Divider(),
                       SettingsTextField(
                         EditorType.dataClearInterval,
                         settingsController.settings.value,
@@ -212,12 +218,12 @@ class SettingsView extends StatelessWidget {
                       kIsWeb && !settingsController.settings.value.hdsCloud,
                   child: Column(
                     children: [
-                      Divider(),
+                      const Divider(),
                       SettingsTextField(
                         EditorType.serverIp,
                         settingsController.settings.value,
                       ),
-                      Divider(),
+                      const Divider(),
                       SettingsTextField(
                         EditorType.port,
                         settingsController.settings.value,
@@ -233,12 +239,12 @@ class SettingsView extends StatelessWidget {
                         visible: !settingsController.settings.value.hdsCloud,
                         child: Column(
                           children: [
-                            Divider(),
+                            const Divider(),
                             SettingsTextField(
                               EditorType.clientName,
                               settingsController.settings.value,
                             ),
-                            Divider(),
+                            const Divider(),
                             serverIpsEditor,
                           ],
                         ),
@@ -257,10 +263,15 @@ class SettingsView extends StatelessWidget {
               } else {
                 return Card(
                   elevation: 8,
-                  margin: EdgeInsets.only(
-                      left: 100, right: 100, top: 20, bottom: 20),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  margin: const EdgeInsets.only(
+                    left: 100,
+                    right: 100,
+                    top: 20,
+                    bottom: 20,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
                   child: settingsView,
                 );
               }
@@ -286,7 +297,10 @@ class SettingsView extends StatelessWidget {
   }
 
   Widget colorCircleWithSave(
-      BuildContext context, Settings settings, Color color) {
+    BuildContext context,
+    Settings settings,
+    Color color,
+  ) {
     return colorCircle(color, () {
       settings.overlayBackgroundColor = color.value;
       refreshAndSave();
@@ -295,13 +309,13 @@ class SettingsView extends StatelessWidget {
   }
 
   void showColorPickerDialog(BuildContext context, Settings settings) {
-    final dialogOptions;
+    final Row dialogOptions;
     if (kIsWeb) {
       dialogOptions = Row(
         children: [
-          Spacer(),
+          const Spacer(),
           colorCircleWithSave(context, settings, Themes.dark.backgroundColor),
-          Spacer(),
+          const Spacer(),
           Container(
             width: 50,
             height: 50,
@@ -321,19 +335,19 @@ class SettingsView extends StatelessWidget {
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
         ],
       );
     } else {
       dialogOptions = Row(
         children: [
-          Spacer(),
+          const Spacer(),
           colorCircleWithSave(context, settings, AppColors.chromaGreen),
-          Spacer(),
+          const Spacer(),
           colorCircleWithSave(context, settings, AppColors.chromaBlue),
-          Spacer(),
+          const Spacer(),
           colorCircleWithSave(context, settings, AppColors.chromaMagenta),
-          Spacer(),
+          const Spacer(),
         ],
       );
     }

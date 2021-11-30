@@ -16,9 +16,12 @@ import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:hds_overlay/services/connection/socket_client.dart';
 import 'package:hds_overlay/services/connection/socket_server_stub.dart'
     if (dart.library.io) 'package:hds_overlay/services/connection/socket_server.dart';
+import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
 class ConnectionController extends GetxController {
+  final _logger = Get.find<Logger>();
+
   final _messages = RxMap<Tuple2<DataType, String>, DataMessage>();
   final _messageHistory = RxMap<Tuple2<DataType, String>, List<DataMessage>>();
   final _logs = <LogMessage>[].obs;
@@ -40,7 +43,7 @@ class ConnectionController extends GetxController {
 
   ConnectionController() {
     // Perioodically clear data if it has not been received in a while
-    Timer.periodic(Duration(seconds: 5), (_) {
+    Timer.periodic(const Duration(seconds: 5), (_) {
       final keysToRemove = <Tuple2<DataType, String>>[];
       _messages.forEach((key, value) {
         if (key.item1 == DataType.heartRateAverage ||
@@ -56,12 +59,16 @@ class ConnectionController extends GetxController {
 
           if (key.item1 == DataType.heartRate) {
             // Clear min/max/avg with heart rate
-            keysToRemove.addAll(_messages.keys.where((e) =>
-                // Make sure the messages are from the same source
-                e.item2 == key.item2 &&
-                (e.item1 == DataType.heartRateAverage ||
-                    e.item1 == DataType.heartRateMin ||
-                    e.item1 == DataType.heartRateMax)));
+            keysToRemove.addAll(
+              _messages.keys.where(
+                (e) =>
+                    // Make sure the messages are from the same source
+                    e.item2 == key.item2 &&
+                    (e.item1 == DataType.heartRateAverage ||
+                        e.item1 == DataType.heartRateMin ||
+                        e.item1 == DataType.heartRateMax),
+              ),
+            );
 
             // Reset stats
             hrs.remove(key.item2);
@@ -70,16 +77,16 @@ class ConnectionController extends GetxController {
           }
         }
       });
-      keysToRemove.forEach((e) {
+      for (var e in keysToRemove) {
         logs.add(
           LogMessage(
             LogLevel.warn,
-            '(${e.item2}) ${EnumToString.convertToString(e.item1, camelCase: true)}: ' +
-                'Data cleared after ${_settingsController.settings.value.dataClearInterval} seconds',
+            '(${e.item2}) ${EnumToString.convertToString(e.item1, camelCase: true)}: '
+            'Data cleared after ${_settingsController.settings.value.dataClearInterval} seconds',
           ),
         );
         _messages.remove(e);
-      });
+      }
     });
   }
 
@@ -133,14 +140,14 @@ class ConnectionController extends GetxController {
     });
 
     _connection?.logStream.listen((log) {
-      print(log.message);
+      _logger.d(log.message);
       logs.add(log);
     });
 
     // If the log is modified here the view will be in a bad state
     if (!_settingsController.settings.value.hdsCloud) {
       Future.delayed(
-        Duration(milliseconds: 500),
+        const Duration(milliseconds: 500),
         () => logs.add(
           LogMessage(
             LogLevel.info,

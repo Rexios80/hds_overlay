@@ -19,6 +19,8 @@ class WidgetEditor extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
   final WidgetEditorController wec = Get.put(WidgetEditorController());
 
+  WidgetEditor({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final properties = dwc.propertiesMap[
@@ -35,7 +37,7 @@ class WidgetEditor extends StatelessWidget {
             ),
             style: Theme.of(context).textTheme.headline6,
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Visibility(
             visible: properties.value.dataType != DataType.text,
             child: Text(
@@ -50,7 +52,7 @@ class WidgetEditor extends StatelessWidget {
     final positionEditor = Row(
       children: [
         WidgetEditorTextField(EditorType.positionX, properties, spacer: false),
-        Spacer(),
+        const Spacer(),
         WidgetEditorTextField(EditorType.positionY, properties, spacer: false),
       ],
     );
@@ -59,8 +61,8 @@ class WidgetEditor extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text('Show image'),
-            Spacer(),
+            const Text('Show image'),
+            const Spacer(),
             Obx(
               () => Switch(
                 value: properties.value.showImage,
@@ -75,7 +77,7 @@ class WidgetEditor extends StatelessWidget {
                 visible: properties.value.showImage &&
                     properties.value.image != null,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 5, right: 5),
+                  padding: const EdgeInsets.only(left: 5, right: 5),
                   child: TextButton(
                     onPressed: () {
                       if (wec.removeImageTapped.value) {
@@ -83,44 +85,53 @@ class WidgetEditor extends StatelessWidget {
                         saveAndRefresh(properties);
                       } else {
                         wec.removeImageTapped.value = true;
-                        Future.delayed(Duration(seconds: 1))
+                        Future.delayed(const Duration(seconds: 1))
                             .then((_) => wec.removeImageTapped.value = false);
                       }
                     },
                     child: Text(
-                        wec.removeImageTapped.value ? 'Really?' : 'Remove'),
+                      wec.removeImageTapped.value ? 'Really?' : 'Remove',
+                    ),
                   ),
                 ),
               ),
             ),
             Obx(
               () => Visibility(
-                  visible: properties.value.showImage,
-                  replacement: SizedBox(width: 0, height: 48),
-                  child: InkWell(
-                    onTap: () => selectImageFile(properties),
-                    child: Card(
-                      margin: EdgeInsets.only(
-                          left: 10, right: 10, top: 4, bottom: 4),
-                      elevation: 8,
-                      child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          child: Builder(builder: (context) {
+                visible: properties.value.showImage,
+                replacement: const SizedBox(width: 0, height: 48),
+                child: InkWell(
+                  onTap: () => selectImageFile(properties),
+                  child: Card(
+                    margin: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                      top: 4,
+                      bottom: 4,
+                    ),
+                    elevation: 8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: Builder(
+                          builder: (context) {
                             final image = properties.value.image;
                             if (image == null) {
                               return Image.asset(
-                                  getDefaultImage(properties.value.dataType));
+                                getDefaultImage(properties.value.dataType),
+                              );
                             } else {
                               return Image.memory(image);
                             }
-                          }),
+                          },
                         ),
                       ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -129,16 +140,16 @@ class WidgetEditor extends StatelessWidget {
             visible: properties.value.showImage,
             child: Column(
               children: [
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 WidgetEditorTextField(EditorType.imageSize, properties),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Obx(
                   () => Visibility(
                     visible: properties.value.dataType.isAnimated,
                     child: Row(
                       children: [
-                        Text('Animate'),
-                        Spacer(),
+                        const Text('Animate'),
+                        const Spacer(),
                         Switch(
                           value: properties.value.animated,
                           onChanged: (value) {
@@ -150,11 +161,11 @@ class WidgetEditor extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Row(
                   children: [
-                    Text('Vertical'),
-                    Spacer(),
+                    const Text('Vertical'),
+                    const Spacer(),
                     Obx(
                       () => Switch(
                         value: properties.value.vertical,
@@ -166,11 +177,11 @@ class WidgetEditor extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Row(
                   children: [
-                    Text('Color'),
-                    Spacer(),
+                    const Text('Color'),
+                    const Spacer(),
                     Obx(
                       () => Switch(
                         value: properties.value.colorImage,
@@ -187,7 +198,7 @@ class WidgetEditor extends StatelessWidget {
                     visible: properties.value.colorImage,
                     child: Column(
                       children: [
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         ColorPickerTile(
                           label: 'Image color',
                           initialColor: properties.value.imageColor,
@@ -218,8 +229,8 @@ class WidgetEditor extends StatelessWidget {
 
     final fontWeightSelector = Row(
       children: [
-        Text('Font weight'),
-        Spacer(),
+        const Text('Font weight'),
+        const Spacer(),
         Obx(
           () => DropdownButton<FontWeight>(
             value: properties.value.fontWeight,
@@ -228,10 +239,12 @@ class WidgetEditor extends StatelessWidget {
               saveAndRefresh(properties);
             },
             items: FontWeight.values
-                .map((e) => DropdownMenuItem<FontWeight>(
-                      value: e,
-                      child: Text(e.toString().substring(12)),
-                    ))
+                .map(
+                  (e) => DropdownMenuItem<FontWeight>(
+                    value: e,
+                    child: Text(e.toString().substring(12)),
+                  ),
+                )
                 .toList(),
           ),
         ),
@@ -245,78 +258,82 @@ class WidgetEditor extends StatelessWidget {
           child: Column(
             children: [
               WidgetEditorTextField(EditorType.text, properties),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           ),
         ),
         textColorSelector,
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Visibility(
           visible: properties.value.dataType.isRounded,
           child: Column(
             children: [
               WidgetEditorTextField(EditorType.decimals, properties),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
             ],
           ),
         ),
         WidgetEditorTextField(EditorType.font, properties),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           'Paste a font name from fonts.google.com',
           style: Theme.of(context).textTheme.caption,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         fontWeightSelector,
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         WidgetEditorTextField(EditorType.fontSize, properties),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Visibility(
           visible: properties.value.dataType != DataType.text,
           child: Column(
             children: [
               WidgetEditorTextField(EditorType.scaleFactor, properties),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               WidgetEditorTextField(EditorType.unit, properties),
               Obx(
                 () => Visibility(
                   visible: properties.value.unit.isNotEmpty,
                   child: Column(
                     children: [
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       WidgetEditorTextField(
-                          EditorType.unitFontSize, properties),
+                        EditorType.unitFontSize,
+                        properties,
+                      ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 5),
-              Obx(() => Row(
-                    children: [
-                      Text('Text inside image'),
-                      Spacer(),
-                      Switch(
-                        value: properties.value.textInsideImage,
-                        onChanged: (value) {
-                          properties.value.textInsideImage = value;
-                          saveAndRefresh(properties);
-                        },
-                      ),
-                    ],
-                  )),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
+              Obx(
+                () => Row(
+                  children: [
+                    const Text('Text inside image'),
+                    const Spacer(),
+                    Switch(
+                      value: properties.value.textInsideImage,
+                      onChanged: (value) {
+                        properties.value.textInsideImage = value;
+                        saveAndRefresh(properties);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5),
               WidgetEditorTextField(EditorType.textPaddingLeft, properties),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               WidgetEditorTextField(EditorType.textPaddingTop, properties),
             ],
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Obx(
           () => Row(
             children: [
-              Text('Shadow'),
-              Spacer(),
+              const Text('Shadow'),
+              const Spacer(),
               Switch(
                 value: properties.value.textShadow,
                 onChanged: (value) {
@@ -332,18 +349,18 @@ class WidgetEditor extends StatelessWidget {
             visible: properties.value.textShadow,
             child: Column(
               children: [
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 WidgetEditorTextField(EditorType.textShadowRadius, properties),
               ],
             ),
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Obx(
           () => Row(
             children: [
-              Text('Outline'),
-              Spacer(),
+              const Text('Outline'),
+              const Spacer(),
               Switch(
                 value: properties.value.textStroke,
                 onChanged: (value) {
@@ -359,7 +376,7 @@ class WidgetEditor extends StatelessWidget {
             visible: properties.value.textStroke,
             child: Column(
               children: [
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 WidgetEditorTextField(EditorType.textStrokeWidth, properties),
               ],
             ),
@@ -377,7 +394,7 @@ class WidgetEditor extends StatelessWidget {
             Get.back();
           } else {
             wec.deleteTapped.value = true;
-            Future.delayed(Duration(seconds: 1))
+            Future.delayed(const Duration(seconds: 1))
                 .then((_) => wec.deleteTapped.value = false);
           }
         },
@@ -389,14 +406,14 @@ class WidgetEditor extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Heart beat sound', style: Theme.of(context).textTheme.subtitle1),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         TextButton(
           onPressed: () {
             if (properties.value.heartBeatSound == null) {
               selectAudioFile(properties);
             } else if (!wec.removeSoundTapped.value) {
               wec.removeSoundTapped.value = true;
-              Future.delayed(Duration(seconds: 1))
+              Future.delayed(const Duration(seconds: 1))
                   .then((_) => wec.removeSoundTapped.value = false);
             } else {
               properties.value.heartBeatSound = null;
@@ -404,23 +421,25 @@ class WidgetEditor extends StatelessWidget {
             }
           },
           child: Obx(
-            () => Text(properties.value.heartBeatSound == null
-                ? 'Select audio file'
-                : wec.removeSoundTapped.value
-                    ? 'Really?'
-                    : 'Remove audio file'),
+            () => Text(
+              properties.value.heartBeatSound == null
+                  ? 'Select audio file'
+                  : wec.removeSoundTapped.value
+                      ? 'Really?'
+                      : 'Remove audio file',
+            ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         WidgetEditorTextField(EditorType.heartBeatSoundThreshold, properties),
       ],
     );
 
     final gradientEditor = Column(
       children: [
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         WidgetEditorTextField(EditorType.gradientLowValue, properties),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Obx(
           () => ColorPickerTile(
             label: 'Low color',
@@ -431,9 +450,9 @@ class WidgetEditor extends StatelessWidget {
             },
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         WidgetEditorTextField(EditorType.gradientHighValue, properties),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Obx(
           () => ColorPickerTile(
             label: 'High color',
@@ -453,8 +472,8 @@ class WidgetEditor extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text('Gradient'),
-              Spacer(),
+              const Text('Gradient'),
+              const Spacer(),
               Obx(
                 () => Switch(
                   value: properties.value.useGradient,
@@ -471,44 +490,44 @@ class WidgetEditor extends StatelessWidget {
                 ? gradientEditor
                 : HeartRateRangeEditor(),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             'These options override text and image colors',
             style: Get.textTheme.caption,
           ),
-          SizedBox(height: 10),
-          Divider(),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
+          const Divider(),
+          const SizedBox(height: 10),
           Visibility(
             visible: kIsWeb,
             child: heartBeatSoundEditor,
           ),
-          SizedBox(height: 10),
-          Divider(),
+          const SizedBox(height: 10),
+          const Divider(),
         ],
       ),
     );
 
     return ListView(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       children: [
         header,
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Text(
           'Position',
           style: Theme.of(context).textTheme.subtitle1,
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         positionEditor,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           'Drag and drop also works',
           textAlign: TextAlign.center,
           style: Get.textTheme.caption,
         ),
-        SizedBox(height: 10),
-        Divider(),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
+        const Divider(),
+        const SizedBox(height: 10),
         Visibility(
           visible: properties.value.dataType != DataType.text,
           child: Column(
@@ -517,11 +536,11 @@ class WidgetEditor extends StatelessWidget {
                 'Image',
                 style: Theme.of(context).textTheme.subtitle1,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               imageEditor,
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
+              const Divider(),
+              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -529,14 +548,14 @@ class WidgetEditor extends StatelessWidget {
           'Text',
           style: Theme.of(context).textTheme.subtitle1,
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         textEditor,
-        SizedBox(height: 10),
-        Divider(),
+        const SizedBox(height: 10),
+        const Divider(),
         heartRateEditor,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         deleteButton,
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }

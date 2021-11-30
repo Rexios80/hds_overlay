@@ -1,6 +1,8 @@
 class DataSource {
-  static final watch = 'watch';
-  static final browser = 'browser';
-  static final hdsCloud = 'HDS Cloud';
-  static final unknown = 'unknown';
+  static const watch = 'watch';
+  static const browser = 'browser';
+  static const hdsCloud = 'HDS Cloud';
+  static const unknown = 'unknown';
+
+  DataSource._();
 }

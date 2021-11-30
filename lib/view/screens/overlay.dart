@@ -17,13 +17,15 @@ import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
+import 'package:logger/logger.dart';
 
-import '../widgets/data_view.dart';
-import '../widgets/drawers/end_drawer.dart';
-import '../widgets/drawers/navigation_drawer.dart';
-import '../widgets/log_view.dart';
+import 'package:hds_overlay/view/widgets/data_view.dart';
+import 'package:hds_overlay/view/widgets/drawers/end_drawer.dart';
+import 'package:hds_overlay/view/widgets/drawers/navigation_drawer.dart';
+import 'package:hds_overlay/view/widgets/log_view.dart';
 
 class HDSOverlay extends HookWidget {
+  final _logger = Get.find<Logger>();
   final endDrawerController = Get.put(EndDrawerController());
   final DataWidgetController dwc = Get.find();
   final ChartWidgetController cwc = Get.find();
@@ -33,6 +35,8 @@ class HDSOverlay extends HookWidget {
   final FirebaseController firebaseController = Get.find();
   final SettingsController settingsController = Get.find();
 
+  HDSOverlay({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration.zero, () {
@@ -41,15 +45,13 @@ class HDSOverlay extends HookWidget {
       final split = Uri.decodeFull(Uri.base.toString()).split('?');
       if (split.length > 1) {
         // Why isn't null safe list access working?
-        final parameters = Map.fromIterable(
-          split.last.split('&'),
-          key: (e) => e.split('=')[0],
-          value: (e) => e.split('=')[1],
-        );
-        print('url parameters: $parameters');
+        final parameters = {
+          for (var e in split.last.split('&')) e.split('=')[0]: e.split('=')[1]
+        };
+         _logger.d('url parameters: $parameters');
         final urlConfig = parameters['config'];
         if (urlConfig != null) {
-          print('Importing config from url');
+           _logger.d('Importing config from url');
           importConfig(urlConfig);
         }
       }
@@ -60,9 +62,9 @@ class HDSOverlay extends HookWidget {
       initialValue: 1.0,
     );
 
-    final Animation<Offset> appBarOffsetAnimation = new Tween<Offset>(
-      begin: Offset(0.0, -70),
-      end: Offset(0.0, 0.0),
+    final Animation<Offset> appBarOffsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, -70),
+      end: const Offset(0.0, 0.0),
     ).animate(peripherySlideAnimationController);
 
     final mounted = useIsMounted();
@@ -82,10 +84,10 @@ class HDSOverlay extends HookWidget {
       PopupMenuItem(
         child: Row(
           children: [
-            Container(
+            SizedBox(
               width: 150,
               child: TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Profile name',
                 ),
@@ -110,7 +112,7 @@ class HDSOverlay extends HookWidget {
         visible: overlayProfilesController.profiles.isNotEmpty,
         child: PopupMenuButton<OverlayProfile>(
           onSelected: overlayController.loadProfile,
-          icon: Icon(Icons.upload_file),
+          icon: const Icon(Icons.upload_file),
           tooltip: 'Load profile',
           itemBuilder: (BuildContext context) => overlayProfilesController
               .profiles
@@ -120,7 +122,7 @@ class HDSOverlay extends HookWidget {
                   child: Row(
                     children: [
                       Text(profile.name),
-                      Spacer(),
+                      const Spacer(),
                       Obx(
                         () => IconButton(
                           icon: Icon(
@@ -142,10 +144,11 @@ class HDSOverlay extends HookWidget {
                                       .profileDeleteButtonPressedMap[profile] =
                                   true;
                               Future.delayed(
-                                  Duration(seconds: 1),
-                                  () => overlayController
-                                      .profileDeleteButtonPressedMap
-                                      .remove(profile));
+                                const Duration(seconds: 1),
+                                () => overlayController
+                                    .profileDeleteButtonPressedMap
+                                    .remove(profile),
+                              );
                             }
                           },
                         ),
@@ -162,18 +165,18 @@ class HDSOverlay extends HookWidget {
     final actions = kIsWeb
         ? <Widget>[
             IconButton(
-              icon: Icon(Icons.upload),
+              icon: const Icon(Icons.upload),
               tooltip: 'Export configuration',
               onPressed: () => showExportDialog(),
             ),
             IconButton(
-              icon: Icon(Icons.download),
+              icon: const Icon(Icons.download),
               tooltip: 'Import configuration',
               onPressed: () => showImportDialog(),
             ),
             Builder(
               builder: (context) => PopupMenuButton(
-                icon: Icon(Icons.save),
+                icon: const Icon(Icons.save),
                 tooltip: 'Create profile',
                 itemBuilder: (BuildContext context) => profileAdd,
               ),
@@ -182,14 +185,14 @@ class HDSOverlay extends HookWidget {
             // For some reason this has to be in a builder or it doesn't work
             Builder(
               builder: (context) => IconButton(
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 tooltip: 'Add widget',
                 onPressed: () => endDrawerController.widgetSelectionType.value =
                     DataWidgetType.data,
               ),
             ),
             IconButton(
-              icon: Icon(Icons.add_chart),
+              icon: const Icon(Icons.add_chart),
               tooltip: 'Add chart',
               onPressed: () => endDrawerController.widgetSelectionType.value =
                   DataWidgetType.chart,
@@ -203,7 +206,7 @@ class HDSOverlay extends HookWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Health Data Server'),
+              const Text('Health Data Server'),
               Obx(
                 () => Visibility(
                   visible: settingsController.settings.value.hdsCloud,
@@ -221,12 +224,15 @@ class HDSOverlay extends HookWidget {
         } else {
           return Row(
             children: [
-              Text('Health Data Server'),
-              Spacer(),
+              const Text('Health Data Server'),
+              const Spacer(),
               Visibility(
                 visible: settingsController.settings.value.hdsCloud,
-                child: Obx(() => Text(
-                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}')),
+                child: Obx(
+                  () => Text(
+                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
+                  ),
+                ),
               ),
             ],
           );
@@ -249,7 +255,7 @@ class HDSOverlay extends HookWidget {
               ? Color(settingsController.settings.value.overlayBackgroundColor)
               : null,
           drawerScrimColor: Colors.transparent,
-          drawer: NavigationDrawer(),
+          drawer: const NavigationDrawer(),
           endDrawer: kIsWeb ? EndDrawer() : null,
           onEndDrawerChanged: (open) {
             if (!open) {
@@ -280,14 +286,14 @@ class HDSOverlay extends HookWidget {
                       // This is kind of a weird place for this stuff to go but where else should it go
                       final Animation<Offset> logOffsetAnimation;
                       if (constraints.maxWidth < 750) {
-                        logOffsetAnimation = new Tween<Offset>(
+                        logOffsetAnimation = Tween<Offset>(
                           begin: Offset(0.0, constraints.maxHeight / 2),
-                          end: Offset(0.0, 0.0),
+                          end: const Offset(0.0, 0.0),
                         ).animate(peripherySlideAnimationController);
                       } else {
-                        logOffsetAnimation = new Tween<Offset>(
-                          begin: Offset(Themes.sideBarWidth, 0.0),
-                          end: Offset(0.0, 0.0),
+                        logOffsetAnimation = Tween<Offset>(
+                          begin: const Offset(Themes.sideBarWidth, 0.0),
+                          end: const Offset(0.0, 0.0),
                         ).animate(peripherySlideAnimationController);
                       }
 
@@ -305,7 +311,7 @@ class HDSOverlay extends HookWidget {
                         return Column(
                           children: [
                             DataView(),
-                            Container(
+                            SizedBox(
                               height: constraints.maxHeight / 2,
                               child: Obx(
                                 () => Visibility(
@@ -365,31 +371,31 @@ class HDSOverlay extends HookWidget {
     Get.dialog(
       Dialog(
         backgroundColor: Colors.transparent,
-        insetPadding: EdgeInsets.all(50),
+        insetPadding: const EdgeInsets.all(50),
         child: Card(
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 Text(
                   'Copy the below config and put it somewhere safe',
                   style: Get.textTheme.headline6,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextField(
                   keyboardType: TextInputType.multiline,
                   maxLines: 10,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                   readOnly: true,
                   controller: tec,
                   autofocus: true,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(
                   onPressed: () => Get.back(),
-                  child: Text('Close'),
+                  child: const Text('Close'),
                 ),
               ],
             ),
@@ -405,32 +411,32 @@ class HDSOverlay extends HookWidget {
     Get.dialog(
       Dialog(
         backgroundColor: Colors.transparent,
-        insetPadding: EdgeInsets.all(50),
+        insetPadding: const EdgeInsets.all(50),
         child: Card(
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 Text(
                   'Paste an overlay configuration below',
                   style: Get.textTheme.headline6,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextField(
                   keyboardType: TextInputType.multiline,
                   maxLines: 10,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Paste it here',
                   ),
                   onChanged: (value) => import = value,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(
                   onPressed: () => importConfig(import),
-                  child: Text('Import'),
+                  child: const Text('Import'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   'This will overwrite the current overlay configuration',
                   style: Get.textTheme.caption,

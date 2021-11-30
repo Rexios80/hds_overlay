@@ -145,51 +145,50 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) {
-  return DataWidgetProperties()
-    ..dataType = _$enumDecode(_$DataTypeEnumMap, json['dataType'])
-    ..showImage = json['showImage'] as bool
-    ..image = const Uint8ListConverter().fromJson(json['image'] as List<int>?)
-    ..imageSize = (json['imageSize'] as num).toDouble()
-    ..fontSize = (json['fontSize'] as num).toDouble()
-    ..textColor = json['textColor'] as int
-    ..textPaddingLeft = (json['textPaddingLeft'] as num).toDouble()
-    ..font = json['font'] as String
-    ..position = Tuple2Double.fromJson(
-        Map<String, dynamic>.from(json['position'] as Map))
-    ..unit = json['unit'] as String
-    ..style = json['style'] as int
-    ..textShadow = json['textShadow'] as bool
-    ..textShadowRadius = (json['textShadowRadius'] as num).toDouble()
-    ..textStroke = json['textStroke'] as bool
-    ..textStrokeWidth = (json['textStrokeWidth'] as num).toDouble()
-    ..textPaddingTop = (json['textPaddingTop'] as num).toDouble()
-    ..unitFontSize = (json['unitFontSize'] as num).toDouble()
-    ..decimals = json['decimals'] as int
-    ..animated = json['animated'] as bool
-    ..heartRateRanges = (json['heartRateRanges'] as Map).map(
-      (k, e) => MapEntry(int.parse(k as String), e as int),
-    )
-    ..heartBeatSound = const Uint8ListConverter()
-        .fromJson(json['heartBeatSound'] as List<int>?)
-    ..textInsideImage = json['textInsideImage'] as bool
-    ..dataSource = json['dataSource'] as String
-    ..scaleFactor = (json['scaleFactor'] as num).toDouble()
-    ..fontWeight =
-        const FontWeightConverter().fromJson(json['fontWeight'] as String)
-    ..vertical = json['vertical'] as bool
-    ..heartBeatSoundThreshold = json['heartBeatSoundThreshold'] as int
-    ..text = json['text'] as String
-    ..colorImage = json['colorImage'] as bool
-    ..useGradient = json['useGradient'] as bool
-    ..gradientHighColor =
-        const ColorConverter().fromJson(json['gradientHighColor'] as int)
-    ..gradientLowColor =
-        const ColorConverter().fromJson(json['gradientLowColor'] as int)
-    ..imageColor = const ColorConverter().fromJson(json['imageColor'] as int)
-    ..gradientLowValue = json['gradientLowValue'] as int
-    ..gradientHighValue = json['gradientHighValue'] as int;
-}
+DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) =>
+    DataWidgetProperties()
+      ..dataType = $enumDecode(_$DataTypeEnumMap, json['dataType'])
+      ..showImage = json['showImage'] as bool
+      ..image = const Uint8ListConverter().fromJson(json['image'] as List<int>?)
+      ..imageSize = (json['imageSize'] as num).toDouble()
+      ..fontSize = (json['fontSize'] as num).toDouble()
+      ..textColor = json['textColor'] as int
+      ..textPaddingLeft = (json['textPaddingLeft'] as num).toDouble()
+      ..font = json['font'] as String
+      ..position = Tuple2Double.fromJson(
+          Map<String, dynamic>.from(json['position'] as Map))
+      ..unit = json['unit'] as String
+      ..style = json['style'] as int
+      ..textShadow = json['textShadow'] as bool
+      ..textShadowRadius = (json['textShadowRadius'] as num).toDouble()
+      ..textStroke = json['textStroke'] as bool
+      ..textStrokeWidth = (json['textStrokeWidth'] as num).toDouble()
+      ..textPaddingTop = (json['textPaddingTop'] as num).toDouble()
+      ..unitFontSize = (json['unitFontSize'] as num).toDouble()
+      ..decimals = json['decimals'] as int
+      ..animated = json['animated'] as bool
+      ..heartRateRanges = (json['heartRateRanges'] as Map).map(
+        (k, e) => MapEntry(int.parse(k as String), e as int),
+      )
+      ..heartBeatSound = const Uint8ListConverter()
+          .fromJson(json['heartBeatSound'] as List<int>?)
+      ..textInsideImage = json['textInsideImage'] as bool
+      ..dataSource = json['dataSource'] as String
+      ..scaleFactor = (json['scaleFactor'] as num).toDouble()
+      ..fontWeight =
+          const FontWeightConverter().fromJson(json['fontWeight'] as String)
+      ..vertical = json['vertical'] as bool
+      ..heartBeatSoundThreshold = json['heartBeatSoundThreshold'] as int
+      ..text = json['text'] as String
+      ..colorImage = json['colorImage'] as bool
+      ..useGradient = json['useGradient'] as bool
+      ..gradientHighColor =
+          const ColorConverter().fromJson(json['gradientHighColor'] as int)
+      ..gradientLowColor =
+          const ColorConverter().fromJson(json['gradientLowColor'] as int)
+      ..imageColor = const ColorConverter().fromJson(json['imageColor'] as int)
+      ..gradientLowValue = json['gradientLowValue'] as int
+      ..gradientHighValue = json['gradientHighValue'] as int;
 
 Map<String, dynamic> _$DataWidgetPropertiesToJson(
         DataWidgetProperties instance) =>
@@ -234,32 +233,6 @@ Map<String, dynamic> _$DataWidgetPropertiesToJson(
       'gradientLowValue': instance.gradientLowValue,
       'gradientHighValue': instance.gradientHighValue,
     };
-
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
-
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
-}
 
 const _$DataTypeEnumMap = {
   DataType.unknown: 'unknown',

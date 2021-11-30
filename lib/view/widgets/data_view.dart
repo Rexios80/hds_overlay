@@ -22,6 +22,8 @@ class DataView extends StatelessWidget {
   final ConnectionController connectionController = Get.find();
   final _dataViewKey = GlobalKey();
 
+  DataView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // This needs to be in here or the Scaffold can't be found
@@ -94,7 +96,7 @@ class DataView extends StatelessWidget {
   }) =>
       Obx(
         () {
-          final properties;
+          final dynamic properties;
           switch (type) {
             case DataWidgetType.data:
               properties = dwc.propertiesMap[typeSource]?.value ??
@@ -131,7 +133,7 @@ class DataView extends StatelessWidget {
                   child: dataWidget,
                 ),
               ),
-              childWhenDragging: SizedBox.shrink(),
+              childWhenDragging: const SizedBox.shrink(),
               onDragEnd: (dragDetails) {
                 final dx = dragDetails.offset.dx;
                 final dy = dragDetails.offset.dy - appBarHeight;

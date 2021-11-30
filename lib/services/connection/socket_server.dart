@@ -1,29 +1,33 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:get/get.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:hds_overlay/services/connection/socket_client.dart';
+import 'package:logger/logger.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SocketServer extends ConnectionBase {
+  final _logger = Get.find<Logger>();
+
   HttpServer? _server;
 
-  final Map<WebSocketChannel, String> _clients = Map();
+  final Map<WebSocketChannel, String> _clients = {};
   final List<LocalSocketClient> _servers = [];
 
   SocketServer() {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
       var ipLog = 'Possible IP addresses of this machine:';
-      interfaces.forEach((interface) {
+      for (var interface in interfaces) {
         ipLog += '\n    - ${interface.name}';
-        interface.addresses.forEach((address) {
+        for (var address in interface.addresses) {
           ipLog += '\n        - ${address.address}';
-        });
-      });
+        }
+      }
       log(LogLevel.info, ipLog);
     });
   }
@@ -41,12 +45,14 @@ class SocketServer extends ConnectionBase {
         webSocket.stream
             .listen((message) => _handleMessage(webSocket, message))
             .onDone(() {
-          log(LogLevel.warn,
-              'Client disconnected: ${_clients[webSocket] ?? DataSource.unknown}');
+          log(
+            LogLevel.warn,
+            'Client disconnected: ${_clients[webSocket] ?? DataSource.unknown}',
+          );
           _clients.remove(webSocket);
         });
       },
-      pingInterval: Duration(seconds: 15),
+      pingInterval: const Duration(seconds: 15),
     );
 
     try {
@@ -59,18 +65,20 @@ class SocketServer extends ConnectionBase {
 
     // Set up server connections
     // TODO: Wtf is this shit
-    serverIps.forEach((ip) {
+    for (var ip in serverIps) {
       final client = LocalSocketClient();
       final ipPort = ip.split(':');
-      client.start(
-        ipPort[0],
-        int.parse(ipPort[1]),
-        clientName,
-        serverIps,
-        overlayId,
+      unawaited(
+        client.start(
+          ipPort[0],
+          int.parse(ipPort[1]),
+          clientName,
+          serverIps,
+          overlayId,
+        ),
       );
       _servers.add(client);
-    });
+    }
 
     return Future.value();
   }
@@ -80,14 +88,16 @@ class SocketServer extends ConnectionBase {
     log(LogLevel.warn, 'Server stopped');
 
     // Close connection to all servers
-    _servers.forEach((server) => server.stop());
+    for (var server in _servers) {
+      unawaited(server.stop());
+    }
     _servers.clear();
 
     return _server?.close();
   }
 
   void _handleMessage(WebSocketChannel client, dynamic message) {
-    print(message);
+    _logger.d(message);
     final parts = message.split(':');
 
     if (parts[0] == 'clientName') {
@@ -111,9 +121,13 @@ class SocketServer extends ConnectionBase {
     final externalClients = _clients.entries
         .toList()
         .where((e) => e.value != DataSource.watch && e.value != source);
-    externalClients.forEach((e) => e.key.sink.add(message));
+    for (var e in externalClients) {
+      e.key.sink.add(message);
+    }
 
     // Broadcast to all servers
-    _servers.forEach((e) => e.sendMessage(message));
+    for (var e in _servers) {
+      e.sendMessage(message);
+    }
   }
 }

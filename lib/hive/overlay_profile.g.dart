@@ -50,16 +50,15 @@ class OverlayProfileAdapter extends TypeAdapter<OverlayProfile> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-OverlayProfile _$OverlayProfileFromJson(Map<String, dynamic> json) {
-  return OverlayProfile()
-    ..name = json['name'] as String
-    ..dataWidgetProperties = (json['dataWidgetProperties'] as List<dynamic>)
-        .map((e) => DataWidgetProperties.fromJson(e as Map<String, dynamic>))
-        .toList()
-    ..chartWidgetProperties = (json['chartWidgetProperties'] as List<dynamic>)
-        .map((e) => ChartWidgetProperties.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+OverlayProfile _$OverlayProfileFromJson(Map<String, dynamic> json) =>
+    OverlayProfile()
+      ..name = json['name'] as String
+      ..dataWidgetProperties = (json['dataWidgetProperties'] as List<dynamic>)
+          .map((e) => DataWidgetProperties.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..chartWidgetProperties = (json['chartWidgetProperties'] as List<dynamic>)
+          .map((e) => ChartWidgetProperties.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$OverlayProfileToJson(OverlayProfile instance) =>
     <String, dynamic>{

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static final accent = Color(0xffe35c89);
-  static final chromaGreen = Color(0xff00b140);
-  static final chromaBlue = Color(0xff0047bb);
-  static final chromaMagenta = Color(0xffff00ff);
+  static const accent = Color(0xffe35c89);
+  static const chromaGreen = Color(0xff00b140);
+  static const chromaBlue = Color(0xff0047bb);
+  static const chromaMagenta = Color(0xffff00ff);
+
+  AppColors._();
 }
 
 MaterialColor createMaterialColor(Color color) {
@@ -15,7 +17,7 @@ MaterialColor createMaterialColor(Color color) {
   for (int i = 1; i < 10; i++) {
     strengths.add(0.1 * i);
   }
-  strengths.forEach((strength) {
+  for (var strength in strengths) {
     final double ds = 0.5 - strength;
     swatch[(strength * 1000).round()] = Color.fromRGBO(
       r + ((ds < 0 ? r : (255 - r)) * ds).round(),
@@ -23,6 +25,6 @@ MaterialColor createMaterialColor(Color color) {
       b + ((ds < 0 ? b : (255 - b)) * ds).round(),
       1,
     );
-  });
+  }
   return MaterialColor(color.value, swatch);
 }

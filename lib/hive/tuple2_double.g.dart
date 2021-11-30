@@ -47,12 +47,10 @@ class Tuple2DoubleAdapter extends TypeAdapter<Tuple2Double> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-Tuple2Double _$Tuple2DoubleFromJson(Map<String, dynamic> json) {
-  return Tuple2Double(
-    (json['item1'] as num).toDouble(),
-    (json['item2'] as num).toDouble(),
-  );
-}
+Tuple2Double _$Tuple2DoubleFromJson(Map<String, dynamic> json) => Tuple2Double(
+      (json['item1'] as num).toDouble(),
+      (json['item2'] as num).toDouble(),
+    );
 
 Map<String, dynamic> _$Tuple2DoubleToJson(Tuple2Double instance) =>
     <String, dynamic>{
