@@ -20,7 +20,7 @@ dependencies:
   flex_color_picker: ^2.0.0
   path_provider: ^2.0.1
   uuid: ^3.0.4
-  lifecycle: ^0.3.4
+  lifecycle: ^0.4.1
   url_launcher: ^6.0.3
   fl_chart: ^0.40.2
   json_annotation: ^4.3.0
