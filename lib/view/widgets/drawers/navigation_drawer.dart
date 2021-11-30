@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yaml/yaml.dart';
 
-import '../../routes.dart';
+import 'package:hds_overlay/view/routes.dart';
 
 class NavigationDrawer extends StatelessWidget {
   static const _githubUrl = 'https://git.io/J3NOR';

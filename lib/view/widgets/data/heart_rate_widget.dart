@@ -16,7 +16,7 @@ import 'package:lifecycle/lifecycle.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import 'data_widget.dart';
+import 'package:hds_overlay/view/widgets/data/data_widget.dart';
 
 class HeartRateWidget extends DataWidgetBase {
   HeartRateWidget({Key? key})

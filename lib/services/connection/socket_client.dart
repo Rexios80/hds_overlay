@@ -7,8 +7,8 @@ import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:logger/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import 'cloud_socket_client_stub.dart'
-    if (dart.library.js) 'cloud_socket_client.dart';
+import 'package:hds_overlay/services/connection/cloud_socket_client_stub.dart'
+    if (dart.library.js) 'package:hds_overlay/services/connection/cloud_socket_client.dart';
 
 abstract class SocketClient extends ConnectionBase {
   final _logger = Get.find<Logger>();

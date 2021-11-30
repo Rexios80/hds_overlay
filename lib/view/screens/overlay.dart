@@ -19,10 +19,10 @@ import 'package:hds_overlay/utils/themes.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:logger/logger.dart';
 
-import '../widgets/data_view.dart';
-import '../widgets/drawers/end_drawer.dart';
-import '../widgets/drawers/navigation_drawer.dart';
-import '../widgets/log_view.dart';
+import 'package:hds_overlay/view/widgets/data_view.dart';
+import 'package:hds_overlay/view/widgets/drawers/end_drawer.dart';
+import 'package:hds_overlay/view/widgets/drawers/navigation_drawer.dart';
+import 'package:hds_overlay/view/widgets/log_view.dart';
 
 class HDSOverlay extends HookWidget {
   final _logger = Get.find<Logger>();

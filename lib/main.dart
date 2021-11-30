@@ -17,8 +17,8 @@ import 'package:hds_overlay/view/screens/terms.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:logger/logger.dart';
 
-import 'controllers/settings_controller.dart';
-import 'hive/hive_utils.dart';
+import 'package:hds_overlay/controllers/settings_controller.dart';
+import 'package:hds_overlay/hive/hive_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

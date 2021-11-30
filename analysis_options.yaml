@@ -1,10 +1,1 @@
-include: package:flutter_lints/flutter.yaml
-
-analyzer:
-  exclude: [build/**, "**/*.g.dart"]
-
-linter:
-  rules:
-    - prefer_single_quotes
-    - unawaited_futures
-    - require_trailing_commas
+include: package:rexios_lints/flutter/core.yaml
