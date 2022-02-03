@@ -22,7 +22,7 @@ class CloudSocketClient extends SocketClient {
     final token = await firebase.getIdToken();
     final apiId =
         (await _ref.child(RtdConstants.apiId).once('value')).snapshot.val();
-     _logger.d('API ID: $apiId');
+    _logger.d('API ID: $apiId');
     return Uri.parse(
       'wss://$apiId.execute-api.us-east-1.amazonaws.com/dev?auth=$token&overlayId=$overlayId',
     );
@@ -38,15 +38,15 @@ class CloudSocketClient extends SocketClient {
     List<String> serverIps,
     String overlayId,
   ) async {
-     _logger.d('Requesting uidSnapshot');
+    _logger.d('Requesting uidSnapshot');
     final uidSnapshot = (await _ref
             .child(RtdConstants.overlays)
             .child(overlayId)
             .child(RtdConstants.uid)
             .once('value'))
         .snapshot;
-     _logger.d('uidSnapshot received');
-     _logger.d('HDS Cloud uid: ${uidSnapshot.val()}');
+    _logger.d('uidSnapshot received');
+    _logger.d('HDS Cloud uid: ${uidSnapshot.val()}');
     if (uidSnapshot.exists() && uidSnapshot.val() != _auth.currentUser?.uid) {
       log(LogLevel.error, 'HDS Cloud ID collision detected');
       log(LogLevel.error, 'Regenerating HDS Cloud ID...');
@@ -84,7 +84,7 @@ class CloudSocketClient extends SocketClient {
 
     final json = jsonDecode(message);
 
-     _logger.d(json.toString());
+    _logger.d(json.toString());
     super.handleMessage(
       '${json['dataType']}:${json['value']}',
       json['clientName'],

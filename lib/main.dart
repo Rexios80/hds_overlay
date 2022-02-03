@@ -50,7 +50,7 @@ class HDS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAnalytics analytics = Get.put(FirebaseAnalytics());
+    final analytics = FirebaseAnalytics.instance;
 
     hideSplash();
 

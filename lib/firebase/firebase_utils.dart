@@ -40,11 +40,11 @@ class FirebaseUtils {
   Future<void> signIn() async {
     _logger.d('Starting Firebase authorization');
     if (auth.currentUser == null) {
-       _logger.d('Not authenticated, signing in');
+      _logger.d('Not authenticated, signing in');
       await auth.signInAnonymously();
-       _logger.d('User is authenticated as: ${auth.currentUser?.uid}');
+      _logger.d('User is authenticated as: ${auth.currentUser?.uid}');
     } else {
-       _logger.d('User is already authenticated');
+      _logger.d('User is already authenticated');
     }
   }
 

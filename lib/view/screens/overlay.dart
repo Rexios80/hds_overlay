@@ -48,10 +48,10 @@ class HDSOverlay extends HookWidget {
         final parameters = {
           for (var e in split.last.split('&')) e.split('=')[0]: e.split('=')[1]
         };
-         _logger.d('url parameters: $parameters');
+        _logger.d('url parameters: $parameters');
         final urlConfig = parameters['config'];
         if (urlConfig != null) {
-           _logger.d('Importing config from url');
+          _logger.d('Importing config from url');
           importConfig(urlConfig);
         }
       }

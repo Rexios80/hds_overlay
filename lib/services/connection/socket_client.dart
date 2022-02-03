@@ -65,7 +65,7 @@ abstract class SocketClient extends ConnectionBase {
       _reconnect();
     });
     channelSubscription?.onError((error) {
-       _logger.e(error);
+      _logger.e(error);
       channelSubscription.cancel();
       _reconnect();
     });
