@@ -42,7 +42,7 @@ class ConnectionController extends GetxController {
   final hrs = <String, List<int>>{};
 
   ConnectionController() {
-    // Perioodically clear data if it has not been received in a while
+    // Periodically clear data if it has not been received in a while
     Timer.periodic(const Duration(seconds: 5), (_) {
       final keysToRemove = <Tuple2<DataType, String>>[];
       _messages.forEach((key, value) {
@@ -53,7 +53,8 @@ class ConnectionController extends GetxController {
           return;
         }
 
-        if (DateTime.now().millisecondsSinceEpoch - value.timestamp >
+        if (DateTime.now().millisecondsSinceEpoch -
+                value.timestamp.millisecondsSinceEpoch >
             (_settingsController.settings.value.dataClearInterval * 1000)) {
           keysToRemove.add(key);
 

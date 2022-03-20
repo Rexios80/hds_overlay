@@ -51,10 +51,12 @@ class ChartController extends GetxController {
     final messages = history[typeSource];
     if (messages != null) {
       data.value = messages
-          .where((e) => e.timestamp >= timeRangeStart.value)
+          .where(
+            (e) => e.timestamp.millisecondsSinceEpoch >= timeRangeStart.value,
+          )
           .map(
             (message) => FlSpot(
-              message.timestamp.toDouble(),
+              message.timestamp.millisecondsSinceEpoch.toDouble(),
               double.tryParse(message.value) ?? 0,
             ),
           )

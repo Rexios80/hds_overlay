@@ -17,14 +17,15 @@ class LogView extends StatelessWidget {
         decoration: const BoxDecoration(color: Colors.black),
         child: Obx(
           () {
-            final logs = connectionController.logs.reversed.toList();
+            final logs = connectionController.logs;
             return ListView.builder(
               padding: const EdgeInsets.all(10),
               itemCount: logs.length,
               itemBuilder: (context, index) {
-                final log = logs[index];
+                // Reverse the list of logs
+                final log = logs[logs.length - index - 1];
                 return Text(
-                  log.message,
+                  log.logLine,
                   style: TextStyle(color: log.level.color),
                 );
               },

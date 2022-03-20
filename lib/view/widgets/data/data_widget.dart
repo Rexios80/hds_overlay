@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -232,7 +231,9 @@ class DataWidgetText extends StatelessWidget {
   String? getText(
     Rx<DataWidgetProperties> properties,
     BuildContext context,
-  ) {}
+  ) {
+    return null;
+  }
 
   Color getTextColor(
     Rx<DataWidgetProperties> properties,

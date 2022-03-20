@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hds_overlay/model/message.dart';
+import 'package:intl/intl.dart';
 
 enum LogLevel {
   info,
@@ -30,8 +31,14 @@ extension LogLevelExtension on LogLevel {
 }
 
 class LogMessage extends MessageBase {
+  final _dateFormat = DateFormat.Hms();
+
   final LogLevel level;
   final String message;
 
   LogMessage(this.level, this.message);
+
+  String get timestampString => _dateFormat.format(timestamp);
+
+  String get logLine => '($timestampString) $message';
 }

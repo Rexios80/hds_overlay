@@ -16,7 +16,7 @@ extension DataTypeExtension on DataType {
 }
 
 abstract class MessageBase {
-  final timestamp = DateTime.now().millisecondsSinceEpoch;
+  final timestamp = DateTime.now();
 }
 
 abstract class DataMessageBase extends MessageBase {

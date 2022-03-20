@@ -12,7 +12,7 @@ dependencies:
   equatable: ^2.0.0
   enum_to_string: ^2.0.1
   tuple: ^2.0.0
-  msix: ^2.0.0
+  msix: ^3.4.0
   flutter_hooks: ^0.18.0
   get: ^4.1.4
   provider: ^6.0.1
@@ -22,9 +22,10 @@ dependencies:
   uuid: ^3.0.4
   lifecycle: ^0.4.1
   url_launcher: ^6.0.3
-  fl_chart: ^0.41.0
-  json_annotation: ^4.3.0
+  fl_chart: ^0.46.0
+  json_annotation: ^4.4.0
   logger: ^1.1.0
+  intl: ^0.17.0
 
   # Firebase
   firebase_core: ^1.1.0
@@ -43,7 +44,7 @@ dependencies:
   # File selector
   file_selector: ^0.8.2
   file_selector_linux: ^0.0.2
-  file_selector_macos: ^0.0.4
+  file_selector_macos: ^0.8.2
   file_selector_windows: ^0.8.2
 
   # Audio players
