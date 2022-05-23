@@ -16,13 +16,13 @@ dependencies:
   flutter_hooks: ^0.18.0
   get: ^4.1.4
   provider: ^6.0.1
-  google_fonts: ^2.0.0
+  google_fonts: ^3.0.1
   flex_color_picker: ^2.0.0
   path_provider: ^2.0.1
   uuid: ^3.0.4
-  lifecycle: ^0.4.1
+  lifecycle: ^0.5.0
   url_launcher: ^6.0.3
-  fl_chart: ^0.46.0
+  fl_chart: ^0.50.6
   json_annotation: ^4.4.0
   logger: ^1.1.0
   intl: ^0.17.0
@@ -55,7 +55,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  rexios_lints: ^1.0.0
+  rexios_lints: ^2.0.1
   hive_generator: ^1.1.0
   build_runner: ^2.0.1
   flutter_native_splash: ^2.0.1+1
