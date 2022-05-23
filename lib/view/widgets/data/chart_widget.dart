@@ -66,11 +66,7 @@ class ChartWidget extends StatelessWidget {
                 LineChartBarData(
                   spots: spots,
                   isCurved: true,
-                  gradient: LinearGradient(
-                    colors: gradientColors,
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
+                  gradient: LinearGradient(colors: gradientColors),
                   barWidth: 5,
                   isStrokeCapRound: true,
                   dotData: FlDotData(
@@ -82,8 +78,6 @@ class ChartWidget extends StatelessWidget {
                       colors: gradientColors
                           .map((color) => color.withOpacity(0.3))
                           .toList(),
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
                     ),
                   ),
                 ),
