@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yaml/yaml.dart';
 
 import 'package:hds_overlay/view/routes.dart';
@@ -36,15 +36,15 @@ class NavigationDrawer extends StatelessWidget {
               }
 
               return DrawerHeader(
-                child: Text(
-                  version,
-                  style: const TextStyle(color: Colors.white),
-                ),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/icon.png'),
                   ),
                   color: Colors.grey,
+                ),
+                child: Text(
+                  version,
+                  style: const TextStyle(color: Colors.white),
                 ),
               );
             },
@@ -121,7 +121,7 @@ class NavigationDrawer extends StatelessWidget {
           ),
         ],
       ),
-      onTap: () => launch(url),
+      onTap: () => launchUrlString(url),
     );
   }
 

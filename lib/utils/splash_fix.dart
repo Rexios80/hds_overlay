@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 void hideSplash() {
-  final _logger = Get.find<Logger>();
-  _logger.d('hideSplash');
+  final logger = Get.find<Logger>();
+  logger.d('hideSplash');
   js.context.callMethod('hideSplash');
 }

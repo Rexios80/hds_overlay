@@ -3,7 +3,7 @@ import 'package:hds_overlay/hive/data_type.dart';
 import 'package:logger/logger.dart';
 
 String getDefaultImage(DataType dataType) {
-  final _logger = Get.find<Logger>();
+  final logger = Get.find<Logger>();
 
   switch (dataType) {
     case DataType.heartRate:
@@ -31,7 +31,7 @@ String getDefaultImage(DataType dataType) {
     case DataType.text:
       return 'assets/images/icon.png';
     case DataType.unknown:
-      _logger.w('Tried to load default image for DataType.unknown');
+      logger.w('Tried to load default image for DataType.unknown');
       return 'assets/images/icon.png';
   }
 }

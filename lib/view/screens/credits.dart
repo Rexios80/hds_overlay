@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class Credits extends StatelessWidget {
   const Credits({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class Credits extends StatelessWidget {
                     const Spacer(),
                     TextButton(
                       onPressed: () =>
-                          launch('https://fontawesome.com/license'),
+                          launchUrlString('https://fontawesome.com/license'),
                       child: const Text('License'),
                     ),
                   ],
