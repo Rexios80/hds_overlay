@@ -1,54 +1,42 @@
-import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
+import 'package:hds_overlay/firebase_options.dart';
 import 'package:logger/logger.dart';
 
 class FirebaseUtils {
   final _logger = Get.find<Logger>();
 
   final ConnectionController connectionController = Get.find();
-  late final FirebaseAuth auth;
+  late final FirebaseAuth _auth;
 
-  void init() {
-    if (apps.isEmpty) {
-      final String dbUrl;
-      if (kDebugMode) {
-        dbUrl = 'http://localhost:9000/?ns=health-data-server-default-rtdb';
-      } else {
-        dbUrl = 'https://health-data-server-default-rtdb.firebaseio.com';
-      }
-      initializeApp(
-        apiKey: 'AIzaSyCbbBPvlWvmOvI6Is8PYXNpJ78N03AYcyU',
-        authDomain: 'health-data-server.firebaseapp.com',
-        databaseURL: dbUrl,
-        projectId: 'health-data-server',
-        storageBucket: 'health-data-server.appspot.com',
-        messagingSenderId: '47929674141',
-        appId: '1:47929674141:web:0606fd3354256f51860774',
-        measurementId: 'G-1V10QYSSHG',
-      );
-    }
+  Future<void> init() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-    auth = FirebaseAuth.instance;
+    _auth = FirebaseAuth.instance;
     if (kDebugMode) {
-      auth.useAuthEmulator('localhost', 9099);
+      await _auth.useAuthEmulator('localhost', 9099);
+      FirebaseDatabase.instance.useDatabaseEmulator('localhost', 9000);
     }
   }
 
   Future<void> signIn() async {
     _logger.d('Starting Firebase authorization');
-    if (auth.currentUser == null) {
+    if (_auth.currentUser == null) {
       _logger.d('Not authenticated, signing in');
-      await auth.signInAnonymously();
-      _logger.d('User is authenticated as: ${auth.currentUser?.uid}');
+      await _auth.signInAnonymously();
+      _logger.d('User is authenticated as: ${_auth.currentUser?.uid}');
     } else {
       _logger.d('User is already authenticated');
     }
   }
 
   Future<String> getIdToken() async {
-    return await auth.currentUser?.getIdToken(true) ?? '';
+    return await _auth.currentUser?.getIdToken(true) ?? '';
   }
 }

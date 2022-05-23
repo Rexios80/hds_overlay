@@ -30,7 +30,7 @@ void main() async {
   final SettingsController settingsController = Get.find();
   final FirebaseUtils firebase = Get.put(FirebaseUtils());
 
-  firebase.init();
+  await firebase.init();
 
   // Only init Firebase if the user has it enabled
   if (kIsWeb && settingsController.settings.value.hdsCloud) {
