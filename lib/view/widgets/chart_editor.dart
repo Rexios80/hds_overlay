@@ -89,6 +89,17 @@ class ChartEditor extends StatelessWidget {
         const SizedBox(height: 10),
         const Divider(),
         const SizedBox(height: 10),
+        Text(
+          'Size',
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+        const SizedBox(height: 10),
+        WidgetEditorTextField(EditorType.chartWidth, properties),
+        const SizedBox(height: 5),
+        WidgetEditorTextField(EditorType.chartHeight, properties),
+        const SizedBox(height: 10),
+        const Divider(),
+        const SizedBox(height: 10),
         WidgetEditorTextField(EditorType.valuesToKeep, properties),
         const SizedBox(height: 10),
         ColorPickerTile(

@@ -34,8 +34,8 @@ class ChartWidget extends StatelessWidget {
       ];
 
       return SizedBox(
-        width: 100,
-        height: 50,
+        width: properties.width,
+        height: properties.height,
         child: AbsorbPointer(
           child: LineChart(
             LineChartData(

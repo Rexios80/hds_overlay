@@ -22,13 +22,15 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
       ..position = fields[2] as Tuple2Double
       ..rangeSeconds = fields[3] as int
       .._highColor = fields[4] as int?
-      .._lowColor = fields[5] as int?;
+      .._lowColor = fields[5] as int?
+      .._width = fields[6] as double?
+      .._height = fields[7] as double?;
   }
 
   @override
   void write(BinaryWriter writer, ChartWidgetProperties obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.dataType)
       ..writeByte(1)
@@ -40,7 +42,11 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
       ..writeByte(4)
       ..write(obj._highColor)
       ..writeByte(5)
-      ..write(obj._lowColor);
+      ..write(obj._lowColor)
+      ..writeByte(6)
+      ..write(obj._width)
+      ..writeByte(7)
+      ..write(obj._height);
   }
 
   @override
@@ -67,7 +73,9 @@ ChartWidgetProperties _$ChartWidgetPropertiesFromJson(
           Tuple2Double.fromJson(json['position'] as Map<String, dynamic>)
       ..rangeSeconds = json['rangeSeconds'] as int
       ..highColor = const ColorConverter().fromJson(json['highColor'] as int)
-      ..lowColor = const ColorConverter().fromJson(json['lowColor'] as int);
+      ..lowColor = const ColorConverter().fromJson(json['lowColor'] as int)
+      ..width = (json['width'] as num).toDouble()
+      ..height = (json['height'] as num).toDouble();
 
 Map<String, dynamic> _$ChartWidgetPropertiesToJson(
         ChartWidgetProperties instance) =>
@@ -78,6 +86,8 @@ Map<String, dynamic> _$ChartWidgetPropertiesToJson(
       'rangeSeconds': instance.rangeSeconds,
       'highColor': const ColorConverter().toJson(instance.highColor),
       'lowColor': const ColorConverter().toJson(instance.lowColor),
+      'width': instance.width,
+      'height': instance.height,
     };
 
 const _$DataTypeEnumMap = {

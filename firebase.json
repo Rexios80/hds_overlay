@@ -30,5 +30,30 @@
         }
       ]
     }
-  ]
+  ],
+  "emulators": {
+    "auth": {
+      "port": 9099,
+      "host": "127.0.0.1"
+    },
+    "functions": {
+      "port": 5001,
+      "host": "127.0.0.1"
+    },
+    "database": {
+      "port": 9000,
+      "host": "127.0.0.1"
+    },
+    "hosting": {
+      "port": 9098,
+      "host": "127.0.0.1"
+    },
+    "pubsub": {
+      "port": 8087,
+      "host": "127.0.0.1"
+    },
+    "ui": {
+      "enabled": true
+    }
+  }
 }

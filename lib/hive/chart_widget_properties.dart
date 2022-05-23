@@ -40,6 +40,18 @@ class ChartWidgetProperties extends HiveObject {
   Color get lowColor => Color(_lowColor ?? Colors.green.value);
   set lowColor(Color color) => _lowColor = color.value;
 
+  @HiveField(6)
+  double? _width;
+
+  double get width => _width ?? 100;
+  set width(double width) => _width = width;
+
+  @HiveField(7)
+  double? _height;
+
+  double get height => _height ?? 50;
+  set height(double height) => _height = height;
+
   ChartWidgetProperties();
 
   ChartWidgetProperties copy() {

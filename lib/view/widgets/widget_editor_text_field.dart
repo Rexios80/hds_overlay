@@ -85,6 +85,10 @@ class WidgetEditorTextField extends StatelessWidget {
         return properties.value.gradientLowValue.toString();
       case EditorType.gradientHighValue:
         return properties.value.gradientHighValue.toString();
+      case EditorType.chartWidth:
+        return properties.value.width.toString();
+      case EditorType.chartHeight:
+        return properties.value.height.toString();
     }
   }
 
@@ -126,6 +130,10 @@ class WidgetEditorTextField extends StatelessWidget {
         return 'Low value';
       case EditorType.gradientHighValue:
         return 'High value';
+      case EditorType.chartWidth:
+        return 'Width';
+      case EditorType.chartHeight:
+        return 'Height';
     }
   }
 
@@ -198,6 +206,12 @@ class WidgetEditorTextField extends StatelessWidget {
         if (properties.value.gradientLowValue == unvalidatedValue) return;
         properties.value.gradientHighValue = unvalidatedValue;
         break;
+      case EditorType.chartWidth:
+        properties.value.width = double.tryParse(value) ?? 100;
+        break;
+      case EditorType.chartHeight:
+        properties.value.height = double.tryParse(value) ?? 50;
+        break;
     }
 
     properties.value.save();
@@ -224,4 +238,6 @@ enum EditorType {
   valuesToKeep,
   gradientLowValue,
   gradientHighValue,
+  chartWidth,
+  chartHeight,
 }
