@@ -33,7 +33,7 @@ dependencies:
   # Firebase
   firebase_core: ^1.1.0
   # TODO: Constrained due to https://github.com/firebase/flutterfire/issues/9199
-  firebase_auth: 3.4.2
+  firebase_auth: 3.4.1
   firebase_database: ^9.0.14
   firebase_analytics: ^9.1.0
 
