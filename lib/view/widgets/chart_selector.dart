@@ -12,7 +12,7 @@ class ChartSelector extends StatelessWidget {
   final ChartWidgetController cwc = Get.find();
   final WidgetSelectorController wsc = WidgetSelectorController();
 
-  ChartSelector({Key? key}) : super(key: key);
+  ChartSelector({super.key});
 
   @override
   Widget build(BuildContext context) {

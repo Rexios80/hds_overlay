@@ -13,7 +13,7 @@ class TextWidget extends DataWidgetBase {
 }
 
 class TextWidgetText extends DataWidgetText {
-  TextWidgetText({Key? key}) : super(key: key);
+  TextWidgetText({super.key});
 
   @override
   String? getText(

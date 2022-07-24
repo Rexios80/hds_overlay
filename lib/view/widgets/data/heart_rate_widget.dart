@@ -35,7 +35,7 @@ class HeartRateImageAnimated extends HookWidget {
   final DataWidgetController dwc = Get.find();
   final ConnectionController connectionController = Get.find();
 
-  HeartRateImageAnimated({Key? key}) : super(key: key);
+  HeartRateImageAnimated({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -176,8 +176,7 @@ class HeartRateImageAnimated extends HookWidget {
 }
 
 class HeartRateImage extends DataWidgetImage {
-  HeartRateImage({Key? key, bool square = false})
-      : super(key: key, square: square);
+  HeartRateImage({super.key, super.square});
 
   @override
   Color? getImageColor(
@@ -195,7 +194,7 @@ class HeartRateImage extends DataWidgetImage {
 }
 
 class HeartRateText extends DataWidgetText {
-  HeartRateText({Key? key}) : super(key: key);
+  HeartRateText({super.key});
 
   @override
   Color getTextColor(

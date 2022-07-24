@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class Credits extends StatelessWidget {
-  const Credits({Key? key}) : super(key: key);
+  const Credits({super.key});
 
   @override
   Widget build(BuildContext context) {

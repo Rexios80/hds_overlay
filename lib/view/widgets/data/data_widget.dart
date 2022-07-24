@@ -14,8 +14,7 @@ class DataWidgetBase extends StatelessWidget {
   final Widget image;
   final Widget text;
 
-  DataWidgetBase.withWidgets(this.image, this.text, {Key? key})
-      : super(key: key);
+  DataWidgetBase.withWidgets(this.image, this.text, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +67,7 @@ class DataWidget extends DataWidgetBase {
 class DataWidgetImage extends StatelessWidget {
   final bool square;
 
-  DataWidgetImage({Key? key, this.square = false}) : super(key: key);
+  DataWidgetImage({super.key, this.square = false});
   final DataWidgetController dwc = Get.find();
 
   @override
@@ -114,7 +113,7 @@ class DataWidgetText extends StatelessWidget {
   final ConnectionController connectionController = Get.find();
   final DataWidgetController dwc = Get.find();
 
-  DataWidgetText({Key? key}) : super(key: key);
+  DataWidgetText({super.key});
 
   @override
   Widget build(BuildContext context) {

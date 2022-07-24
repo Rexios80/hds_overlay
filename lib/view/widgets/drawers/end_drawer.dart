@@ -10,7 +10,7 @@ import 'package:hds_overlay/view/widgets/widget_selector.dart';
 class EndDrawer extends StatelessWidget {
   final EndDrawerController controller = Get.find();
 
-  EndDrawer({Key? key}) : super(key: key);
+  EndDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {

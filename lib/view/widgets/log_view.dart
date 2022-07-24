@@ -7,7 +7,7 @@ import 'package:hds_overlay/utils/themes.dart';
 class LogView extends StatelessWidget {
   final ConnectionController connectionController = Get.find();
 
-  LogView({Key? key}) : super(key: key);
+  LogView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -78,7 +78,7 @@ class ConnectionController extends GetxController {
           }
         }
       });
-      for (var e in keysToRemove) {
+      for (final e in keysToRemove) {
         logs.add(
           LogMessage(
             LogLevel.warn,

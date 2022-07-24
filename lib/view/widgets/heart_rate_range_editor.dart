@@ -11,7 +11,7 @@ class HeartRateRangeEditor extends StatelessWidget {
   final DataWidgetController dataWidgetController = Get.find();
   final EndDrawerController endDrawerController = Get.find();
 
-  HeartRateRangeEditor({Key? key}) : super(key: key);
+  HeartRateRangeEditor({super.key});
 
   @override
   Widget build(BuildContext context) {

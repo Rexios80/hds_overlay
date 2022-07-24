@@ -14,7 +14,7 @@ class ChartEditor extends StatelessWidget {
   final ChartWidgetController cwc = Get.find();
   final WidgetEditorController wec = Get.put(WidgetEditorController());
 
-  ChartEditor({Key? key}) : super(key: key);
+  ChartEditor({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class PrivacyPolicy extends StatelessWidget {
-  const PrivacyPolicy({Key? key}) : super(key: key);
+  const PrivacyPolicy({super.key});
 
   @override
   Widget build(BuildContext context) {

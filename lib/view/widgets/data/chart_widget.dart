@@ -13,9 +13,8 @@ class ChartWidget extends StatelessWidget {
   final ChartController chartController;
   final Tuple2<DataType, String> typeSource;
 
-  ChartWidget(this.typeSource, {Key? key})
-      : chartController = ChartController(typeSource: typeSource),
-        super(key: key);
+  ChartWidget(this.typeSource, {super.key})
+      : chartController = ChartController(typeSource: typeSource);
 
   @override
   Widget build(BuildContext context) {

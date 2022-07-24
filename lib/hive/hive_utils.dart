@@ -116,7 +116,7 @@ class HiveUtils {
     Box<DataWidgetProperties> dwpBox,
   ) {
     final map = <Tuple2<DataType, String>, Rx<DataWidgetProperties>>{};
-    for (var e in dwpBox.values) {
+    for (final e in dwpBox.values) {
       map[Tuple2(e.dataType, e.dataSource)] = e.obs;
     }
     return map;
@@ -126,7 +126,7 @@ class HiveUtils {
     Box<ChartWidgetProperties> cpBox,
   ) {
     final map = <Tuple2<DataType, String>, Rx<ChartWidgetProperties>>{};
-    for (var e in cpBox.values) {
+    for (final e in cpBox.values) {
       map[Tuple2(e.dataType, e.dataSource)] = e.obs;
     }
     return map;

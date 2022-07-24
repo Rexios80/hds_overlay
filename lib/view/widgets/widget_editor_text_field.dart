@@ -15,10 +15,10 @@ class WidgetEditorTextField extends StatelessWidget {
   WidgetEditorTextField(
     this.editorType,
     this.properties, {
-    Key? key,
+    super.key,
     this.widgetType = DataWidgetType.data,
     this.spacer = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

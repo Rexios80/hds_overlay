@@ -21,7 +21,7 @@ class DataView extends StatelessWidget {
   final ConnectionController connectionController = Get.find();
   final _dataViewKey = GlobalKey();
 
-  DataView({Key? key}) : super(key: key);
+  DataView({super.key});
 
   @override
   Widget build(BuildContext context) {

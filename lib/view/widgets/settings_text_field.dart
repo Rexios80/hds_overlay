@@ -10,9 +10,9 @@ class SettingsTextField extends StatelessWidget {
   const SettingsTextField(
     this.type,
     this.settings, {
-    Key? key,
+    super.key,
     this.spacer = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

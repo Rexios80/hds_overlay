@@ -22,9 +22,9 @@ class SocketServer extends ConnectionBase {
   SocketServer() {
     NetworkInterface.list(type: InternetAddressType.IPv4).then((interfaces) {
       var ipLog = 'Possible IP addresses of this machine:';
-      for (var interface in interfaces) {
+      for (final interface in interfaces) {
         ipLog += '\n    - ${interface.name}';
-        for (var address in interface.addresses) {
+        for (final address in interface.addresses) {
           ipLog += '\n        - ${address.address}';
         }
       }
@@ -40,7 +40,7 @@ class SocketServer extends ConnectionBase {
     List<String> serverIps,
     String overlayId,
   ) async {
-    var handler = webSocketHandler(
+    final handler = webSocketHandler(
       (WebSocketChannel webSocket) {
         webSocket.stream
             .listen((message) => _handleMessage(webSocket, message))
@@ -65,7 +65,7 @@ class SocketServer extends ConnectionBase {
 
     // Set up server connections
     // TODO: Wtf is this shit
-    for (var ip in serverIps) {
+    for (final ip in serverIps) {
       final client = LocalSocketClient();
       final ipPort = ip.split(':');
       unawaited(
@@ -88,7 +88,7 @@ class SocketServer extends ConnectionBase {
     log(LogLevel.warn, 'Server stopped');
 
     // Close connection to all servers
-    for (var server in _servers) {
+    for (final server in _servers) {
       unawaited(server.stop());
     }
     _servers.clear();
@@ -121,12 +121,12 @@ class SocketServer extends ConnectionBase {
     final externalClients = _clients.entries
         .toList()
         .where((e) => e.value != DataSource.watch && e.value != source);
-    for (var e in externalClients) {
+    for (final e in externalClients) {
       e.key.sink.add(message);
     }
 
     // Broadcast to all servers
-    for (var e in _servers) {
+    for (final e in _servers) {
       e.sendMessage(message);
     }
   }

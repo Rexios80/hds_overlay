@@ -12,7 +12,7 @@ class WidgetSelector extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
   final WidgetSelectorController wsc = WidgetSelectorController();
 
-  WidgetSelector({Key? key}) : super(key: key);
+  WidgetSelector({super.key});
 
   @override
   Widget build(BuildContext context) {

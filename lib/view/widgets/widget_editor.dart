@@ -18,7 +18,7 @@ class WidgetEditor extends StatelessWidget {
   final DataWidgetController dwc = Get.find();
   final WidgetEditorController wec = Get.put(WidgetEditorController());
 
-  WidgetEditor({Key? key}) : super(key: key);
+  WidgetEditor({super.key});
 
   @override
   Widget build(BuildContext context) {

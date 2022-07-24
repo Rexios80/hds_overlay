@@ -14,7 +14,7 @@ class SettingsView extends StatelessWidget {
   final SettingsController settingsController = Get.find();
   final FirebaseUtils firebase = Get.find();
 
-  SettingsView({Key? key}) : super(key: key);
+  SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {

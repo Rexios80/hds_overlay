@@ -45,7 +45,7 @@ void main() async {
 class HDS extends StatelessWidget {
   final SettingsController settingsController = Get.find();
 
-  HDS({Key? key}) : super(key: key);
+  HDS({super.key});
 
   @override
   Widget build(BuildContext context) {

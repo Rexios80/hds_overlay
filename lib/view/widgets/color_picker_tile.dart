@@ -11,8 +11,8 @@ class ColorPickerTile extends StatelessWidget {
     required this.label,
     required this.initialColor,
     required this.onColorChanged,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

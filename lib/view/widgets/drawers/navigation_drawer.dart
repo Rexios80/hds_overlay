@@ -15,7 +15,7 @@ class NavigationDrawer extends StatelessWidget {
   static const _androidUrl =
       'https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter';
 
-  const NavigationDrawer({Key? key}) : super(key: key);
+  const NavigationDrawer({super.key});
 
   // final _samsungUrl ='https://git.io/J3NOR';
 
@@ -31,7 +31,7 @@ class NavigationDrawer extends StatelessWidget {
             builder: (context, snapshot) {
               String version = 'Unknown';
               if (snapshot.hasData) {
-                var yaml = loadYaml(snapshot.data as String);
+                final yaml = loadYaml(snapshot.data as String);
                 version = yaml['version'];
               }
 

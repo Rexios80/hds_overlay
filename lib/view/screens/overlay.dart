@@ -34,7 +34,7 @@ class HDSOverlay extends HookWidget {
   final FirebaseController firebaseController = Get.find();
   final SettingsController settingsController = Get.find();
 
-  HDSOverlay({Key? key}) : super(key: key);
+  HDSOverlay({super.key});
 
   @override
   Widget build(BuildContext context) {
