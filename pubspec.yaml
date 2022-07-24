@@ -65,6 +65,10 @@ dev_dependencies:
   flutter_native_splash: ^2.0.1+1
   json_serializable: ^6.0.0
 
+# TODO: Remove
+dependency_overrides:
+  firebase_auth_platform_interface: 6.3.2
+
 flutter:
   uses-material-design: true
   assets:
