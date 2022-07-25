@@ -28,8 +28,8 @@ class ChartWidget extends StatelessWidget {
           : spots.sorted((a, b) => (b.y - a.y).toInt()).first.y;
 
       final List<Color> gradientColors = [
-        properties.highColor,
         properties.lowColor,
+        properties.highColor,
       ];
 
       return SizedBox(
@@ -65,7 +65,8 @@ class ChartWidget extends StatelessWidget {
                 LineChartBarData(
                   spots: spots,
                   isCurved: true,
-                  gradient: LinearGradient(colors: gradientColors),
+                  // TODO: Make this a gradient
+                  color: properties.highColor,
                   barWidth: 5,
                   isStrokeCapRound: true,
                   dotData: FlDotData(
@@ -77,6 +78,8 @@ class ChartWidget extends StatelessWidget {
                       colors: gradientColors
                           .map((color) => color.withOpacity(0.3))
                           .toList(),
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
                     ),
                   ),
                 ),
