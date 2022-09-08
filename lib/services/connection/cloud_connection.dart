@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 
 mixin CloudConnection {
   final _logger = Get.find<Logger>();
-  final database = FirebaseDatabase.instance.ref();
+  final ref = FirebaseDatabase.instance.ref();
   final _auth = FirebaseAuth.instance;
   final _firebaseController = Get.find<FirebaseController>();
 
@@ -17,7 +17,7 @@ mixin CloudConnection {
     void Function(LogLevel, String) log,
   ) async {
     _logger.d('Requesting uidSnapshot');
-    final uidSnapshot = (await database
+    final uidSnapshot = (await ref
             .child(RtdConstants.overlays)
             .child(overlayId)
             .child(RtdConstants.uid)

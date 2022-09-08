@@ -17,7 +17,7 @@ class CloudSocketConnection extends SocketConnection with CloudConnection {
   Future<Uri> createUri() async {
     final token = await firebase.getIdToken();
     final apiId =
-        (await database.child(RtdConstants.apiId).once(DatabaseEventType.value))
+        (await ref.child(RtdConstants.apiId).once(DatabaseEventType.value))
             .snapshot
             .value;
     _logger.d('API ID: $apiId');

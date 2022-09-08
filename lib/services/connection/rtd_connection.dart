@@ -8,13 +8,14 @@ import 'package:hds_overlay/services/connection/connection.dart';
 
 class RtdConnection extends Connection with CloudConnection {
   StreamSubscription? _sub;
+  StreamSubscription? _connectionSub;
 
   @override
   Future<void> start(String ip, int port, String overlayId) async {
     log(LogLevel.hdsCloud, 'Connecting to HDS Cloud RTD Fallback...');
 
     overlayId = await handleCidCollision(overlayId, log);
-    _sub = database
+    _sub = ref
         .child(RtdConstants.overlays)
         .child(overlayId)
         .child(RtdConstants.message)
@@ -22,7 +23,10 @@ class RtdConnection extends Connection with CloudConnection {
         .skip(1)
         .listen(handleEvent);
 
-    log(LogLevel.hdsCloud, 'Connected to HDS Cloud RTD Fallback');
+    _connectionSub = FirebaseDatabase.instance
+        .ref('.info/connected')
+        .onValue
+        .listen(handleConnectionEvent);
   }
 
   void handleEvent(DatabaseEvent event) {
@@ -34,8 +38,18 @@ class RtdConnection extends Connection with CloudConnection {
     handleMessage('$type:$value', source);
   }
 
+  void handleConnectionEvent(DatabaseEvent event) {
+    final connected = event.snapshot.value as bool? ?? false;
+    if (connected) {
+      log(LogLevel.hdsCloud, 'Connected to HDS Cloud RTD Fallback');
+    } else {
+      log(LogLevel.hdsCloud, 'Disconnected from HDS Cloud RTD Fallback');
+    }
+  }
+
   @override
   Future<void> stop() async {
     await _sub?.cancel();
+    await _connectionSub?.cancel();
   }
 }
