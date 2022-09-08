@@ -22,6 +22,8 @@ class FirebaseUtils {
     if (kDebugMode) {
       await _auth.useAuthEmulator('localhost', 9099);
       FirebaseDatabase.instance.useDatabaseEmulator('localhost', 9000);
+    } else {
+      
     }
   }
 

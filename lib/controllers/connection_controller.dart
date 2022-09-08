@@ -101,45 +101,9 @@ class ConnectionController extends GetxController {
       _connection = LocalSocketConnection();
     }
 
-    _connection?.messageStream.listen((message) {
-      final log = '(${message.source}) ${message.name}: ${message.value}';
+    _connection?.messageStream.listen(_handleMessage);
 
-      if (message is UnknownDataMessage) {
-        // Don't do anything with these
-        logs.add(LogMessage(LogLevel.warn, log));
-        return;
-      }
-
-      message as DataMessage;
-      final typeSource = Tuple2(message.dataType, message.source);
-      if (_messages[typeSource]?.value == message.value) {
-        // Don't process data if the value didn't change
-        return;
-      }
-      _messages[typeSource] = message;
-      logs.add(LogMessage(LogLevel.data, log));
-
-      if (message.dataType == DataType.heartRate) {
-        calcMinMaxAvg(int.tryParse(message.value) ?? -1, message.source);
-      }
-
-      // Deal with message history for the charts
-      if (_messageHistory[typeSource] == null) {
-        _messageHistory[typeSource] = [];
-      }
-      _messageHistory[typeSource]?.add(message);
-
-      while ((_messageHistory[typeSource]?.length ?? 0) >
-          ChartWidgetProperties.maxValuesToKeep) {
-        _messageHistory[typeSource]?.removeAt(0);
-      }
-      _messageHistory.refresh();
-    });
-
-    _connection?.logStream.listen((log) {
-      _logger.d(log.message);
-      logs.add(log);
-    });
+    _connection?.logStream.listen(_handleLog);
 
     _connection?.start(
       _settingsController.settings.value.serverIp,
@@ -148,7 +112,47 @@ class ConnectionController extends GetxController {
     );
   }
 
-  void calcMinMaxAvg(int heartRate, String source) {
+  void _handleMessage(DataMessageBase message) {
+    final log = '(${message.source}) ${message.name}: ${message.value}';
+
+    if (message is UnknownDataMessage) {
+      // Don't do anything with these
+      logs.add(LogMessage(LogLevel.warn, log));
+      return;
+    }
+
+    message as DataMessage;
+    final typeSource = Tuple2(message.dataType, message.source);
+    if (_messages[typeSource]?.value == message.value) {
+      // Don't process data if the value didn't change
+      return;
+    }
+    _messages[typeSource] = message;
+    logs.add(LogMessage(LogLevel.data, log));
+
+    if (message.dataType == DataType.heartRate) {
+      _calcMinMaxAvg(int.tryParse(message.value) ?? -1, message.source);
+    }
+
+    // Deal with message history for the charts
+    if (_messageHistory[typeSource] == null) {
+      _messageHistory[typeSource] = [];
+    }
+    _messageHistory[typeSource]?.add(message);
+
+    while ((_messageHistory[typeSource]?.length ?? 0) >
+        ChartWidgetProperties.maxValuesToKeep) {
+      _messageHistory[typeSource]?.removeAt(0);
+    }
+    _messageHistory.refresh();
+  }
+
+  void _handleLog(LogMessage log) {
+    _logger.d(log.message);
+    logs.add(log);
+  }
+
+  void _calcMinMaxAvg(int heartRate, String source) {
     if (heartRate < (hrMins[source] ?? 999)) {
       hrMins[source] = heartRate;
       _connection?.handleMessage(
