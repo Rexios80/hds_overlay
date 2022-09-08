@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
-import 'package:hds_overlay/services/connection/connection_base.dart';
-import 'package:hds_overlay/services/connection/local_socket_client.dart';
+import 'package:hds_overlay/services/connection/cloud_socket_connection.dart';
+import 'package:hds_overlay/services/connection/connection.dart';
+import 'package:hds_overlay/services/connection/local_socket_connection.dart';
 import 'package:logger/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import 'package:hds_overlay/services/connection/cloud_socket_client.dart';
-
-abstract class SocketClient extends ConnectionBase {
+abstract class SocketConnection extends Connection {
   final _logger = Get.find<Logger>();
 
   WebSocketChannel? _channel;
@@ -25,10 +24,10 @@ abstract class SocketClient extends ConnectionBase {
 
     try {
       _channel = WebSocketChannel.connect(await createUri());
-      if (this is LocalSocketClient) {
+      if (this is LocalSocketConnection) {
         _channel?.sink.add('clientName:${DataSource.browser}');
         log(LogLevel.good, 'Connected to server: $ip');
-      } else if (this is CloudSocketClient) {
+      } else if (this is CloudSocketConnection) {
         log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
       }
 
@@ -36,9 +35,9 @@ abstract class SocketClient extends ConnectionBase {
       return Future.value(_channel);
     } catch (e) {
       _logger.e(e);
-      if (this is LocalSocketClient) {
+      if (this is LocalSocketConnection) {
         log(LogLevel.error, 'Unable to connect to server: $ip');
-      } else if (this is CloudSocketClient) {
+      } else if (this is CloudSocketConnection) {
         log(LogLevel.error, 'Unable to connect to HDS Cloud');
       }
       Future.delayed(const Duration(seconds: 10), () => _connect());
@@ -69,9 +68,9 @@ abstract class SocketClient extends ConnectionBase {
   }
 
   void _reconnect() {
-    if (this is LocalSocketClient) {
+    if (this is LocalSocketConnection) {
       log(LogLevel.warn, 'Disconnected from server: $ip');
-    } else if (this is CloudSocketClient) {
+    } else if (this is CloudSocketConnection) {
       log(LogLevel.hdsCloud, 'Disconnected from HDS Cloud');
     }
     _channel?.sink.close();

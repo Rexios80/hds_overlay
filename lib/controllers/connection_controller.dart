@@ -8,9 +8,9 @@ import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
-import 'package:hds_overlay/services/connection/cloud_socket_client.dart';
-import 'package:hds_overlay/services/connection/connection_base.dart';
-import 'package:hds_overlay/services/connection/local_socket_client.dart';
+import 'package:hds_overlay/services/connection/connection.dart';
+import 'package:hds_overlay/services/connection/local_socket_connection.dart';
+import 'package:hds_overlay/services/connection/rtd_connection.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
@@ -30,7 +30,7 @@ class ConnectionController extends GetxController {
 
   final SettingsController _settingsController = Get.find();
   final FirebaseController _firebaseController = Get.find();
-  ConnectionBase? _connection;
+  Connection? _connection;
 
   final hrMins = <String, int>{};
   final hrMaxs = <String, int>{};
@@ -91,9 +91,9 @@ class ConnectionController extends GetxController {
     _started = true;
 
     if (_settingsController.settings.value.hdsCloud) {
-      _connection = CloudSocketClient();
+      _connection = RtdConnection();
     } else {
-      _connection = LocalSocketClient();
+      _connection = LocalSocketConnection();
     }
 
     _connection?.messageStream.listen((message) {

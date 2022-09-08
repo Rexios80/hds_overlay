@@ -1,6 +1,6 @@
-import 'package:hds_overlay/services/connection/socket_client.dart';
+import 'package:hds_overlay/services/connection/socket_connection.dart';
 
-class LocalSocketClient extends SocketClient {
+class LocalSocketConnection extends SocketConnection {
   @override
   Future<Uri> createUri() {
     Uri uri;

@@ -9,7 +9,7 @@ import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:logger/logger.dart';
 
-abstract class ConnectionBase {
+abstract class Connection {
   final _logger = Get.find<Logger>();
   final _analytics = FirebaseAnalytics.instance;
   final SettingsController _settings = Get.find();
@@ -34,8 +34,7 @@ abstract class ConnectionBase {
     _logger.d(message);
     final parts = message.split(':');
 
-    final dataType =
-        EnumToString.fromString(DataType.values, parts[0]) ?? DataType.unknown;
+    final dataType = DataType.values.asNameMap()[parts[0]] ?? DataType.unknown;
 
     if (!localMessage) {
       // Log which data types have been received for debugging
