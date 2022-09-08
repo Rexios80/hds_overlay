@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
+import 'package:hds_overlay/services/connection/local_socket_client.dart';
 import 'package:logger/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -55,9 +55,7 @@ abstract class SocketClient extends ConnectionBase {
   void _reconnectOnDisconnect() async {
     // This channel is used for sending data on desktop and receiving data on web
     final channelSubscription = _channel?.stream.listen((message) {
-      if (kIsWeb) {
-        handleMessage(message, 'watch');
-      }
+      handleMessage(message, 'watch');
     });
     channelSubscription?.onDone(() {
       channelSubscription.cancel();
@@ -94,21 +92,5 @@ abstract class SocketClient extends ConnectionBase {
     _reconnectTimer?.cancel();
     _channel?.sink.close();
     return Future.value();
-  }
-}
-
-class LocalSocketClient extends SocketClient {
-  @override
-  Future<Uri> createUri() {
-    Uri uri;
-    if (ip.startsWith('ws')) {
-      uri = Uri.parse(ip);
-    } else {
-      uri = Uri.parse('ws://$ip');
-    }
-    if (!uri.hasPort) {
-      uri = Uri.parse('${uri.toString()}:3476');
-    }
-    return Future.value(uri);
   }
 }
