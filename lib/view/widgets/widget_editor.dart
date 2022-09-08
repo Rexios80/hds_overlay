@@ -1,4 +1,3 @@
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +10,7 @@ import 'package:hds_overlay/model/default_image.dart';
 import 'package:hds_overlay/view/widgets/color_picker_tile.dart';
 import 'package:hds_overlay/view/widgets/heart_rate_range_editor.dart';
 import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
+import 'package:recase/recase.dart';
 
 class WidgetEditor extends StatelessWidget {
   final EndDrawerController endDrawerController = Get.find();
@@ -29,10 +29,9 @@ class WidgetEditor extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            EnumToString.convertToString(
-              endDrawerController.selectedDataWidgetDataTypeSource.value?.item1,
-              camelCase: true,
-            ),
+            endDrawerController.selectedDataWidgetDataTypeSource.value?.item1
+                    .name.titleCase ??
+                '-',
             style: Theme.of(context).textTheme.headline6,
           ),
           const SizedBox(height: 5),

@@ -1,4 +1,3 @@
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/chart_widget_controller.dart';
@@ -8,6 +7,7 @@ import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/view/widgets/color_picker_tile.dart';
 import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
+import 'package:recase/recase.dart';
 
 class ChartEditor extends StatelessWidget {
   final EndDrawerController endDrawerController = Get.find();
@@ -26,10 +26,9 @@ class ChartEditor extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            EnumToString.convertToString(
-              endDrawerController.selectedChartDataTypeSource.value?.item1,
-              camelCase: true,
-            ),
+            endDrawerController
+                    .selectedChartDataTypeSource.value?.item1.name.titleCase ??
+                '-',
             style: Theme.of(context).textTheme.headline6,
           ),
           const SizedBox(height: 5),

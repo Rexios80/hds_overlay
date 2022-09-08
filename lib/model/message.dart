@@ -1,5 +1,5 @@
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hds_overlay/hive/data_type.dart';
+import 'package:recase/recase.dart';
 
 // This might get annoying
 extension DataTypeExtension on DataType {
@@ -33,7 +33,7 @@ class DataMessage extends DataMessageBase {
 
   @override
   String get name {
-    return EnumToString.convertToString(dataType, camelCase: true);
+    return dataType.name.titleCase;
   }
 
   DataMessage(String source, this.dataType, String value)

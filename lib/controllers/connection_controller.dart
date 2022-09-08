@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
@@ -12,6 +11,7 @@ import 'package:hds_overlay/services/connection/connection.dart';
 import 'package:hds_overlay/services/connection/local_socket_connection.dart';
 import 'package:hds_overlay/services/connection/rtd_connection.dart';
 import 'package:logger/logger.dart';
+import 'package:recase/recase.dart';
 import 'package:tuple/tuple.dart';
 
 class ConnectionController extends GetxController {
@@ -77,7 +77,7 @@ class ConnectionController extends GetxController {
         logs.add(
           LogMessage(
             LogLevel.warn,
-            '(${e.item2}) ${EnumToString.convertToString(e.item1, camelCase: true)}: '
+            '(${e.item2}) ${e.item1.name.titleCase}: '
             'Data cleared after ${_settingsController.settings.value.dataClearInterval} seconds',
           ),
         );
@@ -147,7 +147,7 @@ class ConnectionController extends GetxController {
     if (heartRate < (hrMins[source] ?? 999)) {
       hrMins[source] = heartRate;
       _connection?.handleMessage(
-        '${EnumToString.convertToString(DataType.heartRateMin)}:${heartRate.toString()}',
+        '${DataType.heartRateMin.name}:$heartRate',
         source,
         localMessage: true,
       );
@@ -155,7 +155,7 @@ class ConnectionController extends GetxController {
     if (heartRate > (hrMaxs[source] ?? 0)) {
       hrMaxs[source] = heartRate;
       _connection?.handleMessage(
-        '${EnumToString.convertToString(DataType.heartRateMax)}:${heartRate.toString()}',
+        '${DataType.heartRateMax.name}:$heartRate',
         source,
         localMessage: true,
       );
@@ -164,7 +164,7 @@ class ConnectionController extends GetxController {
     final hrAvg =
         hrs[source]!.reduce((e1, e2) => e1 + e2) / hrs[source]!.length;
     _connection?.handleMessage(
-      '${EnumToString.convertToString(DataType.heartRateAverage)}:${hrAvg.toStringAsFixed(3)}',
+      '${DataType.heartRateAverage.name}:${hrAvg.toStringAsFixed(3)}',
       source,
       localMessage: true,
     );

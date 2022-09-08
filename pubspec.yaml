@@ -10,7 +10,7 @@ dependencies:
     sdk: flutter
 
   equatable: ^2.0.0
-  enum_to_string: ^2.0.1
+  recase: ^4.0.0
   tuple: ^2.0.0
   msix: ^3.4.0
   flutter_hooks: ^0.18.0

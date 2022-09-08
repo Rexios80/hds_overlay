@@ -1,4 +1,3 @@
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/chart_widget_controller.dart';
@@ -6,6 +5,7 @@ import 'package:hds_overlay/controllers/widget_selector_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/view/widgets/data/chart_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:recase/recase.dart';
 import 'package:tuple/tuple.dart';
 
 class ChartSelector extends StatelessWidget {
@@ -76,7 +76,7 @@ class ChartSelector extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      EnumToString.convertToString(dataType, camelCase: true),
+                      dataType.name.titleCase,
                       style: Theme.of(context)
                           .textTheme
                           .subtitle1

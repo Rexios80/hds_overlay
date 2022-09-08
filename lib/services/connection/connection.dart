@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
