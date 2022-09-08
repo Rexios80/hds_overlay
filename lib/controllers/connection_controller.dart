@@ -10,7 +10,7 @@ import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/connection/cloud_socket_client.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
-import 'package:hds_overlay/services/connection/socket_client.dart';
+import 'package:hds_overlay/services/connection/local_socket_client.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 

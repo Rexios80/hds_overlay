@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
@@ -68,8 +67,8 @@ class HDSOverlay extends HookWidget {
 
     final mounted = useIsMounted();
     ever(overlayController.mouseHovering, (bool mouseHovering) {
-      // Only do this on web and if the widget is mounted
-      if (!kIsWeb || !mounted()) return;
+      // Only do this if the widget is mounted
+      if (!mounted()) return;
 
       if (mouseHovering) {
         peripherySlideAnimationController.forward();
@@ -161,43 +160,41 @@ class HDSOverlay extends HookWidget {
       ),
     );
 
-    final actions = kIsWeb
-        ? <Widget>[
-            IconButton(
-              icon: const Icon(Icons.upload),
-              tooltip: 'Export configuration',
-              onPressed: () => showExportDialog(),
-            ),
-            IconButton(
-              icon: const Icon(Icons.download),
-              tooltip: 'Import configuration',
-              onPressed: () => showImportDialog(),
-            ),
-            Builder(
-              builder: (context) => PopupMenuButton(
-                icon: const Icon(Icons.save),
-                tooltip: 'Create profile',
-                itemBuilder: (BuildContext context) => profileAdd,
-              ),
-            ),
-            profileLoad,
-            // For some reason this has to be in a builder or it doesn't work
-            Builder(
-              builder: (context) => IconButton(
-                icon: const Icon(Icons.add),
-                tooltip: 'Add widget',
-                onPressed: () => endDrawerController.widgetSelectionType.value =
-                    DataWidgetType.data,
-              ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.add_chart),
-              tooltip: 'Add chart',
-              onPressed: () => endDrawerController.widgetSelectionType.value =
-                  DataWidgetType.chart,
-            ),
-          ]
-        : <Widget>[];
+    final actions = [
+      IconButton(
+        icon: const Icon(Icons.upload),
+        tooltip: 'Export configuration',
+        onPressed: () => showExportDialog(),
+      ),
+      IconButton(
+        icon: const Icon(Icons.download),
+        tooltip: 'Import configuration',
+        onPressed: () => showImportDialog(),
+      ),
+      Builder(
+        builder: (context) => PopupMenuButton(
+          icon: const Icon(Icons.save),
+          tooltip: 'Create profile',
+          itemBuilder: (BuildContext context) => profileAdd,
+        ),
+      ),
+      profileLoad,
+      // For some reason this has to be in a builder or it doesn't work
+      Builder(
+        builder: (context) => IconButton(
+          icon: const Icon(Icons.add),
+          tooltip: 'Add widget',
+          onPressed: () => endDrawerController.widgetSelectionType.value =
+              DataWidgetType.data,
+        ),
+      ),
+      IconButton(
+        icon: const Icon(Icons.add_chart),
+        tooltip: 'Add chart',
+        onPressed: () => endDrawerController.widgetSelectionType.value =
+            DataWidgetType.chart,
+      ),
+    ];
 
     final appBarTitle = LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -250,12 +247,11 @@ class HDSOverlay extends HookWidget {
       child: MouseRegion(
         onHover: (event) => overlayController.mouseHovering.value = true,
         child: Scaffold(
-          backgroundColor: kIsWeb
-              ? Color(settingsController.settings.value.overlayBackgroundColor)
-              : null,
+          backgroundColor:
+              Color(settingsController.settings.value.overlayBackgroundColor),
           drawerScrimColor: Colors.transparent,
           drawer: const NavigationDrawer(),
-          endDrawer: kIsWeb ? EndDrawer() : null,
+          endDrawer: EndDrawer(),
           onEndDrawerChanged: (open) {
             if (!open) {
               // Reset the drawer when it is closed
@@ -278,7 +274,7 @@ class HDSOverlay extends HookWidget {
               ),
               Expanded(
                 child: Container(
-                  color: kIsWeb ? Colors.transparent : Colors.black,
+                  color: Colors.transparent,
                   child: LayoutBuilder(
                     builder:
                         (BuildContext context, BoxConstraints constraints) {
@@ -306,7 +302,7 @@ class HDSOverlay extends HookWidget {
                         );
                       }
 
-                      if (constraints.maxWidth < 750 && kIsWeb) {
+                      if (constraints.maxWidth < 750) {
                         return Column(
                           children: [
                             DataView(),
@@ -326,10 +322,7 @@ class HDSOverlay extends HookWidget {
                         return Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Visibility(
-                              visible: kIsWeb,
-                              child: DataView(),
-                            ),
+                            DataView(),
                             Obx(
                               () => Visibility(
                                 visible: overlayController.mouseHovering.value,

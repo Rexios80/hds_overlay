@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -50,7 +49,7 @@ class NavigationDrawer extends StatelessWidget {
             },
           ),
           routeItem(
-            const Text(kIsWeb ? 'Overlay' : 'Console'),
+            const Text('Overlay'),
             Routes.overlay,
           ),
           routeItem(
@@ -70,22 +69,15 @@ class NavigationDrawer extends StatelessWidget {
             'assets/images/discord.png',
             _discordUrl,
           ),
-          Visibility(
-            visible: kIsWeb,
-            child: Column(
-              children: [
-                urlItem(
-                  const Text('Apple Watch app'),
-                  'assets/images/appStore.png',
-                  _iosUrl,
-                ),
-                urlItem(
-                  const Text('Android watch app'),
-                  'assets/images/googlePlay.png',
-                  _androidUrl,
-                ),
-              ],
-            ),
+          urlItem(
+            const Text('Apple Watch app'),
+            'assets/images/appStore.png',
+            _iosUrl,
+          ),
+          urlItem(
+            const Text('Android watch app'),
+            'assets/images/googlePlay.png',
+            _androidUrl,
           ),
           const Divider(),
           routeItem(

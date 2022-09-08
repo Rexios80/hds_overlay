@@ -1,6 +1,5 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:file_selector/file_selector.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/data_widget_controller.dart';
@@ -497,10 +496,7 @@ class WidgetEditor extends StatelessWidget {
           const SizedBox(height: 10),
           const Divider(),
           const SizedBox(height: 10),
-          Visibility(
-            visible: kIsWeb,
-            child: heartBeatSoundEditor,
-          ),
+          heartBeatSoundEditor,
           const SizedBox(height: 10),
           const Divider(),
         ],
