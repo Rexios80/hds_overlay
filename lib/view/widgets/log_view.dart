@@ -18,17 +18,19 @@ class LogView extends StatelessWidget {
         child: Obx(
           () {
             final logs = connectionController.logs;
-            return ListView.builder(
-              padding: const EdgeInsets.all(10),
-              itemCount: logs.length,
-              itemBuilder: (context, index) {
-                // Reverse the list of logs
-                final log = logs[logs.length - index - 1];
-                return Text(
-                  log.logLine,
-                  style: TextStyle(color: log.level.color),
-                );
-              },
+            return SelectionArea(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(10),
+                itemCount: logs.length,
+                itemBuilder: (context, index) {
+                  // Reverse the list of logs
+                  final log = logs[logs.length - index - 1];
+                  return Text(
+                    log.logLine,
+                    style: TextStyle(color: log.level.color),
+                  );
+                },
+              ),
             );
           },
         ),
