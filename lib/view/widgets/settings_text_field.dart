@@ -57,8 +57,6 @@ class SettingsTextField extends StatelessWidget {
 
   String get text {
     switch (type) {
-      case EditorType.clientName:
-        return settings.clientName;
       case EditorType.port:
         return settings.port.toString();
       case EditorType.serverIp:
@@ -70,8 +68,6 @@ class SettingsTextField extends StatelessWidget {
 
   String get label {
     switch (type) {
-      case EditorType.clientName:
-        return 'Client name';
       case EditorType.port:
         return 'WebSocket port';
       case EditorType.serverIp:
@@ -83,8 +79,6 @@ class SettingsTextField extends StatelessWidget {
 
   String get caption {
     switch (type) {
-      case EditorType.clientName:
-        return 'Used to identify with other HDS overlays';
       default:
         return '';
     }
@@ -92,9 +86,6 @@ class SettingsTextField extends StatelessWidget {
 
   void save(String value) {
     switch (type) {
-      case EditorType.clientName:
-        settings.clientName = value;
-        break;
       case EditorType.port:
         settings.port = int.tryParse(value) ?? 3476;
         break;
@@ -111,7 +102,6 @@ class SettingsTextField extends StatelessWidget {
 }
 
 enum EditorType {
-  clientName,
   port,
   serverIp,
   dataClearInterval,

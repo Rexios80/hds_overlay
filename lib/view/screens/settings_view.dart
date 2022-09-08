@@ -1,11 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
-import 'package:hds_overlay/firebase/firebase_utils_stub.dart'
-    if (dart.library.js) 'package:hds_overlay/firebase/firebase_utils.dart';
+import 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/hive/settings.dart';
-import 'package:hds_overlay/utils/colors.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/widgets/drawers/navigation_drawer.dart';
 import 'package:hds_overlay/view/widgets/settings_text_field.dart';
@@ -78,7 +75,6 @@ class SettingsView extends StatelessWidget {
             ],
           );
 
-          
           final hdsCloudToggle = Row(
             children: [
               const Text('HDS Cloud'),
@@ -103,25 +99,17 @@ class SettingsView extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               children: [
                 darkModeToggle,
-                Visibility(
-                  visible: kIsWeb,
-                  child: Column(
-                    children: [
-                      const Divider(),
-                      hdsCloudToggle,
-                      const Divider(),
-                      backgroundColorPicker,
-                      const Divider(),
-                      SettingsTextField(
-                        EditorType.dataClearInterval,
-                        settingsController.settings.value,
-                      ),
-                    ],
-                  ),
+                const Divider(),
+                hdsCloudToggle,
+                const Divider(),
+                backgroundColorPicker,
+                const Divider(),
+                SettingsTextField(
+                  EditorType.dataClearInterval,
+                  settingsController.settings.value,
                 ),
                 Visibility(
-                  visible:
-                      kIsWeb && !settingsController.settings.value.hdsCloud,
+                  visible: !settingsController.settings.value.hdsCloud,
                   child: Column(
                     children: [
                       const Divider(),
@@ -133,25 +121,6 @@ class SettingsView extends StatelessWidget {
                       SettingsTextField(
                         EditorType.port,
                         settingsController.settings.value,
-                      ),
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: !kIsWeb,
-                  child: Column(
-                    children: [
-                      Visibility(
-                        visible: !settingsController.settings.value.hdsCloud,
-                        child: Column(
-                          children: [
-                            const Divider(),
-                            SettingsTextField(
-                              EditorType.clientName,
-                              settingsController.settings.value,
-                            ),
-                          ],
-                        ),
                       ),
                     ],
                   ),
@@ -213,55 +182,42 @@ class SettingsView extends StatelessWidget {
   }
 
   void showColorPickerDialog(BuildContext context, Settings settings) {
-    final Row dialogOptions;
-    if (kIsWeb) {
-      dialogOptions = Row(
-        children: [
-          const Spacer(),
-          colorCircleWithSave(context, settings, Themes.dark.backgroundColor),
-          const Spacer(),
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Get.isDarkMode ? Colors.white : Colors.black,
-              ),
-            ),
-            child: Stack(
-              children: [
-                colorCircleWithSave(
-                  context,
-                  settings,
-                  Colors.transparent,
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-        ],
-      );
-    } else {
-      dialogOptions = Row(
-        children: [
-          const Spacer(),
-          colorCircleWithSave(context, settings, AppColors.chromaGreen),
-          const Spacer(),
-          colorCircleWithSave(context, settings, AppColors.chromaBlue),
-          const Spacer(),
-          colorCircleWithSave(context, settings, AppColors.chromaMagenta),
-          const Spacer(),
-        ],
-      );
-    }
-
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text('Pick a background color'),
-          content: dialogOptions,
+          content: Row(
+            children: [
+              const Spacer(),
+              colorCircleWithSave(
+                context,
+                settings,
+                Themes.dark.backgroundColor,
+              ),
+              const Spacer(),
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    colorCircleWithSave(
+                      context,
+                      settings,
+                      Colors.transparent,
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+            ],
+          ),
         );
       },
     );

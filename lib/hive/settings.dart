@@ -1,8 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hds_overlay/model/data_source.dart';
 import 'package:hive/hive.dart';
-import 'package:uuid/uuid.dart';
 
 part 'settings.g.dart';
 
@@ -36,16 +33,10 @@ class Settings extends HiveObject {
   @HiveField(5)
   String? _clientName;
 
-  String get clientName =>
-      kIsWeb ? DataSource.browser : _clientName ?? 'HDS-${const Uuid().v4()}';
-
   set clientName(String value) => _clientName = value;
 
   @HiveField(6)
   List<String>? _serverIps;
-
-  List<String> get serverIps => _serverIps ?? [];
-  set serverIps(List<String> value) => _serverIps = value;
 
   @HiveField(7)
   String? _serverIp = 'localhost';
@@ -56,8 +47,7 @@ class Settings extends HiveObject {
   @HiveField(8)
   bool? _hdsCloud;
 
-  // Enable HDS Cloud for web by default (not supported on desktop)
-  bool get hdsCloud => _hdsCloud ?? kIsWeb;
+  bool get hdsCloud => _hdsCloud ?? true;
   set hdsCloud(bool value) => _hdsCloud = value;
 
   @HiveField(9)

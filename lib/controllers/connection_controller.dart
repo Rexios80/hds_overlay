@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
-import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/connection/cloud_socket_client.dart';
@@ -138,18 +136,6 @@ class ConnectionController extends GetxController {
       logs.add(log);
     });
 
-    // If the log is modified here the view will be in a bad state
-    if (!_settingsController.settings.value.hdsCloud) {
-      Future.delayed(
-        const Duration(milliseconds: 500),
-        () => logs.add(
-          LogMessage(
-            LogLevel.info,
-            'Client name: ${_settingsController.settings.value.clientName}',
-          ),
-        ),
-      );
-    }
     _connection?.start(
       _settingsController.settings.value.serverIp,
       _settingsController.settings.value.port,
