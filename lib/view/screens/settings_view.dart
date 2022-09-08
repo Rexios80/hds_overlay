@@ -103,13 +103,6 @@ class SettingsView extends StatelessWidget {
                 darkModeToggle,
                 const Divider(),
                 hdsCloudToggle,
-                const Divider(),
-                backgroundColorPicker,
-                const Divider(),
-                SettingsTextField(
-                  EditorType.dataClearInterval,
-                  settingsController.settings.value,
-                ),
                 if (!settingsController.settings.value.hdsCloud) ...[
                   const Divider(),
                   SettingsTextField(
@@ -122,6 +115,13 @@ class SettingsView extends StatelessWidget {
                     settingsController.settings.value,
                   ),
                 ],
+                const Divider(),
+                backgroundColorPicker,
+                const Divider(),
+                SettingsTextField(
+                  EditorType.dataClearInterval,
+                  settingsController.settings.value,
+                ),
               ],
             ),
           );

@@ -5,13 +5,11 @@ class SettingsTextField extends StatelessWidget {
   final Settings settings;
 
   final EditorType type;
-  final bool spacer;
 
   const SettingsTextField(
     this.type,
     this.settings, {
     super.key,
-    this.spacer = true,
   });
 
   @override
@@ -20,38 +18,19 @@ class SettingsTextField extends StatelessWidget {
     controller.selection =
         TextSelection.collapsed(offset: controller.text.length);
 
-    return Row(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-                Text(label),
-              ] +
-              (caption.isNotEmpty
-                  ? [
-                      const SizedBox(height: 3),
-                      Text(
-                        caption,
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ]
-                  : []),
-        ),
-        Visibility(
-          visible: spacer,
-          child: const Spacer(),
-        ),
-        SizedBox(
-          width: 200,
-          child: TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-            ),
-            onChanged: save,
+    return ListTile(
+      title: Text(label),
+      subtitle: Text(caption),
+      trailing: SizedBox(
+        width: 200,
+        child: TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
           ),
+          onChanged: save,
         ),
-      ],
+      ),
     );
   }
 
