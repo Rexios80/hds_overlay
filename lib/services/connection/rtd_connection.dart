@@ -7,8 +7,6 @@ import 'package:hds_overlay/services/connection/cloud_connection.dart';
 import 'package:hds_overlay/services/connection/connection.dart';
 
 class RtdConnection extends Connection with CloudConnection {
-  static final _ref = FirebaseDatabase.instance.ref('/');
-
   StreamSubscription? _sub;
 
   @override
@@ -16,7 +14,7 @@ class RtdConnection extends Connection with CloudConnection {
     log(LogLevel.hdsCloud, 'Connecting to HDS Cloud RTD Fallback...');
 
     overlayId = await handleCidCollision(overlayId, log);
-    _sub = _ref
+    _sub = database
         .child(RtdConstants.overlays)
         .child(overlayId)
         .child(RtdConstants.message)
@@ -29,9 +27,9 @@ class RtdConnection extends Connection with CloudConnection {
 
   void handleEvent(DatabaseEvent event) {
     final message = event.snapshot.value as Map<String, dynamic>;
-    final type = message['type'];
-    final value = message['value'];
-    final source = message['source'];
+    final source = message['s'];
+    final type = message['t'];
+    final value = message['v'];
 
     handleMessage('$type:$value', source);
   }

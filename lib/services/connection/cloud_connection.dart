@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 
 mixin CloudConnection {
   final _logger = Get.find<Logger>();
-  final database = FirebaseDatabase.instance.ref('/');
+  final database = FirebaseDatabase.instance.ref();
   final _auth = FirebaseAuth.instance;
   final _firebaseController = Get.find<FirebaseController>();
 
