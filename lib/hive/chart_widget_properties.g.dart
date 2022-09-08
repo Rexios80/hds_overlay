@@ -80,7 +80,7 @@ ChartWidgetProperties _$ChartWidgetPropertiesFromJson(
 Map<String, dynamic> _$ChartWidgetPropertiesToJson(
         ChartWidgetProperties instance) =>
     <String, dynamic>{
-      'dataType': _$DataTypeEnumMap[instance.dataType],
+      'dataType': _$DataTypeEnumMap[instance.dataType]!,
       'dataSource': instance.dataSource,
       'position': instance.position,
       'rangeSeconds': instance.rangeSeconds,

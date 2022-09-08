@@ -55,4 +55,10 @@ class Settings extends HiveObject {
 
   int get dataClearInterval => _dataClearInterval ?? 120; // seconds
   set dataClearInterval(int value) => _dataClearInterval = value;
+
+  @HiveField(10)
+  bool? _rtdFallback;
+
+  bool get rtdFallback => _rtdFallback ?? false;
+  set rtdFallback(bool value) => _rtdFallback = value;
 }

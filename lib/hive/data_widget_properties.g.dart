@@ -193,7 +193,7 @@ DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) =>
 Map<String, dynamic> _$DataWidgetPropertiesToJson(
         DataWidgetProperties instance) =>
     <String, dynamic>{
-      'dataType': _$DataTypeEnumMap[instance.dataType],
+      'dataType': _$DataTypeEnumMap[instance.dataType]!,
       'showImage': instance.showImage,
       'image': const Uint8ListConverter().toJson(instance.image),
       'imageSize': instance.imageSize,

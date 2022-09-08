@@ -22,7 +22,12 @@ class RtdConnection extends Connection with CloudConnection {
   }
 
   void handleEvent(DatabaseEvent event) {
-    handleMessage()
+    final message = event.snapshot.value as Map<String, dynamic>;
+    final type = message['type'];
+    final value = message['value'];
+    final source = message['source'];
+
+    handleMessage('$type:$value', source);
   }
 
   @override

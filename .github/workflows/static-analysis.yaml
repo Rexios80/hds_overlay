@@ -1,0 +1,33 @@
+name: Static Analysis
+on:
+  push:
+  pull_request:
+
+jobs:
+  static-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: subosito/flutter-action@v2
+      - name: Pub get
+        run: flutter pub get
+      - name: Format
+        run: flutter format . --set-exit-if-changed
+      - name: Analyze
+        run: flutter analyze
+      # - name: Embedme
+      #   run: |
+      #     npm install embedme
+      #     npx embedme README.md --verify
+      - name: Build runner
+        if: ${{ matrix.project == 'fast_rx_test' }}
+        run: |
+          flutter pub run build_runner build --delete-conflicting-outputs
+          git diff --exit-code
+      # - name: Test
+      #   run: dart test
+      # - name: Pana
+      #   run: |
+      #     flutter pub global activate pana
+      #     pana --no-warning --exit-code-threshold 0
