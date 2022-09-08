@@ -33,13 +33,7 @@ class CloudSocketClient extends SocketClient {
   CloudSocketClient() : _ref = FirebaseDatabase.instance.ref('/');
 
   @override
-  Future<void> start(
-    String ip,
-    int port,
-    String clientName,
-    List<String> serverIps,
-    String overlayId,
-  ) async {
+  Future<void> start(String ip, int port, String overlayId) async {
     _logger.d('Requesting uidSnapshot');
     final uidSnapshot = (await _ref
             .child(RtdConstants.overlays)
@@ -53,13 +47,7 @@ class CloudSocketClient extends SocketClient {
       log(LogLevel.error, 'HDS Cloud ID collision detected');
       log(LogLevel.error, 'Regenerating HDS Cloud ID...');
       _firebaseController.regenerateOverlayId();
-      return start(
-        ip,
-        port,
-        clientName,
-        serverIps,
-        _firebaseController.config.value.overlayId,
-      );
+      return start(ip, port, _firebaseController.config.value.overlayId);
     } else if (!uidSnapshot.exists) {
       log(LogLevel.hdsCloud, 'Registering with HDS Cloud...');
       await uidSnapshot.ref.set(_auth.currentUser?.uid).then((_) {
@@ -70,7 +58,7 @@ class CloudSocketClient extends SocketClient {
         log(LogLevel.error, 'Unable to register with HDS Cloud');
       });
     }
-    return super.start(ip, port, clientName, serverIps, overlayId);
+    return super.start(ip, port, overlayId);
   }
 
   @override

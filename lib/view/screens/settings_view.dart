@@ -78,101 +78,7 @@ class SettingsView extends StatelessWidget {
             ],
           );
 
-          final serverIpsEditor = Column(
-            children: [
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Send data to these IPs'),
-                      const SizedBox(height: 3),
-                      Text(
-                        'Allow other HDS overlays to show your data',
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      settingsController.settings.value.serverIps =
-                          settingsController.settings.value.serverIps +
-                              ['0.0.0.0'];
-                      refreshAndSave();
-                    },
-                  ),
-                ],
-              ),
-              // Wow this is really something
-              // Correction this is horrifying
-              Obx(
-                () {
-                  final widgets = List<int>.generate(
-                    settingsController.settings.value.serverIps.length,
-                    (i) => i,
-                  )
-                      .map(
-                        (index) => [
-                          const SizedBox(height: 5),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 300,
-                                child: TextField(
-                                  controller: TextEditingController(
-                                    text: settingsController
-                                        .settings.value.serverIps[index],
-                                  ),
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  onChanged: (value) {
-                                    final serverIps = settingsController
-                                        .settings.value.serverIps;
-                                    serverIps[index] = value;
-                                    settingsController
-                                        .settings.value.serverIps = serverIps;
-                                    settingsController.settings.value.save();
-                                  },
-                                ),
-                              ),
-                              const Spacer(),
-                              TextButton(
-                                onPressed: () {
-                                  final serverIps = settingsController
-                                      .settings.value.serverIps;
-                                  serverIps.removeAt(index);
-                                  settingsController.settings.value.serverIps =
-                                      serverIps;
-                                  refreshAndSave();
-                                },
-                                child: const Text('DELETE'),
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                        ],
-                      )
-                      .toList();
-
-                  final List<Widget> widgetList;
-                  if (widgets.isEmpty) {
-                    widgetList = [];
-                  } else {
-                    widgetList =
-                        widgets.reduce((value, element) => value + element);
-                  }
-
-                  return Column(
-                    children: widgetList,
-                  );
-                },
-              ),
-            ],
-          );
-
+          
           final hdsCloudToggle = Row(
             children: [
               const Text('HDS Cloud'),
@@ -244,8 +150,6 @@ class SettingsView extends StatelessWidget {
                               EditorType.clientName,
                               settingsController.settings.value,
                             ),
-                            const Divider(),
-                            serverIpsEditor,
                           ],
                         ),
                       ),

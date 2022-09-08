@@ -2,19 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/services/connection/connection_base.dart';
 import 'package:logger/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import 'package:hds_overlay/services/connection/cloud_socket_client_stub.dart'
-    if (dart.library.js) 'package:hds_overlay/services/connection/cloud_socket_client.dart';
+import 'package:hds_overlay/services/connection/cloud_socket_client.dart';
 
 abstract class SocketClient extends ConnectionBase {
   final _logger = Get.find<Logger>();
 
   WebSocketChannel? _channel;
-  String clientName = '';
   String ip = '';
   String overlayId = '';
   Timer? _reconnectTimer;
@@ -27,7 +26,7 @@ abstract class SocketClient extends ConnectionBase {
     try {
       _channel = WebSocketChannel.connect(await createUri());
       if (this is LocalSocketClient) {
-        _channel?.sink.add('clientName:$clientName');
+        _channel?.sink.add('clientName:${DataSource.browser}');
         log(LogLevel.good, 'Connected to server: $ip');
       } else if (this is CloudSocketClient) {
         log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
@@ -82,14 +81,7 @@ abstract class SocketClient extends ConnectionBase {
   }
 
   @override
-  Future<void> start(
-    String ip,
-    int port,
-    String clientName,
-    List<String> serverIps,
-    String overlayId,
-  ) async {
-    this.clientName = clientName;
+  Future<void> start(String ip, int port, String overlayId) async {
     this.ip = ip;
     this.overlayId = overlayId;
     _stopped = false;

@@ -22,13 +22,7 @@ abstract class ConnectionBase {
 
   Stream<DataMessageBase> get messageStream => _messageStreamController.stream;
 
-  Future<void> start(
-    String ip,
-    int port,
-    String clientName,
-    List<String> serverIps,
-    String overlayId,
-  );
+  Future<void> start(String ip, int port, String overlayId);
 
   Future<void> stop();
 

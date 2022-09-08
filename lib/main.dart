@@ -33,9 +33,8 @@ void main() async {
   await firebase.init();
 
   // Only init Firebase if the user has it enabled
-  if (kIsWeb && settingsController.settings.value.hdsCloud) {
+  if (settingsController.settings.value.hdsCloud) {
     // This will not work on other platforms
-    // We must check kIsWeb first of Flutter web will complain
     await firebase.signIn();
   }
 
@@ -54,8 +53,10 @@ class HDS extends StatelessWidget {
     hideSplash();
 
     return GetMaterialApp(
-      navigatorObservers: <NavigatorObserver>[defaultLifecycleObserver] +
-          (kIsWeb ? [FirebaseAnalyticsObserver(analytics: analytics)] : []),
+      navigatorObservers: [
+        defaultLifecycleObserver,
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
       title: 'Health Data Server',
       theme: Themes.light,
       darkTheme: Themes.dark,
