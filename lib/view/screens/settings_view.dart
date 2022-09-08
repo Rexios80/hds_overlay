@@ -25,62 +25,53 @@ class SettingsView extends StatelessWidget {
       drawer: const NavigationDrawer(),
       body: Builder(
         builder: (context) {
-          final darkModeToggle = Row(
-            children: [
-              const Text('Dark mode'),
-              const Spacer(),
-              Obx(
-                () => Switch(
-                  value: settingsController.settings.value.darkMode,
-                  onChanged: (value) {
-                    settingsController.settings.value.darkMode = value;
-                    Get.changeThemeMode(
-                      value ? ThemeMode.dark : ThemeMode.light,
-                    );
-                    refreshAndSave();
-                  },
-                ),
-              ),
-            ],
+          final darkModeToggle = Obx(
+            () => SwitchListTile(
+              title: const Text('Dark mode'),
+              value: settingsController.settings.value.darkMode,
+              onChanged: (value) {
+                settingsController.settings.value.darkMode = value;
+                Get.changeThemeMode(
+                  value ? ThemeMode.dark : ThemeMode.light,
+                );
+                refreshAndSave();
+              },
+            ),
           );
 
-          final backgroundColorPicker = Row(
-            children: [
-              const Text('Overlay background color'),
-              const Spacer(),
-              Obx(() {
-                final color = Color(
-                  settingsController.settings.value.overlayBackgroundColor,
-                );
-                return Container(
-                  width: 50,
-                  height: 50,
-                  decoration: color == Colors.transparent
-                      ? BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Get.isDarkMode ? Colors.white : Colors.black,
-                          ),
-                        )
-                      : null,
-                  child: colorCircle(
-                    color,
-                    () => showColorPickerDialog(
-                      context,
-                      settingsController.settings.value,
-                    ),
+          final backgroundColorPicker = ListTile(
+            title: const Text('Overlay background color'),
+            trailing: Obx(() {
+              final color = Color(
+                settingsController.settings.value.overlayBackgroundColor,
+              );
+              return Container(
+                width: 50,
+                height: 50,
+                decoration: color == Colors.transparent
+                    ? BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Get.isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      )
+                    : null,
+                child: colorCircle(
+                  color,
+                  () => showColorPickerDialog(
+                    context,
+                    settingsController.settings.value,
                   ),
-                );
-              }),
-            ],
+                ),
+              );
+            }),
           );
 
-          final hdsCloudToggle = Row(
-            children: [
-              const Text('HDS Cloud'),
-              const Spacer(),
-              Obx(
-                () => Switch(
+          final hdsCloudToggle = Obx(
+            () => Column(
+              children: [
+                SwitchListTile(
+                  title: const Text('HDS Cloud'),
                   value: settingsController.settings.value.hdsCloud,
                   onChanged: (value) {
                     settingsController.settings.value.hdsCloud = value;
@@ -90,8 +81,19 @@ class SettingsView extends StatelessWidget {
                     refreshAndSave();
                   },
                 ),
-              ),
-            ],
+                if (settingsController.settings.value.hdsCloud) ...[
+                  const Divider(),
+                  SwitchListTile(
+                    title: const Text('RTD Fallback'),
+                    value: settingsController.settings.value.rtdFallback,
+                    onChanged: (value) {
+                      settingsController.settings.value.rtdFallback = value;
+                      refreshAndSave();
+                    },
+                  ),
+                ],
+              ],
+            ),
           );
 
           final settingsView = Obx(
@@ -108,23 +110,18 @@ class SettingsView extends StatelessWidget {
                   EditorType.dataClearInterval,
                   settingsController.settings.value,
                 ),
-                Visibility(
-                  visible: !settingsController.settings.value.hdsCloud,
-                  child: Column(
-                    children: [
-                      const Divider(),
-                      SettingsTextField(
-                        EditorType.serverIp,
-                        settingsController.settings.value,
-                      ),
-                      const Divider(),
-                      SettingsTextField(
-                        EditorType.port,
-                        settingsController.settings.value,
-                      ),
-                    ],
+                if (!settingsController.settings.value.hdsCloud) ...[
+                  const Divider(),
+                  SettingsTextField(
+                    EditorType.serverIp,
+                    settingsController.settings.value,
                   ),
-                ),
+                  const Divider(),
+                  SettingsTextField(
+                    EditorType.port,
+                    settingsController.settings.value,
+                  ),
+                ],
               ],
             ),
           );

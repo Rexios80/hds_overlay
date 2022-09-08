@@ -92,9 +92,11 @@ class ConnectionController extends GetxController {
     _started = true;
 
     if (_settingsController.settings.value.hdsCloud) {
-      _connection = CloudSocketConnection();
-    } else if (_settingsController.settings.value.rtdFallback) {
-      _connection = RtdConnection();
+      if (_settingsController.settings.value.rtdFallback) {
+        _connection = RtdConnection();
+      } else {
+        _connection = CloudSocketConnection();
+      }
     } else {
       _connection = LocalSocketConnection();
     }

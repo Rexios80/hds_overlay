@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/firebase/rtd_constants.dart';
+import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/services/connection/cloud_connection.dart';
 import 'package:hds_overlay/services/connection/socket_connection.dart';
 import 'package:logger/logger.dart';
@@ -27,6 +28,8 @@ class CloudSocketConnection extends SocketConnection with CloudConnection {
 
   @override
   Future<void> start(String ip, int port, String overlayId) async {
+    log(LogLevel.hdsCloud, 'Connecting to HDS Cloud...');
+
     overlayId = await handleCidCollision(overlayId, log);
     return super.start(ip, port, overlayId);
   }
