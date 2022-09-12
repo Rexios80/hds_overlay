@@ -30,7 +30,9 @@ mixin CloudConnection {
       log(LogLevel.error, 'Regenerating HDS Cloud ID...');
       _firebaseController.regenerateOverlayId();
       return handleCidCollision(
-          _firebaseController.config.value.overlayId, log);
+        _firebaseController.config.value.overlayId,
+        log,
+      );
     } else if (!uidSnapshot.exists) {
       log(LogLevel.hdsCloud, 'Registering with HDS Cloud...');
       try {
