@@ -9,7 +9,7 @@ This is a stream overlay that shows heart rate, calorie burn, and more informati
   - If you use HDS Cloud all you need is this and the watch app
   - Heart rate is free forever with HDS Cloud (assuming you bought a watch app)
 - [Apple Watch/iOS/macOS app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
-  - THE WATCHOS APP REQUIRES WATCHOS 6.2+. The App Store will let you purchase it even if your watch can't run watchOS 6.2+, so make sure before buying.
+  - THE WATCHOS APP REQUIRES WATCHOS 8+. The App Store will let you purchase it even if your watch can't run watchOS 8+, so make sure before buying.
 - [Android watch app](https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter)
   - The Wear OS app currently works on Wear OS 2.0, but can only send heart rate. When Wear OS 3.0 releases on August 27, I will work on an update to send calories, step count, speed, and distance. Please note that this update will ONLY support Wear OS 3.0.
 - [Windows app](https://www.microsoft.com/store/apps/9PHN402J6LVJ)
