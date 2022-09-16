@@ -7,8 +7,8 @@ This is a stream overlay that shows heart rate, calorie burn, and more informati
 
 - [Web app](https://hds.dev/)
   - For use as a browser source
-  - If you use HDS Cloud all you need is this and a watch app
-  - Heart rate is free forever with HDS Cloud (assuming you bought a watch app)
+  - If you use HDS Cloud, all you will need is this and the watch app
+  - Heart rate is free forever with HDS Cloud (assuming you bought the watch app)
 - [Apple Watch app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
   - THE APP STORE VERSION OF THE WATCHOS APP REQUIRES WATCHOS 8+. The App Store will let you purchase it even if your watch can't run watchOS 8+, so make sure before buying.
   - If your watch cannot run watchOS 8+, join this [TestFlight group]() (Coming soon)
@@ -46,9 +46,9 @@ You can track development progress [here](https://trello.com/healthdataserver)
    5. Use that url as a browser source in your app of choice
 
 ## If you have problems
-Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) before asking for help
-- Ask for help in the [support Discord server](https://discord.gg/FayYYcm)
-- [Create an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/issues/new?assignees=&labels=&template=bug-report.md&title=)
+Try these [troubleshooting steps](https://github.com/Rexios80/Health-Data-Server-Overlay/wiki/Troubleshooting) and if your issue is still not resolved
+- Then consider posting in the [support Discord server](https://discord.gg/FayYYcm)
+- If the community is not able to resolve your issue, then consider [creating an issue](https://github.com/Rexios80/Health-Data-Server-Overlay/issues/new?assignees=&labels=&template=bug-report.md&title=) on GitHub
 
 ## Please consider writing a review
-Many people only leave reviews when they have a problem with an app. Even if many users don't have an issue, these negative reviews can turn off potential new users. If you enjoy this application, please consider leaving a review on the [App Store page](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8). Even a simple review helps a lot!
+Many people only leave reviews when they have a problem with an app. Even if many users don't have an issue, these negative reviews can turn off potential new users. If you enjoy this application, please consider leaving a review on the [App Store page](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8). Even a quick star-rating review helps us a lot!
