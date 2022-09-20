@@ -29,6 +29,21 @@
           "destination": "/index.html"
         }
       ]
+    },
+    {
+      "site": "app-check-test-2-2",
+      "public": "build/web",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     }
   ],
   "emulators": {
