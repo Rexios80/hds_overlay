@@ -35,6 +35,16 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -43,13 +53,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCbbBPvlWvmOvI6Is8PYXNpJ78N03AYcyU',
-    appId: '1:47929674141:web:0606fd3354256f51860774',
-    messagingSenderId: '47929674141',
-    projectId: 'health-data-server',
-    authDomain: 'health-data-server.firebaseapp.com',
-    databaseURL: 'https://health-data-server-default-rtdb.firebaseio.com',
-    storageBucket: 'health-data-server.appspot.com',
-    measurementId: 'G-1V10QYSSHG',
+    apiKey: 'AIzaSyAEhLq0tedX91www8NpQSiMrdSW8-WmnFM',
+    appId: '1:263571203919:web:09cbbca5bce39c6841c73a',
+    messagingSenderId: '263571203919',
+    projectId: 'app-check-test-2',
+    authDomain: 'app-check-test-2.firebaseapp.com',
+    databaseURL: 'https://app-check-test-2-default-rtdb.firebaseio.com',
+    storageBucket: 'app-check-test-2.appspot.com',
   );
 }
