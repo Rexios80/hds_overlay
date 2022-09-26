@@ -25,18 +25,9 @@ class FirebaseUtils {
       await _auth.useAuthEmulator('localhost', 9099);
       FirebaseDatabase.instance.useDatabaseEmulator('localhost', 9000);
     } else {
-      try {
-        await FirebaseAppCheck.instance.activate(
-          webRecaptchaSiteKey: '6LcdrdQaAAAAAHCZCIBiSKYrx56BpxzTj0MECcXx',
-        );
-        final token = await FirebaseAppCheck.instance.getToken();
-        if (token != null) throw 'App Check token is null';
-        connectionController.logs
-            .add(LogMessage(LogLevel.hdsCloud, 'App Check success'));
-      } catch (e) {
-        connectionController.logs
-            .add(LogMessage(LogLevel.error, 'App Check failure'));
-      }
+      await FirebaseAppCheck.instance.activate(
+        webRecaptchaSiteKey: '6LcdrdQaAAAAAHCZCIBiSKYrx56BpxzTj0MECcXx',
+      );
     }
   }
 
