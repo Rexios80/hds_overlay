@@ -64,7 +64,8 @@ extension DataTypeExtension on DataType {
       this == DataType.speed ||
       this == DataType.distanceTraveled ||
       this == DataType.bodyMass ||
-      this == DataType.bmi;
+      this == DataType.bmi ||
+      this == DataType.oxygenSaturation;
 
   bool get isAnimated => this == DataType.heartRate;
 
