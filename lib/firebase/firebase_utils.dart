@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
 import 'package:hds_overlay/firebase_options.dart';
-import 'package:hds_overlay/model/log_message.dart';
 import 'package:logger/logger.dart';
 
 class FirebaseUtils {
