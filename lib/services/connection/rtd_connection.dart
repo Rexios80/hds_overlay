@@ -12,7 +12,7 @@ class RtdConnection extends Connection with CloudConnection {
 
   @override
   Future<void> start(String ip, int port, String overlayId) async {
-    log(LogLevel.hdsCloud, 'Connecting to HDS Cloud RTD Fallback...');
+    log(LogLevel.hdsCloud, 'Connecting to HDS Cloud...');
 
     overlayId = await handleCidCollision(overlayId, log);
     _sub = ref
@@ -41,9 +41,9 @@ class RtdConnection extends Connection with CloudConnection {
   void handleConnectionEvent(DatabaseEvent event) {
     final connected = event.snapshot.value as bool? ?? false;
     if (connected) {
-      log(LogLevel.hdsCloud, 'Connected to HDS Cloud RTD Fallback');
+      log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
     } else {
-      log(LogLevel.hdsCloud, 'Disconnected from HDS Cloud RTD Fallback');
+      log(LogLevel.hdsCloud, 'Disconnected from HDS Cloud');
     }
   }
 
