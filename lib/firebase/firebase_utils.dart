@@ -1,4 +1,3 @@
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -23,10 +22,6 @@ class FirebaseUtils {
     if (kDebugMode) {
       await _auth.useAuthEmulator('localhost', 9099);
       FirebaseDatabase.instance.useDatabaseEmulator('localhost', 9000);
-    } else {
-      await FirebaseAppCheck.instance.activate(
-        webRecaptchaSiteKey: '6LcdrdQaAAAAAHCZCIBiSKYrx56BpxzTj0MECcXx',
-      );
     }
   }
 

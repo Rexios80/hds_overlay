@@ -53,7 +53,6 @@ dependencies:
   # Audio players
   just_audio: ^0.9.13
   just_audio_web: ^0.4.2
-  firebase_app_check: ^0.0.7+1
 
 dev_dependencies:
   flutter_test:
