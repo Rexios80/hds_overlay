@@ -58,7 +58,4 @@ class Settings extends HiveObject {
 
   @HiveField(10)
   bool? _rtdFallback;
-
-  bool get rtdFallback => _rtdFallback ?? false;
-  set rtdFallback(bool value) => _rtdFallback = value;
 }

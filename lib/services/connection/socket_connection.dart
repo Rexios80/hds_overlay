@@ -1,20 +1,16 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:hds_overlay/model/data_source.dart';
 import 'package:hds_overlay/model/log_message.dart';
-import 'package:hds_overlay/services/connection/cloud_socket_connection.dart';
 import 'package:hds_overlay/services/connection/connection.dart';
-import 'package:hds_overlay/services/connection/local_socket_connection.dart';
 import 'package:logger/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-abstract class SocketConnection extends Connection {
+class SocketConnection extends Connection {
   final _logger = Get.find<Logger>();
 
   WebSocketChannel? _channel;
   String ip = '';
-  String overlayId = '';
   Timer? _reconnectTimer;
 
   bool _stopped = true;
@@ -24,22 +20,14 @@ abstract class SocketConnection extends Connection {
 
     try {
       _channel = WebSocketChannel.connect(await createUri());
-      if (this is LocalSocketConnection) {
-        _channel?.sink.add('clientName:${DataSource.browser}');
-        log(LogLevel.good, 'Connected to server: $ip');
-      } else if (this is CloudSocketConnection) {
-        log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
-      }
+      log(LogLevel.good, 'Connected to server: $ip');
 
       _reconnectOnDisconnect();
       return Future.value(_channel);
     } catch (e) {
       _logger.e(e);
-      if (this is LocalSocketConnection) {
-        log(LogLevel.error, 'Unable to connect to server: $ip');
-      } else if (this is CloudSocketConnection) {
-        log(LogLevel.error, 'Unable to connect to HDS Cloud');
-      }
+      log(LogLevel.error, 'Unable to connect to server: $ip');
+
       Future.delayed(const Duration(seconds: 10), () => _connect());
       return Future.error('Unable to connect to server: $ip');
     }
@@ -49,7 +37,18 @@ abstract class SocketConnection extends Connection {
     _channel?.sink.add(message);
   }
 
-  Future<Uri> createUri();
+  Future<Uri> createUri() {
+    Uri uri;
+    if (ip.startsWith('ws')) {
+      uri = Uri.parse(ip);
+    } else {
+      uri = Uri.parse('ws://$ip');
+    }
+    if (!uri.hasPort) {
+      uri = Uri.parse('${uri.toString()}:3476');
+    }
+    return Future.value(uri);
+  }
 
   void _reconnectOnDisconnect() async {
     // This channel is used for sending data on desktop and receiving data on web
@@ -68,11 +67,7 @@ abstract class SocketConnection extends Connection {
   }
 
   void _reconnect() {
-    if (this is LocalSocketConnection) {
-      log(LogLevel.warn, 'Disconnected from server: $ip');
-    } else if (this is CloudSocketConnection) {
-      log(LogLevel.hdsCloud, 'Disconnected from HDS Cloud');
-    }
+    log(LogLevel.warn, 'Disconnected from server: $ip');
     _channel?.sink.close();
     _reconnectTimer = Timer(const Duration(seconds: 5), () => _connect());
   }
@@ -80,7 +75,6 @@ abstract class SocketConnection extends Connection {
   @override
   Future<void> start(String ip, int port, String overlayId) async {
     this.ip = ip;
-    this.overlayId = overlayId;
     _stopped = false;
     _channel = await _connect();
   }

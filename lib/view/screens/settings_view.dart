@@ -81,17 +81,6 @@ class SettingsView extends StatelessWidget {
                     refreshAndSave();
                   },
                 ),
-                if (settingsController.settings.value.hdsCloud) ...[
-                  const Divider(),
-                  SwitchListTile(
-                    title: const Text('RTD Fallback'),
-                    value: settingsController.settings.value.rtdFallback,
-                    onChanged: (value) {
-                      settingsController.settings.value.rtdFallback = value;
-                      refreshAndSave();
-                    },
-                  ),
-                ],
               ],
             ),
           );
