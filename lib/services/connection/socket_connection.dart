@@ -33,10 +33,6 @@ class SocketConnection extends Connection {
     }
   }
 
-  void sendMessage(String message) {
-    _channel?.sink.add(message);
-  }
-
   Future<Uri> createUri() {
     Uri uri;
     if (ip.startsWith('ws')) {

@@ -26,7 +26,7 @@ abstract class Connection {
   Future<void> stop();
 
   void handleMessage(
-    dynamic message,
+    String message,
     String source, {
     bool localMessage = false,
   }) {
