@@ -1,1 +1,1 @@
-The Health Data Server application reads the health data you provide consent for access. It reads this health data from the built in sensors provided by the devices. This data is never stored locally or externally.
+The Health Data Server application reads the health data the user provides consent for access. It reads this health data from the built in sensors provided by the devices. This data is only stored such that it can be processed by endpoints the user provides.
