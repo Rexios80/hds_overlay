@@ -564,7 +564,7 @@ class WidgetEditor extends StatelessWidget {
   }
 
   void selectImageFile(Rx<DataWidgetProperties> properties) async {
-    final typeGroup =
+    const typeGroup =
         XTypeGroup(label: 'images', extensions: ['jpg', 'png', 'gif']);
     final file = await openFile(acceptedTypeGroups: [typeGroup]);
 
@@ -576,7 +576,7 @@ class WidgetEditor extends StatelessWidget {
   }
 
   void selectAudioFile(Rx<DataWidgetProperties> properties) async {
-    final typeGroup = XTypeGroup(label: 'audio', extensions: ['mp3']);
+    const typeGroup = XTypeGroup(label: 'audio', extensions: ['mp3']);
     final file = await openFile(acceptedTypeGroups: [typeGroup]);
 
     // Don't do anything if they don't pick a file
