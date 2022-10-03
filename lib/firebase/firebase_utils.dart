@@ -20,8 +20,12 @@ class FirebaseUtils {
 
     _auth = FirebaseAuth.instance;
     if (kDebugMode) {
-      await _auth.useAuthEmulator('localhost', 9099);
-      FirebaseDatabase.instance.useDatabaseEmulator('localhost', 9000);
+      try {
+        await _auth.useAuthEmulator('localhost', 9099);
+        FirebaseDatabase.instance.useDatabaseEmulator('localhost', 9000);
+      } catch (e) {
+        _logger.e(e);
+      }
     }
   }
 
