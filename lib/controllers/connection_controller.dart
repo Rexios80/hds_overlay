@@ -19,12 +19,12 @@ class ConnectionController extends GetxController {
   final _logger = Get.find<Logger>();
 
   final _messages = RxMap<Tuple2<DataType, String>, DataMessage>();
-  final _messageHistory = RxMap<Tuple2<DataType, String>, List<DataMessage>>();
+  final _messageHistory = <Tuple2<DataType, String>, List<DataMessage>>{};
   final _logs = <LogMessage>[].obs;
   bool _started = false;
 
   RxMap<Tuple2<DataType, String>, DataMessage> get messages => _messages;
-  RxMap<Tuple2<DataType, String>, List<DataMessage>> get messageHistory =>
+  Map<Tuple2<DataType, String>, List<DataMessage>> get messageHistory =>
       _messageHistory;
 
   List<LogMessage> get logs => _logs;
