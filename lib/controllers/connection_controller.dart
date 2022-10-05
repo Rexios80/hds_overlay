@@ -5,6 +5,7 @@ import 'package:hds_overlay/controllers/firebase_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
+import 'package:hds_overlay/model/hr_average_intermediate.dart';
 import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/services/connection/connection.dart';
@@ -34,7 +35,7 @@ class ConnectionController extends GetxController {
 
   final hrMins = <String, int>{};
   final hrMaxs = <String, int>{};
-  final hrs = <String, List<int>>{};
+  final hrAvgs = <String, HrAverageIntermediate>{};
 
   ConnectionController() {
     // Periodically clear data if it has not been received in a while
@@ -67,7 +68,7 @@ class ConnectionController extends GetxController {
             );
 
             // Reset stats
-            hrs.remove(key.item2);
+            hrAvgs.remove(key.item2);
             hrMins.remove(key.item2);
             hrMaxs.remove(key.item2);
           }
@@ -164,9 +165,11 @@ class ConnectionController extends GetxController {
         localMessage: true,
       );
     }
-    hrs[source] = (hrs[source] ?? []) + [heartRate];
-    final hrAvg =
-        hrs[source]!.reduce((e1, e2) => e1 + e2) / hrs[source]!.length;
+    final hrAvg = hrAvgs.update(
+      source,
+      (value) => value..add(heartRate),
+      ifAbsent: () => HrAverageIntermediate(heartRate),
+    ).average;
     _connection?.handleMessage(
       '${DataType.heartRateAverage.name}:${hrAvg.toStringAsFixed(3)}',
       source,
@@ -179,7 +182,7 @@ class ConnectionController extends GetxController {
     _started = false;
     hrMins.clear();
     hrMaxs.clear();
-    hrs.clear();
+    hrAvgs.clear();
     _connection?.stop();
   }
 }
