@@ -198,7 +198,7 @@ packages:
     source: hosted
     version: "2.2.4"
   equatable:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: equatable
       url: "https://pub.dartlang.org"
@@ -240,14 +240,14 @@ packages:
     source: hosted
     version: "0.5.0+1"
   file_selector_linux:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: file_selector_linux
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0"
   file_selector_macos:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: file_selector_macos
       url: "https://pub.dartlang.org"
@@ -268,7 +268,7 @@ packages:
     source: hosted
     version: "0.9.0+1"
   file_selector_windows:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: file_selector_windows
       url: "https://pub.dartlang.org"
@@ -647,7 +647,7 @@ packages:
     source: hosted
     version: "1.8.2"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
