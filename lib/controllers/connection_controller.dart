@@ -127,19 +127,23 @@ class ConnectionController extends GetxController {
     logs.add(LogMessage(LogLevel.data, log));
 
     if (message.dataType == DataType.heartRate) {
-      _calcMinMaxAvg(int.tryParse(message.value) ?? -1, message.source);
+      _calcMinMaxAvg(int.parse(message.value), message.source);
     }
 
     // Deal with message history for the charts
-    if (_messageHistory[typeSource] == null) {
-      _messageHistory[typeSource] = [];
-    }
-    _messageHistory[typeSource]?.add(message);
+    final history = _messageHistory.update(
+      typeSource,
+      (value) => value..add(message),
+      ifAbsent: () => [message],
+    );
 
-    while ((_messageHistory[typeSource]?.length ?? 0) >
-        ChartWidgetProperties.maxValuesToKeep) {
-      _messageHistory[typeSource]?.removeAt(0);
+    if (history.length > ChartWidgetProperties.maxValuesToKeep) {
+      history.removeRange(
+        history.length - ChartWidgetProperties.maxValuesToKeep,
+        history.length,
+      );
     }
+
     _messageHistory.refresh();
   }
 

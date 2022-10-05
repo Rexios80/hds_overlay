@@ -18,6 +18,7 @@ class ChartController extends GetxController {
   final RxList<FlSpot> data = RxList();
 
   ChartController({required this.typeSource}) {
+    // TODO: This is probably a memory leak
     ever(
       _connectionController.messageHistory,
       (Map<Tuple2<DataType, String>, List<DataMessage>> history) =>
