@@ -165,11 +165,13 @@ class ConnectionController extends GetxController {
         localMessage: true,
       );
     }
-    final hrAvg = hrAvgs.update(
-      source,
-      (value) => value..add(heartRate),
-      ifAbsent: () => HrAverageIntermediate(heartRate),
-    ).average;
+    final hrAvg = hrAvgs
+        .update(
+          source,
+          (value) => value..add(heartRate),
+          ifAbsent: () => HrAverageIntermediate(heartRate),
+        )
+        .average;
     _connection?.handleMessage(
       '${DataType.heartRateAverage.name}:${hrAvg.toStringAsFixed(3)}',
       source,
