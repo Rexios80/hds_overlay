@@ -75,7 +75,7 @@ class ConnectionController extends GetxController {
         }
       });
       for (final e in keysToRemove) {
-        logs.add(
+        _log(
           LogMessage(
             LogLevel.warn,
             '(${e.item2}) ${e.item1.name.titleCase}: '
@@ -99,7 +99,7 @@ class ConnectionController extends GetxController {
 
     _connection?.messageStream.listen(_handleMessage);
 
-    _connection?.logStream.listen(_handleLog);
+    _connection?.logStream.listen(_log);
 
     _connection?.start(
       _settingsController.settings.value.serverIp,
@@ -113,7 +113,7 @@ class ConnectionController extends GetxController {
 
     if (message is UnknownDataMessage) {
       // Don't do anything with these
-      logs.add(LogMessage(LogLevel.warn, log));
+      _log(LogMessage(LogLevel.warn, log));
       return;
     }
 
@@ -124,7 +124,7 @@ class ConnectionController extends GetxController {
       return;
     }
     _messages[typeSource] = message;
-    logs.add(LogMessage(LogLevel.data, log));
+    _log(LogMessage(LogLevel.data, log));
 
     if (message.dataType == DataType.heartRate) {
       _calcMinMaxAvg(int.parse(message.value), message.source);
@@ -143,11 +143,9 @@ class ConnectionController extends GetxController {
         history.length,
       );
     }
-
-    _messageHistory.refresh();
   }
 
-  void _handleLog(LogMessage log) {
+  void _log(LogMessage log) {
     _logger.d(log.message);
     logs.add(log);
   }
