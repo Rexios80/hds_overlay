@@ -16,7 +16,9 @@ extension DataTypeExtension on DataType {
 }
 
 abstract class MessageBase {
-  final timestamp = DateTime.now();
+  final DateTime timestamp;
+
+  MessageBase({DateTime? timestamp}) : timestamp = timestamp ?? DateTime.now();
 }
 
 abstract class DataMessageBase extends MessageBase {
@@ -25,7 +27,7 @@ abstract class DataMessageBase extends MessageBase {
 
   String get name;
 
-  DataMessageBase(this.source, this.value);
+  DataMessageBase(this.source, this.value, {super.timestamp});
 }
 
 class DataMessage extends DataMessageBase {
@@ -36,8 +38,7 @@ class DataMessage extends DataMessageBase {
     return dataType.name.titleCase;
   }
 
-  DataMessage(String source, this.dataType, String value)
-      : super(source, value);
+  DataMessage(super.source, this.dataType, super.value, {super.timestamp});
 }
 
 class UnknownDataMessage extends DataMessageBase {
@@ -48,6 +49,5 @@ class UnknownDataMessage extends DataMessageBase {
     return 'Unknown data type $_name';
   }
 
-  UnknownDataMessage(String source, this._name, dynamic value)
-      : super(source, value);
+  UnknownDataMessage(super.source, this._name, super.value);
 }

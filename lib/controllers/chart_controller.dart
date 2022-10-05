@@ -24,7 +24,6 @@ class ChartController extends GetxController {
     cwc.propertiesMap[typeSource]?.stream
         .listen((_) => _processMessageHistory());
 
-    _processMessageHistory();
 
     // TODO: This is also a memory leak, but not that critical
     // 60 fps
@@ -34,6 +33,7 @@ class ChartController extends GetxController {
     });
 
     _calcTimeRangeStart();
+    _processMessageHistory();
   }
 
   void _calcTimeRangeStart() {
