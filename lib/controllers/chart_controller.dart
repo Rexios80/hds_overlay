@@ -19,25 +19,23 @@ class ChartController extends GetxController {
 
   ChartController({required this.typeSource}) {
     // TODO: This is probably a memory leak
-    ever(
-      _connectionController.messageHistory,
-      (Map<Tuple2<DataType, String>, List<DataMessage>> history) =>
-          processMessageHistory(history),
-    );
+    // It definitely is, but now it's better at least
+    ever(_connectionController.messages, _processMessages);
+    ever(cwc.propertiesMap[typeSource]!, (_) => _processMessageHistory());
 
-    processMessageHistory(_connectionController.messageHistory);
+    _processMessageHistory();
 
+    // TODO: This is also a memory leak, but not that critical
     // 60 fps
     Timer.periodic(const Duration(milliseconds: 16), (timer) {
-      getTimeRangeStart();
-
-      data.removeWhere((e) => e.x < timeRangeStart.value);
+      _calcTimeRangeStart();
+      _removeOldSpots();
     });
 
-    getTimeRangeStart();
+    _calcTimeRangeStart();
   }
 
-  void getTimeRangeStart() {
+  void _calcTimeRangeStart() {
     final properties =
         cwc.propertiesMap[typeSource]?.value ?? ChartWidgetProperties();
 
@@ -46,22 +44,42 @@ class ChartController extends GetxController {
         .millisecondsSinceEpoch;
   }
 
-  void processMessageHistory(
-    Map<Tuple2<DataType, String>, List<DataMessage>> history,
-  ) {
-    final messages = history[typeSource];
-    if (messages != null) {
-      data.value = messages
-          .where(
-            (e) => e.timestamp.millisecondsSinceEpoch >= timeRangeStart.value,
-          )
-          .map(
-            (message) => FlSpot(
-              message.timestamp.millisecondsSinceEpoch.toDouble(),
-              double.tryParse(message.value) ?? 0,
-            ),
-          )
-          .toList();
+  /// Create the initial spots
+  void _processMessageHistory() {
+    final messages = _connectionController.messageHistory[typeSource];
+    if (messages == null) return;
+    data.value = messages
+        .where(
+          (e) => e.timestamp.millisecondsSinceEpoch >= timeRangeStart.value,
+        )
+        .map(
+          (message) => FlSpot(
+            message.timestamp.millisecondsSinceEpoch.toDouble(),
+            double.parse(message.value),
+          ),
+        )
+        .toList();
+  }
+
+  void _processMessages(Map<Tuple2<DataType, String>, DataMessage> messages) {
+    final message = messages[typeSource];
+    if (message == null) return;
+    final spot = FlSpot(
+      message.timestamp.millisecondsSinceEpoch.toDouble(),
+      double.parse(message.value),
+    );
+    data.add(spot);
+  }
+
+  _removeOldSpots() {
+    final spotsToRemove = <FlSpot>[];
+    for (var i = 0; i < data.length; i++) {
+      final datum = data[i];
+      if (datum.x >= timeRangeStart.value) break;
+      spotsToRemove.add(datum);
+    }
+    for (final spot in spotsToRemove) {
+      data.remove(spot);
     }
   }
 }
