@@ -19,7 +19,7 @@ class FirebaseUtils {
     );
 
     _auth = FirebaseAuth.instance;
-    if (kDebugMode) {
+    if (!kReleaseMode) {
       try {
         await _auth.useAuthEmulator('localhost', 9099);
         FirebaseDatabase.instance.useDatabaseEmulator('localhost', 9000);
