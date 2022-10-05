@@ -21,7 +21,8 @@ class ChartController extends GetxController {
     // TODO: This is probably a memory leak
     // It definitely is, but now it's better at least
     ever(_connectionController.messages, _processMessages);
-    ever(cwc.propertiesMap[typeSource]!, (_) => _processMessageHistory());
+    cwc.propertiesMap[typeSource]?.stream
+        .listen((_) => _processMessageHistory());
 
     _processMessageHistory();
 
