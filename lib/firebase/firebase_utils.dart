@@ -10,7 +10,7 @@ import 'package:logger/logger.dart';
 class FirebaseUtils {
   final _logger = Get.find<Logger>();
 
-  final ConnectionController connectionController = Get.find();
+  final connectionController = Get.find<ConnectionController>();
   late final FirebaseAuth _auth;
 
   Future<void> init() async {

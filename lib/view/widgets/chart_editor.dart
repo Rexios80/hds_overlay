@@ -10,9 +10,9 @@ import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
 import 'package:recase/recase.dart';
 
 class ChartEditor extends StatelessWidget {
-  final EndDrawerController endDrawerController = Get.find();
-  final ChartWidgetController cwc = Get.find();
-  final WidgetEditorController wec = Get.put(WidgetEditorController());
+  final endDrawerController = Get.find<EndDrawerController>();
+  final cwc = Get.find<ChartWidgetController>();
+  final wec = Get.put(WidgetEditorController());
 
   ChartEditor({super.key});
 

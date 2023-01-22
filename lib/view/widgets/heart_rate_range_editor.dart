@@ -8,8 +8,8 @@ import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:tuple/tuple.dart';
 
 class HeartRateRangeEditor extends StatelessWidget {
-  final DataWidgetController dataWidgetController = Get.find();
-  final EndDrawerController endDrawerController = Get.find();
+  final dataWidgetController = Get.find<DataWidgetController>();
+  final endDrawerController = Get.find<EndDrawerController>();
 
   HeartRateRangeEditor({super.key});
 

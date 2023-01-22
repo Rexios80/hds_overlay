@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 class DataWidgetBase extends StatelessWidget {
-  final DataWidgetController dwc = Get.find();
+  final dwc = Get.find<DataWidgetController>();
   final Widget image;
   final Widget text;
 
@@ -68,7 +68,7 @@ class DataWidgetImage extends StatelessWidget {
   final bool square;
 
   DataWidgetImage({super.key, this.square = false});
-  final DataWidgetController dwc = Get.find();
+  final dwc = Get.find<DataWidgetController>();
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +110,8 @@ class DataWidgetImage extends StatelessWidget {
 }
 
 class DataWidgetText extends StatelessWidget {
-  final ConnectionController connectionController = Get.find();
-  final DataWidgetController dwc = Get.find();
+  final connectionController = Get.find<ConnectionController>();
+  final dwc = Get.find<DataWidgetController>();
 
   DataWidgetText({super.key});
 

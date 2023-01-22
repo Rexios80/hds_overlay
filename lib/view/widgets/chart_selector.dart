@@ -9,8 +9,8 @@ import 'package:recase/recase.dart';
 import 'package:tuple/tuple.dart';
 
 class ChartSelector extends StatelessWidget {
-  final ChartWidgetController cwc = Get.find();
-  final WidgetSelectorController wsc = WidgetSelectorController();
+  final cwc = Get.find<ChartWidgetController>();
+  final wsc = WidgetSelectorController();
 
   ChartSelector({super.key});
 

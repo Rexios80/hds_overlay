@@ -13,9 +13,9 @@ import 'package:hds_overlay/view/widgets/widget_editor_text_field.dart';
 import 'package:recase/recase.dart';
 
 class WidgetEditor extends StatelessWidget {
-  final EndDrawerController endDrawerController = Get.find();
-  final DataWidgetController dwc = Get.find();
-  final WidgetEditorController wec = Get.put(WidgetEditorController());
+  final endDrawerController = Get.find<EndDrawerController>();
+  final dwc = Get.find<DataWidgetController>();
+  final wec = Get.put(WidgetEditorController());
 
   WidgetEditor({super.key});
 

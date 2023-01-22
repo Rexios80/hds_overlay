@@ -5,7 +5,7 @@ import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/utils/themes.dart';
 
 class LogView extends StatelessWidget {
-  final ConnectionController connectionController = Get.find();
+  final connectionController = Get.find<ConnectionController>();
 
   LogView({super.key});
 

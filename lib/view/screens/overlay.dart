@@ -25,13 +25,13 @@ import 'package:hds_overlay/view/widgets/log_view.dart';
 class HDSOverlay extends HookWidget {
   final _logger = Get.find<Logger>();
   final endDrawerController = Get.put(EndDrawerController());
-  final DataWidgetController dwc = Get.find();
-  final ChartWidgetController cwc = Get.find();
-  final OverlayProfilesController overlayProfilesController = Get.find();
+  final dwc = Get.find<DataWidgetController>();
+  final cwc = Get.find<ChartWidgetController>();
+  final overlayProfilesController = Get.find<OverlayProfilesController>();
   final overlayController = Get.put(OverlayController());
-  final ConnectionController connectionController = Get.find();
-  final FirebaseController firebaseController = Get.find();
-  final SettingsController settingsController = Get.find();
+  final connectionController = Get.find<ConnectionController>();
+  final firebaseController = Get.find<FirebaseController>();
+  final settingsController = Get.find<SettingsController>();
 
   HDSOverlay({super.key});
 

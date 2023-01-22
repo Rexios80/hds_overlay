@@ -29,8 +29,8 @@ class ConnectionController extends GetxController {
 
   List<LogMessage> get logs => _logs;
 
-  final SettingsController _settingsController = Get.find();
-  final FirebaseController _firebaseController = Get.find();
+  final _settingsController = Get.find<SettingsController>();
+  final _firebaseController = Get.find<FirebaseController>();
   Connection? _connection;
 
   final hrMins = <String, int>{};

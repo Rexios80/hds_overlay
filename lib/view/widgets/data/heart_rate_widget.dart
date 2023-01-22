@@ -31,8 +31,8 @@ class HeartRateWidget extends DataWidgetBase {
 }
 
 class HeartRateImageAnimated extends HookWidget {
-  final DataWidgetController dwc = Get.find();
-  final ConnectionController connectionController = Get.find();
+  final dwc = Get.find<DataWidgetController>();
+  final connectionController = Get.find<ConnectionController>();
 
   HeartRateImageAnimated({super.key});
 

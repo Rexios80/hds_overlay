@@ -8,8 +8,8 @@ import 'package:hds_overlay/view/widgets/drawers/navigation_drawer.dart';
 import 'package:hds_overlay/view/widgets/settings_text_field.dart';
 
 class SettingsView extends StatelessWidget {
-  final SettingsController settingsController = Get.find();
-  final FirebaseUtils firebase = Get.find();
+  final settingsController = Get.find<SettingsController>();
+  final firebase = Get.find<FirebaseUtils>();
 
   SettingsView({super.key});
 

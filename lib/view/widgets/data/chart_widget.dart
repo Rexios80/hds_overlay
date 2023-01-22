@@ -9,7 +9,7 @@ import 'package:tuple/tuple.dart';
 import 'package:collection/collection.dart';
 
 class ChartWidget extends StatelessWidget {
-  final ChartWidgetController cwc = Get.find();
+  final cwc = Get.find<ChartWidgetController>();
   final ChartController chartController;
   final Tuple2<DataType, String> typeSource;
 

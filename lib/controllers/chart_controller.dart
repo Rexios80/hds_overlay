@@ -10,8 +10,8 @@ import 'package:hds_overlay/model/message.dart';
 import 'package:tuple/tuple.dart';
 
 class ChartController extends GetxController {
-  final ChartWidgetController cwc = Get.find();
-  final ConnectionController _connectionController = Get.find();
+  final cwc = Get.find<ChartWidgetController>();
+  final _connectionController = Get.find<ConnectionController>();
   final Tuple2<DataType, String> typeSource;
   final RxInt timeRangeStart = RxInt(0);
 

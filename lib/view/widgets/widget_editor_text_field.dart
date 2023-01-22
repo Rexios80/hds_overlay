@@ -5,7 +5,7 @@ import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hds_overlay/view/widgets/data_view.dart';
 
 class WidgetEditorTextField extends StatelessWidget {
-  final DataWidgetController dwc = Get.find();
+  final dwc = Get.find<DataWidgetController>();
 
   final EditorType editorType;
   final DataWidgetType widgetType;

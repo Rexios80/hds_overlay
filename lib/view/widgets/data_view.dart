@@ -15,10 +15,10 @@ import 'package:tuple/tuple.dart';
 
 class DataView extends StatelessWidget {
   final endDrawerController = Get.put(EndDrawerController());
-  final DataWidgetController dwc = Get.find();
-  final ChartWidgetController cwc = Get.find();
-  final SettingsController settingsController = Get.find();
-  final ConnectionController connectionController = Get.find();
+  final dwc = Get.find<DataWidgetController>();
+  final cwc = Get.find<ChartWidgetController>();
+  final settingsController = Get.find<SettingsController>();
+  final connectionController = Get.find<ConnectionController>();
   final _dataViewKey = GlobalKey();
 
   DataView({super.key});

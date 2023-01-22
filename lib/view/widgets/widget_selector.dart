@@ -9,8 +9,8 @@ import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
 class WidgetSelector extends StatelessWidget {
-  final DataWidgetController dwc = Get.find();
-  final WidgetSelectorController wsc = WidgetSelectorController();
+  final dwc = Get.find<DataWidgetController>();
+  final wsc = WidgetSelectorController();
 
   WidgetSelector({super.key});
 

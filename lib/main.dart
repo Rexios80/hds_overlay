@@ -24,7 +24,7 @@ void main() async {
   final hive = Get.put(HiveUtils());
   await hive.init();
 
-  final settingsController = Get.find();
+  final settingsController = Get.find<SettingsController>();
   final firebase = Get.put(FirebaseUtils());
 
   await firebase.init();
@@ -39,7 +39,7 @@ void main() async {
 }
 
 class HDS extends StatelessWidget {
-  final SettingsController settingsController = Get.find();
+  final settingsController = Get.find<SettingsController>();
 
   HDS({super.key});
 

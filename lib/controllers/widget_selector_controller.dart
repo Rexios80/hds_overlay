@@ -4,7 +4,7 @@ import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/model/data_source.dart';
 
 class WidgetSelectorController extends GetxController {
-  final HiveUtils hive = Get.find();
+  final hive = Get.find<HiveUtils>();
 
   RxString dataSource = DataSource.watch.obs;
 
