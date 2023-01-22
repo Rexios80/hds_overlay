@@ -28,7 +28,7 @@ class SocketConnection extends Connection {
       _logger.e(e);
       log(LogLevel.error, 'Unable to connect to server: $ip');
 
-      Future.delayed(const Duration(seconds: 10), () => _connect());
+      Future.delayed(const Duration(seconds: 10), _connect);
       return Future.error('Unable to connect to server: $ip');
     }
   }
@@ -65,7 +65,7 @@ class SocketConnection extends Connection {
   void _reconnect() {
     log(LogLevel.warn, 'Disconnected from server: $ip');
     _channel?.sink.close();
-    _reconnectTimer = Timer(const Duration(seconds: 5), () => _connect());
+    _reconnectTimer = Timer(const Duration(seconds: 5), _connect);
   }
 
   @override

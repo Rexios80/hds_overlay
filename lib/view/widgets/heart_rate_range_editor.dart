@@ -15,12 +15,10 @@ class HeartRateRangeEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HeartRateRangeEditorController hrrec =
-        HeartRateRangeEditorController();
-    final Rx<DataWidgetProperties> properties =
-        dataWidgetController.propertiesMap[
-                endDrawerController.selectedDataWidgetDataTypeSource.value] ??
-            DataWidgetProperties().obs;
+    final hrrec = HeartRateRangeEditorController();
+    final properties = dataWidgetController.propertiesMap[
+            endDrawerController.selectedDataWidgetDataTypeSource.value] ??
+        DataWidgetProperties().obs;
     return Column(
       children: [
         Row(
@@ -124,7 +122,7 @@ class HeartRateRangeEditor extends StatelessWidget {
                   ColorPicker(
                     color: Color(range.value),
                     // Update the screenPickerColor using the callback.
-                    onColorChanged: (Color color) {
+                    onColorChanged: (color) {
                       properties.value.heartRateRanges[range.key] = color.value;
                       saveAndRefresh(properties);
                     },

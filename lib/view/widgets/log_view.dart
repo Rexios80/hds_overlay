@@ -12,7 +12,7 @@ class LogView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) => Container(
+      builder: (context, constraints) => Container(
         width: constraints.maxWidth < 750 ? null : Themes.sideBarWidth,
         decoration: const BoxDecoration(color: Colors.black),
         child: Obx(

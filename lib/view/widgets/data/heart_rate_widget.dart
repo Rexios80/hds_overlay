@@ -52,8 +52,8 @@ class HeartRateImageAnimated extends HookWidget {
     final properties =
         dwc.propertiesMap[typeSource] ?? DataWidgetProperties().obs;
 
-    ever(connectionController.messages,
-        (Map<Tuple2<DataType, String>, DataMessage> messages) {
+    ever<Map<Tuple2<DataType, String>, DataMessage>>(
+        connectionController.messages, (messages) {
       hrwc.currentHeartRate =
           int.tryParse(messages[typeSource]?.value ?? '') ?? 0;
     });
@@ -79,7 +79,7 @@ class HeartRateImageAnimated extends HookWidget {
     }
 
     return LifecycleWrapper(
-      onLifecycleEvent: (LifecycleEvent event) {
+      onLifecycleEvent: (event) {
         if (event == LifecycleEvent.invisible) {
           hrwc.visible = false;
         }
@@ -116,8 +116,7 @@ class HeartRateImageAnimated extends HookWidget {
         await Future.delayed(const Duration(milliseconds: 100));
         continue;
       }
-      final int millisecondsPerBeat =
-          (60 / hrwc.currentHeartRate * 1000).toInt();
+      final millisecondsPerBeat = (60 / hrwc.currentHeartRate * 1000).toInt();
 
       try {
         await controller.animateTo(
@@ -160,8 +159,7 @@ class HeartRateImageAnimated extends HookWidget {
         unawaited(player.play());
       }
 
-      final int millisecondsPerBeat =
-          (60 / hrwc.currentHeartRate * 1000).toInt();
+      final millisecondsPerBeat = (60 / hrwc.currentHeartRate * 1000).toInt();
 
       unawaited(player.seek(const Duration(seconds: 0)));
 

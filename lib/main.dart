@@ -24,8 +24,8 @@ void main() async {
   final hive = Get.put(HiveUtils());
   await hive.init();
 
-  final SettingsController settingsController = Get.find();
-  final FirebaseUtils firebase = Get.put(FirebaseUtils());
+  final settingsController = Get.find();
+  final firebase = Get.put(FirebaseUtils());
 
   await firebase.init();
 
@@ -62,8 +62,8 @@ class HDS extends StatelessWidget {
           : ThemeMode.light,
       initialRoute: Routes.overlay,
       getPages: [
-        GetPage(name: Routes.overlay, page: () => HDSOverlay()),
-        GetPage(name: Routes.settings, page: () => SettingsView()),
+        GetPage(name: Routes.overlay, page: HDSOverlay.new),
+        GetPage(name: Routes.settings, page: SettingsView.new),
         GetPage(name: Routes.privacyPolicy, page: () => const PrivacyPolicy()),
         GetPage(name: Routes.terms, page: () => const Terms()),
         GetPage(name: Routes.credits, page: () => const Credits()),

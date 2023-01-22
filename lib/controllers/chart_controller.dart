@@ -24,7 +24,6 @@ class ChartController extends GetxController {
     cwc.propertiesMap[typeSource]?.stream
         .listen((_) => _processMessageHistory());
 
-
     // TODO: This is also a memory leak, but not that critical
     // 60 fps
     Timer.periodic(const Duration(milliseconds: 16), (timer) {
@@ -72,7 +71,7 @@ class ChartController extends GetxController {
     data.add(spot);
   }
 
-  _removeOldSpots() {
+  void _removeOldSpots() {
     final spotsToRemove = <FlSpot>[];
     for (var i = 0; i < data.length; i++) {
       final datum = data[i];

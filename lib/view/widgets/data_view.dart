@@ -28,7 +28,7 @@ class DataView extends StatelessWidget {
     // This needs to be in here or the Scaffold can't be found
     ever(
       endDrawerController.selectedDataWidgetDataTypeSource,
-      (Tuple2<DataType, String>? dataType) {
+      (dataType) {
         if (dataType != null) {
           Scaffold.of(context).openEndDrawer();
         }
@@ -37,7 +37,7 @@ class DataView extends StatelessWidget {
 
     ever(
       endDrawerController.selectedChartDataTypeSource,
-      (Tuple2<DataType, String>? dataType) {
+      (dataType) {
         if (dataType != null) {
           Scaffold.of(context).openEndDrawer();
         }
@@ -46,7 +46,7 @@ class DataView extends StatelessWidget {
 
     ever(
       endDrawerController.widgetSelectionType,
-      (DataWidgetType? selectionType) {
+      (selectionType) {
         if (selectionType != null) {
           Scaffold.of(context).openEndDrawer();
         }

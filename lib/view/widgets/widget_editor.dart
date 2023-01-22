@@ -199,7 +199,7 @@ class WidgetEditor extends StatelessWidget {
                         ColorPickerTile(
                           label: 'Image color',
                           initialColor: properties.value.imageColor,
-                          onColorChanged: (Color color) {
+                          onColorChanged: (color) {
                             properties.value.imageColor = color;
                             saveAndRefresh(properties);
                           },
@@ -218,7 +218,7 @@ class WidgetEditor extends StatelessWidget {
     final textColorSelector = ColorPickerTile(
       label: 'Text color',
       initialColor: Color(properties.value.textColor),
-      onColorChanged: (Color color) {
+      onColorChanged: (color) {
         properties.value.textColor = color.value;
         saveAndRefresh(properties);
       },
@@ -231,7 +231,7 @@ class WidgetEditor extends StatelessWidget {
         Obx(
           () => DropdownButton<FontWeight>(
             value: properties.value.fontWeight,
-            onChanged: (FontWeight? newValue) {
+            onChanged: (newValue) {
               properties.value.fontWeight = newValue ?? FontWeight.normal;
               saveAndRefresh(properties);
             },

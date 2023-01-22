@@ -60,13 +60,13 @@ class HDSOverlay extends HookWidget {
       initialValue: 1.0,
     );
 
-    final Animation<Offset> appBarOffsetAnimation = Tween<Offset>(
+    final appBarOffsetAnimation = Tween<Offset>(
       begin: const Offset(0.0, -70),
       end: const Offset(0.0, 0.0),
     ).animate(peripherySlideAnimationController);
 
     final mounted = useIsMounted();
-    ever(overlayController.mouseHovering, (bool mouseHovering) {
+    ever<bool>(overlayController.mouseHovering, (mouseHovering) {
       // Only do this if the widget is mounted
       if (!mounted()) return;
 
@@ -112,8 +112,7 @@ class HDSOverlay extends HookWidget {
           onSelected: overlayController.loadProfile,
           icon: const Icon(Icons.upload_file),
           tooltip: 'Load profile',
-          itemBuilder: (BuildContext context) => overlayProfilesController
-              .profiles
+          itemBuilder: (context) => overlayProfilesController.profiles
               .map(
                 (profile) => PopupMenuItem<OverlayProfile>(
                   value: profile,
@@ -164,18 +163,18 @@ class HDSOverlay extends HookWidget {
       IconButton(
         icon: const Icon(Icons.upload),
         tooltip: 'Export configuration',
-        onPressed: () => showExportDialog(),
+        onPressed: showExportDialog,
       ),
       IconButton(
         icon: const Icon(Icons.download),
         tooltip: 'Import configuration',
-        onPressed: () => showImportDialog(),
+        onPressed: showImportDialog,
       ),
       Builder(
         builder: (context) => PopupMenuButton(
           icon: const Icon(Icons.save),
           tooltip: 'Create profile',
-          itemBuilder: (BuildContext context) => profileAdd,
+          itemBuilder: (context) => profileAdd,
         ),
       ),
       profileLoad,
@@ -197,7 +196,7 @@ class HDSOverlay extends HookWidget {
     ];
 
     final appBarTitle = LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
+      builder: (context, constraints) {
         if (constraints.maxWidth < 600) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,7 +236,7 @@ class HDSOverlay extends HookWidget {
     );
 
     return LifecycleWrapper(
-      onLifecycleEvent: (LifecycleEvent event) {
+      onLifecycleEvent: (event) {
         if (event == LifecycleEvent.push) {
           connectionController.start();
         } else if (event == LifecycleEvent.invisible) {
@@ -276,8 +275,7 @@ class HDSOverlay extends HookWidget {
                 child: Container(
                   color: Colors.transparent,
                   child: LayoutBuilder(
-                    builder:
-                        (BuildContext context, BoxConstraints constraints) {
+                    builder: (context, constraints) {
                       // This is kind of a weird place for this stuff to go but where else should it go
                       final Animation<Offset> logOffsetAnimation;
                       if (constraints.maxWidth < 750) {
@@ -386,7 +384,7 @@ class HDSOverlay extends HookWidget {
                 ),
                 const SizedBox(height: 20),
                 TextButton(
-                  onPressed: () => Get.back(),
+                  onPressed: Get.back,
                   child: const Text('Close'),
                 ),
               ],
@@ -398,7 +396,7 @@ class HDSOverlay extends HookWidget {
   }
 
   void showImportDialog() {
-    String import = '';
+    var import = '';
 
     Get.dialog(
       Dialog(

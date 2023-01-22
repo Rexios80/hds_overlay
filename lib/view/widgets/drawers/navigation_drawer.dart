@@ -28,7 +28,7 @@ class NavigationDrawer extends StatelessWidget {
           FutureBuilder(
             future: rootBundle.loadString('pubspec.yaml'),
             builder: (context, snapshot) {
-              String version = 'Unknown';
+              var version = 'Unknown';
               if (snapshot.hasData) {
                 final yaml = loadYaml(snapshot.data as String);
                 version = yaml['version'];

@@ -70,7 +70,7 @@ class ChartSelector extends StatelessWidget {
                     e != DataType.bodyMass &&
                     e != DataType.bmi,
               )
-                  .map((DataType dataType) {
+                  .map((dataType) {
                 final typeSource = Tuple2(dataType, wsc.dataSource.value);
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

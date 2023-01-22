@@ -27,7 +27,7 @@ class ChartWidget extends StatelessWidget {
           ? 0
           : spots.sorted((a, b) => (b.y - a.y).toInt()).first.y;
 
-      final List<Color> gradientColors = [
+      final gradientColors = <Color>[
         properties.lowColor,
         properties.highColor,
       ];

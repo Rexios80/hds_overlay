@@ -63,7 +63,7 @@ class WidgetSelector extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
               ] +
-              dataTypes.map((DataType dataType) {
+              dataTypes.map((dataType) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

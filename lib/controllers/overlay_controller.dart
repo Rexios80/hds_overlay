@@ -24,9 +24,9 @@ class OverlayController extends GetxController {
   Timer? _hoverTimer;
 
   OverlayController() {
-    ever(
+    ever<bool>(
       mouseHovering,
-      (bool hovering) {
+      (hovering) {
         if (hovering) {
           _hoverTimer?.cancel();
           _hoverTimer = Timer(

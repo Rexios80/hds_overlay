@@ -116,7 +116,7 @@ class SettingsView extends StatelessWidget {
           );
 
           return LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
+            builder: (context, constraints) {
               if (constraints.maxWidth < 600) {
                 return settingsView;
               } else {
