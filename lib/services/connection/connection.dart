@@ -11,7 +11,7 @@ import 'package:logger/logger.dart';
 abstract class Connection {
   final _logger = Get.find<Logger>();
   final _analytics = FirebaseAnalytics.instance;
-  final  _settings = Get.find<SettingsController>();
+  final _settings = Get.find<SettingsController>();
   // ignore: close_sinks
   final StreamController<LogMessage> _logStreamController = StreamController();
   final StreamController<DataMessageBase> _messageStreamController =

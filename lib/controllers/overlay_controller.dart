@@ -5,7 +5,7 @@ import 'package:hds_overlay/hive/hive_utils.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 
 class OverlayController extends GetxController {
-  final  hive = Get.find<HiveUtils>();
+  final hive = Get.find<HiveUtils>();
 
   // What a variable name
   RxMap<OverlayProfile, bool> profileDeleteButtonPressedMap =
