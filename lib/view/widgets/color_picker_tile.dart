@@ -41,7 +41,7 @@ class ColorPickerTile extends StatelessWidget {
             },
             subheading: Text(
               'Color shade',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
         ],

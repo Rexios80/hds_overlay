@@ -79,7 +79,7 @@ class ChartSelector extends StatelessWidget {
                       dataType.name.titleCase,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1
+                          .titleMedium
                           ?.copyWith(color: Colors.white),
                     ),
                     const SizedBox(height: 5),

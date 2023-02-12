@@ -4,7 +4,7 @@ import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/utils/themes.dart';
-import 'package:hds_overlay/view/widgets/drawers/navigation_drawer.dart';
+import 'package:hds_overlay/view/widgets/drawers/hds_navigation_drawer.dart';
 import 'package:hds_overlay/view/widgets/settings_text_field.dart';
 
 class SettingsView extends StatelessWidget {
@@ -22,7 +22,7 @@ class SettingsView extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      drawer: const NavigationDrawer(),
+      drawer: const HdsNavigationDrawer(),
       body: Builder(
         builder: (context) {
           final darkModeToggle = Obx(
@@ -179,7 +179,7 @@ class SettingsView extends StatelessWidget {
               colorCircleWithSave(
                 context,
                 settings,
-                Themes.dark.backgroundColor,
+                Themes.dark.colorScheme.background,
               ),
               const Spacer(),
               Container(

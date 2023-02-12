@@ -29,14 +29,14 @@ class ChartEditor extends StatelessWidget {
             endDrawerController
                     .selectedChartDataTypeSource.value?.item1.name.titleCase ??
                 '-',
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 5),
           Visibility(
             visible: properties.value.dataType != DataType.text,
             child: Text(
               'Data source: ${properties.value.dataSource}',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
         ],
@@ -75,7 +75,7 @@ class ChartEditor extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           'Position',
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 10),
         positionEditor,
@@ -83,14 +83,14 @@ class ChartEditor extends StatelessWidget {
         Text(
           'Drag and drop also works',
           textAlign: TextAlign.center,
-          style: Get.textTheme.caption,
+          style: Get.textTheme.bodySmall,
         ),
         const SizedBox(height: 10),
         const Divider(),
         const SizedBox(height: 10),
         Text(
           'Size',
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 10),
         WidgetEditorTextField(EditorType.chartWidth, properties),

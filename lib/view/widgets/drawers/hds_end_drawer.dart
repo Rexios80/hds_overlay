@@ -7,10 +7,10 @@ import 'package:hds_overlay/view/widgets/data_view.dart';
 import 'package:hds_overlay/view/widgets/widget_editor.dart';
 import 'package:hds_overlay/view/widgets/widget_selector.dart';
 
-class EndDrawer extends StatelessWidget {
+class HdsEndDrawer extends StatelessWidget {
   final controller = Get.find<EndDrawerController>();
 
-  EndDrawer({super.key});
+  HdsEndDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {

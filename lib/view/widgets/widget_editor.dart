@@ -32,14 +32,14 @@ class WidgetEditor extends StatelessWidget {
             endDrawerController.selectedDataWidgetDataTypeSource.value?.item1
                     .name.titleCase ??
                 '-',
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 5),
           Visibility(
             visible: properties.value.dataType != DataType.text,
             child: Text(
               'Data source: ${properties.value.dataSource}',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
         ],
@@ -274,7 +274,7 @@ class WidgetEditor extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           'Paste a font name from fonts.google.com',
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         const SizedBox(height: 15),
         fontWeightSelector,
@@ -402,7 +402,10 @@ class WidgetEditor extends StatelessWidget {
     final heartBeatSoundEditor = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Heart beat sound', style: Theme.of(context).textTheme.subtitle1),
+        Text(
+          'Heart beat sound',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
         const SizedBox(height: 10),
         TextButton(
           onPressed: () {
@@ -490,7 +493,7 @@ class WidgetEditor extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             'These options override text and image colors',
-            style: Get.textTheme.caption,
+            style: Get.textTheme.bodySmall,
           ),
           const SizedBox(height: 10),
           const Divider(),
@@ -509,7 +512,7 @@ class WidgetEditor extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           'Position',
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 10),
         positionEditor,
@@ -517,7 +520,7 @@ class WidgetEditor extends StatelessWidget {
         Text(
           'Drag and drop also works',
           textAlign: TextAlign.center,
-          style: Get.textTheme.caption,
+          style: Get.textTheme.bodySmall,
         ),
         const SizedBox(height: 10),
         const Divider(),
@@ -528,7 +531,7 @@ class WidgetEditor extends StatelessWidget {
             children: [
               Text(
                 'Image',
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
               imageEditor,
@@ -540,7 +543,7 @@ class WidgetEditor extends StatelessWidget {
         ),
         Text(
           'Text',
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 10),
         textEditor,

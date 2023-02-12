@@ -6,7 +6,7 @@ import 'package:yaml/yaml.dart';
 
 import 'package:hds_overlay/view/routes.dart';
 
-class NavigationDrawer extends StatelessWidget {
+class HdsNavigationDrawer extends StatelessWidget {
   static const _githubUrl = 'https://git.io/J3NOR';
   static const _discordUrl = 'https://discord.gg/FayYYcm';
   static const _iosUrl =
@@ -14,7 +14,7 @@ class NavigationDrawer extends StatelessWidget {
   static const _androidUrl =
       'https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter';
 
-  const NavigationDrawer({super.key});
+  const HdsNavigationDrawer({super.key});
 
   // final _samsungUrl ='https://git.io/J3NOR';
 

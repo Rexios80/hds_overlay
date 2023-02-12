@@ -18,8 +18,8 @@ import 'package:lifecycle/lifecycle.dart';
 import 'package:logger/logger.dart';
 
 import 'package:hds_overlay/view/widgets/data_view.dart';
-import 'package:hds_overlay/view/widgets/drawers/end_drawer.dart';
-import 'package:hds_overlay/view/widgets/drawers/navigation_drawer.dart';
+import 'package:hds_overlay/view/widgets/drawers/hds_end_drawer.dart';
+import 'package:hds_overlay/view/widgets/drawers/hds_navigation_drawer.dart';
 import 'package:hds_overlay/view/widgets/log_view.dart';
 
 class HDSOverlay extends HookWidget {
@@ -209,7 +209,7 @@ class HDSOverlay extends HookWidget {
                     'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
                     style: Theme.of(context)
                         .textTheme
-                        .caption
+                        .bodySmall
                         ?.copyWith(color: Colors.white),
                   ),
                 ),
@@ -249,8 +249,8 @@ class HDSOverlay extends HookWidget {
           backgroundColor:
               Color(settingsController.settings.value.overlayBackgroundColor),
           drawerScrimColor: Colors.transparent,
-          drawer: const NavigationDrawer(),
-          endDrawer: EndDrawer(),
+          drawer: const HdsNavigationDrawer(),
+          endDrawer: HdsEndDrawer(),
           onEndDrawerChanged: (open) {
             if (!open) {
               // Reset the drawer when it is closed
@@ -369,7 +369,7 @@ class HDSOverlay extends HookWidget {
               children: [
                 Text(
                   'Copy the below config and put it somewhere safe',
-                  style: Get.textTheme.headline6,
+                  style: Get.textTheme.titleLarge,
                 ),
                 const SizedBox(height: 20),
                 TextField(
@@ -409,7 +409,7 @@ class HDSOverlay extends HookWidget {
               children: [
                 Text(
                   'Paste an overlay configuration below',
-                  style: Get.textTheme.headline6,
+                  style: Get.textTheme.titleLarge,
                 ),
                 const SizedBox(height: 20),
                 TextField(
@@ -429,7 +429,7 @@ class HDSOverlay extends HookWidget {
                 const SizedBox(height: 20),
                 Text(
                   'This will overwrite the current overlay configuration',
-                  style: Get.textTheme.caption,
+                  style: Get.textTheme.bodySmall,
                 ),
               ],
             ),

@@ -25,7 +25,7 @@ class HeartRateRangeEditor extends StatelessWidget {
           children: [
             Text(
               'Heart rate ranges',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             const Spacer(),
             IconButton(
@@ -128,7 +128,7 @@ class HeartRateRangeEditor extends StatelessWidget {
                     },
                     subheading: Text(
                       'Color shade',
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                 ],
