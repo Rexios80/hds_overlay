@@ -71,13 +71,3 @@ flutter_native_splash:
   image: "assets/images/icon.png"
   ios: false
   android: false
-
-msix_config:
-  display_name: Health Data Server
-  publisher_display_name: Rexios
-  identity_name: 63554Rexios.HealthDataServer
-  msix_version: 11.0.0.0
-  vs_generated_images_folder_path: windows\Assets
-  icons_background_color: transparent
-  architecture: x64
-  capabilities: 'privateNetworkClientServer,internetClient'
