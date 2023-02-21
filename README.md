@@ -1,28 +1,44 @@
 # Health Data Server Overlay
 This is a stream overlay that shows heart rate, calorie burn, and more information sent from an Apple Watch or Android watch running the Health Data Server app
 
-## [Setup Tutorial Video](https://youtu.be/EyYIhK3kxUA)
+# Setup Tutorial Video
+## Please watch [this video](https://youtu.be/EyYIhK3kxUA) before asking for help
 
-## Links
+# App Links
 
-- [Web app](https://hds.dev/)
-  - For use as a browser source
-  - If you use HDS Cloud, all you will need is this and the watch app
-  - Heart rate is free forever with HDS Cloud (assuming you bought the watch app)
-- [Apple Watch app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
-  - THE APP STORE VERSION OF THE WATCHOS APP REQUIRES WATCHOS 8+. The App Store will let you purchase it even if your watch can't run watchOS 8+, so make sure before buying.
-  - If your watch cannot run watchOS 8+, join this [TestFlight group](https://testflight.apple.com/join/M0tjtpcS) to get HDS Legacy
-- [Android watch app](https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter)
-  - The Wear OS app currently works on Wear OS 2, but can only send heart rate. If Wear OS 3 ever starts behaving, I will work on an update to send calories, step count, speed, and distance. Please note that this update will ONLY support Wear OS 3.
-- [Windows/macOS/linux executables](https://github.com/Rexios80/hds_desktop/releases/latest)
-  - For local data routing (no cloud)
+## [Web app](https://hds.dev/)
+- For use as a browser source
+- If you use HDS Cloud, all you will need is this and the watch app
+- Heart rate is free forever with HDS Cloud (assuming you bought the watch app)
 
-## HDS in action
+## [Apple Watch app](https://apps.apple.com/app/apple-store/id1496042074?pt=118722341&ct=GitHub&mt=8)
+- THE APP STORE VERSION OF THE WATCHOS APP REQUIRES WATCHOS 8+. The App Store will let you purchase it even if your watch can't run watchOS 8+, so make sure before buying.
+- If your watch cannot run watchOS 8+, join [this TestFlight group](https://testflight.apple.com/join/M0tjtpcS) to get HDS Legacy
+
+## [Android watch app](https://play.google.com/store/apps/details?id=dev.rexios.hds_flutter)
+- The Wear OS app currently works on Wear OS 2, but can only send heart rate. If Wear OS 3 ever starts behaving, I will work on an update to send calories, step count, speed, and distance. Please note that this update will ONLY support Wear OS 3.
+
+## [Windows/macOS/linux executables](https://github.com/Rexios80/hds_desktop/releases/latest)
+- For local data routing (no cloud)
+
+# HDS in action
 
 ![Preview Image](https://github.com/Rexios80/Health-Data-Server-Overlay/raw/master/readme_assets/preview_image.gif)
 
 You can track development progress [here](https://trello.com/healthdataserver)
 
+# Required Reading
+## HDS Cloud IDs
+An HDS Cloud ID is the identifier used by the watch app to send data to a specific instance of the HDS web app
+
+Notes:
+- The first time you open the HDS web app in a new browser, it will generate a new HDS Cloud ID that is unique to that browser
+- HDS Cloud IDs will not change within a browser unless you clear the web page data. This includes applications with embedded web browsers such as OBS, Streamlabs, etc.
+- _Every instance of the HDS web app has its own HDS Cloud ID_
+- HDS Cloud IDs cannot be shared between instances
+- You must input the HDS Cloud IDs of all the instances you wish to send data to into the watch app
+
+# Setup
 ## Set up with HDS Cloud
 1. Download the watch app for your device
 2. Add hds.dev as a browser source in OBS
