@@ -6,7 +6,7 @@ class FontWeightConverter implements JsonConverter<FontWeight, String> {
 
   @override
   FontWeight fromJson(String json) =>
-      {for (var e in FontWeight.values) e.toString(): e}[json]!;
+      {for (final e in FontWeight.values) e.toString(): e}[json]!;
 
   @override
   String toJson(FontWeight object) => object.toString();

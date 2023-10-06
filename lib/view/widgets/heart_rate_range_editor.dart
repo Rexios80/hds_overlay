@@ -34,7 +34,7 @@ class HeartRateRangeEditor extends StatelessWidget {
                 properties.value.heartRateRanges[0] = Colors.red.value;
                 saveAndRefresh(properties);
               },
-            )
+            ),
           ],
         ),
         Obx(() {

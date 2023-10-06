@@ -38,10 +38,10 @@ class ChartWidget extends StatelessWidget {
         child: AbsorbPointer(
           child: LineChart(
             LineChartData(
-              gridData: FlGridData(
+              gridData: const FlGridData(
                 show: false,
               ),
-              titlesData: FlTitlesData(
+              titlesData: const FlTitlesData(
                 show: false,
               ),
               borderData: FlBorderData(

@@ -41,7 +41,7 @@ class DataWidgetBase extends StatelessWidget {
               visible: properties.value.showImage,
               child: image,
             ),
-            text
+            text,
           ],
         );
       } else {
@@ -51,7 +51,7 @@ class DataWidgetBase extends StatelessWidget {
               visible: properties.value.showImage,
               child: image,
             ),
-            text
+            text,
           ],
         );
       }
@@ -164,7 +164,7 @@ class DataWidgetText extends StatelessWidget {
                 Shadow(
                   blurRadius: properties.value.textShadowRadius,
                   color: const Color.fromARGB(255, 0, 0, 0),
-                )
+                ),
               ];
             }
           }(),

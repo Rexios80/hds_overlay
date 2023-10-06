@@ -44,7 +44,8 @@ class HDSOverlay extends HookWidget {
       if (split.length > 1) {
         // Why isn't null safe list access working?
         final parameters = {
-          for (var e in split.last.split('&')) e.split('=')[0]: e.split('=')[1]
+          for (final e in split.last.split('&'))
+            e.split('=')[0]: e.split('=')[1],
         };
         _logger.d('url parameters: $parameters');
         final urlConfig = parameters['config'];
@@ -98,7 +99,7 @@ class HDSOverlay extends HookWidget {
                 color: Get.isDarkMode ? Colors.white : Colors.black,
               ),
               onPressed: () => overlayController.saveProfile(profileName),
-            )
+            ),
           ],
         ),
       ),
