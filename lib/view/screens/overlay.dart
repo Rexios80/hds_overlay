@@ -14,6 +14,7 @@ import 'package:hds_overlay/controllers/overlay_profiles_controller.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/utils/themes.dart';
+import 'package:hds_overlay/view/widgets/hds_cloud_id_text.dart';
 import 'package:lifecycle/lifecycle.dart';
 import 'package:logger/logger.dart';
 
@@ -203,18 +204,7 @@ class HDSOverlay extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Health Data Server'),
-              Obx(
-                () => Visibility(
-                  visible: settingsController.settings.value.hdsCloud,
-                  child: Text(
-                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: Colors.white),
-                  ),
-                ),
-              ),
+              HdsCloudIdText(small: true),
             ],
           );
         } else {
@@ -222,14 +212,7 @@ class HDSOverlay extends HookWidget {
             children: [
               const Text('Health Data Server'),
               const Spacer(),
-              Visibility(
-                visible: settingsController.settings.value.hdsCloud,
-                child: Obx(
-                  () => Text(
-                    'HDS Cloud ID: ${firebaseController.config.value.overlayId}',
-                  ),
-                ),
-              ),
+              HdsCloudIdText(),
             ],
           );
         }
