@@ -11,17 +11,17 @@ dependencies:
 
   recase: ^4.0.0
   tuple: ^2.0.0
-  flutter_hooks: ^0.18.0
+  flutter_hooks: ^0.20.2
   get: ^4.1.4
   provider: ^6.0.1
-  google_fonts: ^4.0.3
+  google_fonts: ^6.1.0
   flex_color_picker: ^3.0.2
-  uuid: ^3.0.4
-  lifecycle: ^0.7.0
+  uuid: ^4.1.0
+  lifecycle: ^0.8.0
   url_launcher: ^6.0.3
-  fl_chart: ^0.62.0
+  fl_chart: ^0.63.0
   json_annotation: ^4.4.0
-  logger: ^1.1.0
+  logger: ^2.0.2+1
   intl: ^0.18.0
   web_socket_channel: ^2.2.0
   collection: ^1.16.0
@@ -38,7 +38,7 @@ dependencies:
   hive_flutter: ^1.0.0
 
   # File selector
-  file_selector: ^0.9.0
+  file_selector: ^1.0.1
 
   # Audio players
   just_audio: ^0.9.13
