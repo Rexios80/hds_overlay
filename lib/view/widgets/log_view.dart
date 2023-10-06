@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/connection_controller.dart';
-import 'package:hds_overlay/model/log_message.dart';
 import 'package:hds_overlay/utils/themes.dart';
 
 class LogView extends StatelessWidget {
