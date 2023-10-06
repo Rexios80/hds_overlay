@@ -13,9 +13,9 @@ jobs:
       - name: Pub get
         run: flutter pub get
       - name: Format
-        run: flutter format . --set-exit-if-changed
+        run: dart format . --set-exit-if-changed
       - name: Analyze
-        run: flutter analyze
+        run: dart analyze
       # - name: Embedme
       #   run: |
       #     npm install embedme
