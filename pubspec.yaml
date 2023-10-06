@@ -1,6 +1,6 @@
 name: hds_overlay
 description: Health Data Server Overlay
-version: 13.1.0
+version: 13.2.0
 
 environment:
   sdk: ">=2.19.0 <3.0.0"
