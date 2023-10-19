@@ -5,3 +5,4 @@ targets:
         options:
           ignore_for_file:
             - require_trailing_commas
+            - unnecessary_breaks

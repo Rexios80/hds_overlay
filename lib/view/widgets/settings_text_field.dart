@@ -67,13 +67,10 @@ class SettingsTextField extends StatelessWidget {
     switch (type) {
       case EditorType.port:
         settings.port = int.tryParse(value) ?? 3476;
-        break;
       case EditorType.serverIp:
         settings.serverIp = value;
-        break;
       case EditorType.dataClearInterval:
         settings.dataClearInterval = int.tryParse(value) ?? 120;
-        break;
     }
 
     settings.save();

@@ -145,73 +145,53 @@ class WidgetEditorTextField extends StatelessWidget {
           double.tryParse(value) ?? 0.0,
           properties.value.position.item2,
         );
-        break;
       case EditorType.positionY:
         properties.value.position = Tuple2Double(
           properties.value.position.item1,
           double.tryParse(value) ?? 0.0,
         );
-        break;
       case EditorType.imageSize:
         properties.value.imageSize = double.tryParse(value) ?? 0.0;
-        break;
       case EditorType.fontSize:
         properties.value.fontSize = double.tryParse(value) ?? 0.0;
-        break;
       case EditorType.textPaddingLeft:
         properties.value.textPaddingLeft = double.tryParse(value) ?? 0.0;
-        break;
       case EditorType.textPaddingTop:
         properties.value.textPaddingTop = double.tryParse(value) ?? 0.0;
-        break;
       case EditorType.unit:
         properties.value.unit = value;
-        break;
       case EditorType.unitFontSize:
         properties.value.unitFontSize = double.tryParse(value) ?? 0.0;
-        break;
       case EditorType.textShadowRadius:
         properties.value.textShadowRadius = double.tryParse(value) ?? 0.0;
-        break;
       case EditorType.textStrokeWidth:
         properties.value.textStrokeWidth = double.tryParse(value) ?? 0.0;
-        break;
       case EditorType.font:
         properties.value.font = value;
-        break;
       case EditorType.decimals:
         properties.value.decimals = int.tryParse(value) ?? 0;
-        break;
       case EditorType.scaleFactor:
         properties.value.scaleFactor = double.tryParse(value) ?? 1;
-        break;
       case EditorType.heartBeatSoundThreshold:
         properties.value.heartBeatSoundThreshold = int.tryParse(value) ?? 0;
-        break;
       case EditorType.text:
         properties.value.text = value.isEmpty ? 'Text' : value;
-        break;
       case EditorType.valuesToKeep:
         properties.value.rangeSeconds = int.tryParse(value) ?? 300;
-        break;
       case EditorType.gradientLowValue:
         final unvalidatedValue = int.tryParse(value) ?? 40;
         // These values cannot be equal or the widget breaks
         if (properties.value.gradientHighValue == unvalidatedValue) return;
         properties.value.gradientLowValue = unvalidatedValue;
-        break;
       case EditorType.gradientHighValue:
         final unvalidatedValue = int.tryParse(value) ?? 220;
         // These values cannot be equal or the widget breaks
         if (properties.value.gradientLowValue == unvalidatedValue) return;
         properties.value.gradientHighValue = unvalidatedValue;
-        break;
       case EditorType.chartWidth:
         properties.value.width = double.tryParse(value) ?? 100;
-        break;
       case EditorType.chartHeight:
         properties.value.height = double.tryParse(value) ?? 50;
-        break;
     }
 
     properties.value.save();

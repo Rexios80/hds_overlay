@@ -100,11 +100,9 @@ class DataView extends StatelessWidget {
             case DataWidgetType.data:
               properties = dwc.propertiesMap[typeSource]?.value ??
                   DataWidgetProperties();
-              break;
             case DataWidgetType.chart:
               properties = cwc.propertiesMap[typeSource]?.value ??
                   ChartWidgetProperties();
-              break;
           }
 
           final dataWidget = Provider.value(
@@ -147,10 +145,8 @@ class DataView extends StatelessWidget {
                 switch (type) {
                   case DataWidgetType.data:
                     dwc.propertiesMap.refresh();
-                    break;
                   case DataWidgetType.chart:
                     cwc.propertiesMap.refresh();
-                    break;
                 }
               },
               child: InkWell(
@@ -159,11 +155,9 @@ class DataView extends StatelessWidget {
                     case DataWidgetType.data:
                       endDrawerController
                           .selectedDataWidgetDataTypeSource.value = typeSource;
-                      break;
                     case DataWidgetType.chart:
                       endDrawerController.selectedChartDataTypeSource.value =
                           typeSource;
-                      break;
                   }
                 },
                 child: dataWidget,
