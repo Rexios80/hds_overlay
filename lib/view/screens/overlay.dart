@@ -256,7 +256,7 @@ class HDSOverlay extends HookWidget {
                 ),
               ),
               Expanded(
-                child: Container(
+                child: ColoredBox(
                   color: Colors.transparent,
                   child: LayoutBuilder(
                     builder: (context, constraints) {

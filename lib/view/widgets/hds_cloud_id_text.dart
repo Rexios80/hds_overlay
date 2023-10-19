@@ -18,8 +18,9 @@ class HdsCloudIdText extends StatelessWidget {
         visible: settingsController.settings.value.hdsCloud,
         child: Theme(
           data: Theme.of(context).copyWith(
-              textSelectionTheme:
-                  TextSelectionThemeData(selectionColor: Colors.black)),
+            textSelectionTheme:
+                const TextSelectionThemeData(selectionColor: Colors.black),
+          ),
           child: Builder(
             builder: (context) => SelectableText(
               'HDS Cloud ID: ${firebaseController.config.value.overlayId}',

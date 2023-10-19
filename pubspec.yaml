@@ -48,7 +48,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  rexios_lints: ^5.0.0
+  rexios_lints: ^6.0.0
   hive_generator: ^2.0.0
   build_runner: ^2.0.1
   flutter_native_splash: ^2.0.1+1

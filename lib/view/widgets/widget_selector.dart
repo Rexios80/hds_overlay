@@ -33,7 +33,7 @@ class WidgetSelector extends StatelessWidget {
       final tec = TextEditingController(text: wsc.dataSource.value);
       tec.selection = TextSelection.collapsed(offset: tec.text.length);
 
-      return Container(
+      return DecoratedBox(
         decoration: const BoxDecoration(color: Colors.black),
         child: ListView(
           padding: const EdgeInsets.all(10),
