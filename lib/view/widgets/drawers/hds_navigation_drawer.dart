@@ -102,6 +102,7 @@ class HdsNavigationDrawer extends StatelessWidget {
               },
             ),
           ),
+          ListTile(title: Text('Renderer: $renderer')),
         ],
       ),
     );
@@ -126,5 +127,15 @@ class HdsNavigationDrawer extends StatelessWidget {
         }
       },
     );
+  }
+
+  String get renderer {
+    if (const bool.fromEnvironment('FLUTTER_WEB_USE_SKIA')) {
+      return 'Skia';
+    } else if (const bool.fromEnvironment('FLUTTER_WEB_USE_SKWASM')) {
+      return 'WASM';
+    } else {
+      return 'HTML';
+    }
   }
 }
