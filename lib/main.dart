@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/utils/themes.dart';
@@ -17,6 +18,7 @@ import 'package:hds_overlay/hive/hive_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.remove();
 
   Get.put(Logger());
 
