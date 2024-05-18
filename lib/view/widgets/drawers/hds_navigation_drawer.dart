@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:git_info/git_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:yaml/yaml.dart';
 
 import 'package:hds_overlay/view/routes.dart';
 
@@ -25,28 +26,14 @@ class HdsNavigationDrawer extends StatelessWidget {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
-          FutureBuilder(
-            future: rootBundle.loadString('pubspec.yaml'),
-            builder: (context, snapshot) {
-              var version = 'Unknown';
-              if (snapshot.hasData) {
-                final yaml = loadYaml(snapshot.data as String);
-                version = yaml['version'];
-              }
-
-              return DrawerHeader(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/icon.png'),
-                  ),
-                  color: Colors.grey,
-                ),
-                child: Text(
-                  version,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              );
-            },
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/icon.png'),
+              ),
+              color: Colors.grey,
+            ),
+            child: SizedBox.shrink(),
           ),
           routeItem(
             const Text('Overlay'),
@@ -96,6 +83,25 @@ class HdsNavigationDrawer extends StatelessWidget {
             const Text('Licenses'),
             Routes.licenses,
           ),
+          FutureBuilder(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, packageInfoSnap) => FutureBuilder(
+              future: GitInfo.get(),
+              builder: (context, gitInfoSnap) {
+                final version = packageInfoSnap.data?.version;
+                final hash = gitInfoSnap.data?.hash;
+                if (version == null || hash == null) {
+                  return const SizedBox.shrink();
+                }
+                return ListTile(
+                  title: Text('Version $version'),
+                  subtitle: Text(hash),
+                  onTap: () =>
+                      Clipboard.setData(ClipboardData(text: '$version $hash')),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -103,16 +109,8 @@ class HdsNavigationDrawer extends StatelessWidget {
 
   Widget urlItem(Widget label, String imageAsset, String url) {
     return ListTile(
-      title: Row(
-        children: [
-          label,
-          const Spacer(),
-          SizedBox(
-            height: 30,
-            child: Image.asset(imageAsset),
-          ),
-        ],
-      ),
+      title: label,
+      trailing: Image.asset(imageAsset, height: 30),
       onTap: () => launchUrlString(url),
     );
   }
