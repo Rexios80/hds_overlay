@@ -154,23 +154,23 @@ DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) =>
       ..image = const Uint8ListConverter().fromJson(json['image'] as List<int>?)
       ..imageSize = (json['imageSize'] as num).toDouble()
       ..fontSize = (json['fontSize'] as num).toDouble()
-      ..textColor = json['textColor'] as int
+      ..textColor = (json['textColor'] as num).toInt()
       ..textPaddingLeft = (json['textPaddingLeft'] as num).toDouble()
       ..font = json['font'] as String
       ..position = Tuple2Double.fromJson(
           Map<String, dynamic>.from(json['position'] as Map))
       ..unit = json['unit'] as String
-      ..style = json['style'] as int
+      ..style = (json['style'] as num).toInt()
       ..textShadow = json['textShadow'] as bool
       ..textShadowRadius = (json['textShadowRadius'] as num).toDouble()
       ..textStroke = json['textStroke'] as bool
       ..textStrokeWidth = (json['textStrokeWidth'] as num).toDouble()
       ..textPaddingTop = (json['textPaddingTop'] as num).toDouble()
       ..unitFontSize = (json['unitFontSize'] as num).toDouble()
-      ..decimals = json['decimals'] as int
+      ..decimals = (json['decimals'] as num).toInt()
       ..animated = json['animated'] as bool
       ..heartRateRanges = (json['heartRateRanges'] as Map).map(
-        (k, e) => MapEntry(int.parse(k as String), e as int),
+        (k, e) => MapEntry(int.parse(k as String), (e as num).toInt()),
       )
       ..heartBeatSound = const Uint8ListConverter()
           .fromJson(json['heartBeatSound'] as List<int>?)
@@ -180,17 +180,19 @@ DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) =>
       ..fontWeight =
           const FontWeightConverter().fromJson(json['fontWeight'] as String)
       ..vertical = json['vertical'] as bool
-      ..heartBeatSoundThreshold = json['heartBeatSoundThreshold'] as int
+      ..heartBeatSoundThreshold =
+          (json['heartBeatSoundThreshold'] as num).toInt()
       ..text = json['text'] as String
       ..colorImage = json['colorImage'] as bool
       ..useGradient = json['useGradient'] as bool
-      ..gradientHighColor =
-          const ColorConverter().fromJson(json['gradientHighColor'] as int)
-      ..gradientLowColor =
-          const ColorConverter().fromJson(json['gradientLowColor'] as int)
-      ..imageColor = const ColorConverter().fromJson(json['imageColor'] as int)
-      ..gradientLowValue = json['gradientLowValue'] as int
-      ..gradientHighValue = json['gradientHighValue'] as int;
+      ..gradientHighColor = const ColorConverter()
+          .fromJson((json['gradientHighColor'] as num).toInt())
+      ..gradientLowColor = const ColorConverter()
+          .fromJson((json['gradientLowColor'] as num).toInt())
+      ..imageColor =
+          const ColorConverter().fromJson((json['imageColor'] as num).toInt())
+      ..gradientLowValue = (json['gradientLowValue'] as num).toInt()
+      ..gradientHighValue = (json['gradientHighValue'] as num).toInt();
 
 Map<String, dynamic> _$DataWidgetPropertiesToJson(
         DataWidgetProperties instance) =>
