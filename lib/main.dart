@@ -2,7 +2,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hds_overlay/firebase/firebase_utils.dart';
-import 'package:hds_overlay/utils/splash_fix.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/routes.dart';
 import 'package:hds_overlay/view/screens/credits.dart';
@@ -46,8 +45,6 @@ class HDS extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final analytics = FirebaseAnalytics.instance;
-
-    hideSplash();
 
     return GetMaterialApp(
       navigatorObservers: [
