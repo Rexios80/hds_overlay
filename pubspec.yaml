@@ -55,6 +55,12 @@ dev_dependencies:
   flutter_native_splash: ^2.0.1+1
   json_serializable: ^6.0.0
 
+dependency_overrides:
+  get:
+    git:
+      url: https://github.com/jonataslaw/getx
+      ref: 4ac2e3bb8db888204eae997e9431ed1970799420
+
 flutter:
   uses-material-design: true
   assets:
