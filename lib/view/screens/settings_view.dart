@@ -179,7 +179,7 @@ class SettingsView extends StatelessWidget {
               colorCircleWithSave(
                 context,
                 settings,
-                Themes.dark.colorScheme.background,
+                Themes.dark.colorScheme.surface,
               ),
               const Spacer(),
               Container(

@@ -67,10 +67,9 @@ class HDSOverlay extends HookWidget {
       end: const Offset(0.0, 0.0),
     ).animate(peripherySlideAnimationController);
 
-    final mounted = useIsMounted();
     ever<bool>(overlayController.mouseHovering, (mouseHovering) {
       // Only do this if the widget is mounted
-      if (!mounted()) return;
+      if (!context.mounted) return;
 
       if (mouseHovering) {
         peripherySlideAnimationController.forward();
