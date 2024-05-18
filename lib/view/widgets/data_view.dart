@@ -144,8 +144,10 @@ class DataView extends StatelessWidget {
 
                 switch (type) {
                   case DataWidgetType.data:
+                    // ignore: invalid_use_of_protected_member
                     dwc.propertiesMap.refresh();
                   case DataWidgetType.chart:
+                    // ignore: invalid_use_of_protected_member
                     cwc.propertiesMap.refresh();
                 }
               },

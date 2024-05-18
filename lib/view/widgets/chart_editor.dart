@@ -132,6 +132,7 @@ class ChartEditor extends StatelessWidget {
     } catch (error) {
       // Don't save if the object got deleted
     }
+    // ignore: invalid_use_of_protected_member
     properties.refresh();
   }
 }

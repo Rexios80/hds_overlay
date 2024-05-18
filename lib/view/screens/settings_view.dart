@@ -210,6 +210,7 @@ class SettingsView extends StatelessWidget {
   }
 
   void refreshAndSave() {
+    // ignore: invalid_use_of_protected_member
     settingsController.settings.refresh();
     settingsController.settings.value.save();
   }

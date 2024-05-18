@@ -195,6 +195,7 @@ class WidgetEditorTextField extends StatelessWidget {
     }
 
     properties.value.save();
+    // ignore: invalid_use_of_protected_member
     properties.refresh();
   }
 }

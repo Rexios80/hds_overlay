@@ -69,6 +69,7 @@ class HeartRateRangeEditor extends StatelessWidget {
                               onChanged: (value) {
                                 hrrec.expandedItemText =
                                     Tuple2(range.key, value);
+                                // ignore: invalid_use_of_protected_member
                                 hrrec.expandedRanges.refresh();
                               },
                             ),
@@ -142,6 +143,7 @@ class HeartRateRangeEditor extends StatelessWidget {
 
   void saveAndRefresh(Rx<DataWidgetProperties> properties) {
     properties.value.save();
+    // ignore: invalid_use_of_protected_member
     properties.refresh();
   }
 }
