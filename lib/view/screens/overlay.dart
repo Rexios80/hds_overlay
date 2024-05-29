@@ -52,7 +52,7 @@ class HDSOverlay extends HookWidget {
         final urlConfig = parameters['config'];
         if (urlConfig != null) {
           _logger.d('Importing config from url');
-          importConfig(urlConfig);
+          importConfig(context, urlConfig);
         }
       }
     });
@@ -169,7 +169,7 @@ class HDSOverlay extends HookWidget {
       IconButton(
         icon: const Icon(Icons.download),
         tooltip: 'Import configuration',
-        onPressed: showImportDialog,
+        onPressed: () => showImportDialog(context),
       ),
       Builder(
         builder: (context) => PopupMenuButton(
@@ -378,7 +378,7 @@ class HDSOverlay extends HookWidget {
     );
   }
 
-  void showImportDialog() {
+  void showImportDialog(BuildContext context) {
     var import = '';
 
     Get.dialog(
@@ -406,7 +406,7 @@ class HDSOverlay extends HookWidget {
                 ),
                 const SizedBox(height: 20),
                 TextButton(
-                  onPressed: () => importConfig(import),
+                  onPressed: () => importConfig(context, import),
                   child: const Text('Import'),
                 ),
                 const SizedBox(height: 20),
@@ -422,11 +422,10 @@ class HDSOverlay extends HookWidget {
     );
   }
 
-  void importConfig(String import) {
+  void importConfig(BuildContext context, String import) {
     // Create a temporary profile to load
     final profile = OverlayProfile.fromJson(jsonDecode(import));
     overlayController.loadProfile(profile);
-
-    Get.back();
+    Navigator.of(context).pop();
   }
 }
