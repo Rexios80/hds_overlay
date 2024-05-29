@@ -62,8 +62,13 @@ dependency_overrides:
   hive:
     git:
       url: https://github.com/Rexios80/hive
-      ref: 498b83ad06c874b6ca9704257b0ad3a1340135ee
+      ref: 456dab3bd156f7fa421aeb48884785ee2fa50471
       path: hive
+  hive_generator:
+    git:
+      url: https://github.com/Rexios80/hive
+      ref: 456dab3bd156f7fa421aeb48884785ee2fa50471
+      path: hive_generator
 
 flutter:
   uses-material-design: true
