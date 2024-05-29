@@ -19,16 +19,16 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Settings()
-      ..port = fields[0] as int
-      ..overlayBackgroundColor = fields[1] as int
+      ..port = (fields[0] as num).toInt()
+      ..overlayBackgroundColor = (fields[1] as num).toInt()
       ..darkMode = fields[2] as bool
-      .._overlayWidth = fields[3] as double?
-      .._overlayHeight = fields[4] as double?
+      .._overlayWidth = (fields[3] as num?)?.toDouble()
+      .._overlayHeight = (fields[4] as num?)?.toDouble()
       .._clientName = fields[5] as String?
       .._serverIps = (fields[6] as List?)?.cast<String>()
       .._serverIp = fields[7] as String?
       .._hdsCloud = fields[8] as bool?
-      .._dataClearInterval = fields[9] as int?
+      .._dataClearInterval = (fields[9] as num?)?.toInt()
       .._rtdFallback = fields[10] as bool?;
   }
 

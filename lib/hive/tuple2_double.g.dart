@@ -19,8 +19,8 @@ class Tuple2DoubleAdapter extends TypeAdapter<Tuple2Double> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Tuple2Double(
-      fields[0] as double,
-      fields[1] as double,
+      (fields[0] as num).toDouble(),
+      (fields[1] as num).toDouble(),
     );
   }
 

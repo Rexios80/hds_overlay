@@ -22,11 +22,11 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
       ..dataType = fields[0] as DataType
       ..dataSource = fields[1] as String
       ..position = fields[2] as Tuple2Double
-      ..rangeSeconds = fields[3] as int
-      .._highColor = fields[4] as int?
-      .._lowColor = fields[5] as int?
-      .._width = fields[6] as double?
-      .._height = fields[7] as double?;
+      ..rangeSeconds = (fields[3] as num).toInt()
+      .._highColor = (fields[4] as num?)?.toInt()
+      .._lowColor = (fields[5] as num?)?.toInt()
+      .._width = (fields[6] as num?)?.toDouble()
+      .._height = (fields[7] as num?)?.toDouble();
   }
 
   @override
