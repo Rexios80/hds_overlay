@@ -89,10 +89,11 @@ class HdsNavigationDrawer extends StatelessWidget {
               future: GitInfo.get(),
               builder: (context, gitInfoSnap) {
                 final version = packageInfoSnap.data?.version;
-                final hash = gitInfoSnap.data?.hash;
-                if (version == null || hash == null) {
+                final gitInfo = gitInfoSnap.data;
+                if (version == null || gitInfo == null) {
                   return const SizedBox.shrink();
                 }
+                final hash = gitInfo.hash ?? gitInfo.branch;
                 return ListTile(
                   title: Text('Version $version'),
                   subtitle: Text(hash),
