@@ -105,12 +105,11 @@ class DataWidgetProperties extends HiveObject {
   String? _fontWeight;
 
   @FontWeightConverter()
-  FontWeight get fontWeight => {
-        for (final e in FontWeight.values) e.toString(): e,
-      }[_fontWeight ?? FontWeight.normal.toString()]!;
+  FontWeight get fontWeight => FontWeightConverter.stringToWeight[_fontWeight]!;
 
   @FontWeightConverter()
-  set fontWeight(FontWeight value) => _fontWeight = value.toString();
+  set fontWeight(FontWeight value) =>
+      _fontWeight = FontWeightConverter.weightToString[value]!;
 
   @HiveField(25)
   bool? _vertical;

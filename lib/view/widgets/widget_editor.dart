@@ -6,6 +6,7 @@ import 'package:hds_overlay/controllers/end_drawer_controller.dart';
 import 'package:hds_overlay/controllers/widget_editor_controller.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
+import 'package:hds_overlay/hive/json_converters.dart/font_weight_converter.dart';
 import 'package:hds_overlay/model/default_image.dart';
 import 'package:hds_overlay/view/widgets/color_picker_tile.dart';
 import 'package:hds_overlay/view/widgets/heart_rate_range_editor.dart';
@@ -235,11 +236,11 @@ class WidgetEditor extends StatelessWidget {
               properties.value.fontWeight = newValue ?? FontWeight.normal;
               saveAndRefresh(properties);
             },
-            items: FontWeight.values
+            items: FontWeightConverter.weightToString.entries
                 .map(
                   (e) => DropdownMenuItem<FontWeight>(
-                    value: e,
-                    child: Text(e.toString().substring(12)),
+                    value: e.key,
+                    child: Text(e.value.substring(12)),
                   ),
                 )
                 .toList(),
