@@ -35,11 +35,11 @@ class HdsNavigationDrawer extends StatelessWidget {
             ),
             child: SizedBox.shrink(),
           ),
-          routeItem(
+          offRouteItem(
             const Text('Overlay'),
             Routes.overlay,
           ),
-          routeItem(
+          offRouteItem(
             const Text('Settings'),
             Routes.settings,
           ),
@@ -67,19 +67,19 @@ class HdsNavigationDrawer extends StatelessWidget {
             _androidUrl,
           ),
           const Divider(),
-          routeItem(
+          toRouteItem(
             const Text('Privacy Policy'),
             Routes.privacyPolicy,
           ),
-          routeItem(
+          toRouteItem(
             const Text('Terms of Use'),
             Routes.terms,
           ),
-          routeItem(
+          toRouteItem(
             const Text('Credits'),
             Routes.credits,
           ),
-          routeItem(
+          toRouteItem(
             const Text('Licenses'),
             Routes.licenses,
           ),
@@ -117,7 +117,20 @@ class HdsNavigationDrawer extends StatelessWidget {
     );
   }
 
-  Widget routeItem(Widget label, String route) {
+  Widget offRouteItem(Widget label, String route) {
+    return ListTile(
+      title: label,
+      onTap: () {
+        if (Get.currentRoute != route) {
+          Get.offNamed(route);
+        } else {
+          Get.back();
+        }
+      },
+    );
+  }
+
+  Widget toRouteItem(Widget label, String route) {
     return ListTile(
       title: label,
       onTap: () {

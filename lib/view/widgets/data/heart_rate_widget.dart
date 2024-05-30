@@ -11,7 +11,6 @@ import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/model/message.dart';
 import 'package:hds_overlay/utils/audio_source_web.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:lifecycle/lifecycle.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -60,44 +59,37 @@ class HeartRateImageAnimated extends HookWidget {
 
     ever(properties, (_) {
       if (properties.value.animated && !hrwc.animating) {
-        animateImage(imageSizeAnimationController, hrwc);
+        animateImage(context, imageSizeAnimationController, hrwc);
       }
       hrwc.animating = properties.value.animated;
 
       if (properties.value.heartBeatSound != null && !hrwc.sounding) {
-        playBeatSound(properties, hrwc);
+        playBeatSound(context, properties, hrwc);
       }
       hrwc.sounding = properties.value.heartBeatSound != null;
     });
 
     if (properties.value.animated && !hrwc.animating) {
-      animateImage(imageSizeAnimationController, hrwc);
+      animateImage(context, imageSizeAnimationController, hrwc);
     }
 
     if (properties.value.heartBeatSound != null && !hrwc.sounding) {
-      playBeatSound(properties, hrwc);
+      playBeatSound(context, properties, hrwc);
     }
 
-    return LifecycleWrapper(
-      onLifecycleEvent: (event) {
-        if (event == LifecycleEvent.invisible) {
-          hrwc.visible = false;
-        }
-      },
-      child: Obx(
-        () => Visibility(
-          visible: properties.value.showImage,
-          child: SizedBox(
-            height: properties.value.imageSize,
-            width: properties.value.imageSize,
-            child: Center(
-              child: SizedBox(
-                height: properties.value.imageSize *
-                    imageSizeAnimationController.value,
-                width: properties.value.imageSize *
-                    imageSizeAnimationController.value,
-                child: HeartRateImage(square: true),
-              ),
+    return Obx(
+      () => Visibility(
+        visible: properties.value.showImage,
+        child: SizedBox(
+          height: properties.value.imageSize,
+          width: properties.value.imageSize,
+          child: Center(
+            child: SizedBox(
+              height: properties.value.imageSize *
+                  imageSizeAnimationController.value,
+              width: properties.value.imageSize *
+                  imageSizeAnimationController.value,
+              child: HeartRateImage(square: true),
             ),
           ),
         ),
@@ -106,12 +98,13 @@ class HeartRateImageAnimated extends HookWidget {
   }
 
   void animateImage(
+    BuildContext context,
     AnimationController controller,
     HeartRateWidgetController hrwc,
   ) async {
     hrwc.animating = true;
 
-    while (hrwc.animating && hrwc.visible) {
+    while (hrwc.animating && context.mounted) {
       if (hrwc.currentHeartRate == 0) {
         await Future.delayed(const Duration(milliseconds: 100));
         continue;
@@ -137,6 +130,7 @@ class HeartRateImageAnimated extends HookWidget {
   }
 
   void playBeatSound(
+    BuildContext context,
     Rx<DataWidgetProperties> properties,
     HeartRateWidgetController hrwc,
   ) async {
@@ -148,7 +142,7 @@ class HeartRateImageAnimated extends HookWidget {
     final player = AudioPlayer();
     unawaited(player.setAudioSource(WebAudioSource(soundBytes)));
 
-    while (hrwc.sounding && hrwc.visible) {
+    while (hrwc.sounding && context.mounted) {
       final startTime = DateTime.now().millisecondsSinceEpoch;
       if (hrwc.currentHeartRate == 0 ||
           hrwc.currentHeartRate < properties.value.heartBeatSoundThreshold) {

@@ -10,7 +10,6 @@ import 'package:hds_overlay/view/screens/overlay.dart';
 import 'package:hds_overlay/view/screens/privacy_policy.dart';
 import 'package:hds_overlay/view/screens/settings_view.dart';
 import 'package:hds_overlay/view/screens/terms.dart';
-import 'package:lifecycle/lifecycle.dart';
 import 'package:logger/logger.dart';
 
 import 'package:hds_overlay/controllers/settings_controller.dart';
@@ -50,7 +49,6 @@ class HDS extends StatelessWidget {
 
     return GetMaterialApp(
       navigatorObservers: [
-        defaultLifecycleObserver,
         FirebaseAnalyticsObserver(analytics: analytics),
       ],
       title: 'Health Data Server',

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/firebase/firebase_utils.dart';
 import 'package:hds_overlay/hive/settings.dart';
-import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/widgets/drawers/hds_navigation_drawer.dart';
 import 'package:hds_overlay/view/widgets/settings_text_field.dart';
 
@@ -179,7 +178,7 @@ class SettingsView extends StatelessWidget {
               colorCircleWithSave(
                 context,
                 settings,
-                Themes.dark.colorScheme.surface,
+                Colors.black,
               ),
               const Spacer(),
               Container(
@@ -188,7 +187,7 @@ class SettingsView extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                    color: Colors.black,
                   ),
                 ),
                 child: Stack(

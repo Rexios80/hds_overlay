@@ -15,7 +15,6 @@ import 'package:hds_overlay/controllers/settings_controller.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/utils/themes.dart';
 import 'package:hds_overlay/view/widgets/hds_cloud_id_text.dart';
-import 'package:lifecycle/lifecycle.dart';
 import 'package:logger/logger.dart';
 
 import 'package:hds_overlay/view/widgets/data_view.dart';
@@ -23,7 +22,14 @@ import 'package:hds_overlay/view/widgets/drawers/hds_end_drawer.dart';
 import 'package:hds_overlay/view/widgets/drawers/hds_navigation_drawer.dart';
 import 'package:hds_overlay/view/widgets/log_view.dart';
 
-class HDSOverlay extends HookWidget {
+class HDSOverlay extends StatefulHookWidget {
+  const HDSOverlay({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _HDSOverlayState();
+}
+
+class _HDSOverlayState extends State<HDSOverlay> {
   final _logger = Get.find<Logger>();
   final endDrawerController = Get.put(EndDrawerController());
   final dwc = Get.find<DataWidgetController>();
@@ -34,7 +40,17 @@ class HDSOverlay extends HookWidget {
   final firebaseController = Get.find<FirebaseController>();
   final settingsController = Get.find<SettingsController>();
 
-  HDSOverlay({super.key});
+  @override
+  void initState() {
+    super.initState();
+    connectionController.start();
+  }
+
+  @override
+  void dispose() {
+    connectionController.stop();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -218,17 +234,10 @@ class HDSOverlay extends HookWidget {
       },
     );
 
-    return LifecycleWrapper(
-      onLifecycleEvent: (event) {
-        if (event == LifecycleEvent.push) {
-          connectionController.start();
-        } else if (event == LifecycleEvent.invisible) {
-          connectionController.stop();
-        }
-      },
-      child: MouseRegion(
-        onHover: (event) => overlayController.mouseHovering.value = true,
-        child: Scaffold(
+    return MouseRegion(
+      onHover: (event) => overlayController.mouseHovering.value = true,
+      child: Obx(
+        () => Scaffold(
           backgroundColor:
               Color(settingsController.settings.value.overlayBackgroundColor),
           drawerScrimColor: Colors.transparent,
