@@ -8,8 +8,7 @@ class OverlayController extends GetxController {
   final hive = Get.find<HiveUtils>();
 
   // What a variable name
-  RxMap<OverlayProfile, bool> profileDeleteButtonPressedMap =
-      <OverlayProfile, bool>{}.obs;
+  final profileDeleteButtonPressedMap = <OverlayProfile, bool>{}.obs;
 
   RxBool mouseHovering = false.obs;
 

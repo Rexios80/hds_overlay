@@ -18,7 +18,7 @@ import 'package:tuple/tuple.dart';
 class ConnectionController extends GetxController {
   final _logger = Get.find<Logger>();
 
-  final _messages = RxMap<Tuple2<DataType, String>, DataMessage>();
+  final _messages = <Tuple2<DataType, String>, DataMessage>{}.obs;
   final _messageHistory = <Tuple2<DataType, String>, List<DataMessage>>{};
   final _logs = <LogMessage>[].obs;
   bool _started = false;

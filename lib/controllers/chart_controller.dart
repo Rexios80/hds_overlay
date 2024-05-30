@@ -15,7 +15,7 @@ class ChartController extends GetxController {
   final Tuple2<DataType, String> typeSource;
   final RxInt timeRangeStart = RxInt(0);
 
-  final RxList<FlSpot> data = RxList();
+  final data = <FlSpot>[].obs;
 
   ChartController({required this.typeSource}) {
     // TODO: This is probably a memory leak
