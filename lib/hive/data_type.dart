@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hds_overlay/view/widgets/data/data_widget.dart';
 import 'package:hds_overlay/view/widgets/data/heart_rate_widget.dart';
 import 'package:hds_overlay/view/widgets/data/text_widget.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 
 part 'data_type.g.dart';
 

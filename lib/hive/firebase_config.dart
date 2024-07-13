@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 
 part 'firebase_config.g.dart';
 

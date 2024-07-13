@@ -5,7 +5,7 @@ import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/json_converters.dart/color_converter.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hds_overlay/model/data_source.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'chart_widget_properties.g.dart';
