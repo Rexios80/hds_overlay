@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:hds_overlay/hive/json_converters.dart/color_converter.dart';
 import 'package:hds_overlay/hive/json_converters.dart/font_weight_converter.dart';
 import 'package:hds_overlay/hive/json_converters.dart/uint8_list_converter.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';

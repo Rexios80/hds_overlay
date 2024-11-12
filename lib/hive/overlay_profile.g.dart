@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: require_trailing_commas, unnecessary_breaks
+// ignore_for_file: require_trailing_commas, unnecessary_breaks, invalid_use_of_protected_member
 
 part of 'overlay_profile.dart';
 

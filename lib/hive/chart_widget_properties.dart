@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hds_overlay/hive/data_type.dart';
-import 'package:hds_overlay/hive/json_converters.dart/color_converter.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
 import 'package:hds_overlay/model/data_source.dart';
 import 'package:hive_ce/hive.dart';
