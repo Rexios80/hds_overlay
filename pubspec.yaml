@@ -57,6 +57,12 @@ dev_dependencies:
   hive_ce_generator: ^1.4.0
   json_serializable: ^6.0.0
 
+dependency_overrides:
+  hive_ce:
+    path: ../hive_ce/hive
+  hive_ce_generator:
+    path: ../hive_ce/hive_generator
+
 flutter:
   uses-material-design: true
   assets:

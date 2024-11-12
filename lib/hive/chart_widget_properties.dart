@@ -17,42 +17,50 @@ class ChartWidgetProperties extends HiveObject {
   static const maxValuesToKeep = 500;
 
   @HiveField(0)
-  DataType dataType = DataType.unknown;
+  DataType dataType;
 
   @HiveField(1)
-  String dataSource = DataSource.watch;
+  String dataSource;
 
   @HiveField(2)
-  Tuple2Double position = Tuple2Double(275, 150);
+  Tuple2Double position;
 
   @HiveField(3)
-  int rangeSeconds = 300;
+  int rangeSeconds;
 
   @HiveField(4)
-  int? _highColor;
+  @protected
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  int highColorValue;
 
-  Color get highColor => Color(_highColor ?? Colors.red.value);
-  set highColor(Color color) => _highColor = color.value;
+  Color get highColor => Color(highColorValue);
+  set highColor(Color color) => highColorValue = color.value;
 
   @HiveField(5)
-  int? _lowColor;
+  @protected
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  int lowColorValue;
 
-  Color get lowColor => Color(_lowColor ?? Colors.green.value);
-  set lowColor(Color color) => _lowColor = color.value;
+  Color get lowColor => Color(lowColorValue);
+  set lowColor(Color color) => lowColorValue = color.value;
 
   @HiveField(6)
-  double? _width;
-
-  double get width => _width ?? 100;
-  set width(double width) => _width = width;
+  double width;
 
   @HiveField(7)
-  double? _height;
+  double height;
 
-  double get height => _height ?? 50;
-  set height(double height) => _height = height;
-
-  ChartWidgetProperties();
+  ChartWidgetProperties({
+    this.dataType = DataType.unknown,
+    this.dataSource = DataSource.watch,
+    this.position = const Tuple2Double(275, 150),
+    this.rangeSeconds = 300,
+    int? highColorValue,
+    int? lowColorValue,
+    this.width = 100,
+    this.height = 50,
+  })  : highColorValue = highColorValue ?? Colors.red.value,
+        lowColorValue = lowColorValue ?? Colors.green.value;
 
   ChartWidgetProperties copy() {
     return ChartWidgetProperties.fromJson(jsonDecode(jsonEncode(this)));

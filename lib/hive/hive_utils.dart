@@ -69,9 +69,10 @@ class HiveUtils {
     // Create default widget settings
     if (_dataWidgetPropertiesBox.values.isEmpty) {
       await _dataWidgetPropertiesBox.add(
-        DataWidgetProperties()
-          ..dataType = DataType.heartRate
-          ..position = Tuple2Double(10, 10),
+        DataWidgetProperties(
+          dataType: DataType.heartRate,
+          position: const Tuple2Double(10, 10),
+        ),
       );
     }
 
@@ -127,11 +128,8 @@ class HiveUtils {
   }
 
   void addWidget(DataType dataType, String dataSource) {
-    _dataWidgetPropertiesBox.add(
-      DataWidgetProperties()
-        ..dataType = dataType
-        ..dataSource = dataSource,
-    );
+    _dataWidgetPropertiesBox
+        .add(DataWidgetProperties(dataType: dataType, dataSource: dataSource));
   }
 
   void addChart(DataType dataType, String dataSource) {

@@ -18,42 +18,46 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DataWidgetProperties()
-      ..dataType = fields[0] as DataType
-      ..showImage = fields[1] as bool
-      ..image = fields[2] as Uint8List?
-      ..imageSize = (fields[3] as num).toDouble()
-      ..fontSize = (fields[4] as num).toDouble()
-      ..textColor = (fields[5] as num).toInt()
-      ..textPaddingLeft = (fields[6] as num).toDouble()
-      ..font = fields[7] as String
-      ..position = fields[8] as Tuple2Double
-      ..unit = fields[9] as String
-      ..style = (fields[10] as num).toInt()
-      ..textShadow = fields[11] as bool
-      ..textShadowRadius = (fields[12] as num).toDouble()
-      ..textStroke = fields[13] as bool
-      ..textStrokeWidth = (fields[14] as num).toDouble()
-      ..textPaddingTop = (fields[15] as num).toDouble()
-      ..unitFontSize = (fields[16] as num).toDouble()
-      ..decimals = (fields[17] as num).toInt()
-      ..animated = fields[18] as bool
-      ..heartRateRanges = (fields[19] as Map).cast<int, int>()
-      ..heartBeatSound = fields[20] as Uint8List?
-      .._textInsideImage = fields[21] as bool?
-      .._dataSource = fields[22] as String?
-      .._scaleFactor = (fields[23] as num?)?.toDouble()
-      .._fontWeight = fields[24] as String?
-      .._vertical = fields[25] as bool?
-      .._heartBeatSoundThreshold = (fields[26] as num?)?.toInt()
-      .._text = fields[27] as String?
-      .._colorImage = fields[28] as bool?
-      .._useGradient = fields[29] as bool?
-      .._gradientHighColor = (fields[30] as num?)?.toInt()
-      .._gradientLowColor = (fields[31] as num?)?.toInt()
-      .._imageColor = (fields[32] as num?)?.toInt()
-      .._gradientLowValue = (fields[33] as num?)?.toInt()
-      .._gradientHighValue = (fields[34] as num?)?.toInt();
+    return DataWidgetProperties(
+      dataType: fields[0] == null ? DataType.unknown : fields[0] as DataType,
+      showImage: fields[1] == null ? true : fields[1] as bool,
+      image: fields[2] as Uint8List?,
+      imageSize: fields[3] == null ? 60 : (fields[3] as num).toDouble(),
+      fontSize: fields[4] == null ? 36 : (fields[4] as num).toDouble(),
+      textColor: (fields[5] as num?)?.toInt(),
+      textPaddingLeft: fields[6] == null ? 14 : (fields[6] as num).toDouble(),
+      font: fields[7] == null ? 'Monaco' : fields[7] as String,
+      position: fields[8] == null
+          ? const Tuple2Double(275, 150)
+          : fields[8] as Tuple2Double,
+      unit: fields[9] == null ? '' : fields[9] as String,
+      style: fields[10] == null ? 0 : (fields[10] as num).toInt(),
+      textShadow: fields[11] == null ? false : fields[11] as bool,
+      textShadowRadius: fields[12] == null ? 8 : (fields[12] as num).toDouble(),
+      textStroke: fields[13] == null ? false : fields[13] as bool,
+      textStrokeWidth: fields[14] == null ? 1 : (fields[14] as num).toDouble(),
+      textPaddingTop: fields[15] == null ? 12 : (fields[15] as num).toDouble(),
+      unitFontSize: fields[16] == null ? 24 : (fields[16] as num).toDouble(),
+      decimals: fields[17] == null ? 1 : (fields[17] as num).toInt(),
+      animated: fields[18] == null ? true : fields[18] as bool,
+      heartRateRanges: (fields[19] as Map?)?.cast<int, int>(),
+      heartBeatSound: fields[20] as Uint8List?,
+      textInsideImage: fields[21] == null ? false : fields[21] as bool,
+      dataSource: fields[22] == null ? DataSource.watch : fields[22] as String,
+      scaleFactor: fields[23] == null ? 1 : (fields[23] as num).toDouble(),
+      fontWeightString: fields[24] as String?,
+      vertical: fields[25] == null ? false : fields[25] as bool,
+      heartBeatSoundThreshold:
+          fields[26] == null ? 0 : (fields[26] as num).toInt(),
+      text: fields[27] == null ? 'Text' : fields[27] as String,
+      colorImage: fields[28] == null ? false : fields[28] as bool,
+      useGradient: fields[29] == null ? false : fields[29] as bool,
+      gradientHighColorValue: (fields[30] as num?)?.toInt(),
+      gradientLowColorValue: (fields[31] as num?)?.toInt(),
+      imageColorValue: (fields[32] as num?)?.toInt(),
+      gradientLowValue: fields[33] == null ? 40 : (fields[33] as num).toInt(),
+      gradientHighValue: fields[34] == null ? 220 : (fields[34] as num).toInt(),
+    );
   }
 
   @override
@@ -103,33 +107,33 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..writeByte(20)
       ..write(obj.heartBeatSound)
       ..writeByte(21)
-      ..write(obj._textInsideImage)
+      ..write(obj.textInsideImage)
       ..writeByte(22)
-      ..write(obj._dataSource)
+      ..write(obj.dataSource)
       ..writeByte(23)
-      ..write(obj._scaleFactor)
+      ..write(obj.scaleFactor)
       ..writeByte(24)
-      ..write(obj._fontWeight)
+      ..write(obj.fontWeightString)
       ..writeByte(25)
-      ..write(obj._vertical)
+      ..write(obj.vertical)
       ..writeByte(26)
-      ..write(obj._heartBeatSoundThreshold)
+      ..write(obj.heartBeatSoundThreshold)
       ..writeByte(27)
-      ..write(obj._text)
+      ..write(obj.text)
       ..writeByte(28)
-      ..write(obj._colorImage)
+      ..write(obj.colorImage)
       ..writeByte(29)
-      ..write(obj._useGradient)
+      ..write(obj.useGradient)
       ..writeByte(30)
-      ..write(obj._gradientHighColor)
+      ..write(obj.gradientHighColorValue)
       ..writeByte(31)
-      ..write(obj._gradientLowColor)
+      ..write(obj.gradientLowColorValue)
       ..writeByte(32)
-      ..write(obj._imageColor)
+      ..write(obj.imageColorValue)
       ..writeByte(33)
-      ..write(obj._gradientLowValue)
+      ..write(obj.gradientLowValue)
       ..writeByte(34)
-      ..write(obj._gradientHighValue);
+      ..write(obj.gradientHighValue);
   }
 
   @override
@@ -148,51 +152,55 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
 // **************************************************************************
 
 DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) =>
-    DataWidgetProperties()
-      ..dataType = $enumDecode(_$DataTypeEnumMap, json['dataType'])
-      ..showImage = json['showImage'] as bool
-      ..image = const Uint8ListConverter().fromJson(json['image'] as List<int>?)
-      ..imageSize = (json['imageSize'] as num).toDouble()
-      ..fontSize = (json['fontSize'] as num).toDouble()
-      ..textColor = (json['textColor'] as num).toInt()
-      ..textPaddingLeft = (json['textPaddingLeft'] as num).toDouble()
-      ..font = json['font'] as String
-      ..position = Tuple2Double.fromJson(
-          Map<String, dynamic>.from(json['position'] as Map))
-      ..unit = json['unit'] as String
-      ..style = (json['style'] as num).toInt()
-      ..textShadow = json['textShadow'] as bool
-      ..textShadowRadius = (json['textShadowRadius'] as num).toDouble()
-      ..textStroke = json['textStroke'] as bool
-      ..textStrokeWidth = (json['textStrokeWidth'] as num).toDouble()
-      ..textPaddingTop = (json['textPaddingTop'] as num).toDouble()
-      ..unitFontSize = (json['unitFontSize'] as num).toDouble()
-      ..decimals = (json['decimals'] as num).toInt()
-      ..animated = json['animated'] as bool
-      ..heartRateRanges = (json['heartRateRanges'] as Map).map(
+    DataWidgetProperties(
+      dataType: $enumDecodeNullable(_$DataTypeEnumMap, json['dataType']) ??
+          DataType.unknown,
+      showImage: json['showImage'] as bool? ?? true,
+      image: const Uint8ListConverter().fromJson(json['image'] as List<int>?),
+      imageSize: (json['imageSize'] as num?)?.toDouble() ?? 60,
+      fontSize: (json['fontSize'] as num?)?.toDouble() ?? 36,
+      textColor: (json['textColor'] as num?)?.toInt(),
+      textPaddingLeft: (json['textPaddingLeft'] as num?)?.toDouble() ?? 14,
+      font: json['font'] as String? ?? 'Monaco',
+      position: json['position'] == null
+          ? const Tuple2Double(275, 150)
+          : Tuple2Double.fromJson(
+              Map<String, dynamic>.from(json['position'] as Map)),
+      unit: json['unit'] as String? ?? '',
+      style: (json['style'] as num?)?.toInt() ?? 0,
+      textShadow: json['textShadow'] as bool? ?? false,
+      textShadowRadius: (json['textShadowRadius'] as num?)?.toDouble() ?? 8,
+      textStroke: json['textStroke'] as bool? ?? false,
+      textStrokeWidth: (json['textStrokeWidth'] as num?)?.toDouble() ?? 1,
+      textPaddingTop: (json['textPaddingTop'] as num?)?.toDouble() ?? 12,
+      unitFontSize: (json['unitFontSize'] as num?)?.toDouble() ?? 24,
+      decimals: (json['decimals'] as num?)?.toInt() ?? 1,
+      animated: json['animated'] as bool? ?? true,
+      heartRateRanges: (json['heartRateRanges'] as Map?)?.map(
         (k, e) => MapEntry(int.parse(k as String), (e as num).toInt()),
-      )
-      ..heartBeatSound = const Uint8ListConverter()
-          .fromJson(json['heartBeatSound'] as List<int>?)
-      ..textInsideImage = json['textInsideImage'] as bool
-      ..dataSource = json['dataSource'] as String
-      ..scaleFactor = (json['scaleFactor'] as num).toDouble()
+      ),
+      heartBeatSound: const Uint8ListConverter()
+          .fromJson(json['heartBeatSound'] as List<int>?),
+      textInsideImage: json['textInsideImage'] as bool? ?? false,
+      dataSource: json['dataSource'] as String? ?? DataSource.watch,
+      scaleFactor: (json['scaleFactor'] as num?)?.toDouble() ?? 1,
+      vertical: json['vertical'] as bool? ?? false,
+      heartBeatSoundThreshold:
+          (json['heartBeatSoundThreshold'] as num?)?.toInt() ?? 0,
+      text: json['text'] as String? ?? 'Text',
+      colorImage: json['colorImage'] as bool? ?? false,
+      useGradient: json['useGradient'] as bool? ?? false,
+      gradientLowValue: (json['gradientLowValue'] as num?)?.toInt() ?? 40,
+      gradientHighValue: (json['gradientHighValue'] as num?)?.toInt() ?? 220,
+    )
       ..fontWeight =
           const FontWeightConverter().fromJson(json['fontWeight'] as String)
-      ..vertical = json['vertical'] as bool
-      ..heartBeatSoundThreshold =
-          (json['heartBeatSoundThreshold'] as num).toInt()
-      ..text = json['text'] as String
-      ..colorImage = json['colorImage'] as bool
-      ..useGradient = json['useGradient'] as bool
       ..gradientHighColor = const ColorConverter()
           .fromJson((json['gradientHighColor'] as num).toInt())
       ..gradientLowColor = const ColorConverter()
           .fromJson((json['gradientLowColor'] as num).toInt())
       ..imageColor =
-          const ColorConverter().fromJson((json['imageColor'] as num).toInt())
-      ..gradientLowValue = (json['gradientLowValue'] as num).toInt()
-      ..gradientHighValue = (json['gradientHighValue'] as num).toInt();
+          const ColorConverter().fromJson((json['imageColor'] as num).toInt());
 
 Map<String, dynamic> _$DataWidgetPropertiesToJson(
         DataWidgetProperties instance) =>

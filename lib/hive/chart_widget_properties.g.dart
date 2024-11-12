@@ -18,15 +18,18 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ChartWidgetProperties()
-      ..dataType = fields[0] as DataType
-      ..dataSource = fields[1] as String
-      ..position = fields[2] as Tuple2Double
-      ..rangeSeconds = (fields[3] as num).toInt()
-      .._highColor = (fields[4] as num?)?.toInt()
-      .._lowColor = (fields[5] as num?)?.toInt()
-      .._width = (fields[6] as num?)?.toDouble()
-      .._height = (fields[7] as num?)?.toDouble();
+    return ChartWidgetProperties(
+      dataType: fields[0] == null ? DataType.unknown : fields[0] as DataType,
+      dataSource: fields[1] == null ? DataSource.watch : fields[1] as String,
+      position: fields[2] == null
+          ? const Tuple2Double(275, 150)
+          : fields[2] as Tuple2Double,
+      rangeSeconds: fields[3] == null ? 300 : (fields[3] as num).toInt(),
+      highColorValue: (fields[4] as num?)?.toInt(),
+      lowColorValue: (fields[5] as num?)?.toInt(),
+      width: fields[6] == null ? 100 : (fields[6] as num).toDouble(),
+      height: fields[7] == null ? 50 : (fields[7] as num).toDouble(),
+    );
   }
 
   @override
@@ -42,13 +45,13 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
       ..writeByte(3)
       ..write(obj.rangeSeconds)
       ..writeByte(4)
-      ..write(obj._highColor)
+      ..write(obj.highColorValue)
       ..writeByte(5)
-      ..write(obj._lowColor)
+      ..write(obj.lowColorValue)
       ..writeByte(6)
-      ..write(obj._width)
+      ..write(obj.width)
       ..writeByte(7)
-      ..write(obj._height);
+      ..write(obj.height);
   }
 
   @override
@@ -68,18 +71,21 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
 
 ChartWidgetProperties _$ChartWidgetPropertiesFromJson(
         Map<String, dynamic> json) =>
-    ChartWidgetProperties()
-      ..dataType = $enumDecode(_$DataTypeEnumMap, json['dataType'])
-      ..dataSource = json['dataSource'] as String
-      ..position =
-          Tuple2Double.fromJson(json['position'] as Map<String, dynamic>)
-      ..rangeSeconds = (json['rangeSeconds'] as num).toInt()
+    ChartWidgetProperties(
+      dataType: $enumDecodeNullable(_$DataTypeEnumMap, json['dataType']) ??
+          DataType.unknown,
+      dataSource: json['dataSource'] as String? ?? DataSource.watch,
+      position: json['position'] == null
+          ? const Tuple2Double(275, 150)
+          : Tuple2Double.fromJson(json['position'] as Map<String, dynamic>),
+      rangeSeconds: (json['rangeSeconds'] as num?)?.toInt() ?? 300,
+      width: (json['width'] as num?)?.toDouble() ?? 100,
+      height: (json['height'] as num?)?.toDouble() ?? 50,
+    )
       ..highColor =
           const ColorConverter().fromJson((json['highColor'] as num).toInt())
       ..lowColor =
-          const ColorConverter().fromJson((json['lowColor'] as num).toInt())
-      ..width = (json['width'] as num).toDouble()
-      ..height = (json['height'] as num).toDouble();
+          const ColorConverter().fromJson((json['lowColor'] as num).toInt());
 
 Map<String, dynamic> _$ChartWidgetPropertiesToJson(
         ChartWidgetProperties instance) =>

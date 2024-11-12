@@ -17,162 +17,180 @@ part 'data_widget_properties.g.dart';
 @HiveType(typeId: 0)
 @JsonSerializable(anyMap: true)
 @ColorConverter()
+@FontWeightConverter()
 class DataWidgetProperties extends HiveObject {
   @HiveField(0)
-  DataType dataType = DataType.unknown;
+  final DataType dataType;
 
   @HiveField(1)
-  bool showImage = true;
+  bool showImage;
 
   @HiveField(2)
   @Uint8ListConverter()
   Uint8List? image;
 
   @HiveField(3)
-  double imageSize = 60;
+  double imageSize;
 
   @HiveField(4)
-  double fontSize = 36;
+  double fontSize;
 
   @HiveField(5)
-  int textColor = Colors.white.value;
+  int textColor;
 
   @HiveField(6)
-  double textPaddingLeft = 14;
+  double textPaddingLeft;
 
   @HiveField(7)
-  String font = 'Monaco';
+  String font;
 
   @HiveField(8)
-  Tuple2Double position = Tuple2Double(275, 150);
+  Tuple2Double position;
 
   @HiveField(9)
-  String unit = '';
+  String unit;
 
   @HiveField(10)
-  int style = 0;
+  int style;
 
   @HiveField(11)
-  bool textShadow = false;
+  bool textShadow;
 
   @HiveField(12)
-  double textShadowRadius = 8;
+  double textShadowRadius;
 
   @HiveField(13)
-  bool textStroke = false;
+  bool textStroke;
 
   @HiveField(14)
-  double textStrokeWidth = 1;
+  double textStrokeWidth;
 
   @HiveField(15)
-  double textPaddingTop = 12;
+  double textPaddingTop;
 
   @HiveField(16)
-  double unitFontSize = 24;
+  double unitFontSize;
 
   @HiveField(17)
-  int decimals = 1;
+  int decimals;
 
   @HiveField(18)
-  bool animated = true;
+  bool animated;
 
   @HiveField(19)
-  Map<int, int> heartRateRanges = {};
+  final Map<int, int> heartRateRanges;
 
   @HiveField(20)
   @Uint8ListConverter()
   Uint8List? heartBeatSound;
 
   @HiveField(21)
-  bool? _textInsideImage = false;
-
-  bool get textInsideImage => _textInsideImage ?? false;
-  set textInsideImage(bool value) => _textInsideImage = value;
+  bool textInsideImage;
 
   @HiveField(22)
-  String? _dataSource;
-
-  String get dataSource => _dataSource ?? DataSource.watch;
-  set dataSource(String value) => _dataSource = value;
+  String dataSource;
 
   @HiveField(23)
-  double? _scaleFactor;
-
-  double get scaleFactor => _scaleFactor ?? 1;
-  set scaleFactor(double value) => _scaleFactor = value;
+  double scaleFactor;
 
   @HiveField(24)
-  String? _fontWeight;
+  @protected
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String fontWeightString;
 
-  @FontWeightConverter()
   FontWeight get fontWeight =>
-      FontWeightConverter.stringToWeight[_fontWeight] ?? FontWeight.normal;
-
-  @FontWeightConverter()
+      FontWeightConverter.stringToWeight[fontWeightString] ?? FontWeight.normal;
   set fontWeight(FontWeight value) =>
-      _fontWeight = FontWeightConverter.weightToString[value]!;
+      fontWeightString = FontWeightConverter.weightToString[value]!;
 
   @HiveField(25)
-  bool? _vertical;
-
-  bool get vertical => _vertical ?? false;
-  set vertical(bool value) => _vertical = value;
+  bool vertical;
 
   @HiveField(26)
-  int? _heartBeatSoundThreshold;
-
-  int get heartBeatSoundThreshold => _heartBeatSoundThreshold ?? 0;
-  set heartBeatSoundThreshold(int value) => _heartBeatSoundThreshold = value;
+  int heartBeatSoundThreshold;
 
   @HiveField(27)
-  String? _text;
-
-  String get text => _text ?? 'Text';
-  set text(String value) => _text = value;
+  String text;
 
   @HiveField(28)
-  bool? _colorImage;
-
-  bool get colorImage => _colorImage ?? false;
-  set colorImage(bool value) => _colorImage = value;
+  bool colorImage;
 
   @HiveField(29)
-  bool? _useGradient;
-
-  bool get useGradient => _useGradient ?? false;
-  set useGradient(bool value) => _useGradient = value;
+  bool useGradient;
 
   @HiveField(30)
-  int? _gradientHighColor;
+  @protected
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  int gradientHighColorValue;
 
-  Color get gradientHighColor => Color(_gradientHighColor ?? Colors.red.value);
-  set gradientHighColor(Color color) => _gradientHighColor = color.value;
+  Color get gradientHighColor => Color(gradientHighColorValue);
+  set gradientHighColor(Color color) => gradientHighColorValue = color.value;
 
   @HiveField(31)
-  int? _gradientLowColor;
+  @protected
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  int gradientLowColorValue;
 
-  Color get gradientLowColor => Color(_gradientLowColor ?? Colors.green.value);
-  set gradientLowColor(Color color) => _gradientLowColor = color.value;
+  Color get gradientLowColor => Color(gradientLowColorValue);
+  set gradientLowColor(Color color) => gradientLowColorValue = color.value;
 
   @HiveField(32)
-  int? _imageColor;
+  @protected
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  int imageColorValue;
 
-  Color get imageColor => Color(_imageColor ?? textColor);
-  set imageColor(Color value) => _imageColor = value.value;
+  Color get imageColor => Color(imageColorValue);
+  set imageColor(Color value) => imageColorValue = value.value;
 
   @HiveField(33)
-  int? _gradientLowValue;
-
-  int get gradientLowValue => _gradientLowValue ?? 40;
-  set gradientLowValue(int value) => _gradientLowValue = value;
+  int gradientLowValue;
 
   @HiveField(34)
-  int? _gradientHighValue;
+  int gradientHighValue;
 
-  int get gradientHighValue => _gradientHighValue ?? 220;
-  set gradientHighValue(int value) => _gradientHighValue = value;
-
-  DataWidgetProperties();
+  DataWidgetProperties({
+    this.dataType = DataType.unknown,
+    this.showImage = true,
+    this.image,
+    this.imageSize = 60,
+    this.fontSize = 36,
+    int? textColor,
+    this.textPaddingLeft = 14,
+    this.font = 'Monaco',
+    this.position = const Tuple2Double(275, 150),
+    this.unit = '',
+    this.style = 0,
+    this.textShadow = false,
+    this.textShadowRadius = 8,
+    this.textStroke = false,
+    this.textStrokeWidth = 1,
+    this.textPaddingTop = 12,
+    this.unitFontSize = 24,
+    this.decimals = 1,
+    this.animated = true,
+    Map<int, int>? heartRateRanges,
+    this.heartBeatSound,
+    this.textInsideImage = false,
+    this.dataSource = DataSource.watch,
+    this.scaleFactor = 1,
+    String? fontWeightString,
+    this.vertical = false,
+    this.heartBeatSoundThreshold = 0,
+    this.text = 'Text',
+    this.colorImage = false,
+    this.useGradient = false,
+    int? gradientHighColorValue,
+    int? gradientLowColorValue,
+    int? imageColorValue,
+    this.gradientLowValue = 40,
+    this.gradientHighValue = 220,
+  })  : textColor = textColor ?? Colors.white.value,
+        heartRateRanges = heartRateRanges ?? {},
+        fontWeightString =
+            FontWeightConverter.weightToString[FontWeight.normal]!,
+        gradientHighColorValue = gradientHighColorValue ?? Colors.red.value,
+        gradientLowColorValue = gradientLowColorValue ?? Colors.green.value,
+        imageColorValue = imageColorValue ?? Colors.white.value;
 
   DataWidgetProperties copy() {
     return DataWidgetProperties.fromJson(jsonDecode(jsonEncode(this)));
