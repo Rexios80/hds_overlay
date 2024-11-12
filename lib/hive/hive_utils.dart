@@ -12,7 +12,7 @@ import 'package:hds_overlay/hive/firebase_config.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
-import 'package:hds_overlay/hive_registrar.g.dart';
+import 'package:hds_overlay/hive/hive_registrar.g.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:tuple/tuple.dart';
 
