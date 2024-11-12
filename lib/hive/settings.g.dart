@@ -18,24 +18,25 @@ class SettingsAdapter extends TypeAdapter<Settings> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Settings()
-      ..port = (fields[0] as num).toInt()
-      ..overlayBackgroundColor = (fields[1] as num).toInt()
-      ..darkMode = fields[2] as bool
-      .._overlayWidth = (fields[3] as num?)?.toDouble()
-      .._overlayHeight = (fields[4] as num?)?.toDouble()
-      .._clientName = fields[5] as String?
-      .._serverIps = (fields[6] as List?)?.cast<String>()
-      .._serverIp = fields[7] as String?
-      .._hdsCloud = fields[8] as bool?
-      .._dataClearInterval = (fields[9] as num?)?.toInt()
-      .._rtdFallback = fields[10] as bool?;
+    return Settings(
+      port:
+          fields[0] == null ? Settings.defaultPort : (fields[0] as num).toInt(),
+      overlayBackgroundColor: (fields[1] as num?)?.toInt(),
+      darkMode:
+          fields[2] == null ? Settings.defaultDarkMode : fields[2] as bool,
+      overlayWidth: fields[3] == null ? 1280 : (fields[3] as num).toDouble(),
+      overlayHeight: fields[4] == null ? 720 : (fields[4] as num).toDouble(),
+      serverIp: fields[7] == null ? 'localhost' : fields[7] as String,
+      hdsCloud: fields[8] == null ? true : fields[8] as bool,
+      dataClearInterval: fields[9] == null ? 120 : (fields[9] as num).toInt(),
+      rtdFallback: fields[10] == null ? false : fields[10] as bool,
+    );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.port)
       ..writeByte(1)
@@ -43,21 +44,17 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       ..writeByte(2)
       ..write(obj.darkMode)
       ..writeByte(3)
-      ..write(obj._overlayWidth)
+      ..write(obj.overlayWidth)
       ..writeByte(4)
-      ..write(obj._overlayHeight)
-      ..writeByte(5)
-      ..write(obj._clientName)
-      ..writeByte(6)
-      ..write(obj._serverIps)
+      ..write(obj.overlayHeight)
       ..writeByte(7)
-      ..write(obj._serverIp)
+      ..write(obj.serverIp)
       ..writeByte(8)
-      ..write(obj._hdsCloud)
+      ..write(obj.hdsCloud)
       ..writeByte(9)
-      ..write(obj._dataClearInterval)
+      ..write(obj.dataClearInterval)
       ..writeByte(10)
-      ..write(obj._rtdFallback);
+      ..write(obj.rtdFallback);
   }
 
   @override

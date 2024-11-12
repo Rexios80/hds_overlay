@@ -10,52 +10,43 @@ class Settings extends HiveObject {
   static const defaultDarkMode = false;
 
   @HiveField(0)
-  int port = defaultPort;
+  int port;
 
   @HiveField(1)
-  int overlayBackgroundColor = defaultOverlayBackgroundColor;
+  int overlayBackgroundColor;
 
   @HiveField(2)
-  bool darkMode = defaultDarkMode;
+  bool darkMode;
 
   @HiveField(3)
-  double? _overlayWidth;
-
-  double get overlayWidth => _overlayWidth ?? 1280;
-  set overlayWidth(double value) => _overlayWidth = value;
+  double overlayWidth;
 
   @HiveField(4)
-  double? _overlayHeight;
-
-  double get overlayHeight => _overlayHeight ?? 720;
-  set overlayHeight(double value) => _overlayHeight = value;
-
-  @HiveField(5)
-  String? _clientName;
-
-  set clientName(String value) => _clientName = value;
-
-  @HiveField(6)
-  List<String>? _serverIps;
+  double overlayHeight;
 
   @HiveField(7)
-  String? _serverIp = 'localhost';
-
-  String get serverIp => _serverIp ?? 'localhost';
-  set serverIp(String value) => _serverIp = value;
+  String serverIp;
 
   @HiveField(8)
-  bool? _hdsCloud;
-
-  bool get hdsCloud => _hdsCloud ?? true;
-  set hdsCloud(bool value) => _hdsCloud = value;
+  bool hdsCloud;
 
   @HiveField(9)
-  int? _dataClearInterval;
+  int dataClearInterval;
 
-  int get dataClearInterval => _dataClearInterval ?? 120; // seconds
-  set dataClearInterval(int value) => _dataClearInterval = value;
-
+  // TODO: Remove
   @HiveField(10)
-  bool? _rtdFallback;
+  bool rtdFallback;
+
+  Settings({
+    this.port = Settings.defaultPort,
+    int? overlayBackgroundColor,
+    this.darkMode = Settings.defaultDarkMode,
+    this.overlayWidth = 1280,
+    this.overlayHeight = 720,
+    this.serverIp = 'localhost',
+    this.hdsCloud = true,
+    this.dataClearInterval = 120,
+    this.rtdFallback = false,
+  }) : overlayBackgroundColor =
+            overlayBackgroundColor ?? defaultOverlayBackgroundColor;
 }
