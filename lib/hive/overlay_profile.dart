@@ -12,18 +12,17 @@ class OverlayProfile extends HiveObject {
   String name = '';
 
   @HiveField(1)
-  List<DataWidgetProperties> dataWidgetProperties = [];
+  List<DataWidgetProperties> dataWidgetProperties;
 
   @HiveField(2)
-  List<ChartWidgetProperties>? _chartWidgetProperties = [];
+  List<ChartWidgetProperties> chartWidgetProperties;
 
-  List<ChartWidgetProperties> get chartWidgetProperties =>
-      _chartWidgetProperties ?? [];
-
-  set chartWidgetProperties(List<ChartWidgetProperties> value) =>
-      _chartWidgetProperties = value;
-
-  OverlayProfile();
+  OverlayProfile({
+    this.name = '',
+    List<DataWidgetProperties>? dataWidgetProperties,
+    List<ChartWidgetProperties>? chartWidgetProperties,
+  }): dataWidgetProperties = dataWidgetProperties ?? [],
+      chartWidgetProperties = chartWidgetProperties ?? [];
 
   factory OverlayProfile.fromJson(Map<String, dynamic> json) =>
       _$OverlayProfileFromJson(json);
