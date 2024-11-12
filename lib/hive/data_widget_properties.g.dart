@@ -184,23 +184,19 @@ DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) =>
       textInsideImage: json['textInsideImage'] as bool? ?? false,
       dataSource: json['dataSource'] as String? ?? DataSource.watch,
       scaleFactor: (json['scaleFactor'] as num?)?.toDouble() ?? 1,
+      fontWeightString: json['fontWeight'] as String?,
       vertical: json['vertical'] as bool? ?? false,
       heartBeatSoundThreshold:
           (json['heartBeatSoundThreshold'] as num?)?.toInt() ?? 0,
       text: json['text'] as String? ?? 'Text',
       colorImage: json['colorImage'] as bool? ?? false,
       useGradient: json['useGradient'] as bool? ?? false,
+      gradientHighColorValue: (json['gradientHighColor'] as num?)?.toInt(),
+      gradientLowColorValue: (json['gradientLowColor'] as num?)?.toInt(),
+      imageColorValue: (json['imageColor'] as num?)?.toInt(),
       gradientLowValue: (json['gradientLowValue'] as num?)?.toInt() ?? 40,
       gradientHighValue: (json['gradientHighValue'] as num?)?.toInt() ?? 220,
-    )
-      ..fontWeight =
-          const FontWeightConverter().fromJson(json['fontWeight'] as String)
-      ..gradientHighColor = const ColorConverter()
-          .fromJson((json['gradientHighColor'] as num).toInt())
-      ..gradientLowColor = const ColorConverter()
-          .fromJson((json['gradientLowColor'] as num).toInt())
-      ..imageColor =
-          const ColorConverter().fromJson((json['imageColor'] as num).toInt());
+    );
 
 Map<String, dynamic> _$DataWidgetPropertiesToJson(
         DataWidgetProperties instance) =>
@@ -231,17 +227,15 @@ Map<String, dynamic> _$DataWidgetPropertiesToJson(
       'textInsideImage': instance.textInsideImage,
       'dataSource': instance.dataSource,
       'scaleFactor': instance.scaleFactor,
-      'fontWeight': const FontWeightConverter().toJson(instance.fontWeight),
+      'fontWeight': instance.fontWeightString,
       'vertical': instance.vertical,
       'heartBeatSoundThreshold': instance.heartBeatSoundThreshold,
       'text': instance.text,
       'colorImage': instance.colorImage,
       'useGradient': instance.useGradient,
-      'gradientHighColor':
-          const ColorConverter().toJson(instance.gradientHighColor),
-      'gradientLowColor':
-          const ColorConverter().toJson(instance.gradientLowColor),
-      'imageColor': const ColorConverter().toJson(instance.imageColor),
+      'gradientHighColor': instance.gradientHighColorValue,
+      'gradientLowColor': instance.gradientLowColorValue,
+      'imageColor': instance.imageColorValue,
       'gradientLowValue': instance.gradientLowValue,
       'gradientHighValue': instance.gradientHighValue,
     };

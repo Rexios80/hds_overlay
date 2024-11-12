@@ -16,8 +16,6 @@ part 'data_widget_properties.g.dart';
 
 @HiveType(typeId: 0)
 @JsonSerializable(anyMap: true)
-@ColorConverter()
-@FontWeightConverter()
 class DataWidgetProperties extends HiveObject {
   @HiveField(0)
   final DataType dataType;
@@ -95,13 +93,8 @@ class DataWidgetProperties extends HiveObject {
 
   @HiveField(24)
   @protected
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  @JsonKey(name: 'fontWeight')
   String fontWeightString;
-
-  FontWeight get fontWeight =>
-      FontWeightConverter.stringToWeight[fontWeightString] ?? FontWeight.normal;
-  set fontWeight(FontWeight value) =>
-      fontWeightString = FontWeightConverter.weightToString[value]!;
 
   @HiveField(25)
   bool vertical;
@@ -120,27 +113,18 @@ class DataWidgetProperties extends HiveObject {
 
   @HiveField(30)
   @protected
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  @JsonKey(name: 'gradientHighColor')
   int gradientHighColorValue;
-
-  Color get gradientHighColor => Color(gradientHighColorValue);
-  set gradientHighColor(Color color) => gradientHighColorValue = color.value;
 
   @HiveField(31)
   @protected
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  @JsonKey(name: 'gradientLowColor')
   int gradientLowColorValue;
-
-  Color get gradientLowColor => Color(gradientLowColorValue);
-  set gradientLowColor(Color color) => gradientLowColorValue = color.value;
 
   @HiveField(32)
   @protected
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  @JsonKey(name: 'imageColor')
   int imageColorValue;
-
-  Color get imageColor => Color(imageColorValue);
-  set imageColor(Color value) => imageColorValue = value.value;
 
   @HiveField(33)
   int gradientLowValue;
@@ -199,4 +183,20 @@ class DataWidgetProperties extends HiveObject {
   factory DataWidgetProperties.fromJson(Map<String, dynamic> json) =>
       _$DataWidgetPropertiesFromJson(json);
   Map<String, dynamic> toJson() => _$DataWidgetPropertiesToJson(this);
+}
+
+extension DataWidgetPropertiesExtension on DataWidgetProperties {
+  FontWeight get fontWeight =>
+      FontWeightConverter.stringToWeight[fontWeightString] ?? FontWeight.normal;
+  set fontWeight(FontWeight value) =>
+      fontWeightString = FontWeightConverter.weightToString[value]!;
+
+  Color get gradientHighColor => Color(gradientHighColorValue);
+  set gradientHighColor(Color color) => gradientHighColorValue = color.value;
+
+  Color get gradientLowColor => Color(gradientLowColorValue);
+  set gradientLowColor(Color color) => gradientLowColorValue = color.value;
+
+  Color get imageColor => Color(imageColorValue);
+  set imageColor(Color value) => imageColorValue = value.value;
 }

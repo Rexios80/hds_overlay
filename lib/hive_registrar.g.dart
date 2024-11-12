@@ -9,7 +9,6 @@ import 'package:hds_overlay/hive/chart_widget_properties.dart';
 import 'package:hds_overlay/hive/data_type.dart';
 import 'package:hds_overlay/hive/data_widget_properties.dart';
 import 'package:hds_overlay/hive/firebase_config.dart';
-import 'package:hds_overlay/hive/hive_adapters.dart';
 import 'package:hds_overlay/hive/overlay_profile.dart';
 import 'package:hds_overlay/hive/settings.dart';
 import 'package:hds_overlay/hive/tuple2_double.dart';
@@ -17,18 +16,11 @@ import 'package:hds_overlay/hive/tuple2_double.dart';
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(ChartWidgetPropertiesAdapter());
-    registerAdapter(ChartWidgetPropertiesAdapter());
-    registerAdapter(DataTypeAdapter());
     registerAdapter(DataTypeAdapter());
     registerAdapter(DataWidgetPropertiesAdapter());
-    registerAdapter(DataWidgetPropertiesAdapter());
-    registerAdapter(FirebaseConfigAdapter());
     registerAdapter(FirebaseConfigAdapter());
     registerAdapter(OverlayProfileAdapter());
-    registerAdapter(OverlayProfileAdapter());
     registerAdapter(SettingsAdapter());
-    registerAdapter(SettingsAdapter());
-    registerAdapter(Tuple2DoubleAdapter());
     registerAdapter(Tuple2DoubleAdapter());
   }
 }

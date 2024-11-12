@@ -79,13 +79,11 @@ ChartWidgetProperties _$ChartWidgetPropertiesFromJson(
           ? const Tuple2Double(275, 150)
           : Tuple2Double.fromJson(json['position'] as Map<String, dynamic>),
       rangeSeconds: (json['rangeSeconds'] as num?)?.toInt() ?? 300,
+      highColorValue: (json['highColor'] as num?)?.toInt(),
+      lowColorValue: (json['lowColor'] as num?)?.toInt(),
       width: (json['width'] as num?)?.toDouble() ?? 100,
       height: (json['height'] as num?)?.toDouble() ?? 50,
-    )
-      ..highColor =
-          const ColorConverter().fromJson((json['highColor'] as num).toInt())
-      ..lowColor =
-          const ColorConverter().fromJson((json['lowColor'] as num).toInt());
+    );
 
 Map<String, dynamic> _$ChartWidgetPropertiesToJson(
         ChartWidgetProperties instance) =>
@@ -94,8 +92,8 @@ Map<String, dynamic> _$ChartWidgetPropertiesToJson(
       'dataSource': instance.dataSource,
       'position': instance.position,
       'rangeSeconds': instance.rangeSeconds,
-      'highColor': const ColorConverter().toJson(instance.highColor),
-      'lowColor': const ColorConverter().toJson(instance.lowColor),
+      'highColor': instance.highColorValue,
+      'lowColor': instance.lowColorValue,
       'width': instance.width,
       'height': instance.height,
     };

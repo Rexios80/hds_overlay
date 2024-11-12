@@ -12,7 +12,6 @@ part 'chart_widget_properties.g.dart';
 
 @HiveType(typeId: 7)
 @JsonSerializable()
-@ColorConverter()
 class ChartWidgetProperties extends HiveObject {
   static const maxValuesToKeep = 500;
 
@@ -30,19 +29,13 @@ class ChartWidgetProperties extends HiveObject {
 
   @HiveField(4)
   @protected
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  @JsonKey(name: 'highColor')
   int highColorValue;
-
-  Color get highColor => Color(highColorValue);
-  set highColor(Color color) => highColorValue = color.value;
 
   @HiveField(5)
   @protected
-  @JsonKey(includeToJson: false, includeFromJson: false)
+  @JsonKey(name: 'lowColor')
   int lowColorValue;
-
-  Color get lowColor => Color(lowColorValue);
-  set lowColor(Color color) => lowColorValue = color.value;
 
   @HiveField(6)
   double width;
@@ -69,4 +62,12 @@ class ChartWidgetProperties extends HiveObject {
   factory ChartWidgetProperties.fromJson(Map<String, dynamic> json) =>
       _$ChartWidgetPropertiesFromJson(json);
   Map<String, dynamic> toJson() => _$ChartWidgetPropertiesToJson(this);
+}
+
+extension ChartWidgetPropertiesExtension on ChartWidgetProperties {
+  Color get highColor => Color(highColorValue);
+  set highColor(Color color) => highColorValue = color.value;
+
+  Color get lowColor => Color(lowColorValue);
+  set lowColor(Color color) => lowColorValue = color.value;
 }
