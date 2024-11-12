@@ -18,7 +18,9 @@ class FirebaseConfigAdapter extends TypeAdapter<FirebaseConfig> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return FirebaseConfig()..overlayId = fields[0] as String;
+    return FirebaseConfig(
+      overlayId: fields[0] as String?,
+    );
   }
 
   @override

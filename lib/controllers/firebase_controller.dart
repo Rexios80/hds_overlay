@@ -7,7 +7,7 @@ class FirebaseController extends GetxController {
   FirebaseController(this.config);
 
   void regenerateOverlayId() {
-    config.value.generateOverlayId();
+    config.value.overlayId = FirebaseConfig.generateOverlayId();
     config.value.save();
     config.refresh();
   }
