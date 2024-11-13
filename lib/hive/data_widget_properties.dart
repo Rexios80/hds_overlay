@@ -13,122 +13,56 @@ import 'package:hds_overlay/hive/data_type.dart';
 
 part 'data_widget_properties.g.dart';
 
-@HiveType(typeId: 0)
 @JsonSerializable(anyMap: true)
+@Uint8ListConverter()
 class DataWidgetProperties extends HiveObject {
-  @HiveField(0)
   final DataType dataType;
 
-  @HiveField(1)
   bool showImage;
-
-  @HiveField(2)
-  @Uint8ListConverter()
   Uint8List? image;
-
-  @HiveField(3)
   double imageSize;
-
-  @HiveField(4)
   double fontSize;
-
-  @HiveField(5)
   int textColor;
-
-  @HiveField(6)
   double textPaddingLeft;
-
-  @HiveField(7)
   String font;
-
-  @HiveField(8)
   Tuple2Double position;
-
-  @HiveField(9)
   String unit;
-
-  @HiveField(10)
   int style;
-
-  @HiveField(11)
   bool textShadow;
-
-  @HiveField(12)
   double textShadowRadius;
-
-  @HiveField(13)
   bool textStroke;
-
-  @HiveField(14)
   double textStrokeWidth;
-
-  @HiveField(15)
   double textPaddingTop;
-
-  @HiveField(16)
   double unitFontSize;
-
-  @HiveField(17)
   int decimals;
-
-  @HiveField(18)
   bool animated;
-
-  @HiveField(19)
   final Map<int, int> heartRateRanges;
-
-  @HiveField(20)
-  @Uint8ListConverter()
   Uint8List? heartBeatSound;
-
-  @HiveField(21)
   bool textInsideImage;
-
-  @HiveField(22)
   String dataSource;
-
-  @HiveField(23)
   double scaleFactor;
 
-  @HiveField(24)
   @protected
   @JsonKey(name: 'fontWeight')
   String fontWeightString;
-
-  @HiveField(25)
   bool vertical;
-
-  @HiveField(26)
   int heartBeatSoundThreshold;
-
-  @HiveField(27)
   String text;
-
-  @HiveField(28)
   bool colorImage;
-
-  @HiveField(29)
   bool useGradient;
 
-  @HiveField(30)
   @protected
   @JsonKey(name: 'gradientHighColor')
   int gradientHighColorValue;
 
-  @HiveField(31)
   @protected
   @JsonKey(name: 'gradientLowColor')
   int gradientLowColorValue;
 
-  @HiveField(32)
   @protected
   @JsonKey(name: 'imageColor')
   int imageColorValue;
-
-  @HiveField(33)
   int gradientLowValue;
-
-  @HiveField(34)
   int gradientHighValue;
 
   DataWidgetProperties({

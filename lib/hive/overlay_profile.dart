@@ -5,24 +5,18 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'overlay_profile.g.dart';
 
-@HiveType(typeId: 5)
 @JsonSerializable()
 class OverlayProfile extends HiveObject {
-  @HiveField(0)
   String name = '';
-
-  @HiveField(1)
   List<DataWidgetProperties> dataWidgetProperties;
-
-  @HiveField(2)
   List<ChartWidgetProperties> chartWidgetProperties;
 
   OverlayProfile({
     this.name = '',
     List<DataWidgetProperties>? dataWidgetProperties,
     List<ChartWidgetProperties>? chartWidgetProperties,
-  }): dataWidgetProperties = dataWidgetProperties ?? [],
-      chartWidgetProperties = chartWidgetProperties ?? [];
+  })  : dataWidgetProperties = dataWidgetProperties ?? [],
+        chartWidgetProperties = chartWidgetProperties ?? [];
 
   factory OverlayProfile.fromJson(Map<String, dynamic> json) =>
       _$OverlayProfileFromJson(json);

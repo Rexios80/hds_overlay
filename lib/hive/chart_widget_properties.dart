@@ -9,37 +9,24 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'chart_widget_properties.g.dart';
 
-@HiveType(typeId: 7)
 @JsonSerializable()
 class ChartWidgetProperties extends HiveObject {
   static const maxValuesToKeep = 500;
 
-  @HiveField(0)
   DataType dataType;
-
-  @HiveField(1)
   String dataSource;
-
-  @HiveField(2)
   Tuple2Double position;
-
-  @HiveField(3)
   int rangeSeconds;
 
-  @HiveField(4)
   @protected
   @JsonKey(name: 'highColor')
   int highColorValue;
 
-  @HiveField(5)
   @protected
   @JsonKey(name: 'lowColor')
   int lowColorValue;
 
-  @HiveField(6)
   double width;
-
-  @HiveField(7)
   double height;
 
   ChartWidgetProperties({

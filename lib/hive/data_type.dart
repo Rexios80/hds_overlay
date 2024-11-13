@@ -2,49 +2,20 @@ import 'package:flutter/widgets.dart';
 import 'package:hds_overlay/view/widgets/data/data_widget.dart';
 import 'package:hds_overlay/view/widgets/data/heart_rate_widget.dart';
 import 'package:hds_overlay/view/widgets/data/text_widget.dart';
-import 'package:hive_ce/hive.dart';
 
-part 'data_type.g.dart';
-
-@HiveType(typeId: 3)
 enum DataType {
-  @HiveField(255)
   unknown,
-
-  @HiveField(12)
   text,
-
-  @HiveField(0)
   heartRate,
-
-  @HiveField(1)
   heartRateMin,
-
-  @HiveField(2)
   heartRateMax,
-
-  @HiveField(4)
   heartRateAverage,
-
-  @HiveField(5)
   calories,
-
-  @HiveField(6)
   stepCount,
-
-  @HiveField(7)
   distanceTraveled,
-
-  @HiveField(8)
   speed,
-
-  @HiveField(9)
   oxygenSaturation,
-
-  @HiveField(10)
   bodyMass,
-
-  @HiveField(11)
   bmi,
 }
 

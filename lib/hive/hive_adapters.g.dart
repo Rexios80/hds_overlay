@@ -168,14 +168,13 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       serverIp: fields[7] == null ? 'localhost' : fields[7] as String,
       hdsCloud: fields[8] == null ? true : fields[8] as bool,
       dataClearInterval: fields[9] == null ? 120 : (fields[9] as num).toInt(),
-      rtdFallback: fields[10] == null ? false : fields[10] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.port)
       ..writeByte(1)
@@ -191,9 +190,7 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       ..writeByte(8)
       ..write(obj.hdsCloud)
       ..writeByte(9)
-      ..write(obj.dataClearInterval)
-      ..writeByte(10)
-      ..write(obj.rtdFallback);
+      ..write(obj.dataClearInterval);
   }
 
   @override

@@ -97,8 +97,6 @@ types:
         index: 8
       dataClearInterval:
         index: 9
-      rtdFallback:
-        index: 10
   DataType:
     typeId: 3
     nextIndex: 256
