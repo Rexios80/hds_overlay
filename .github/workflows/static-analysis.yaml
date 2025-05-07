@@ -26,7 +26,7 @@ jobs:
       #     npx embedme README.md --verify
       - name: Build runner
         run: |
-          flutter pub run build_runner build --delete-conflicting-outputs
+          dart run build_runner build --delete-conflicting-outputs
           git diff --exit-code
       # - name: Test
       #   run: dart test
