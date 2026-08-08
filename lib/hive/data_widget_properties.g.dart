@@ -10,7 +10,7 @@ part of 'data_widget_properties.dart';
 
 class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
   @override
-  final int typeId = 0;
+  final typeId = 0;
 
   @override
   DataWidgetProperties read(BinaryReader reader) {
@@ -22,38 +22,38 @@ class DataWidgetPropertiesAdapter extends TypeAdapter<DataWidgetProperties> {
       ..dataType = fields[0] as DataType
       ..showImage = fields[1] as bool
       ..image = fields[2] as Uint8List?
-      ..imageSize = fields[3] as double
-      ..fontSize = fields[4] as double
-      ..textColor = fields[5] as int
-      ..textPaddingLeft = fields[6] as double
+      ..imageSize = (fields[3] as num).toDouble()
+      ..fontSize = (fields[4] as num).toDouble()
+      ..textColor = (fields[5] as num).toInt()
+      ..textPaddingLeft = (fields[6] as num).toDouble()
       ..font = fields[7] as String
       ..position = fields[8] as Tuple2Double
       ..unit = fields[9] as String
-      ..style = fields[10] as int
+      ..style = (fields[10] as num).toInt()
       ..textShadow = fields[11] as bool
-      ..textShadowRadius = fields[12] as double
+      ..textShadowRadius = (fields[12] as num).toDouble()
       ..textStroke = fields[13] as bool
-      ..textStrokeWidth = fields[14] as double
-      ..textPaddingTop = fields[15] as double
-      ..unitFontSize = fields[16] as double
-      ..decimals = fields[17] as int
+      ..textStrokeWidth = (fields[14] as num).toDouble()
+      ..textPaddingTop = (fields[15] as num).toDouble()
+      ..unitFontSize = (fields[16] as num).toDouble()
+      ..decimals = (fields[17] as num).toInt()
       ..animated = fields[18] as bool
       ..heartRateRanges = (fields[19] as Map).cast<int, int>()
       ..heartBeatSound = fields[20] as Uint8List?
       .._textInsideImage = fields[21] as bool?
       .._dataSource = fields[22] as String?
-      .._scaleFactor = fields[23] as double?
+      .._scaleFactor = (fields[23] as num?)?.toDouble()
       .._fontWeight = fields[24] as String?
       .._vertical = fields[25] as bool?
-      .._heartBeatSoundThreshold = fields[26] as int?
+      .._heartBeatSoundThreshold = (fields[26] as num?)?.toInt()
       .._text = fields[27] as String?
       .._colorImage = fields[28] as bool?
       .._useGradient = fields[29] as bool?
-      .._gradientHighColor = fields[30] as int?
-      .._gradientLowColor = fields[31] as int?
-      .._imageColor = fields[32] as int?
-      .._gradientLowValue = fields[33] as int?
-      .._gradientHighValue = fields[34] as int?;
+      .._gradientHighColor = (fields[30] as num?)?.toInt()
+      .._gradientLowColor = (fields[31] as num?)?.toInt()
+      .._imageColor = (fields[32] as num?)?.toInt()
+      .._gradientLowValue = (fields[33] as num?)?.toInt()
+      .._gradientHighValue = (fields[34] as num?)?.toInt();
   }
 
   @override
@@ -154,23 +154,23 @@ DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) =>
       ..image = const Uint8ListConverter().fromJson(json['image'] as List<int>?)
       ..imageSize = (json['imageSize'] as num).toDouble()
       ..fontSize = (json['fontSize'] as num).toDouble()
-      ..textColor = json['textColor'] as int
+      ..textColor = (json['textColor'] as num).toInt()
       ..textPaddingLeft = (json['textPaddingLeft'] as num).toDouble()
       ..font = json['font'] as String
       ..position = Tuple2Double.fromJson(
           Map<String, dynamic>.from(json['position'] as Map))
       ..unit = json['unit'] as String
-      ..style = json['style'] as int
+      ..style = (json['style'] as num).toInt()
       ..textShadow = json['textShadow'] as bool
       ..textShadowRadius = (json['textShadowRadius'] as num).toDouble()
       ..textStroke = json['textStroke'] as bool
       ..textStrokeWidth = (json['textStrokeWidth'] as num).toDouble()
       ..textPaddingTop = (json['textPaddingTop'] as num).toDouble()
       ..unitFontSize = (json['unitFontSize'] as num).toDouble()
-      ..decimals = json['decimals'] as int
+      ..decimals = (json['decimals'] as num).toInt()
       ..animated = json['animated'] as bool
       ..heartRateRanges = (json['heartRateRanges'] as Map).map(
-        (k, e) => MapEntry(int.parse(k as String), e as int),
+        (k, e) => MapEntry(int.parse(k as String), (e as num).toInt()),
       )
       ..heartBeatSound = const Uint8ListConverter()
           .fromJson(json['heartBeatSound'] as List<int>?)
@@ -180,17 +180,19 @@ DataWidgetProperties _$DataWidgetPropertiesFromJson(Map json) =>
       ..fontWeight =
           const FontWeightConverter().fromJson(json['fontWeight'] as String)
       ..vertical = json['vertical'] as bool
-      ..heartBeatSoundThreshold = json['heartBeatSoundThreshold'] as int
+      ..heartBeatSoundThreshold =
+          (json['heartBeatSoundThreshold'] as num).toInt()
       ..text = json['text'] as String
       ..colorImage = json['colorImage'] as bool
       ..useGradient = json['useGradient'] as bool
-      ..gradientHighColor =
-          const ColorConverter().fromJson(json['gradientHighColor'] as int)
-      ..gradientLowColor =
-          const ColorConverter().fromJson(json['gradientLowColor'] as int)
-      ..imageColor = const ColorConverter().fromJson(json['imageColor'] as int)
-      ..gradientLowValue = json['gradientLowValue'] as int
-      ..gradientHighValue = json['gradientHighValue'] as int;
+      ..gradientHighColor = const ColorConverter()
+          .fromJson((json['gradientHighColor'] as num).toInt())
+      ..gradientLowColor = const ColorConverter()
+          .fromJson((json['gradientLowColor'] as num).toInt())
+      ..imageColor =
+          const ColorConverter().fromJson((json['imageColor'] as num).toInt())
+      ..gradientLowValue = (json['gradientLowValue'] as num).toInt()
+      ..gradientHighValue = (json['gradientHighValue'] as num).toInt();
 
 Map<String, dynamic> _$DataWidgetPropertiesToJson(
         DataWidgetProperties instance) =>

@@ -10,7 +10,7 @@ part of 'firebase_config.dart';
 
 class FirebaseConfigAdapter extends TypeAdapter<FirebaseConfig> {
   @override
-  final int typeId = 6;
+  final typeId = 6;
 
   @override
   FirebaseConfig read(BinaryReader reader) {

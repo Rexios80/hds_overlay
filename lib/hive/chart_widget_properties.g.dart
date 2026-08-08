@@ -10,7 +10,7 @@ part of 'chart_widget_properties.dart';
 
 class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
   @override
-  final int typeId = 7;
+  final typeId = 7;
 
   @override
   ChartWidgetProperties read(BinaryReader reader) {
@@ -22,11 +22,11 @@ class ChartWidgetPropertiesAdapter extends TypeAdapter<ChartWidgetProperties> {
       ..dataType = fields[0] as DataType
       ..dataSource = fields[1] as String
       ..position = fields[2] as Tuple2Double
-      ..rangeSeconds = fields[3] as int
-      .._highColor = fields[4] as int?
-      .._lowColor = fields[5] as int?
-      .._width = fields[6] as double?
-      .._height = fields[7] as double?;
+      ..rangeSeconds = (fields[3] as num).toInt()
+      .._highColor = (fields[4] as num?)?.toInt()
+      .._lowColor = (fields[5] as num?)?.toInt()
+      .._width = (fields[6] as num?)?.toDouble()
+      .._height = (fields[7] as num?)?.toDouble();
   }
 
   @override
@@ -73,9 +73,11 @@ ChartWidgetProperties _$ChartWidgetPropertiesFromJson(
       ..dataSource = json['dataSource'] as String
       ..position =
           Tuple2Double.fromJson(json['position'] as Map<String, dynamic>)
-      ..rangeSeconds = json['rangeSeconds'] as int
-      ..highColor = const ColorConverter().fromJson(json['highColor'] as int)
-      ..lowColor = const ColorConverter().fromJson(json['lowColor'] as int)
+      ..rangeSeconds = (json['rangeSeconds'] as num).toInt()
+      ..highColor =
+          const ColorConverter().fromJson((json['highColor'] as num).toInt())
+      ..lowColor =
+          const ColorConverter().fromJson((json['lowColor'] as num).toInt())
       ..width = (json['width'] as num).toDouble()
       ..height = (json['height'] as num).toDouble();
 

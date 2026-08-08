@@ -10,7 +10,7 @@ part of 'overlay_profile.dart';
 
 class OverlayProfileAdapter extends TypeAdapter<OverlayProfile> {
   @override
-  final int typeId = 5;
+  final typeId = 5;
 
   @override
   OverlayProfile read(BinaryReader reader) {
