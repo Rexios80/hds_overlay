@@ -5,6 +5,12 @@ class Themes {
   static final light = ThemeData(
     brightness: Brightness.light,
     primarySwatch: createMaterialColor(AppColors.accent),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.accent,
+      foregroundColor: Colors.white,
+      iconTheme: IconThemeData(color: Colors.white),
+      actionsIconTheme: IconThemeData(color: Colors.white),
+    ),
   );
 
   static final dark = ThemeData(
