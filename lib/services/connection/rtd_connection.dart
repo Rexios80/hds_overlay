@@ -45,7 +45,7 @@ class RtdConnection extends Connection {
   }
 
   void handleEvent(DatabaseEvent event) {
-    final message = event.snapshot.value as Map<String, dynamic>;
+    final message = event.snapshot.value as Map;
     final source = message['s'];
     final type = message['t'];
     final value = message['v'];
@@ -54,7 +54,7 @@ class RtdConnection extends Connection {
   }
 
   void handleConnectionEvent(DatabaseEvent event) {
-    final connected = event.snapshot.value as bool? ?? false;
+    final connected = event.snapshot.value == true;
     if (connected) {
       log(LogLevel.hdsCloud, 'Connected to HDS Cloud');
     } else {
