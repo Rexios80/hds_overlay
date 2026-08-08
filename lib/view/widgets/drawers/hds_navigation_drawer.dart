@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -21,80 +22,95 @@ class HdsNavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          FutureBuilder(
-            future: rootBundle.loadString('pubspec.yaml'),
-            builder: (context, snapshot) {
-              var version = 'Unknown';
-              if (snapshot.hasData) {
-                final yaml = loadYaml(snapshot.data as String);
-                version = yaml['version'];
-              }
+      child: CustomScrollView(
+        slivers: [
+          SliverList.list(
+            children: [
+              FutureBuilder(
+                future: rootBundle.loadString('pubspec.yaml'),
+                builder: (context, snapshot) {
+                  var version = 'Unknown';
+                  if (snapshot.hasData) {
+                    final yaml = loadYaml(snapshot.data as String);
+                    version = yaml['version'];
+                  }
 
-              return DrawerHeader(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/icon.png'),
-                  ),
-                  color: Colors.grey,
-                ),
+                  return DrawerHeader(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/icon.png'),
+                      ),
+                      color: Colors.grey,
+                    ),
+                    child: Text(
+                      version,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  );
+                },
+              ),
+              routeItem(
+                const Text('Overlay'),
+                Routes.overlay,
+              ),
+              routeItem(
+                const Text('Settings'),
+                Routes.settings,
+              ),
+              const Divider(),
+              urlItem(
+                const Text('Setup instructions'),
+                Get.isDarkMode
+                    ? 'assets/images/githubDark.png'
+                    : 'assets/images/githubLight.png',
+                _githubUrl,
+              ),
+              urlItem(
+                const Text('Discord server'),
+                'assets/images/discord.png',
+                _discordUrl,
+              ),
+              urlItem(
+                const Text('Apple Watch app'),
+                'assets/images/appStore.png',
+                _iosUrl,
+              ),
+              urlItem(
+                const Text('Android watch app'),
+                'assets/images/googlePlay.png',
+                _androidUrl,
+              ),
+              const Divider(),
+              routeItem(
+                const Text('Privacy Policy'),
+                Routes.privacyPolicy,
+              ),
+              routeItem(
+                const Text('Terms of Use'),
+                Routes.terms,
+              ),
+              routeItem(
+                const Text('Credits'),
+                Routes.credits,
+              ),
+              routeItem(
+                const Text('Licenses'),
+                Routes.licenses,
+              ),
+            ],
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
                 child: Text(
-                  version,
-                  style: const TextStyle(color: Colors.white),
+                  kIsWasm ? 'WASM' : 'Not WASM',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-              );
-            },
-          ),
-          routeItem(
-            const Text('Overlay'),
-            Routes.overlay,
-          ),
-          routeItem(
-            const Text('Settings'),
-            Routes.settings,
-          ),
-          const Divider(),
-          urlItem(
-            const Text('Setup instructions'),
-            Get.isDarkMode
-                ? 'assets/images/githubDark.png'
-                : 'assets/images/githubLight.png',
-            _githubUrl,
-          ),
-          urlItem(
-            const Text('Discord server'),
-            'assets/images/discord.png',
-            _discordUrl,
-          ),
-          urlItem(
-            const Text('Apple Watch app'),
-            'assets/images/appStore.png',
-            _iosUrl,
-          ),
-          urlItem(
-            const Text('Android watch app'),
-            'assets/images/googlePlay.png',
-            _androidUrl,
-          ),
-          const Divider(),
-          routeItem(
-            const Text('Privacy Policy'),
-            Routes.privacyPolicy,
-          ),
-          routeItem(
-            const Text('Terms of Use'),
-            Routes.terms,
-          ),
-          routeItem(
-            const Text('Credits'),
-            Routes.credits,
-          ),
-          routeItem(
-            const Text('Licenses'),
-            Routes.licenses,
+              ),
+            ),
           ),
         ],
       ),
