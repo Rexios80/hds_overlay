@@ -1,11 +1,13 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:js' as js;
+import 'dart:js_interop';
 
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
+@JS('hideSplash')
+external void _hideSplash();
+
 void hideSplash() {
   final logger = Get.find<Logger>();
   logger.d('hideSplash');
-  js.context.callMethod('hideSplash');
+  _hideSplash();
 }
