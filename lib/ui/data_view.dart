@@ -48,6 +48,7 @@ Component dataCanvas(AppStore store) {
 extension type _Point(web.Event _) implements web.Event {
   external double get clientX;
   external double get clientY;
+  external int get button;
 }
 
 class DragItem extends StatefulComponent {
@@ -71,89 +72,105 @@ class DragItem extends StatefulComponent {
 }
 
 class _DragItemState extends State<DragItem> {
-  Timer? _hold;
+  var _tracking = false;
   var _dragging = false;
   double _startX = 0;
   double _startY = 0;
+  double _originX = 0;
+  double _originY = 0;
   double _grabX = 0;
   double _grabY = 0;
   double? _x;
   double? _y;
+  late final JSFunction _moveListener;
+  late final JSFunction _upListener;
+
+  @override
+  void initState() {
+    super.initState();
+    _moveListener = ((web.Event event) => _move(event)).toJS;
+    _upListener = ((web.Event event) => _up(event)).toJS;
+  }
 
   @override
   void dispose() {
-    _hold?.cancel();
+    _untrack();
     super.dispose();
   }
 
-  web.DOMRect? get _rect {
-    final node = web.document.querySelector('.canvas');
-    return node is web.Element ? node.getBoundingClientRect() : null;
+  void _track() {
+    if (_tracking) return;
+    _tracking = true;
+    web.window.addEventListener('pointermove', _moveListener);
+    web.window.addEventListener('pointerup', _upListener);
+    web.window.addEventListener('pointercancel', _upListener);
+  }
+
+  void _untrack() {
+    if (!_tracking) return;
+    _tracking = false;
+    web.window.removeEventListener('pointermove', _moveListener);
+    web.window.removeEventListener('pointerup', _upListener);
+    web.window.removeEventListener('pointercancel', _upListener);
+  }
+
+  web.DOMRect? get _canvasRect =>
+      web.document.querySelector('.canvas')?.getBoundingClientRect();
+
+  double _limit(double value, double size) {
+    final limit = max(0, size - 50).toDouble();
+    if (value < 0) return 0;
+    if (value > limit) return limit;
+    return value;
   }
 
   void _down(web.Event event) {
-    final pointer = event as web.PointerEvent;
     final point = _Point(event);
-    if (pointer.button != 0) return;
-    (pointer.currentTarget as web.Element).setPointerCapture(pointer.pointerId);
+    if (point.button != 0) return;
+    event.preventDefault();
+    final rect = _canvasRect;
     _startX = point.clientX;
     _startY = point.clientY;
-    final rect = _rect;
-    _grabX = rect == null ? 0.0 : point.clientX - rect.left - component.x;
-    _grabY = rect == null ? 0.0 : point.clientY - rect.top - component.y;
-    _hold?.cancel();
-    _hold = Timer(const Duration(milliseconds: 500), () {
-      if (!mounted) return;
-      setState(() => _dragging = true);
-    });
+    _originX = component.x;
+    _originY = component.y;
+    _grabX = rect == null ? 0 : point.clientX - rect.left - component.x;
+    _grabY = rect == null ? 0 : point.clientY - rect.top - component.y;
+    _x = null;
+    _y = null;
+    _dragging = false;
+    _track();
   }
 
   void _move(web.Event event) {
+    if (!_tracking || !mounted) return;
     final point = _Point(event);
-    if (_hold != null && !_dragging) {
-      final dx = point.clientX - _startX;
-      final dy = point.clientY - _startY;
-      if (dx * dx + dy * dy > 36) {
-        _hold?.cancel();
-        _hold = null;
-      }
-      return;
-    }
-    if (!_dragging) return;
-    final rect = _rect;
-    if (rect == null) return;
+    final dx = point.clientX - _startX;
+    final dy = point.clientY - _startY;
+    if (!_dragging && dx * dx + dy * dy < 16) return;
+    final rect = _canvasRect;
+    final x = rect == null ? _originX + dx : _limit(_originX + dx, rect.width);
+    final y = rect == null ? _originY + dy : _limit(_originY + dy, rect.height);
     setState(() {
-      _x = point.clientX - rect.left - _grabX;
-      _y = point.clientY - rect.top - _grabY;
+      _dragging = true;
+      _x = x;
+      _y = y;
     });
   }
 
   void _up(web.Event event) {
-    final point = _Point(event);
-    final wasDragging = _dragging;
-    final dx = point.clientX - _startX;
-    final dy = point.clientY - _startY;
-    _hold?.cancel();
-    _hold = null;
-    _dragging = false;
+    if (!_tracking) return;
+    _untrack();
+    final dragged = _dragging;
     final x = _x;
     final y = _y;
-    _x = null;
-    _y = null;
-    if (wasDragging && x != null && y != null) {
-      final rect = _rect;
-      final maxX = max(0, (rect?.width ?? 0) - 50).toDouble();
-      final maxY = max(0, (rect?.height ?? 0) - 50).toDouble();
-      if (x < 0 || y < 0 || x > maxX || y > maxY) {
-        if (mounted) setState(() {});
-      } else {
-        component.onDrop(x, y);
-      }
-    } else if (dx * dx + dy * dy <= 144) {
-      component.onTap();
-    } else if (mounted) {
-      setState(() {});
-    }
+    if (!mounted) return;
+    if (dragged && x != null && y != null) component.onDrop(x, y);
+    setState(() {
+      _dragging = false;
+      _x = null;
+      _y = null;
+    });
+    if (!dragged) component.onTap();
   }
 
   @override
@@ -164,12 +181,11 @@ class _DragItemState extends State<DragItem> {
       classes: _dragging ? 'placed dragging' : 'placed',
       styles: Styles(
         position: Position.absolute(left: x.px, top: y.px),
+        raw: {'--ox': '${_grabX}px', '--oy': '${_grabY}px'},
       ),
       events: {
         'pointerdown': _down,
-        'pointermove': _move,
-        'pointerup': _up,
-        'pointercancel': _up,
+        'dragstart': (event) => event.preventDefault(),
       },
       [component.child],
     );

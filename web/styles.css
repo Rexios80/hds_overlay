@@ -146,9 +146,21 @@ a { color: var(--accent); }
 
 .log p { margin: 0 0 2px; }
 
-.placed { touch-action: none; user-select: none; cursor: grab; }
+.placed {
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  -webkit-user-drag: none;
+}
 
-.placed.dragging { cursor: grabbing; transform: scale(1.2); transform-origin: top left; z-index: 4; }
+.placed * { pointer-events: none; -webkit-user-drag: none; }
+
+.placed.dragging {
+  cursor: grabbing;
+  transform: scale(1.2);
+  transform-origin: var(--ox) var(--oy);
+  z-index: 4;
+}
 
 .h-widget, .v-widget, .reading, .stack { display: flex; }
 
