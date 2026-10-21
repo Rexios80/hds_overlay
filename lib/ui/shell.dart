@@ -96,9 +96,7 @@ class _NavigationDrawer extends StatelessComponent {
         href: 'https://jaspr.site',
         target: Target.blank,
         attributes: {'rel': 'noopener noreferrer'},
-        [
-          store.settings.darkMode ? JasprBadge.dark() : JasprBadge.light(),
-        ],
+        [store.settings.darkMode ? JasprBadge.dark() : JasprBadge.light()],
       ),
     ]);
   }
