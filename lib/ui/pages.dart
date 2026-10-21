@@ -26,7 +26,11 @@ class _OverlayPageState extends State<OverlayPage> {
   @override
   void initState() {
     super.initState();
-    component.store.startConnection();
+    // start() logs immediately, which notifies listeners. That has to wait
+    // until this first build has finished.
+    Future<void>.microtask(() {
+      if (mounted) component.store.startConnection();
+    });
   }
 
   @override
