@@ -414,6 +414,10 @@ class HeartBeat extends StatefulComponent {
 }
 
 class _HeartBeatState extends State<HeartBeat> {
+  // CSS duration is 1000ms, which is one beat at 60 bpm.
+  static const _basisBpm = 60.0;
+
+  final _nodeKey = GlobalNodeKey<web.Element>();
   Uint8List? _soundBytes;
   String? _url;
   web.HTMLAudioElement? _audio;
@@ -424,6 +428,7 @@ class _HeartBeatState extends State<HeartBeat> {
   void initState() {
     super.initState();
     _syncSound();
+    _scheduleRate();
   }
 
   @override
@@ -434,6 +439,10 @@ class _HeartBeatState extends State<HeartBeat> {
         oldComponent.threshold != component.threshold) {
       _syncSound();
     }
+    if (oldComponent.bpm != component.bpm ||
+        oldComponent.animate != component.animate) {
+      _scheduleRate();
+    }
   }
 
   @override
@@ -441,6 +450,23 @@ class _HeartBeatState extends State<HeartBeat> {
     _stopSound();
     if (_url != null) web.URL.revokeObjectURL(_url!);
     super.dispose();
+  }
+
+  void _scheduleRate() {
+    web.window.requestAnimationFrame((JSNumber _) {
+      if (mounted) _applyRate();
+    }.toJS);
+  }
+
+  void _applyRate() {
+    if (!component.animate || component.bpm <= 0) return;
+    final node = _nodeKey.currentNode;
+    if (node == null) return;
+    for (final animation in node.getAnimations().toDart) {
+      if (animation.playState == 'idle') continue;
+      animation.updatePlaybackRate(component.bpm / _basisBpm);
+      return;
+    }
   }
 
   void _syncSound() {
@@ -500,10 +526,9 @@ class _HeartBeatState extends State<HeartBeat> {
   @override
   Component build(BuildContext context) {
     final live = component.animate && component.bpm > 0;
-    final beatMs = live ? (60 / component.bpm * 1000).toInt() : 0;
     return div(
+      key: _nodeKey,
       classes: live ? 'heart-beat live' : 'heart-beat',
-      styles: live ? Styles(raw: {'--beat': '${beatMs}ms'}) : null,
       [component.image],
     );
   }

@@ -190,8 +190,9 @@ a { color: var(--accent); }
 .heart-beat { transform-origin: center center; }
 
 .heart-beat.live {
+  /* 1000ms is one beat at 60 bpm. Playback rate scales other heart rates. */
   animation-name: heart-pulse;
-  animation-duration: var(--beat);
+  animation-duration: 1000ms;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;
