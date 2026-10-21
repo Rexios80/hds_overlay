@@ -2,7 +2,7 @@
   "hosting": [
     {
       "site": "health-data-server",
-      "public": "build/web",
+      "public": "build/jaspr",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -32,7 +32,7 @@
     },
     {
       "site": "health-data-server-beta",
-      "public": "build/web",
+      "public": "build/jaspr",
       "ignore": [
         "firebase.json",
         "**/.*",
