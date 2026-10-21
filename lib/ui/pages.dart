@@ -358,12 +358,6 @@ class CreditsPage extends StatelessComponent {
       leading: iconButton('close', 'Back', () => Router.of(context).back()),
       body: div(classes: 'info', [
         article([
-          div(classes: 'credits-row', [
-            span([.text('Some icons provided by Font Awesome.')]),
-            a(href: 'https://fontawesome.com/license', target: Target.blank, [
-              .text('License'),
-            ]),
-          ]),
           p([.text('App Store® is a registered trademark of Apple Inc.')]),
           p([
             .text(

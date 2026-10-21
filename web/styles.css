@@ -515,10 +515,6 @@ textarea.text-input { resize: vertical; min-height: 180px; }
   white-space: pre-wrap;
 }
 
-.credits-row { display: flex; align-items: center; gap: 12px; white-space: normal; }
-
-.credits-row span { flex: 1; }
-
 .licenses { white-space: normal; display: flex; flex-direction: column; gap: 8px; }
 
 .licenses p { margin: 0; }
