@@ -1,5 +1,7 @@
 import 'dart:js_interop';
 
+import 'package:web/web.dart' as web;
+
 const firebaseApiKey = 'AIzaSyCbbBPvlWvmOvI6Is8PYXNpJ78N03AYcyU';
 const firebaseAppId = '1:47929674141:web:0606fd3354256f51860774';
 const firebaseMessagingSenderId = '47929674141';
@@ -23,6 +25,11 @@ class FirebaseClient {
   String? uid;
   bool _ready = false;
 
+  bool get usingLocalEmulators {
+    final host = web.window.location.hostname;
+    return host == 'localhost' || host == '127.0.0.1';
+  }
+
   Future<void> ensureSignedIn() async {
     if (!firebaseAvailable) {
       throw StateError('Firebase failed to load');
@@ -43,6 +50,7 @@ class FirebaseClient {
       } catch (error) {
         if (!'$error'.contains('already exists')) rethrow;
       }
+      if (usingLocalEmulators) _connectEmulators();
       _ready = true;
     }
 
@@ -61,6 +69,22 @@ class FirebaseClient {
       throw StateError('Anonymous sign-in did not return a user');
     }
   }
+
+  void _connectEmulators() {
+    try {
+      firebase.auth().useEmulator('http://127.0.0.1:9099');
+    } catch (error) {
+      if (!_emulatorAlreadyConfigured(error)) rethrow;
+    }
+    try {
+      firebase.database().useEmulator('127.0.0.1', 9000);
+    } catch (error) {
+      if (!_emulatorAlreadyConfigured(error)) rethrow;
+    }
+  }
+
+  bool _emulatorAlreadyConfigured(Object error) =>
+      '$error'.toLowerCase().contains('already');
 }
 
 @JS()
@@ -85,6 +109,7 @@ extension type FirebaseJs._(JSObject _) implements JSObject {
 
 extension type FirebaseAuth._(JSObject _) implements JSObject {
   external User? get currentUser;
+  external void useEmulator(String url);
   external JSPromise<JSAny?> signInAnonymously();
   external JSPromise<JSAny?> authStateReady();
 }
@@ -94,6 +119,7 @@ extension type User._(JSObject _) implements JSObject {
 }
 
 extension type FirebaseDatabase._(JSObject _) implements JSObject {
+  external void useEmulator(String host, int port);
   external DatabaseReference ref([String? path]);
 }
 

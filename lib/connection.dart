@@ -26,6 +26,9 @@ class RtdConnection implements LiveConnection {
   @override
   Future<void> start() async {
     _stopped = false;
+    if (client.usingLocalEmulators) {
+      store.addLog(LogLevel.hdsCloud, 'Using local Firebase emulators');
+    }
     store.addLog(LogLevel.hdsCloud, 'Connecting to HDS Cloud...');
     await client.ensureSignedIn();
     if (_stopped) return;
