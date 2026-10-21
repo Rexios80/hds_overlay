@@ -48,7 +48,6 @@ class AppStore extends ChangeNotifier {
   String exportText = '';
   String selectorSource = dataSourceWatch;
   bool mouseHovering = true;
-  int clock = 0;
 
   final _armed = <String, Timer>{};
   Timer? _hoverTimer;
@@ -102,11 +101,6 @@ class AppStore extends ChangeNotifier {
       FirebaseClient(),
     );
     Timer.periodic(const Duration(seconds: 5), (_) => store._clearStale());
-    Timer.periodic(const Duration(seconds: 1), (_) {
-      if (store.charts.isEmpty) return;
-      store.clock++;
-      store.notifyListeners();
-    });
     store._armHover();
     store._importUrlConfig();
     return store;
@@ -433,10 +427,10 @@ class AppStore extends ChangeNotifier {
   }
 
   void ingest(String raw, String source, {bool local = false}) {
-    final separator = raw.indexOf(':');
-    if (separator <= 0 || separator == raw.length - 1) return;
-    final typeName = raw.substring(0, separator);
-    final value = raw.substring(separator + 1);
+    final parts = raw.split(':');
+    if (parts.length < 2 || parts[0].isEmpty || parts[1].isEmpty) return;
+    final typeName = parts[0];
+    final value = parts[1];
     final type = dataTypeFromName(typeName);
     if (type == DataType.unknown) {
       addLog(LogLevel.warn, '($source) Unknown data type $typeName: $value');

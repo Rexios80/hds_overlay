@@ -89,25 +89,28 @@ class _OverlayPageState extends State<OverlayPage> {
         ]),
         if (store.profiles.isNotEmpty)
           div(classes: 'menu-anchor', [
-            iconButton('download', 'Load profile', store.toggleLoadMenu),
+            iconButton('upload-file', 'Load profile', store.toggleLoadMenu),
             if (store.loadMenu)
               div(classes: 'popup', [
                 for (final profile in store.profiles)
                   div(classes: 'profile-row', [
-                    span([.text(profile.name)]),
-                    textButton(
+                    button(
+                      classes: 'profile-load',
+                      type: ButtonType.button,
+                      onClick: () => unawaited(store.loadProfile(profile)),
+                      [.text(profile.name)],
+                    ),
+                    iconButton(
                       store.armed('profile-${profile.key}')
-                          ? 'Delete'
-                          : 'Remove',
+                          ? 'delete-forever'
+                          : 'delete',
+                      'Delete profile',
                       () {
-                        if (store.confirm('profile-${profile.key}'))
+                        if (store.confirm('profile-${profile.key}')) {
                           unawaited(store.deleteProfile(profile));
+                        }
                       },
                       danger: true,
-                    ),
-                    textButton(
-                      'Load',
-                      () => unawaited(store.loadProfile(profile)),
                     ),
                   ]),
               ]),

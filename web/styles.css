@@ -3,6 +3,14 @@
   src: url("fonts/Monaco.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("fonts/Roboto.woff2") format("woff2");
+}
+
 :root {
   color-scheme: light;
   --accent: #e35c89;
@@ -59,6 +67,7 @@ a { color: var(--accent); }
 .page.overlay { background: var(--overlay, transparent); }
 
 .appbar {
+  position: relative;
   height: 56px;
   display: flex;
   align-items: center;
@@ -81,6 +90,7 @@ a { color: var(--accent); }
   min-width: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   font-size: 20px;
   font-weight: 500;
@@ -94,10 +104,17 @@ a { color: var(--accent); }
   white-space: nowrap;
 }
 
+.appbar .title:not(:has(.cloud)) h1 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .cloud {
   margin-left: auto;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 20px;
+  font-weight: 500;
   user-select: text;
   white-space: nowrap;
 }
@@ -137,14 +154,14 @@ a { color: var(--accent); }
   overflow: auto;
   padding: 10px;
   color: #fff;
-  font-family: Monaco, ui-monospace, monospace;
-  font-size: 13px;
-  line-height: 1.35;
+  font-family: Roboto, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 16px;
   user-select: text;
   white-space: pre-wrap;
 }
 
-.log p { margin: 0 0 2px; }
+.log p { margin: 0; }
 
 .placed {
   touch-action: none;
@@ -162,15 +179,15 @@ a { color: var(--accent); }
   z-index: 4;
 }
 
-.h-widget, .v-widget, .reading, .stack { display: flex; }
+.h-widget, .v-widget, .reading, .stack { display: flex; align-items: center; }
 
 .v-widget { flex-direction: column; }
+
+.reading { align-items: baseline; }
 
 .stack { position: relative; align-items: center; justify-content: center; }
 
 .overlay-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-
-.reading { align-items: baseline; }
 
 .reading .unit { margin-left: 3px; }
 
@@ -317,7 +334,22 @@ html.dark .switch.on .knob { background: var(--accent); }
   color: var(--text);
 }
 
-.icon-button:hover, .text-button:hover { background: var(--hover); }
+.icon-button:hover, .text-button:hover, .profile-load:hover { background: var(--hover); }
+
+.popup .icon-button.danger { color: var(--danger); }
+
+.profile-load {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 8px 4px;
+  border-radius: 4px;
+}
 
 .text-button {
   color: var(--accent);
@@ -366,7 +398,7 @@ html.dark .switch.on .knob { background: var(--accent); }
 }
 
 .settings {
-  padding: 20px;
+  padding: 0;
   overflow: auto;
   height: 100%;
 }
@@ -375,15 +407,14 @@ html.dark .switch.on .knob { background: var(--accent); }
   background: var(--surface);
   border-radius: 20px;
   box-shadow: var(--shadow);
-  max-width: 860px;
-  margin: 0 auto;
+  margin: 20px 100px;
 }
 
 .switch-row, .field-row { padding: 8px 16px; min-height: 56px; }
 
-.field-row { align-items: flex-start; flex-direction: column; gap: 4px; }
+.field-row > span { flex: 1; }
 
-.field-row .text-input { width: min(100%, 280px); }
+.field-row .text-input { width: 200px; flex: none; }
 
 .caption { color: var(--muted); font-size: 12px; }
 
@@ -531,24 +562,24 @@ textarea.text-input { resize: vertical; min-height: 180px; }
   .canvas { flex: none; height: 50%; }
 }
 
+@media (max-width: 599px) {
+  .settings-card { margin: 0; border-radius: 0; box-shadow: none; }
+}
+
 @media (max-width: 600px) {
   .title {
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-start;
     gap: 0;
     font-size: 16px;
     overflow: hidden;
   }
+  .appbar .title h1 { position: static; transform: none; }
   .title h1, .cloud {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .cloud { margin-left: 0; font-size: 12px; }
-  .settings { padding: 0; }
-  .settings-card { border-radius: 0; box-shadow: none; }
-}
-
-@media (min-width: 601px) {
-  .settings { padding: 20px 100px; }
 }

@@ -240,6 +240,7 @@ class WidgetEditor extends StatelessComponent {
           properties.scaleFactor,
           (value) => properties.scaleFactor = value,
           digits: 3,
+          fallback: 1,
         ),
         _text('Unit', properties.unit, (value) => properties.unit = value),
         if (properties.unit.isNotEmpty)
@@ -380,21 +381,33 @@ class WidgetEditor extends StatelessComponent {
 
   Component _gradient() {
     return div([
-      _number('Low value', properties.gradientLowValue.toDouble(), (value) {
-        final next = value.round();
-        if (next == properties.gradientHighValue) return;
-        properties.gradientLowValue = next;
-      }, digits: 0),
+      _number(
+        'Low value',
+        properties.gradientLowValue.toDouble(),
+        (value) {
+          final next = value.round();
+          if (next == properties.gradientHighValue) return;
+          properties.gradientLowValue = next;
+        },
+        digits: 0,
+        fallback: 40,
+      ),
       ColorField(
         label: 'Low color',
         color: properties.gradientLowColor,
         onChanged: (color) => _save(() => properties.gradientLowColor = color),
       ),
-      _number('High value', properties.gradientHighValue.toDouble(), (value) {
-        final next = value.round();
-        if (next == properties.gradientLowValue) return;
-        properties.gradientHighValue = next;
-      }, digits: 0),
+      _number(
+        'High value',
+        properties.gradientHighValue.toDouble(),
+        (value) {
+          final next = value.round();
+          if (next == properties.gradientLowValue) return;
+          properties.gradientHighValue = next;
+        },
+        digits: 0,
+        fallback: 220,
+      ),
       ColorField(
         label: 'High color',
         color: properties.gradientHighColor,
@@ -408,13 +421,15 @@ class WidgetEditor extends StatelessComponent {
     double value,
     void Function(double value) apply, {
     int digits = 0,
+    double fallback = 0,
   }) {
     final text = digits == 0 ? value.toStringAsFixed(0) : value.toString();
     return div(classes: 'editor-row', [
       span([.text(label)]),
       BoundField(
         value: text,
-        onChanged: (raw) => _save(() => apply(double.tryParse(raw) ?? 0)),
+        onChanged: (raw) =>
+            _save(() => apply(double.tryParse(raw) ?? fallback)),
       ),
     ]);
   }
@@ -467,19 +482,29 @@ class ChartEditor extends StatelessComponent {
       p(classes: 'caption center', [.text('Drag and drop also works')]),
       div(classes: 'divider', []),
       h2([.text('Size')]),
-      _number('Width', properties.width, (value) => properties.width = value),
+      _number(
+        'Width',
+        properties.width,
+        (value) => properties.width = value,
+        fallback: 100,
+      ),
       _number(
         'Height',
         properties.height,
         (value) => properties.height = value,
+        fallback: 50,
       ),
       div(classes: 'divider', []),
-      _number('Time range (seconds)', properties.rangeSeconds.toDouble(), (
-        value,
-      ) {
-        final next = value.round();
-        properties.rangeSeconds = next == 0 ? 300 : next;
-      }, digits: 0),
+      _number(
+        'Time range (seconds)',
+        properties.rangeSeconds.toDouble(),
+        (value) {
+          final next = value.round();
+          properties.rangeSeconds = next == 0 ? 300 : next;
+        },
+        digits: 0,
+        fallback: 300,
+      ),
       ColorField(
         label: 'Low color',
         color: properties.lowColor,
@@ -502,13 +527,15 @@ class ChartEditor extends StatelessComponent {
     double value,
     void Function(double value) apply, {
     int digits = 0,
+    double fallback = 0,
   }) {
     final text = digits == 0 ? value.toStringAsFixed(0) : value.toString();
     return div(classes: 'editor-row', [
       span([.text(label)]),
       BoundField(
         value: text,
-        onChanged: (raw) => _save(() => apply(double.tryParse(raw) ?? 0)),
+        onChanged: (raw) =>
+            _save(() => apply(double.tryParse(raw) ?? fallback)),
       ),
     ]);
   }

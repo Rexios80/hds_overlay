@@ -117,13 +117,6 @@ class _DragItemState extends State<DragItem> {
   web.DOMRect? get _canvasRect =>
       web.document.querySelector('.canvas')?.getBoundingClientRect();
 
-  double _limit(double value, double size) {
-    final limit = max(0, size - 50).toDouble();
-    if (value < 0) return 0;
-    if (value > limit) return limit;
-    return value;
-  }
-
   void _down(web.Event event) {
     final point = _Point(event);
     if (point.button != 0) return;
@@ -147,13 +140,10 @@ class _DragItemState extends State<DragItem> {
     final dx = point.clientX - _startX;
     final dy = point.clientY - _startY;
     if (!_dragging && dx * dx + dy * dy < 16) return;
-    final rect = _canvasRect;
-    final x = rect == null ? _originX + dx : _limit(_originX + dx, rect.width);
-    final y = rect == null ? _originY + dy : _limit(_originY + dy, rect.height);
     setState(() {
       _dragging = true;
-      _x = x;
-      _y = y;
+      _x = _originX + dx;
+      _y = _originY + dy;
     });
   }
 
@@ -163,14 +153,23 @@ class _DragItemState extends State<DragItem> {
     final dragged = _dragging;
     final x = _x;
     final y = _y;
+    final rect = _canvasRect;
     if (!mounted) return;
-    if (dragged && x != null && y != null) component.onDrop(x, y);
+    if (dragged && x != null && y != null && _inside(x, y, rect)) {
+      component.onDrop(x, y);
+    }
     setState(() {
       _dragging = false;
       _x = null;
       _y = null;
     });
     if (!dragged) component.onTap();
+  }
+
+  bool _inside(double x, double y, web.DOMRect? rect) {
+    if (x < 0 || y < 0) return false;
+    if (rect == null) return true;
+    return x <= max(0, rect.width - 50) && y <= max(0, rect.height - 50);
   }
 
   @override
@@ -251,7 +250,12 @@ Component _image(
             ? rangeColor(properties, bpm, fallback: properties.imageColor)
             : properties.imageColor)
       : null;
-  final image = _picture(properties, tint: tint, size: properties.imageSize);
+  final image = _picture(
+    properties,
+    tint: tint,
+    size: properties.imageSize,
+    square: heartRate,
+  );
   if (!heartRate) return image;
   return HeartBeat(
     bpm: bpm,
@@ -277,6 +281,7 @@ Component _picture(
   DataWidgetProperties properties, {
   required int? tint,
   required double size,
+  bool square = false,
 }) {
   final source = imageSource(properties);
   if (tint == null) {
@@ -285,7 +290,11 @@ Component _picture(
       alt: '',
       styles: Styles(
         height: size.px,
-        raw: {'width': 'auto', 'display': 'block'},
+        raw: {
+          'width': square ? '${size}px' : 'auto',
+          'object-fit': 'contain',
+          'display': 'block',
+        },
       ),
     );
   }
@@ -311,37 +320,65 @@ Component _reading(
   int color,
 ) {
   ensureGoogleFont(properties.font);
-  return div(classes: 'reading', [
-    span(styles: _textStyle(properties, color, properties.fontSize), [
-      .text(reading),
-    ]),
-    if (showUnit)
-      span(
-        classes: 'unit',
-        styles: _textStyle(properties, color, properties.unitFontSize),
-        [.text(properties.unit)],
-      ),
-  ]);
-}
-
-Styles _textStyle(DataWidgetProperties properties, int color, double size) {
   final padding = properties.dataType.usesPadding
       ? '${properties.textPaddingTop}px ${properties.textPaddingLeft}px 0'
       : '0';
+  return div(classes: 'reading', styles: Styles(raw: {'padding': padding}), [
+    _glyph(properties, reading, color, properties.fontSize),
+    if (showUnit)
+      span(classes: 'unit', [
+        _glyph(properties, properties.unit, color, properties.unitFontSize),
+      ]),
+  ]);
+}
+
+Component _glyph(
+  DataWidgetProperties properties,
+  String text,
+  int color,
+  double size,
+) {
+  if (!properties.textStroke) {
+    return span(styles: _textStyle(properties, color, size), [.text(text)]);
+  }
+  final fill = _textStyle(properties, color, size, stacked: true);
+  return span(
+    styles: Styles(
+      fontSize: size.px,
+      raw: {
+        'display': 'inline-grid',
+        'line-height': '1',
+        'font-family': '"${properties.font}", Monaco, sans-serif',
+      },
+    ),
+    [
+      span(styles: fill, [.text(text)]),
+      span(styles: _textStyle(properties, color, size, stroke: true), [
+        .text(text),
+      ]),
+    ],
+  );
+}
+
+Styles _textStyle(
+  DataWidgetProperties properties,
+  int color,
+  double size, {
+  bool stacked = false,
+  bool stroke = false,
+}) {
   return Styles(
-    color: Color(cssArgb(color)),
+    color: stroke ? const Color('transparent') : Color(cssArgb(color)),
     fontSize: size.px,
     raw: {
       'font-family': '"${properties.font}", Monaco, sans-serif',
       'font-weight': '${cssFontWeight(properties.fontWeight)}',
-      'padding': padding,
       'line-height': '1',
       'white-space': 'pre',
-      if (properties.textShadow)
+      if (stacked || stroke) 'grid-area': '1 / 1',
+      if (!stroke && properties.textShadow)
         'text-shadow': '0 0 ${properties.textShadowRadius}px #000',
-      if (properties.textStroke) 'paint-order': 'stroke fill',
-      if (properties.textStroke)
-        '-webkit-text-stroke': '${properties.textStrokeWidth}px #000',
+      if (stroke) '-webkit-text-stroke': '${properties.textStrokeWidth}px #000',
     },
   );
 }
@@ -482,11 +519,38 @@ class _HeartBeatState extends State<HeartBeat> {
   }
 }
 
-class ChartView extends StatelessComponent {
+class ChartView extends StatefulComponent {
   const ChartView({required this.store, required this.properties, super.key});
 
   final AppStore store;
   final ChartWidgetProperties properties;
+
+  @override
+  State<ChartView> createState() => _ChartViewState();
+}
+
+class _ChartViewState extends State<ChartView> {
+  Timer? _timer;
+
+  AppStore get store => component.store;
+  ChartWidgetProperties get properties => component.properties;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(milliseconds: 16), (_) {
+      if (!mounted) return;
+      final history = store.history[properties.slot];
+      if (history == null || history.isEmpty) return;
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Component build(BuildContext context) {

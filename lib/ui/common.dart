@@ -13,6 +13,10 @@ Component svgIcon(String name) {
     'add' => 'M12 5v14M5 12h14',
     'chart' => 'M4 19V5M4 19h16M8 16l3.2-4.2L14 14l4.5-6',
     'close' => 'M7 7l10 10M17 7L7 17',
+    'upload-file' => 'M6 2h8l4 4v16H6zM14 2v4h4M12 18V11M9 14l3-3 3 3',
+    'delete' => 'M5 7h14M9 7V4h6v3M7 7l1 14h8l1-14',
+    'delete-forever' =>
+      'M5 7h14M9 7V4h6v3M7 7l1 14h8l1-14M10 11l4 6M14 11l-4 6',
     _ => 'M12 12h.01',
   };
   return svg(
@@ -33,10 +37,15 @@ Component svgIcon(String name) {
   );
 }
 
-Component iconButton(String name, String label, void Function() onClick) {
+Component iconButton(
+  String name,
+  String label,
+  void Function() onClick, {
+  bool danger = false,
+}) {
   return button(
     [svgIcon(name)],
-    classes: 'icon-button',
+    classes: danger ? 'icon-button danger' : 'icon-button',
     type: ButtonType.button,
     attributes: {'title': label, 'aria-label': label},
     onClick: onClick,
