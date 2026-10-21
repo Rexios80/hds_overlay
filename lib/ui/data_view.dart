@@ -378,6 +378,7 @@ class HeartBeat extends StatefulComponent {
 
 class _HeartBeatState extends State<HeartBeat> {
   var _scale = 1.0;
+  var _transitionMs = 0;
   var _alive = true;
   Uint8List? _soundBytes;
   String? _url;
@@ -399,20 +400,35 @@ class _HeartBeatState extends State<HeartBeat> {
   }
 
   Future<void> _pulse() async {
+    // The first frame has to paint at full size or the opening contraction
+    // has nothing to transition from.
+    await Future<void>.delayed(const Duration(milliseconds: 16));
     while (_alive && mounted) {
       final bpm = component.bpm;
       if (!component.animate || bpm <= 0) {
-        if (_scale != 1) setState(() => _scale = 1);
-        await Future<void>.delayed(const Duration(milliseconds: 200));
+        if (_scale != 1 || _transitionMs != 0) {
+          setState(() {
+            _scale = 1;
+            _transitionMs = 0;
+          });
+        }
+        await Future<void>.delayed(const Duration(milliseconds: 100));
         continue;
       }
-      final beat = (60000 / bpm).round();
-      final shrink = max(1, (beat * 0.75).round());
-      setState(() => _scale = 0.85);
+      final beat = (60 / bpm * 1000).toInt();
+      final shrink = (beat * 3 / 4).toInt();
+      final grow = (beat * 1 / 4).toInt();
+      setState(() {
+        _transitionMs = shrink;
+        _scale = 0.85;
+      });
       await Future<void>.delayed(Duration(milliseconds: shrink));
       if (!_alive || !mounted) return;
-      setState(() => _scale = 1);
-      await Future<void>.delayed(Duration(milliseconds: max(1, beat - shrink)));
+      setState(() {
+        _transitionMs = grow;
+        _scale = 1;
+      });
+      await Future<void>.delayed(Duration(milliseconds: max(grow, 1)));
     }
   }
 
@@ -456,6 +472,9 @@ class _HeartBeatState extends State<HeartBeat> {
         raw: {
           'transform': 'scale($_scale)',
           'transform-origin': 'center center',
+          'transition': _transitionMs == 0
+              ? 'none'
+              : 'transform ${_transitionMs}ms linear',
         },
       ),
       [component.image],
