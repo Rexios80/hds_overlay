@@ -3,6 +3,7 @@ import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
 import '../models.dart';
+import '../src/version.dart';
 import '../store.dart';
 import 'common.dart';
 
@@ -75,7 +76,7 @@ class _NavigationDrawer extends StatelessComponent {
         ? 'images/githubDark.png'
         : 'images/githubLight.png';
     return aside(classes: 'drawer start', [
-      div(classes: 'drawer-header', [.text(appVersion)]),
+      div(classes: 'drawer-header', [.text(packageVersion)]),
       nav(classes: 'drawer-scroll', [
         _route(context, 'Overlay', '/overlay'),
         _route(context, 'Settings', '/settings'),
