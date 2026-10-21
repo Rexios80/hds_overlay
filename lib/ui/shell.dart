@@ -91,6 +91,15 @@ class _NavigationDrawer extends StatelessComponent {
         _route(context, 'Credits', '/credits'),
         _route(context, 'Licenses', '/licenses'),
       ]),
+      a(
+        classes: 'jaspr-badge',
+        href: 'https://jaspr.site',
+        target: Target.blank,
+        attributes: {'rel': 'noopener noreferrer'},
+        [
+          store.settings.darkMode ? JasprBadge.dark() : JasprBadge.light(),
+        ],
+      ),
     ]);
   }
 
