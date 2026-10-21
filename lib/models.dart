@@ -6,7 +6,7 @@ import 'package:hive_ce/hive.dart';
 
 part 'adapters.dart';
 
-const appVersion = '13.2.0';
+const appVersion = '14.0';
 
 const colorWhite = 0xFFFFFFFF;
 const colorBlack = 0xFF000000;
