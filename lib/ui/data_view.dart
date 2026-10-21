@@ -453,9 +453,11 @@ class _HeartBeatState extends State<HeartBeat> {
   }
 
   void _scheduleRate() {
-    web.window.requestAnimationFrame((JSNumber _) {
-      if (mounted) _applyRate();
-    }.toJS);
+    web.window.requestAnimationFrame(
+      (JSNumber _) {
+        if (mounted) _applyRate();
+      }.toJS,
+    );
   }
 
   void _applyRate() {
