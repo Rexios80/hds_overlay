@@ -90,7 +90,6 @@ class _NavigationDrawer extends StatelessComponent {
         _route(context, 'Credits', '/credits'),
         _route(context, 'Licenses', '/licenses'),
       ]),
-      div(classes: 'wasm', [.text('Not WASM')]),
     ]);
   }
 

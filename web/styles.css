@@ -233,8 +233,6 @@ a { color: var(--accent); }
 
 .divider { height: 1px; background: var(--divider); margin: 8px 0; }
 
-.wasm { padding: 16px; color: var(--muted); font-size: 12px; }
-
 .icon { display: block; }
 
 .icon-button, .text-button {
