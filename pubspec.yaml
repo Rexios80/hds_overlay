@@ -1,73 +1,24 @@
 name: hds_overlay
 description: Health Data Server Overlay
-version: 13.2.0
+version: 14.0.0
 
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.12.0
 
 dependencies:
-  flutter:
-    sdk: flutter
-
-  recase: ^4.0.0
-  tuple: ^2.0.0
-  flutter_hooks: ^0.20.2
-  get: ^4.1.4
-  provider: ^6.0.1
-  google_fonts: ^6.1.0
-  flex_color_picker: ^3.0.2
-  uuid: ^4.1.0
-  lifecycle: ^0.8.0
-  url_launcher: ^6.0.3
-  fl_chart: ^0.64.0
-  json_annotation: ^4.4.0
-  logger: ^2.0.2+1
-  intl: ^0.18.0
-  web_socket_channel: ^2.2.0
-  collection: ^1.16.0
-  yaml: ^3.1.1
-
-  # Firebase
-  firebase_core: ^2.4.1
-  firebase_auth: ^4.2.2
-  firebase_database: ^10.0.9
-  firebase_analytics: ^10.1.0
-
-  # Hive
-  hive_ce: ^2.19.3
-  hive_ce_flutter: ^2.3.4
-
-  # File selector
-  file_selector: ^1.0.1
-
-  # Audio players
-  just_audio: ^0.9.13
-  just_audio_web: ^0.4.2
+  hive_ce: 2.19.3
+  jaspr: ^0.23.5
+  jaspr_router: ^0.9.0
+  web: ^1.1.1
+  web_socket_channel: ^3.0.3
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  build_runner: ^2.15.1
+  build_version: ^2.2.1
+  build_web_compilers: ^4.8.5
+  jaspr_builder: ^0.23.5
+  lints: ^5.0.0
 
-  rexios_lints: ^6.0.0
-  hive_ce_generator: ^1.11.2
-  build_runner: ^2.0.1
-  flutter_native_splash: ^2.0.1+1
-  json_serializable: ^6.0.0
-
-flutter:
-  uses-material-design: true
-  assets:
-    - assets/images/
-    - assets/strings/
-    - pubspec.yaml
-  fonts:
-    - family: Monaco
-      fonts:
-        - asset: fonts/Monaco.ttf
-
-flutter_native_splash:
-  color: "#ffffff"
-  color_dark: "#000000"
-  image: "assets/images/icon.png"
-  ios: false
-  android: false
+jaspr:
+  mode: client
+  styles: standalone

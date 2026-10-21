@@ -1,1 +1,10 @@
-include: package:rexios_lints/flutter/core.yaml
+include: package:lints/recommended.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.options.dart"
+
+linter:
+  rules:
+    avoid_print: false

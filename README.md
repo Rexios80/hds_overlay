@@ -57,7 +57,8 @@ Notes:
    1. Use hds.dev to create the overlay configuration you want
    2. Click the export button in the top right to copy the configuration to your clipboard
    3. Use https://www.urlencoder.org to encode the config that you just copied
-   4. Create a url that looks like this: `https://hds.dev/#/overlay?config=Encoded config`
+   4. Create a url that looks like this: `https://hds.dev/overlay?config=Encoded config`
+   - Links that still use the older hash form, `https://hds.dev/#/overlay?config=Encoded config`, continue to work.
    5. Use that url as a browser source in your app of choice
 
 ## If you have problems
