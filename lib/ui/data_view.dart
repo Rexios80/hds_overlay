@@ -414,78 +414,73 @@ class HeartBeat extends StatefulComponent {
 }
 
 class _HeartBeatState extends State<HeartBeat> {
-  var _scale = 1.0;
-  var _transitionMs = 0;
-  var _alive = true;
   Uint8List? _soundBytes;
   String? _url;
   web.HTMLAudioElement? _audio;
+  Timer? _soundTimer;
+  var _sounding = false;
 
   @override
   void initState() {
     super.initState();
-    unawaited(_pulse());
-    unawaited(_beat());
+    _syncSound();
+  }
+
+  @override
+  void didUpdateComponent(HeartBeat oldComponent) {
+    super.didUpdateComponent(oldComponent);
+    if (oldComponent.sound != component.sound ||
+        oldComponent.bpm != component.bpm ||
+        oldComponent.threshold != component.threshold) {
+      _syncSound();
+    }
   }
 
   @override
   void dispose() {
-    _alive = false;
-    _audio?.pause();
+    _stopSound();
     if (_url != null) web.URL.revokeObjectURL(_url!);
     super.dispose();
   }
 
-  Future<void> _pulse() async {
-    // The first frame has to paint at full size or the opening contraction
-    // has nothing to transition from.
-    await Future<void>.delayed(const Duration(milliseconds: 16));
-    while (_alive && mounted) {
-      final bpm = component.bpm;
-      if (!component.animate || bpm <= 0) {
-        if (_scale != 1 || _transitionMs != 0) {
-          setState(() {
-            _scale = 1;
-            _transitionMs = 0;
-          });
-        }
-        await Future<void>.delayed(const Duration(milliseconds: 100));
-        continue;
-      }
-      final beat = (60 / bpm * 1000).toInt();
-      final shrink = (beat * 3 / 4).toInt();
-      final grow = (beat * 1 / 4).toInt();
-      setState(() {
-        _transitionMs = shrink;
-        _scale = 0.85;
-      });
-      await Future<void>.delayed(Duration(milliseconds: shrink));
-      if (!_alive || !mounted) return;
-      setState(() {
-        _transitionMs = grow;
-        _scale = 1;
-      });
-      await Future<void>.delayed(Duration(milliseconds: max(grow, 1)));
+  void _syncSound() {
+    final bytes = component.sound;
+    final bpm = component.bpm;
+    final play = bytes != null && bpm > 0 && bpm >= component.threshold;
+    if (!play) {
+      _stopSound();
+      return;
     }
+    _ensureAudio(bytes);
+    if (_sounding) return;
+    _sounding = true;
+    _loopSound();
   }
 
-  Future<void> _beat() async {
-    while (_alive && mounted) {
-      final bytes = component.sound;
-      final bpm = component.bpm;
-      if (bytes == null || bpm <= 0 || bpm < component.threshold) {
-        _audio?.pause();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
-        continue;
-      }
-      _ensureAudio(bytes);
-      final started = DateTime.now().millisecondsSinceEpoch;
-      _audio!.currentTime = 0;
-      unawaited(_audio!.play().toDart.catchError((_) => null));
-      final beat = (60000 / bpm).round();
-      final spent = DateTime.now().millisecondsSinceEpoch - started;
-      await Future<void>.delayed(Duration(milliseconds: max(0, beat - spent)));
+  void _loopSound() {
+    if (!_sounding || !mounted) return;
+    final bytes = component.sound;
+    final bpm = component.bpm;
+    if (bytes == null || bpm <= 0 || bpm < component.threshold) {
+      _stopSound();
+      return;
     }
+    final started = DateTime.now().millisecondsSinceEpoch;
+    _audio!.currentTime = 0;
+    unawaited(_audio!.play().toDart.catchError((_) => null));
+    final beat = (60000 / bpm).round();
+    final spent = DateTime.now().millisecondsSinceEpoch - started;
+    _soundTimer = Timer(
+      Duration(milliseconds: max(0, beat - spent)),
+      _loopSound,
+    );
+  }
+
+  void _stopSound() {
+    _sounding = false;
+    _soundTimer?.cancel();
+    _soundTimer = null;
+    _audio?.pause();
   }
 
   void _ensureAudio(Uint8List bytes) {
@@ -504,16 +499,11 @@ class _HeartBeatState extends State<HeartBeat> {
 
   @override
   Component build(BuildContext context) {
+    final live = component.animate && component.bpm > 0;
+    final beatMs = live ? (60 / component.bpm * 1000).toInt() : 0;
     return div(
-      styles: Styles(
-        raw: {
-          'transform': 'scale($_scale)',
-          'transform-origin': 'center center',
-          'transition': _transitionMs == 0
-              ? 'none'
-              : 'transform ${_transitionMs}ms linear',
-        },
-      ),
+      classes: live ? 'heart-beat live' : 'heart-beat',
+      styles: live ? Styles(raw: {'--beat': '${beatMs}ms'}) : null,
       [component.image],
     );
   }
