@@ -103,6 +103,7 @@ class AppStore extends ChangeNotifier {
     Timer.periodic(const Duration(seconds: 5), (_) => store._clearStale());
     store._armHover();
     store._importUrlConfig();
+    store.firebase.startAnalytics();
     return store;
   }
 
@@ -431,6 +432,13 @@ class AppStore extends ChangeNotifier {
     if (parts.length < 2 || parts[0].isEmpty || parts[1].isEmpty) return;
     final typeName = parts[0];
     final value = parts[1];
+    if (!local) {
+      firebase.logDataReceived(
+        hdsCloud: settings.hdsCloud,
+        dataType: typeName,
+        dataSource: source,
+      );
+    }
     final type = dataTypeFromName(typeName);
     if (type == DataType.unknown) {
       addLog(LogLevel.warn, '($source) Unknown data type $typeName: $value');

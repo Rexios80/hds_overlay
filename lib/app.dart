@@ -3,6 +3,7 @@ import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 import 'package:web/web.dart' as web;
 
+import 'firebase_client.dart';
 import 'models.dart';
 import 'store.dart';
 import 'ui/common.dart';
@@ -50,48 +51,79 @@ class _AppState extends State<App> {
       Router(
         routes: [
           Route(path: '/', redirect: (_, _) => '/overlay'),
-          Route(
-            path: '/overlay',
-            title: 'Health Data Server',
-            builder: (_, _) => OverlayPage(store: store),
-          ),
-          Route(
-            path: '/settings',
-            title: 'Settings',
-            builder: (_, _) => SettingsPage(store: store),
-          ),
-          Route(
-            path: '/privacy_policy',
-            title: 'Privacy Policy',
-            builder: (_, _) => TextPage(
-              store: store,
-              title: 'Privacy Policy',
-              url: 'strings/privacy_policy',
-            ),
-          ),
-          Route(
-            path: '/terms',
-            title: 'Terms of Use',
-            builder: (_, _) => TextPage(
-              store: store,
-              title: 'Terms of Use',
-              url: 'strings/terms',
-            ),
-          ),
-          Route(
-            path: '/credits',
-            title: 'Credits',
-            builder: (_, _) => CreditsPage(store: store),
-          ),
-          Route(
-            path: '/licenses',
-            title: 'Licenses',
-            builder: (_, _) => LicensesPage(store: store),
+          ShellRoute(
+            builder: (_, _, child) => Component.fragment([
+              _ScreenAnalytics(firebase: store.firebase),
+              child,
+            ]),
+            routes: [
+              Route(
+                path: '/overlay',
+                title: 'Health Data Server',
+                builder: (_, _) => OverlayPage(store: store),
+              ),
+              Route(
+                path: '/settings',
+                title: 'Settings',
+                builder: (_, _) => SettingsPage(store: store),
+              ),
+              Route(
+                path: '/privacy_policy',
+                title: 'Privacy Policy',
+                builder: (_, _) => TextPage(
+                  store: store,
+                  title: 'Privacy Policy',
+                  url: 'strings/privacy_policy',
+                ),
+              ),
+              Route(
+                path: '/terms',
+                title: 'Terms of Use',
+                builder: (_, _) => TextPage(
+                  store: store,
+                  title: 'Terms of Use',
+                  url: 'strings/terms',
+                ),
+              ),
+              Route(
+                path: '/credits',
+                title: 'Credits',
+                builder: (_, _) => CreditsPage(store: store),
+              ),
+              Route(
+                path: '/licenses',
+                title: 'Licenses',
+                builder: (_, _) => LicensesPage(store: store),
+              ),
+            ],
           ),
         ],
       ),
       if (store.dialog != AppDialog.none) _Dialog(store: store),
     ]);
+  }
+}
+
+class _ScreenAnalytics extends StatefulComponent {
+  const _ScreenAnalytics({required this.firebase});
+
+  final FirebaseClient firebase;
+
+  @override
+  State<_ScreenAnalytics> createState() => _ScreenAnalyticsState();
+}
+
+class _ScreenAnalyticsState extends State<_ScreenAnalytics> {
+  String? _screen;
+
+  @override
+  Component build(BuildContext context) {
+    final path = Router.of(context).matchList.uri.path;
+    if (path.isNotEmpty && path != _screen) {
+      _screen = path;
+      Future<void>.microtask(() => component.firebase.logScreen(path));
+    }
+    return const Component.empty();
   }
 }
 
