@@ -353,6 +353,8 @@ html.dark .switch.on .knob { background: var(--accent); }
 
 .icon-button:hover, .text-button:hover, .profile-load:hover { background: var(--hover); }
 
+.appbar .popup .icon-button { color: var(--text); }
+
 .popup .icon-button.danger { color: var(--danger); }
 
 .profile-load {
