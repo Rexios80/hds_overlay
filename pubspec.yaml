@@ -19,6 +19,9 @@ dev_dependencies:
   jaspr_builder: ^0.23.5
   lints: ^5.0.0
 
+dependency_overrides:
+  analyzer: ^13.3.0
+
 jaspr:
   mode: client
   styles: standalone
